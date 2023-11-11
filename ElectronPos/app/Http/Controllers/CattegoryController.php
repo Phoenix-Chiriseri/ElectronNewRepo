@@ -40,7 +40,7 @@ class CattegoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //store the cattegory name
         $cattegory = Cattegory::create([
             'cattegory_name' => $request->name,
         ]);

@@ -41,7 +41,7 @@ $(document).ready(function () {
                             addToCart(productId);
                         });
                     } else {
-                        //searchResults.html('<p>No products found.</p>');
+            
                     }
                 }
             });

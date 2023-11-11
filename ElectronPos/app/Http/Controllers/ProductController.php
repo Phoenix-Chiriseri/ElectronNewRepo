@@ -24,10 +24,10 @@ class ProductController extends Controller
         return view('pages.view-products')->with("products",$products);
     }
 
+    //function that will search the products
     public function searchProducts(Request $request){
        
         $searchTerm = $request->input('product_search');    
-        // Perform the search using the Product model (adjust this based on your model structure)
         $products = Product::where('name', 'like', "%$searchTerm%")->get(); 
         return response()->json(['products' => $products]);
         
@@ -107,7 +107,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = new Product;
+        $product = new Product();
         $product->name = $request->input("name");
         $product->barcode = $request->input("barcode");
         $product->description = $request->input("description");
@@ -129,6 +129,7 @@ class ProductController extends Controller
             'product_id' => $product->id,
             'quantity' => $request->input('quantity'), // Adjust as needed
         ]);
+       
         //save the stock
         if ($stock->save()) {
             return redirect()->route('view-products')->with('success', 'Success, your product has been created and added to stock');

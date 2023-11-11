@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../../../../../laravel-pos"
+		},
+		{
+			"path": "../../../../../jobBoardRevamp"
 		}
 	],
 	"settings": {}
