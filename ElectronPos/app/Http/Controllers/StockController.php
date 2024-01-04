@@ -35,6 +35,31 @@ class StockController extends Controller
         return view("pages.add-product-stock")->with("product",$product)->with("suppliers",$suppliers);
     }
 
+
+    public function submitProductToStock(Request $request){
+
+        /*$request->validate([
+            'supplier_id' => 'required|exists:suppliers,id',
+            'date' => 'required|date',
+            'due_date' => 'required|date',
+            'stock_date' => 'required|date',
+            'quantity' => 'required|integer',
+            'price' => 'required|numeric',
+            'total' => 'required|numeric',
+        ]);*/
+
+        $stock = new Stock();
+        $stock->supplier_id = $request->input("supplier_id");
+        $stock->date = $request->input("date");
+        $stock->due_date = $request->input("due_date");
+        $stock->stock_date = $request->input("stock_date");
+        $stock->quantity = $request->input("quantity");
+        $stock->price = $request->input("price");
+        $stock->total = $request->input("total");
+        $stock->save();
+        return redirect()->route('dashboard');
+    }
+
     public function store(Request $request)
     {
         //

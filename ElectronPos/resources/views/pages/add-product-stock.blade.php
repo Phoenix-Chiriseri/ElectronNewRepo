@@ -137,7 +137,7 @@ $(document).ready(function(){
         </div>
         <div class="mb-3 col-md-6">
             <label class="form-label">Total</label>
-            <input type="number" name="Total" id = 'total' class="form-control border border-2 p-2" required readonly>
+            <input type="number" name="total" id = 'total' class="form-control border border-2 p-2" required readonly>
             @error('markup')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror

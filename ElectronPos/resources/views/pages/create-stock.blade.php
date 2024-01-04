@@ -75,26 +75,22 @@
                         @endif
                         <form method='POST' action='{{ route('submit-cattegory') }}'>
                             @csrf
-                            <div class="row">
-                                
+                            <div class="row">    
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">Cattegory Name</label>
                                     <input type="text" name="name" class="form-control border border-2 p-2" required>
                                     @error('name')
-                                <p class='text-danger inputerror'>{{ $message }} </p>
-                                @enderror
+                                    <p class='text-danger inputerror'>{{ $message }} </p>
+                                     @enderror
                                 </div>
                             </div>
                             <button type="submit" class="btn bg-gradient-dark">Submit</button>
                         </form>
-
                     </div>
                 </div>
             </div>
-
         </div>
         <x-footers.auth></x-footers.auth>
     </div>
     <x-plugins></x-plugins>
-
 </x-layout>
