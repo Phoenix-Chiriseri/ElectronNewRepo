@@ -37,7 +37,6 @@ class StockController extends Controller
 
 
     public function submitProductToStock(Request $request){
-
         /*$request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'date' => 'required|date',
@@ -59,6 +58,14 @@ class StockController extends Controller
         $stock->save();
         return redirect()->route('dashboard');
     }
+
+    public function editStock($id){
+
+        $product = Product::find($id);
+        $suppliers = Supplier::all();
+        return view("pages.edit-stock")->with("product",$product)->with("suppliers",$suppliers);
+    }
+
 
     public function store(Request $request)
     {
