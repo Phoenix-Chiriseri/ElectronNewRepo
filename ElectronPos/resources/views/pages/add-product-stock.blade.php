@@ -116,7 +116,7 @@ $(document).ready(function(){
         </div>
         <div class="mb-3 col-md-6">
             <label class="form-label">Stock Date</label>
-            <input type="date" class="form-control border border-2 p-2" name="due_date" required>
+            <input type="date" class="form-control border border-2 p-2" name="stock_date" required>
             @error('name')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
