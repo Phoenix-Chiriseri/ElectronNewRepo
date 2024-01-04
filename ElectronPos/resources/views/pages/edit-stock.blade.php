@@ -102,35 +102,35 @@ $(document).ready(function(){
                         <div class="row">
               <div class="mb-3 col-md-6">
             <label class="form-label">Date</label>
-            <input type="date" name="date" class="form-control border border-2 p-2" required>
-            @error('name')
+            <input type="date" name="date" class="form-control border border-2 p-2" value="{{$stock->date}}" required>
+            @error('date')
                 <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
+            @enderror            
         </div>
         <div class="mb-3 col-md-6">
             <label class="form-label">Due Date</label>
-            <input type="date" class="form-control border border-2 p-2" name="due_date" required>
+            <input type="date" class="form-control border border-2 p-2" name="due_date" value="{{$stock->due_date}}" required>
             @error('name')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
             <label class="form-label">Stock Date</label>
-            <input type="date" class="form-control border border-2 p-2" name="stock_date" required>
+            <input type="date" class="form-control border border-2 p-2" name="stock_date" value="{{$stock->stock_date}}"required>
             @error('name')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
             <label class="form-label">Quantity</label>
-            <input type="text" id = "quantity" name="quantity" class="form-control border border-2 p-2" required>
+            <input type="text" id = "quantity" name="quantity" class="form-control border border-2 p-2" required value="{{$stock->quantity}}">
             @error('description')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
             <label class="form-label">Price</label>
-            <input type="number" name="price" id = 'price' class="form-control border border-2 p-2" required>
+            <input type="number" name="price" id = 'price' value="{{$stock->price}}" class="form-control border border-2 p-2" required>
             @error('price')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror

@@ -61,9 +61,9 @@ class StockController extends Controller
 
     public function editStock($id){
 
-        $product = Product::find($id);
+        $stock = Stock::find($id);
         $suppliers = Supplier::all();
-        return view("pages.edit-stock")->with("product",$product)->with("suppliers",$suppliers);
+        return view("pages.edit-stock")->with("stock",$stock)->with("suppliers",$suppliers);
     }
 
 
