@@ -3,13 +3,13 @@
 <script>
 $(document).ready(function(){
     //Bind the event listener to both costPrice and markup input fields
-    $("#costPrice, #sellingPrice").on("input", function() {
-    const costPrice = parseFloat($('#costPrice').val());
-    const sellingPrice = parseFloat($('#sellingPrice').val());
-    if (!isNaN(costPrice) && !isNaN(sellingPrice)) {
-        var markup = ((sellingPrice - costPrice) / costPrice) * 100;
-        var roundedMarkup = markup.toFixed(1);
-        $('#viewMarkup').val(roundedMarkup);
+    $("#price, #quantity").on("input", function() {
+    const price = parseFloat($('#price').val());
+    const quantity = parseFloat($('#quantity').val());
+    console.log(price+quantity);
+    if (!isNaN(price) && !isNaN(quantity)) {
+           const totalPrice = price*quantity;
+           $("#total").val(totalPrice); 
     } else {
     }
   });
@@ -62,7 +62,7 @@ $(document).ready(function(){
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Add Product</h6>
+                                <h6 class="mb-3">Add Product To Stock</h6>
                             </div>
                         </div>
                     </div>
@@ -89,98 +89,62 @@ $(document).ready(function(){
                                     </div>
                                 </div>
                         @endif
-                        <form method="POST" action="{{ route('submit-product') }}">
-                          @csrf
+                        <form method="POST" action="{{ route('submit.stock') }}">
+                            @csrf
+                            <div class="form-group">
+                                <label for="supplier_id">Select Supplier</label>
+                                <select name="supplier_id" class="form-control border border-2 p-2" required>
+                                    @foreach ($suppliers as $supplier)
+                                        <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         <div class="row">
-         <div class="mb-3 col-md-6">
-            <label class="form-label">Product Name</label>
-            <input type="text" name="name" class="form-control border border-2 p-2" required>
+              <div class="mb-3 col-md-6">
+            <label class="form-label">Date</label>
+            <input type="date" name="date" class="form-control border border-2 p-2" required>
             @error('name')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Product Quantity</label>
-            <input type="number" class="form-control border border-2 p-2" name="quantity" required>
+            <label class="form-label">Due Date</label>
+            <input type="date" class="form-control border border-2 p-2" name="due_date" required>
             @error('name')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Barcode</label>
-            <input type="text" name="barcode" class="form-control border border-2 p-2" required>
-            @error('barcode')
+            <label class="form-label">Stock Date</label>
+            <input type="date" class="form-control border border-2 p-2" name="due_date" required>
+            @error('name')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Description</label>
-            <input type="text" name="description" class="form-control border border-2 p-2" required>
+            <label class="form-label">Quantity</label>
+            <input type="text" id = "quantity" name="quantity" class="form-control border border-2 p-2" required>
             @error('description')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Cost Price</label>
-            <input type="number" name="price" id = 'costPrice' class="form-control border border-2 p-2" required>
+            <label class="form-label">Price</label>
+            <input type="number" name="price" id = 'price' class="form-control border border-2 p-2" required>
             @error('price')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Markup %</label>
-            <input type="number" name="markup" id = 'viewMarkup' class="form-control border border-2 p-2" required readonly>
+            <label class="form-label">Total</label>
+            <input type="number" name="Total" id = 'total' class="form-control border border-2 p-2" required readonly>
             @error('markup')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
-        <div class="mb-3 col-md-6">
-            <label class="form-label">Selling Price</label>
-            <input type="number" name="selling_price" id = 'sellingPrice' class="form-control border border-2 p-2" required>
-            @error('selling_price')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-        <div class="mb-3 col-md-12">
-            <label class="form-label">Unit Of Measurement</label>
-            <input type="number" name="unit_of_measurement" class="form-control border border-2 p-2" required>
-            @error('unit_of_measurement')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label for="category_id">Select Category</label>
-            <select name="category_id" class="form-control border border-2 p-2" required>
-                @foreach ($cattegories as $category)
-                    <option value="{{ $category->id }}">{{ $category->cattegory_name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3 col-md-12">
-            <label for="quantity">Quantity</label>
-            <input class="form-control border border-2 p-2" name="quantity" rows="4" cols="50" required>
-            @error('quantity')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-        <div class="form-group">
-            <fieldset>
-                <legend class="form-label">Product Status</legend>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="product_status" value="Active" id="independently_mobile">
-                    <label class="form-check-label">Active</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="product_status" value="Inactive" id="mobility_with_support">
-                    <label class="form-check-label">Inactive</label>
-                </div>
-            </fieldset>
-        </div>  
-    </div>
     <hr>
     <button type="submit" class="btn bg-gradient-dark">Submit</button>
 </form>
-
                     </div>
                 </div>
             </div>
