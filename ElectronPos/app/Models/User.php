@@ -47,19 +47,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
-
     public function cart()
     {
         return $this->belongsToMany(Product::class, 'user_cart')->withPivot('quantity');
     }
 
-      //a user has many sales
-      public function sales() {
-        return $this->hasMany('App\Sale');
+    public function getFullname()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
+    public function getAvatar()
+    {
+        return 'https://www.gravatar.com/avatar/' . md5($this->email);
+    }
 }

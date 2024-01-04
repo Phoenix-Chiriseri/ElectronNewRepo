@@ -15,3 +15,6 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/material-dashboard.css', 'public/css', [
         //
     ]);
+mix.react('resources/js/components/Cart.jsx', 'public/js');
+
+

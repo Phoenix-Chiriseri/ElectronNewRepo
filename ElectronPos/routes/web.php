@@ -21,6 +21,21 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CartController;
 
 
+/*
+Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
+    Route::resource('products', ProductController::class);
+    Route::resource('customers', CustomerController::class);
+    Route::resource('orders', OrderController::class);
+
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+    Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
+    Route::delete('/cart/delete', [CartController::class, 'delete']);
+    Route::delete('/cart/empty', [CartController::class, 'empty']);
+*/
+
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -47,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-product', [ProductController::class, 'store'])->name('submit-product');
 	Route::get('/updateProduct/{id}', [ProductController::class, 'editProduct'])->name('updateProduct');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
+	Route::get('/cart', [CartController::class, 'index'])->name('cart-index');
 	Route::get('/create-cattegory', [CattegoryController::class, 'create'])->name('create-cattegory');
 	Route::post('/add-to-cart/{product}',[ProductController::class, 'autoAddToCart'])->name('product.autoAddToCart');
 	Route::post('/submit-cattegory', [CattegoryController::class, 'store'])->name('submit-cattegory');
@@ -64,6 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-suppliers', [SupplierController::class, 'viewSuppliers'])->name('view-suppliers');
 	Route::get('/create-customers', [CustomerController::class, 'create'])->name('create-customers');
 	Route::get('/view-stock', [StockController::class, 'viewStock'])->name('view-stock');
+	Route::get('/stock/add/{product}', [StockController::class, 'addToStock'])->name('stock.add');
 	Route::post('/submit-customers', [CustomerController::class, 'store'])->name('submit-customers');
 	Route::get('/sell-product', [PosController::class, 'create'])->name('sell-product');
 	Route::get('/create-suppliers', [SupplierController::class, 'create'])->name('create-suppliers');
@@ -72,6 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-customers', [CustomerController::class, 'viewAllCustomers'])->name('view-customers');
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('view-orders');
 	Route::get('/view-reports', [ReportController::class, 'create'])->name('view-reports');
+	Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
 	Route::post('/search-cart-product',[CartController::class, 'searchCartProduct'])->name('search-cart-product');
 	//Route::get('/get-product/{id}',[PosController::class, 'create']);
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
@@ -81,6 +99,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
     Route::delete('/cart/delete', [CartController::class, 'delete']);
     Route::delete('/cart/empty', [CartController::class, 'empty']);
+	Route::get('/cart', [CartController::class, 'index'])->name('cart-index');
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');

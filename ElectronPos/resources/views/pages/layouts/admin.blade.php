@@ -13,8 +13,22 @@
     <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
-
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- Add this to the head of your HTML file -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Add this to the head of your HTML file -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Add this to the head of your HTML file -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4"></script>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @yield('css')
+    <script>
+        window.APP = <?php echo json_encode([
+                            'currency_symbol' => config('settings.currency_symbol'),
+                            'warning_quantity' => config('settings.warning_quantity')
+                        ]) ?>
+    </script>
     @yield('css')
     <script>
         window.APP = <?php echo json_encode([
@@ -23,11 +37,8 @@
                         ]) ?>
     </script>
 </head>
-
 <body class="hold-transition sidebar-mini">
-    <!-- Site wrapper -->
     <div class="wrapper">
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -60,5 +71,4 @@
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->
     @yield('js')
 </body>
-
 </html>

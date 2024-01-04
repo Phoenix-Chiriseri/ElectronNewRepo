@@ -19,7 +19,6 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->decimal('selling_price', 10, 2); // New column for selling price
             $table->decimal('unit_of_measurement', 10, 2);
-            $table->integer('quantity');
             //Correct the foreign key definition
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')
@@ -27,6 +26,7 @@ return new class extends Migration
                   ->on('cattegories') // Use the correct table name "categories"
                   ->onDelete('cascade'); // You can set onDelete as needed
             $table->enum('product_status', ['Active', 'Inactive']);
+            $table->integer('quantity');
             $table->timestamps();
         });
     }    

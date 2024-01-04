@@ -15,9 +15,6 @@ class CustomerController extends Controller
      */
     public function viewAllCustomers()
     {
-        //
-        //$customers = Customer::all();
-        //$products = Db::table('select * from products order by id desc')->get();
         $customers = DB::table('customers')
         ->leftJoin('users', 'customers.user_id', '=', 'users.id')
         ->select('*')

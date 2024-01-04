@@ -79,7 +79,7 @@
                                 
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Product Name</label>
-                                    <input type="text" name="name" class="form-control border border-2 p-2" required>
+                                    <input type="text" name="name" class="form-control border border-2 p-2" required value="{{$product->name}}">
                                     @error('name')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                                 @enderror
@@ -87,7 +87,7 @@
                                 
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Barcode</label>
-                                    <input type="text" name="barcode" class="form-control border border-2 p-2" required>
+                                    <input type="text" name="barcode" class="form-control border border-2 p-2" required value="{{$product->barcode}}">
                                     @error('barcode')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                                 @enderror
@@ -95,14 +95,14 @@
                                
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Description</label>
-                                    <input type="text" name="description" class="form-control border border-2 p-2" required>
+                                    <input type="text" name="description" class="form-control border border-2 p-2" required value="{{$product->description}}">
                                     @error('description')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>              
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Price</label>
-                                    <input type="number" name="price" class="form-control border border-2 p-2" required>
+                                    <input type="number" name="price" class="form-control border border-2 p-2" required value="{{$product->price}}">
                                     @error('price')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
@@ -118,7 +118,7 @@
                                 <div class="mb-3 col-md-12">
                                     <label for="floatingTextarea2">Quantity</label>
                                     <textarea class="form-control border border-2 p-2"
-                                        name="quantity"
+                                        name="quantity" value="{{$product->quantity}}"
                                         rows="4" cols="50"required></textarea>
                                         @error('quantity')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
@@ -127,7 +127,7 @@
                                 <div class="mb-3 col-md-12">
                                     <label for="floatingTextarea2">Status</label>
                                     <textarea class="form-control border border-2 p-2"
-                                        name="status"
+                                        name="status" value="{{$product->status}}"
                                         rows="4" cols="50" required></textarea>
                                         @error('status')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
@@ -136,11 +136,9 @@
                             </div>
                             <button type="submit" class="btn bg-gradient-dark">Submit</button>
                         </form>
-
                     </div>
                 </div>
             </div>
-
         </div>
         <x-footers.auth></x-footers.auth>
     </div>

@@ -39,7 +39,10 @@
                                                 Selling Price</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Quantity</th>    
+                                                Quantity</th> 
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Edit Product</th>    
                                         </tr>
                                     </thead>
                                     <tbody>

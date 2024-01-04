@@ -12,18 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carts', function (Blueprint $table) {
-            $table->unsignedBigInteger('sale_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('product_id');
-            $table->unsignedInteger('amount');
-            $table->primary(['sale_id', 'product_id']);
-            $table->foreign('sale_id')->references('sale_id')->on('sales')
-                ->onDelete('cascade');
-            $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
+            $table->unsignedBigInteger('quantity');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
-            $table->date('created')->nullable();
-            $table->engine = 'InnoDB';
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_general_ci';
         });
     }
 
