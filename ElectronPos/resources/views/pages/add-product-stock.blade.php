@@ -142,9 +142,15 @@ $(document).ready(function(){
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
+        <div class="mb-3 col-md-6">
+            <input type="text" name="product_id" value ="{{$product->id}}" id = 'total' class="form-control border border-2 p-2" required readonly hidden>
+            @error('markup')
+                <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
     <hr>
     <button type="submit" class="btn bg-gradient-dark">Submit</button>
-</form>
+        </form>
                     </div>
                 </div>
             </div>

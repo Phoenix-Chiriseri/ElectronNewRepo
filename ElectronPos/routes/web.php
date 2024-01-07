@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-suppliers', [SupplierController::class, 'viewSuppliers'])->name('view-suppliers');
 	Route::get('/create-customers', [CustomerController::class, 'create'])->name('create-customers');
 	Route::get('/view-stock', [StockController::class, 'viewStock'])->name('view-stock');
+	Route::get('/view-all-stock-items', [StockController::class, 'viewAllStockItems'])->name('viewall-stock');
 	Route::get('/stock/add/{product}', [StockController::class, 'addToStock'])->name('stock.add');
 	Route::get('/stock/edit/{product}', [StockController::class, 'editStock'])->name('stock.edit');
 	Route::post('/submit-stock', [StockController::class, 'submitProductToStock'])->name('submit.stock');

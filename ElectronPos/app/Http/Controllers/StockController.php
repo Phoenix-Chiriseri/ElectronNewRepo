@@ -27,7 +27,19 @@ class StockController extends Controller
         ->get();*/
         return view("pages.view-stock")->with("products",$products);
     }
-  
+
+
+    public function viewAllStockItems(){
+
+        $stocks = DB::table('stocks')
+        ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
+        ->leftJoin("products",'stocks.product_id','products.id')
+        ->select('stocks.*','suppliers.supplier_name','products.name')
+        ->get();
+        return view("pages.viewall-stock")->with("stocks",$stocks);
+
+    }
+   
     public function addToStock($id){
 
         $product = Product::find($id);
@@ -37,6 +49,7 @@ class StockController extends Controller
 
 
     public function submitProductToStock(Request $request){
+        
         /*$request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'date' => 'required|date',
@@ -46,9 +59,9 @@ class StockController extends Controller
             'price' => 'required|numeric',
             'total' => 'required|numeric',
         ]);*/
-
         $stock = new Stock();
         $stock->supplier_id = $request->input("supplier_id");
+        $stock->product_id = $request->input("product_id");
         $stock->date = $request->input("date");
         $stock->due_date = $request->input("due_date");
         $stock->stock_date = $request->input("stock_date");
@@ -61,6 +74,7 @@ class StockController extends Controller
 
     public function editStock($id){
 
+        //find the stock object by the id and also return the suppliers to the blade front end
         $stock = Stock::find($id);
         $suppliers = Supplier::all();
         return view("pages.edit-stock")->with("stock",$stock)->with("suppliers",$suppliers);

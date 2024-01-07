@@ -10,7 +10,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Suppliers</h6>
+                                <h6 class="text-white text-capitalize ps-3">Stock</h6>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -20,29 +20,21 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
-                                                Supplier Name</th>
+                                                Product Name</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
-                                               Supplier Code</th>
+                                                Quantity</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                               Created By</th>
+                                               Price</th>
+    
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Supplier Tax Number</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Supplier City</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Supplier Address</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Supplier Phone Number</th>  
+                                                Total</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($suppliers as $supplier)
+                                        @foreach($stocks as $stock)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
@@ -52,30 +44,18 @@
                                                             alt="user1">
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$supplier->supplier_name}}</h6>
+                                                        <h6 class="mb-0 text-sm">{{$stock->name}}</h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$supplier->code}}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{$stock->quantity}}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$supplier->name}}</h6>
+                                                <h6 class="mb-0 text-sm">{{$stock->price}}</h6>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$supplier->supplier_taxnumber}}</h6>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <h6 class="mb-0 text-sm">{{$supplier->supplier_city}}</h6>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <h6 class="mb-0 text-sm">{{$supplier->supplier_address}}</h6>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <h6 class="mb-0 text-sm">{{$supplier->supplier_phonenumber}}</h6>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                
+                                                <h6 class="mb-0 text-sm">{{$stock->total}}</h6>
                                             </td>
                                         </tr>
                                         @endforeach

@@ -17,7 +17,7 @@ class CustomerController extends Controller
     {
         $customers = DB::table('customers')
         ->leftJoin('users', 'customers.user_id', '=', 'users.id')
-        ->select('*')
+        ->select('users.*','customers.*')
         ->get();
         return view("pages.view-customers")->with("customers",$customers);
     }

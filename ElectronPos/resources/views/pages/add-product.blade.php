@@ -99,13 +99,6 @@ $(document).ready(function(){
             @enderror
         </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Product Quantity</label>
-            <input type="number" class="form-control border border-2 p-2" name="quantity" required>
-            @error('name')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-        <div class="mb-3 col-md-6">
             <label class="form-label">Barcode</label>
             <input type="text" name="barcode" class="form-control border border-2 p-2" required>
             @error('barcode')
@@ -155,12 +148,6 @@ $(document).ready(function(){
                 @endforeach
             </select>
         </div>
-        <div class="mb-3 col-md-12">
-            <label for="quantity">Quantity</label>
-            <input class="form-control border border-2 p-2" name="quantity" rows="4" cols="50" required>
-            @error('quantity')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
         </div>
         <div class="form-group">
             <fieldset>

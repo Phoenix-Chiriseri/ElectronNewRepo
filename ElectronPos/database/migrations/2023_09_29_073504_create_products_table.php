@@ -26,7 +26,6 @@ return new class extends Migration
                   ->on('cattegories') // Use the correct table name "categories"
                   ->onDelete('cascade'); // You can set onDelete as needed
             $table->enum('product_status', ['Active', 'Inactive']);
-            $table->integer('quantity');
             $table->timestamps();
         });
     }    

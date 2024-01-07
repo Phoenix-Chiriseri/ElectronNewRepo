@@ -20,8 +20,10 @@ class SupplierController extends Controller
 
     public function viewSuppliers()
     {
-         //return all the suppliers to the view suppliers blade file
-         $suppliers = Supplier::orderBy("id", "asc")->get();
+         $suppliers = DB::table('suppliers')
+         ->leftJoin('users', 'suppliers.user_id', '=', 'users.id')
+         ->select('users.*','suppliers.*')
+         ->get();
          return view('pages.view-suppliers')->with("suppliers",$suppliers);
     }
 
