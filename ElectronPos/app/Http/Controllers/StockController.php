@@ -20,11 +20,6 @@ class StockController extends Controller
     {
 
         $products = Product::all();
-        /*$stocks = DB::table('stocks')
-        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
-        ->select('products.name','products.unit_of_measurement','products.selling_price','stocks.quantity','stocks.id')
-        ->orderBy('products.id', 'desc') // Add this line to order by id in descending order
-        ->get();*/
         return view("pages.view-stock")->with("products",$products);
     }
 
@@ -36,7 +31,13 @@ class StockController extends Controller
         ->leftJoin("products",'stocks.product_id','products.id')
         ->select('stocks.*','suppliers.supplier_name','products.name')
         ->get();
-        return view("pages.viewall-stock")->with("stocks",$stocks);
+
+        $stockCount = DB::table('stocks')
+        ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
+        ->leftJoin("products",'stocks.product_id','products.id')
+        ->select('stocks.*','suppliers.supplier_name','products.name')
+        ->count();
+        return view("pages.viewall-stock")->with("stocks",$stocks)->with("stockCount",$stockCount);
 
     }
    
@@ -59,6 +60,7 @@ class StockController extends Controller
             'price' => 'required|numeric',
             'total' => 'required|numeric',
         ]);*/
+
         $stock = new Stock();
         $stock->supplier_id = $request->input("supplier_id");
         $stock->product_id = $request->input("product_id");
@@ -109,7 +111,7 @@ class StockController extends Controller
     {
         //
     }
-
+  
     /**
      * Remove the specified resource from storage.
      */

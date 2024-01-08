@@ -1,4 +1,4 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <script>
 $(document).ready(function(){
     //Bind the event listener to both costPrice and markup input fields

@@ -11,6 +11,7 @@
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Stock</h6>
+                                <h6 class="text-white text-capitalize ps-3"> Number Of Items In Stock {{$stockCount}} </h6>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -28,9 +29,6 @@
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                Price</th>
     
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Total</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -53,9 +51,6 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <h6 class="mb-0 text-sm">{{$stock->price}}</h6>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$stock->total}}</h6>
                                             </td>
                                         </tr>
                                         @endforeach

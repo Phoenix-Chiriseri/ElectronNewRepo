@@ -39,6 +39,13 @@
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Customer Phone Number</th>  
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Customer Status</th>  
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Edit Customer</th>  
+                                        </tr>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -74,7 +81,11 @@
                                             <td class="align-middle text-center">
                                                 <h6 class="mb-0 text-sm">{{$customer->customer_phonenumber}}</h6>
                                             </td>
-                                            <td class="align-middle text-center">    
+                                            <td class="align-middle text-center">
+                                                <h6 class="mb-0 text-sm">{{$customer->customer_status}}</h6>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('edit-customer',$customer->id) }}">Edit Customer</a>
                                             </td>
                                         </tr>
                                         @endforeach

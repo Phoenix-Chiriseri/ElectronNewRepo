@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('customer_city')->unique();
             $table->string('customer_address')->unique();
             $table->string('customer_phonenumber')->unique();
+            $table->string('customer_status')->unique();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

@@ -46,7 +46,7 @@
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Create A Supplier</h6>
+                                <h6 class="mb-3">Edit A Supplier</h6>
                             </div>
                         </div>
                     </div>
@@ -73,34 +73,35 @@
                                     </div>
                                 </div>
                         @endif
-                        <form method="POST" action="{{ route('submit-suppliers') }}">
-                        @csrf
+                        <form action="{{ route('supplier.update', $supplier) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
                         <div class="form-group">
                             <label for="customer_name">Suppliers Name</label>
-                            <input type="text" name="supplier_name" id="suppluer_name" class="form-control border border-2 p-2" required>
+                            <input type="text" name="supplier_name" id="supplier_name" value="{{$supplier->supplier_name}}" class="form-control border border-2 p-2" required>
                         </div>
                         <div class="form-group">
                             <label for="code">Suppliers Code</label>
-                            <input type="text" name="code" id="code" class="form-control border border-2 p-2" required>
+                            <input type="text" name="code" id="code" class="form-control border border-2 p-2" required value="{{$supplier->code}}">
                         </div>
                         <div class="form-group">
                             <label for="customer_taxnumber">Suppliers Tax Number</label>
-                            <input type="text" name="supplier_taxnumber" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                            <input type="text" name="supplier_taxnumber" id="supplier_taxnumber" class="form-control border border-2 p-2" required value="{{$supplier->supplier_taxnumber}}">
                         </div>
 
                         <div class="form-group">
                             <label for="customer_city">Suppliers City</label>
-                            <input type="text" name="supplier_city" id="customer_city" class="form-control border border-2 p-2" required>
+                            <input type="text" name="supplier_city" id="customer_city" class="form-control border border-2 p-2"  value="{{$supplier->supplier_city}}" required>
                         </div>
 
                         <div class="form-group">
                             <label for="customer_address">Suppliers Address</label>
-                            <input type="text" name="supplier_address" id="customer_address" class="form-control border border-2 p-2" required>
+                            <input type="text" name="supplier_address" id="customer_address" class="form-control border border-2 p-2"  value="{{$supplier->supplier_address}}" required>
                         </div>
 
                         <div class="form-group">
                             <label for="customer_phonenumber">Suppliers Phone Number</label>
-                            <input type="text" name="supplier_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>
+                            <input type="text" name="supplier_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" value="{{$supplier->supplier_phonenumber}}" required>
                         </div>
                         <div class="form-group">
                             <label for="supplier_status">Status</label>
@@ -110,7 +111,7 @@
                             </select>
                         <hr>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Create Supplier</button>
+                            <button type="submit" class="btn btn-primary">Update Supplier</button>
                         </div>
                     </form>
                     </div>

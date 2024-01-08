@@ -55,6 +55,7 @@ class SupplierController extends Controller
         'supplier_city' => $request->supplier_city,
         'customer_address' => $request->supplier_address,
         'user_id' => $user,
+        'supplier_status'=>$request->supplier_status
     ]);
     
     if (!$supplier) {
@@ -74,17 +75,29 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Supplier $supplier)
+    public function editSupplier($id)
     {
-        //
+        $supplier = Supplier::find($id);
+        return view("pages.edit-supplier")->with("supplier",$supplier);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Supplier $supplier)
+    public function updateSupplier(Request $request, Supplier $supplier)
     {
-        //
+        $supplier->supplier_name = $request->supplier_name;
+        $supplier->code = $request->code;
+        $supplier->supplier_taxnumber= $request->supplier_taxnumber;
+        $supplier->supplier_city = $request->supplier_city;
+        $supplier->supplier_address = $request->supplier_address;
+        $supplier->supplier_phonenumber = $request->supplier_phonenumber;
+        $supplier->supplier_status = $request->supplier_status;
+       
+        if (!$supplier->save()) {
+            return redirect()->back()->with('error', 'Sorry, there\'re a problem while updating supplier.');
+        }
+        return redirect()->route('dashboard')->with('success', 'Success, your supplier have been updated.');
     }
 
     /**

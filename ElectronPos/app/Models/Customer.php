@@ -18,7 +18,8 @@ class Customer extends Model
         'customer_city',
         'customer_address',
         'customer_phonenumber',
-        'user_id'
+        'user_id',
+        'customer_status'
     ];
 
     public function sales() {

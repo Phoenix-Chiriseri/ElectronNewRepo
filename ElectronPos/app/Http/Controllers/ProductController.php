@@ -19,9 +19,14 @@ class ProductController extends Controller
         //$products = Product::orderBy("id", "asc")->get();
         $products = DB::table('cattegories')
         ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
-        ->select('*')
+        ->select('products.*','cattegories.cattegory_name')
         ->get();
-        return view('pages.view-products')->with("products",$products);
+
+        $productCount = DB::table('cattegories')
+        ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
+        ->select('*')
+        ->count();        
+        return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
     //function that will search the products
@@ -107,48 +112,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-
-    
-        $product = new Product();
-        $product->name = $request->input("name");
-        $product->barcode = $request->input("barcode");
-        $product->description = $request->input("description");
-        $product->price = $request->input("price");
-        $product->selling_price = $request->input("selling_price");
-        $product->unit_of_measurement = $request->input("unit_of_measurement");
-        $product->category_id = $request->input("category_id");
-        $product->product_status = $request->input("product_status");
-        $product->save();   
-        
-        if ($product->save()) {
-            return redirect()->route('view-products')->with('success', 'Success, your product has been created and added to stock');
-        } else {
-            return redirect()->back()->with('error', 'Sorry, there was a problem while saving your product');
-         }    
-        //try {
-         //   $product->save();
-        //} catch (Exception $e) {
-          //  echo $e->getMessage();
-       // }
-        //Save the product to the database and redirect to the dashboard
-        //stock module add the item and then save it as stock
-       // $stock = new Stock([
-            //'product_id' => $product->id,
-            //'quantity' => $request->input('quantity'), // Adjust as needed
-       // ]); 
-        //save the stock
-        //if ($stock->save()) {
-           // return redirect()->route('view-products')->with('success', 'Success, your product has been created and added to stock');
-       // } else {
-            // Handle the case where stock saving fails
-         //   return redirect()->back()->with('error', 'Sorry, there was a problem while adding the product to stock.');
-        }      
-        //return redirect()->back()->with('message', 'Product has been added successfully');
-    /**
-     * Display the specified resource.
-     */
+   
     public function show(Product $product)
     {
         //
@@ -165,9 +129,44 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+
+     public function store(Request $request)
+     {
+ 
+         $product = new Product();
+         $product->name = $request->input("name");
+         $product->barcode = $request->input("barcode");
+         $product->description = $request->input("description");
+         $product->price = $request->input("price");
+         $product->selling_price = $request->input("selling_price");
+         $product->unit_of_measurement = $request->input("unit_of_measurement");
+         $product->category_id = $request->input("category_id");
+         $product->product_status = $request->input("product_status");
+         $product->save();   
+         
+         if ($product->save()) {
+             return redirect()->route('view-products')->with('success', 'Success, your product has been created and added to stock');
+         } else {
+             return redirect()->back()->with('error', 'Sorry, there was a problem while saving your product');
+          }    
+    }
+
+    public function updateProduct(Request $request, Product $product)
     {
-        //
+        $product->name = $request->name;
+        $product->barcode = $request->barcode;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->selling_price = $request->selling_price;
+        $product->unit_of_measurement = $request->unit_of_measurement;
+        $product->category_id = $request->category_id;
+        $product->product_status = $request->product_status;
+
+        if (!$product->save()) {
+            return redirect()->back()->with('error', 'Sorry, there\'re a problem while updating product.');
+        }
+        return redirect()->route('dashboard')->with('success', 'Success, your product have been updated.');
+        
     }
 
     /**

@@ -1,9 +1,24 @@
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<script>
+$(document).ready(function(){
+    //Bind the event listener to both costPrice and markup input fields
+    $("#costPrice, #sellingPrice").on("input", function() {
+    const costPrice = parseFloat($('#costPrice').val());
+    const sellingPrice = parseFloat($('#sellingPrice').val());
+    if (!isNaN(costPrice) && !isNaN(sellingPrice)) {
+        var markup = ((sellingPrice - costPrice) / costPrice) * 100;
+        var roundedMarkup = markup.toFixed(1);
+        $('#viewMarkup').val(roundedMarkup);
+    } else {
+    }
+  });
+});
+</script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='Create Product'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Update Product'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
@@ -46,7 +61,7 @@
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Update Product</h6>
+                                <h6 class="mb-3">Add Product</h6>
                             </div>
                         </div>
                     </div>
@@ -73,72 +88,89 @@
                                     </div>
                                 </div>
                         @endif
-                        <form method='POST' action='{{ route('submit-product') }}'>
+                        <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="row">
-                                
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Product Name</label>
-                                    <input type="text" name="name" class="form-control border border-2 p-2" required value="{{$product->name}}">
-                                    @error('name')
-                                <p class='text-danger inputerror'>{{ $message }} </p>
-                                @enderror
-                                </div>
-                                
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Barcode</label>
-                                    <input type="text" name="barcode" class="form-control border border-2 p-2" required value="{{$product->barcode}}">
-                                    @error('barcode')
-                                <p class='text-danger inputerror'>{{ $message }} </p>
-                                @enderror
-                                </div>
-                               
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Description</label>
-                                    <input type="text" name="description" class="form-control border border-2 p-2" required value="{{$product->description}}">
-                                    @error('description')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                </div>              
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Price</label>
-                                    <input type="number" name="price" class="form-control border border-2 p-2" required value="{{$product->price}}">
-                                    @error('price')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="Staff_Id">Select Cattegory</label>
-                                    <select name="cattegory_id" class="form-control border border-2 p-2" required>
-                                        @foreach ($cattegories as $cattegory)
-                                            <option value="{{ $cattegory->id }}">{{ $cattegory->cattegory_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-3 col-md-12">
-                                    <label for="floatingTextarea2">Quantity</label>
-                                    <textarea class="form-control border border-2 p-2"
-                                        name="quantity" value="{{$product->quantity}}"
-                                        rows="4" cols="50"required></textarea>
-                                        @error('quantity')
-                                        <p class='text-danger inputerror'>{{ $message }} </p>
-                                        @enderror
-                                </div>
-                                <div class="mb-3 col-md-12">
-                                    <label for="floatingTextarea2">Status</label>
-                                    <textarea class="form-control border border-2 p-2"
-                                        name="status" value="{{$product->status}}"
-                                        rows="4" cols="50" required></textarea>
-                                        @error('status')
-                                        <p class='text-danger inputerror'>{{ $message }} </p>
-                                        @enderror
-                                </div>
-                            </div>
-                            <button type="submit" class="btn bg-gradient-dark">Submit</button>
-                        </form>
+                            @method('PUT')
+                        <div class="row">
+         <div class="mb-3 col-md-6">
+            <label class="form-label">Product Name</label>
+            <input type="text" name="name" class="form-control border border-2 p-2" value="{{$product->name}}" required>
+            @error('name')
+                <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Barcode</label>
+            <input type="text" name="barcode" class="form-control border border-2 p-2"  value="{{$product->barcode}}"  required>
+            @error('barcode')
+                <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Description</label>
+            <input type="text" name="description" class="form-control border border-2 p-2" value="{{$product->description}}"  required>
+            @error('description')
+                <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Cost Price</label>
+            <input type="number" name="price" id = 'costPrice' value="{{$product->price}}" class="form-control border border-2 p-2" required>
+            @error('price')
+                <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Markup %</label>
+            <input type="number" name="markup" id = 'viewMarkup' class="form-control border border-2 p-2" required readonly>
+            @error('markup')
+                <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Selling Price</label>
+            <input type="number" name="selling_price" id = 'sellingPrice' value="{{$product->price}}" class="form-control border border-2 p-2" required>
+            @error('selling_price')
+                <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-3 col-md-12">
+            <label class="form-label">Unit Of Measurement</label>
+            <input type="number" name="unit_of_measurement" class="form-control border border-2 p-2"  value="{{$product->unit_of_measurement}}" required>
+            @error('unit_of_measurement')
+                <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="category_id">Select Category</label>
+            <select name="category_id" class="form-control border border-2 p-2" required>
+                @foreach ($cattegories as $category)
+                    <option value="{{ $category->id }}">{{ $category->cattegory_name }}</option>
+                @endforeach
+            </select>
+        </div>
+        </div>
+        <div class="form-group">
+            <fieldset>
+                <legend class="form-label">Product Status</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="product_status" value="Active" id="independently_mobile">
+                    <label class="form-check-label">Active</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="product_status" value="Inactive" id="mobility_with_support">
+                    <label class="form-check-label">Inactive</label>
+                </div>
+            </fieldset>
+        </div>  
+    </div>
+    <hr>
+    <button type="submit" class="btn bg-gradient-dark">Submit</button>
+</form>
                     </div>
                 </div>
             </div>
+
         </div>
         <x-footers.auth></x-footers.auth>
     </div>

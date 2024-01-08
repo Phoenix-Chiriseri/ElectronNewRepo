@@ -104,7 +104,7 @@
                             </div>
                             <div class="form-group">
                             <label for="personal_care">Status</label>
-                            <select name="product_status" id="personal_care" class="form-control border border-2 p-2" required>
+                            <select name="customer_status" id="personal_care" class="form-control border border-2 p-2" required>
                             <option value="active">Active</option>
                             <option value="not_active">Not Active</option>
                              </select>

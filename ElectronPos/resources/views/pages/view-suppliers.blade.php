@@ -39,6 +39,12 @@
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Supplier Phone Number</th>  
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Supplier Status</th>
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Edit Supplier</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -75,7 +81,10 @@
                                                 <h6 class="mb-0 text-sm">{{$supplier->supplier_phonenumber}}</h6>
                                             </td>
                                             <td class="align-middle text-center">
-                                                
+                                                <h6 class="mb-0 text-sm">{{$supplier->supplier_status}}</h6>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('edit-supplier',$supplier->id) }}">Edit Supplier</a>
                                             </td>
                                         </tr>
                                         @endforeach
