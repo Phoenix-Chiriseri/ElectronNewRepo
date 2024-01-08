@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                         @endif
-                        <form action="{{ route('customer.update', $customer) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('update-customer', $customer) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                         <div class="form-group">
