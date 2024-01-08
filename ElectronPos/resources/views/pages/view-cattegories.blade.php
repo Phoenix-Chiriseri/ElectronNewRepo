@@ -23,6 +23,9 @@
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                                 Created At</th>
+                                            <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                            Edit Cattegory</th>
                                           
                                         </tr>
                                     </thead>
@@ -44,6 +47,9 @@
                                             <td><div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm">{{$cattegory->created_at}}</h6>
                                             </div></td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('edit-group',$cattegory->id) }}">Edit Group</a>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

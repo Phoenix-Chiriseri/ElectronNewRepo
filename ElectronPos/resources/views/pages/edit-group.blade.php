@@ -3,7 +3,7 @@
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='User Profile'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Add Cattegory'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
@@ -32,10 +32,10 @@
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('view-suppliers') }}"
+                                    <a class="btn btn-info" href="{{ route('view-cattegories') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">View Suppliers</span>
+                                        <span class="ms-1">View Cattegories</span>
                                     </a>
                                 </li>
                             </ul>
@@ -46,7 +46,7 @@
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Create A Supplier</h6>
+                                <h6 class="mb-3"></h6>
                             </div>
                         </div>
                     </div>
@@ -73,51 +73,25 @@
                                     </div>
                                 </div>
                         @endif
-                        <form action="{{ route('supplier.update', $supplier) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('update-cattegory', $cattegory) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                        <div class="form-group">
-                            <label for="customer_name">Suppliers Name</label>
-                            <input type="text" name="supplier_name" id="supplier_name" value="{{$supplier->supplier_name}}" class="form-control border border-2 p-2" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="code">Suppliers Code</label>
-                            <input type="text" name="code" id="code" class="form-control border border-2 p-2" required value="{{$supplier->code}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_taxnumber">Suppliers Tax Number</label>
-                            <input type="text" name="supplier_taxnumber" id="supplier_taxnumber" class="form-control border border-2 p-2" required value="{{$supplier->supplier_taxnumber}}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_city">Suppliers City</label>
-                            <input type="text" name="supplier_city" id="customer_city" class="form-control border border-2 p-2"  value="{{$supplier->supplier_city}}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_address">Suppliers Address</label>
-                            <input type="text" name="supplier_address" id="customer_address" class="form-control border border-2 p-2"  value="{{$supplier->supplier_address}}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_phonenumber">Suppliers Phone Number</label>
-                            <input type="text" name="supplier_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" value="{{$supplier->supplier_phonenumber}}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier_status">Status</label>
-                            <select name="supplier_status" class="form-control border border-2 p-2" required>
-                            <option value="active">Active</option>
-                            <option value="not_active">Not Active</option>
-                            </select>
-                        <hr>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">UpdateSupplier</button>
-                        </div>
-                    </form>
+                            <div class="row">       
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Cattegory Name</label>
+                                    <input type="text" name="cattegory_name" value="{{$cattegory->cattegory_name}}" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                            </div>
+                            <button type="submit" class="btn bg-gradient-dark">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+        <x-footers.auth></x-footers.auth>
     </div>
     <x-plugins></x-plugins>
 </x-layout>

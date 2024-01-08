@@ -48,7 +48,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/updateProduct/{id}', [ProductController::class, 'editProduct'])->name('updateProduct');
 	Route::get('/edit-supplier/{id}', [SupplierController::class, 'editSupplier'])->name('edit-supplier');
 	Route::get('/edit-customer/{id}', [CustomerController::class, 'editCustomer'])->name('edit-customer');
+	Route::get('/edit-/group{id}', [CattegoryController::class, 'editGroup'])->name('edit-group');
 	Route::put('/update/customer/{customer}', [CustomerController::class, 'updateCustomer'])->name('update-customer');
+	Route::put('/update/cattegory/{cattegory}', [CattegoryController::class, 'updateCattegory'])->name('update-cattegory');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
 	Route::get('/cart', [CartController::class, 'index'])->name('cart-index');
 	Route::get('/create-cattegory', [CattegoryController::class, 'create'])->name('create-cattegory');

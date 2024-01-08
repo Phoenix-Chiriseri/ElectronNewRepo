@@ -28,6 +28,17 @@ class CattegoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+     public function editGroup($id){
+
+        $cattegory = Cattegory::find($id);
+        return view("pages.edit-group")->with("cattegory",$cattegory);
+
+
+
+     }
+
+
     public function create()
     {
         //
@@ -49,6 +60,16 @@ class CattegoryController extends Controller
         }
         return redirect()->route('dashboard')->with('success', 'Success, you cattegory have been created.');
     }
+
+    public function updateCattegory(Request $request, Cattegory $cattegory)
+    {
+        $cattegory->cattegory_name = $request->cattegory_name;
+        if (!$cattegory->save()) {
+            return redirect()->back()->with('error', 'Sorry, there\'re a problem while updating product.');
+        }
+        return redirect()->route('dashboard')->with('success', 'Success, your product have been updated.');
+    }
+
 
     /**
      * Display the specified resource.
