@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -12,18 +14,20 @@ class RegisterController extends Controller
         return view('register.create');
     }
 
-    public function store(){
+    public function store(Request $request){
 
-        $attributes = request()->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|min:5|max:255',
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
-
+        auth()->login($user); 
+        return redirect('/dashboard'); 
+    }
         //create a new user from the attributes
-        $user = User::create($attributes);
-        auth()->login($user);  
-        return redirect('/dashboard');
+        //$user = User::create($attributes);
+        //auth()->login($user);  
+        //return redirect('/dashboard');
     } 
-}
+

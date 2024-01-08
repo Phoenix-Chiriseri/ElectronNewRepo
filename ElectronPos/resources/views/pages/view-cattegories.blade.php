@@ -10,6 +10,7 @@
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Cattegories</h6>
+                                <h6 class="text-white text-capitalize ps-3">Number Of Cattegories {{$numberOfCattegories}}</h6>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -50,6 +51,7 @@
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('edit-group',$cattegory->id) }}">Edit Group</a>
                                             </td>
+                                            
                                         </tr>
                                         @endforeach
                                     </tbody>

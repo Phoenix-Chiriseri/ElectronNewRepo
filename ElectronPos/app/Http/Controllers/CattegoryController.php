@@ -17,12 +17,8 @@ class CattegoryController extends Controller
     public function viewCattegories()
     {
         $cattegories = Cattegory::all();
-        //$cattegories = DB::table('cattegories')
-        //>leftJoin('products', 'cattegories.id', '=', 'products.category_id')
-        //->leftJoin('users','products.user_id','=','users.id')
-        //->select('cattegories.cattegory_name as catname','users.name as username')
-        //->get();
-        return view("pages.view-cattegories")->with("cattegories",$cattegories);
+        $numberOfCattegories = Cattegory::all()->count();
+        return view("pages.view-cattegories")->with("cattegories",$cattegories)->with("numberOfCattegories",$numberOfCattegories);
     }
 
     /**
