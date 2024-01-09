@@ -47,11 +47,12 @@ class StockController extends Controller
         ->get();
 
         
-        $stockCount = DB::table('stocks')
+        /*$stockCount = DB::table('stocks')
         ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
         ->leftJoin("products",'stocks.product_id','products.id')
         ->select('stocks.*','suppliers.supplier_name','products.name')
-        ->count();
+        ->count();*/
+        $stockCount = $stocks->count();
         return view("pages.viewall-stock")->with("stocks",$stocks)->with("stockCount",$stockCount);
     }
    
