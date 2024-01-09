@@ -30,7 +30,7 @@
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Product Name</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Add Stock</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Edit Stock</th>
+                                           
                                             <!-- Add more headers if needed -->
                                         </tr>
                                     </thead>
@@ -42,9 +42,6 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-primary" href="{{ route('stock.add',$product->id) }}">Add To Stock</a>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary" href="{{ route('stock.edit',$product->id) }}">Edit Stock</a>
                                             </td>
                                             </tr>
                                         @endforeach
