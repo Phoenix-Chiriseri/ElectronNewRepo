@@ -37,6 +37,7 @@ class StockController extends Controller
         ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
         ->select(
             'products.id as product_id',
+            'products.unit_of_measurement as measurement',
             'products.name as name',
             'suppliers.supplier_name',
             DB::raw('SUM(stocks.quantity) as quantity'),
