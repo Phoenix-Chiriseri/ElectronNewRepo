@@ -37,15 +37,16 @@ class StockController extends Controller
         ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
         ->select(
             'products.id as product_id',
-            'products.unit_of_measurement as measurement',
             'products.name as name',
+            'products.unit_of_measurement as measurement', // Add this line to include unit_of_measurement
             'suppliers.supplier_name',
             DB::raw('SUM(stocks.quantity) as quantity'),
             DB::raw('SUM(stocks.quantity * products.price) as price')
         )
-        ->groupBy('products.id', 'products.name', 'suppliers.supplier_name')
+        ->groupBy('products.id', 'products.name', 'products.unit_of_measurement', 'suppliers.supplier_name')
         ->get();
 
+        
         $stockCount = DB::table('stocks')
         ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
         ->leftJoin("products",'stocks.product_id','products.id')

@@ -55,7 +55,7 @@
                                                 <h6 class="mb-0 text-sm">{{$stock->price}}</h6>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$measurement}}</h6>
+                                                <h6 class="mb-0 text-sm">{{$stock->measurement}}</h6>
                                             </td>
                                         </tr>
                                         @endforeach
