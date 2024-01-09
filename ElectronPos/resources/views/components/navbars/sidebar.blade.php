@@ -20,7 +20,7 @@
                 <a class="nav-link text-white"
                     href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fa fa-dashboard ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
@@ -29,7 +29,7 @@
                 <a class="nav-link text-white"
                 href="{{ route('create-customers') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Customers</span>
                 </a>
@@ -38,7 +38,7 @@
                 <a class="nav-link text-white"
                 href="{{ route('create-suppliers') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Suppliers</span>
                 </a>
@@ -47,7 +47,7 @@
                 <a class="nav-link text-white"
                     href="{{ route('create-cattegory') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fa fa-box ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Create Cattegory</span>
                 </a>
@@ -56,7 +56,7 @@
                 <a class="nav-link text-white"
                     href="{{ route('create-product') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fas fa-shopping-bag ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Products</span>
                 </a>
@@ -65,25 +65,16 @@
                 <a class="nav-link text-white"
                     href="{{ route('view-stock') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fas fa-plus ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Stock</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white"
-                    href="{{ route('view-orders') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Orders</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white"
                     href="{{ route('cart-index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fa fa-money text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Open Pos</span>
                 </a>
@@ -92,7 +83,7 @@
                 <a class="nav-link text-white"
                     href="{{ route('create-employee') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Users And Security</span>
                 </a>
@@ -101,7 +92,7 @@
                 <a class="nav-link text-white"
                     href="{{ route('view-reports') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-user-circle ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fas fa-book ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Reports</span>
                 </a>

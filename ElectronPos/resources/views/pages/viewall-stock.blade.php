@@ -27,7 +27,7 @@
                                                 Quantity</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                               Price</th>
+                                               Stock Value</th>
                                                <th
                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                Unit Of Measurement</th>
