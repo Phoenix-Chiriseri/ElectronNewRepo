@@ -9,17 +9,20 @@
                 <div class="col-12">
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Stock</h6>
-                                <a class="btn btn-info" href="{{ route('viewall-stock') }}"
+                            <div class = "container bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                <div class = "row">
+                                    <div class="col-md-6">
+                                        <h6 class="text-white text-capitalize ps-3">Stock</h6>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn btn-white" href="{{ route('viewall-stock') }}"
                                         >
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">View All Stock Items</span>
                                     </a>
+                                    </div>
+                                </div>
                             </div>
-                            
-                        </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">

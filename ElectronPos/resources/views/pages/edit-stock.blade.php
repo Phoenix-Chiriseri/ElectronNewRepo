@@ -40,7 +40,7 @@ $(document).ready(function(){
                                 {{ auth()->user()->name }}
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                                
+                                Electron Point Of Sale  
                             </p>
                         </div>
                     </div>

@@ -27,6 +27,9 @@
                                             <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                             Edit Cattegory</th>
+                                            <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                            Delete Cattegory</th>
                                           
                                         </tr>
                                     </thead>
@@ -51,7 +54,9 @@
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('edit-group',$cattegory->id) }}">Edit Group</a>
                                             </td>
-                                            
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('delete-group',$cattegory->id) }}">Delete Group</a>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

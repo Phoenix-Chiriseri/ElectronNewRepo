@@ -44,7 +44,10 @@
                                                 Customer Status</th>  
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Edit Customer</th>  
+                                                Edit Customer</th> 
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Delete Customer</th>  
                                         </tr>
                                         </tr>
                                     </thead>
@@ -86,6 +89,9 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('edit-customer',$customer->id) }}">Edit Customer</a>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('delete-customer',$customer->id) }}">Delete Customer</a>
                                             </td>
                                         </tr>
                                         @endforeach

@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function viewProducts()
     {
         //$products = Product::orderBy("id", "asc")->get();
-        $products = DB::table('cattegories')
+        /*$products = DB::table('cattegories')
         ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('products.*','cattegories.cattegory_name')
         ->get();
@@ -25,7 +25,9 @@ class ProductController extends Controller
         $productCount = DB::table('cattegories')
         ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('*')
-        ->count();        
+        ->count(); */
+        $products = Product::orderBy("id", "asc")->get();
+        $productCount = Product::all()->count();  
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
@@ -38,6 +40,7 @@ class ProductController extends Controller
         
     }
 
+    
     public function editProduct($id){ 
 
         $product = Product::find($id);
@@ -57,6 +60,7 @@ class ProductController extends Controller
 
         $product = Product::find($id);
         $product->delete();
+        return redirect('/view-products');
 
     }
     /**

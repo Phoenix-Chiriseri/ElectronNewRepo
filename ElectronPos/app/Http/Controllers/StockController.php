@@ -26,10 +26,23 @@ class StockController extends Controller
 
     public function viewAllStockItems(){
 
-        $stocks = DB::table('stocks')
+        /*$stocks = DB::table('stocks')
         ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
         ->leftJoin("products",'stocks.product_id','products.id')
         ->select('stocks.*','suppliers.supplier_name','products.name')
+        ->get();*/
+
+        $stocks = DB::table('stocks')
+        ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+        ->select(
+            'products.id as product_id',
+            'products.name as name',
+            'suppliers.supplier_name',
+            DB::raw('SUM(stocks.quantity) as quantity'),
+            DB::raw('SUM(stocks.quantity * products.price) as price')
+        )
+        ->groupBy('products.id', 'products.name', 'suppliers.supplier_name')
         ->get();
 
         $stockCount = DB::table('stocks')
@@ -38,7 +51,6 @@ class StockController extends Controller
         ->select('stocks.*','suppliers.supplier_name','products.name')
         ->count();
         return view("pages.viewall-stock")->with("stocks",$stocks)->with("stockCount",$stockCount);
-
     }
    
     public function addToStock($id){
@@ -60,7 +72,6 @@ class StockController extends Controller
             'price' => 'required|numeric',
             'total' => 'required|numeric',
         ]);*/
-
         $stock = new Stock();
         $stock->supplier_id = $request->input("supplier_id");
         $stock->product_id = $request->input("product_id");
@@ -71,7 +82,7 @@ class StockController extends Controller
         $stock->price = $request->input("price");
         $stock->total = $request->input("total");
         $stock->save();
-        return redirect()->route('dashboard');
+        return redirect()->route('viewall-stock');
     }
 
     public function editStock($id){

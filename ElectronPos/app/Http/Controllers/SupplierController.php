@@ -39,6 +39,13 @@ class SupplierController extends Controller
         return view('pages.create-suppliers');
     }
 
+
+    //delete the supplier from the database
+    public function deleteSupplier($id){
+        $supplier = Supplier::find($id);
+        $supplier->delete();
+        return redirect('/view-suppliers');
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -61,7 +68,7 @@ class SupplierController extends Controller
     if (!$supplier) {
         return redirect()->back()->with('error', 'Sorry, there a problem while creating a supplier.');
     }
-    return redirect()->route('dashboard')->with('success', 'Success, your supplier have been created.');
+    return redirect()->route('view-suppliers')->with('success', 'Success, your supplier have been created.');
     }
 
     /**
@@ -97,7 +104,7 @@ class SupplierController extends Controller
         if (!$supplier->save()) {
             return redirect()->back()->with('error', 'Sorry, there\'re a problem while updating supplier.');
         }
-        return redirect()->route('dashboard')->with('success', 'Success, your supplier have been updated.');
+        return redirect()->route('view-suppliers')->with('success', 'Success, your supplier have been updated.');
     }
 
     /**

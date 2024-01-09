@@ -29,11 +29,15 @@ class CattegoryController extends Controller
 
         $cattegory = Cattegory::find($id);
         return view("pages.edit-group")->with("cattegory",$cattegory);
-
-
-
      }
 
+
+     public function deleteCattegory($id){
+
+        $cattegory = Cattegory::find($id);
+        $cattegory->delete();
+        return redirect('/view-cattegories');
+    }
 
     public function create()
     {
@@ -63,7 +67,7 @@ class CattegoryController extends Controller
         if (!$cattegory->save()) {
             return redirect()->back()->with('error', 'Sorry, there\'re a problem while updating product.');
         }
-        return redirect()->route('dashboard')->with('success', 'Success, your product have been updated.');
+        return redirect()->route('view-cattegories')->with('success', 'Success, your product have been updated.');
     }
 
 

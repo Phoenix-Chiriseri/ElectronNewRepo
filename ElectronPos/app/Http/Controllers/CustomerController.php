@@ -49,7 +49,15 @@ class CustomerController extends Controller
         if (!$customer) {
             return redirect()->back()->with('error', 'Sorry, there a problem while creating a customer.');
         }
-        return redirect()->route('dashboard')->with('success', 'Success, you customer have been created.');
+        return redirect()->route('view-customers')->with('success', 'Success, you customer have been created.');
+    }
+
+    public function deleteCustomer($id){
+
+        $customer = Customer::find($id);
+        $customer->delete();
+        return redirect('view-customers');
+    
     }
 
 
@@ -72,7 +80,7 @@ class CustomerController extends Controller
         if (!$customer->save()) {
             return redirect()->back()->with('error', 'Sorry, there\'re a problem while updating customer.');
         }
-        return redirect()->route('dashboard')->with('success', 'Success, your supplier have been customer.');
+        return redirect()->route('view-customers')->with('success', 'Success, your supplier have been customer.');
     }
     /**
      * Display the specified resource.
@@ -81,16 +89,7 @@ class CustomerController extends Controller
     {
         //
     }
-
-    public function deleteCustomer($id){
-
-        $customer = Customer::find($id);
-        $customer->delete();
-        return view('view-customers');
-
-
-    }
-    /**
+    /*
      * Show the form for editing the specified resource.
      */
     public function edit(Customer $customer)

@@ -44,7 +44,10 @@
                                                 Supplier Status</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Edit Supplier</th>  
+                                                Edit Supplier</th> 
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Delete Supplier</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -86,6 +89,8 @@
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('edit-supplier',$supplier->id) }}">Edit Supplier</a>
                                             </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('delete-supplier',$supplier->id) }}">Delete Supplier</a>
                                         </tr>
                                         @endforeach
                                     </tbody>

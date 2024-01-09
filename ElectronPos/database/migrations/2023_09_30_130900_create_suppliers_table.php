@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('supplier_city')->unique();
             $table->string('supplier_address')->unique();
             $table->string('supplier_phonenumber')->unique();
-            $table->string('supplier_status')->unique();
+            $table->string('supplier_status');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

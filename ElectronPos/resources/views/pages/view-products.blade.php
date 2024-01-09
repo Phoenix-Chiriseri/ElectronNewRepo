@@ -43,10 +43,16 @@
                                                 Selling Price</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Quantity</th> 
+                                                Created At</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Edit Product</th>    
+                                                Updated At</th>
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Edit Product</th> 
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Delete Product</th>    
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,9 +73,7 @@
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0">{{$product->name}}</p>
                                             </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$product->cattegory_name}}</h6>
-                                            </td>
+                                           
                                             <td class="align-middle text-center text-sm">
                                                 <h6 class="mb-0 text-sm">{{$product->description}}</h6>
                                             </td>
@@ -86,8 +90,20 @@
                                                     class="text-secondary text-xs font-weight-bold">{{$product->selling_price}}</span>
                                             </td>
                                             <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{$product->created_at}}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{$product->updated_at}}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('edit-product',$product->id) }}">Edit Product</a>
                                             </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('delete-product',$product->id) }}">Delete Product</a>
+                                            </td>
+                                           
                                         </tr>
                                         @endforeach
                                     </tbody>
