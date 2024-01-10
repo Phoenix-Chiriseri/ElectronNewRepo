@@ -74,7 +74,7 @@
                 <a class="nav-link text-white"
                     href="{{ route('cart-index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-plus ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fa fa-desktop ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Open Pos</span>
                 </a>

@@ -6,7 +6,7 @@
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Products"></x-navbars.navs.auth>
         <!-- End Navbar -->
-        <div class="container-fluid py-4">
+        <div class="container-fluid py-4"  id="stockTable">
             <div class="row">
                 <div class="col-12">
                     <div class="card my-4">
@@ -20,7 +20,7 @@
                             <button class="btn btn-info" onclick="generatePDF()">Export To Pdf</button>
                         </div>
                         <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0" id="stockTable">
+                            <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>

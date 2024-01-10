@@ -18,6 +18,7 @@ class CustomerController extends Controller
         $customers = DB::table('customers')
         ->leftJoin('users', 'customers.user_id', '=', 'users.id')
         ->select('users.*','customers.*')
+        ->orderBy("customers.id",'desc')
         ->get();
         return view("pages.view-customers")->with("customers",$customers);
     }
