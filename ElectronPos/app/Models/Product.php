@@ -21,7 +21,6 @@ class Product extends Model
         'selling_price',
         'markup'
     ];
-
     
     // This model can exists in N carts
      public function carts() {

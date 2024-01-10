@@ -48,6 +48,7 @@ class ProductController extends Controller
         return view("pages.update-product")->with("product",$product)->with("cattegories",$cattegories);
     }
 
+    
     public function getProductById($id){
         $product = Product::find($id);
         if ($product) {

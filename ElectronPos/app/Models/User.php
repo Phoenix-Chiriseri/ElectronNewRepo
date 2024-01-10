@@ -37,12 +37,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
+    
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -60,5 +55,10 @@ class User extends Authenticatable
     public function getAvatar()
     {
         return 'https://www.gravatar.com/avatar/' . md5($this->email);
+    }
+
+    //This model can attend 1 or N sales
+    public function sales() {
+        return $this->hasMany('App\Sale');
     }
 }
