@@ -18,20 +18,13 @@ class StockController extends Controller
 
     public function viewStock()
     {
-
         $products = Product::all();
         return view("pages.view-stock")->with("products",$products);
     }
 
 
     public function viewAllStockItems(){
-
-        /*$stocks = DB::table('stocks')
-        ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
-        ->leftJoin("products",'stocks.product_id','products.id')
-        ->select('stocks.*','suppliers.supplier_name','products.name')
-        ->get();*/
-
+        //all the stock items in the database
         $stocks = DB::table('stocks')
         ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
         ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
@@ -46,14 +39,24 @@ class StockController extends Controller
         ->groupBy('products.id', 'products.name', 'products.unit_of_measurement', 'suppliers.supplier_name')
         ->get();
 
-        
-        /*$stockCount = DB::table('stocks')
+        //the total amount of stock in the database
+        $totalStock = DB::table('stocks')
+        ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+        ->select(
+            DB::raw('SUM(stocks.total) as total'),
+        )
+        ->get();  
+
+        //the number of items in stock      
+        $stockCount = DB::table('stocks')
         ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
         ->leftJoin("products",'stocks.product_id','products.id')
         ->select('stocks.*','suppliers.supplier_name','products.name')
-        ->count();*/
+        ->count();
         $stockCount = $stocks->count();
-        return view("pages.viewall-stock")->with("stocks",$stocks)->with("stockCount",$stockCount);
+
+        return view("pages.viewall-stock")->with("stocks",$stocks)->with("stockCount",$stockCount)->with("totalStock",$totalStock);
     }
    
     public function addToStock($id){

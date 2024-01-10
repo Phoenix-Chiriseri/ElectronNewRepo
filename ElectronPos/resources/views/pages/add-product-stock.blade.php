@@ -1,12 +1,10 @@
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <script>
 $(document).ready(function(){
     //Bind the event listener to both costPrice and markup input fields
     $("#price, #quantity").on("input", function() {
     const price = parseFloat($('#price').val());
     const quantity = parseFloat($('#quantity').val());
-    console.log(price+quantity);
     if (!isNaN(price) && !isNaN(quantity)) {
            const totalPrice = price*quantity;
            $("#total").val(totalPrice); 
@@ -48,10 +46,10 @@ $(document).ready(function(){
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('view-products') }}"
+                                    <a class="btn btn-info" href="{{ route('viewall-stock') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">View Products</span>
+                                        <span class="ms-1">View Stock</span>
                                     </a>
                                 </li>
                             </ul>
