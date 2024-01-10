@@ -75,7 +75,7 @@
             </div>
          </div>
          <div class="col-md-6">
-            <div class="card bg-dark text-white">
+            <div class="card bg-dark text-white" style="padding: 10px;">
                <div class="card-header text-white">
                   <h3 class="card-title">List Product</h3>
                </div>
