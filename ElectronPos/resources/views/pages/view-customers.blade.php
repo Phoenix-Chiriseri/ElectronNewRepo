@@ -12,6 +12,12 @@
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Customers</h6>
                             </div>
+                            <hr>
+                            <a class="btn btn-danger" href="{{ route('create-customers') }}"
+                                        role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Add New Customer</span>
+                            </a>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
