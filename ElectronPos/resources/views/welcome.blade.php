@@ -7,10 +7,10 @@
         </div>
     </div>
     <div class="page-header justify-content-center min-vh-100"
-        style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
-        <span class="mask bg-gradient-dark opacity-6"></span>
-        <div class="container">
-            <h1 class="text-light text-center">Welcome to Electron Point Of Sale</h1>
-        </div>
-    </div>
+    style="background-image: url('/assets/img/swipe.jpg'); background-size: cover;">
+   <span class="mask bg-gradient-dark opacity-6"></span>
+   <div class="container" style="background-color:white;border-radius:22px;">
+       <h3 class="text-center" style="color:black;">Welcome to Electron Point Of Sale</h3>
+   </div>
+   </div>
 </x-layout>
