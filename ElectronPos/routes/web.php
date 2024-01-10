@@ -19,6 +19,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ElectronPOE;
 
 
 Route::get('/', [DashboardController::class, 'welcome']);
@@ -40,6 +41,7 @@ Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('aut
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
+	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
 	Route::get('/search/products', [ProductController::class, 'searchProducts'])->name('/search/products');
 	Route::post('/add-to-cart/{product}', [ProductController::class, 'addToCart'])->name('product.addToCart');
@@ -52,7 +54,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/update/customer/{customer}', [CustomerController::class, 'updateCustomer'])->name('update-customer');
 	Route::put('/update/cattegory/{cattegory}', [CattegoryController::class, 'updateCattegory'])->name('update-cattegory');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
-	Route::get('/cart', [CartController::class, 'index'])->name('cart-index');
 	Route::get('/create-cattegory', [CattegoryController::class, 'create'])->name('create-cattegory');
 	Route::post('/add-to-cart/{product}',[ProductController::class, 'autoAddToCart'])->name('product.autoAddToCart');
 	Route::put('/update-product/{product}',[ProductController::class, 'updateProduct'])->name('products.update');
@@ -78,7 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/stock/edit/{product}', [StockController::class, 'editStock'])->name('stock.edit');
 	Route::post('/submit-stock', [StockController::class, 'submitProductToStock'])->name('submit.stock');
 	Route::post('/submit-customers', [CustomerController::class, 'store'])->name('submit-customers');
-	Route::get('/sell-product', [PosController::class, 'create'])->name('sell-product');
+	Route::get('/sell-product', [SalesController::class, 'index'])->name('sell-product');
 	Route::get('/create-suppliers', [SupplierController::class, 'create'])->name('create-suppliers');
 	Route::post('/submit-supplier', [SupplierController::class, 'store'])->name('submit-supplier');
 	Route::post('/submit-customer', [CustomerController::class, 'store'])->name('submit-customer');
@@ -98,7 +99,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
     Route::delete('/cart/delete', [CartController::class, 'delete']);
     Route::delete('/cart/empty', [CartController::class, 'empty']);
-	Route::get('/cart', [CartController::class, 'index'])->name('cart-index');
+	
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
