@@ -10,7 +10,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::orderBy("id","desc");
         $products = Product::all();
         return view('cart.index')->with("customers",$customers)->with("products",$products);
     }
@@ -20,6 +20,7 @@ class CartController extends Controller
         $request->validate([
             'barcode' => 'required|exists:products,barcode',
         ]);
+        
         $barcode = $request->barcode;
         $product = Product::where('barcode', $barcode)->first();
         $cart = $request->user()->cart()->where('barcode', $barcode)->first();

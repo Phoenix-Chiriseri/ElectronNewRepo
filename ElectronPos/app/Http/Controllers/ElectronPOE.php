@@ -11,8 +11,8 @@ class ElectronPOE extends Controller
     //
     public function index()
     {
-        $customers = Customer::all();
-        $products = Product::all();
+        $customers = Customer::orderBy("id","desc")->get();
+        $products = Product::orderBy("id","asc")->get();
         return view('pages.cart.index')->with("customers",$customers)->with("products",$products);
     }
 
