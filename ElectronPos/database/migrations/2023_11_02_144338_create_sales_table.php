@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id('sale_id');
             $table->float('total');
             $table->unsignedBigInteger('rfc');
-            $table->unsignedBigInteger('sale_id'); // Assuming 'user_id' is the correct foreign key
+            $table->unsignedBigInteger('user_id'); // Assuming 'user_id' is the correct foreign key
             $table->timestamps();
-            $table->timestamp('created')->nullable();
-            $table->foreign('sale_id')->references('id')->on('users')->onDelete('cascade'); // Assuming 'sale_id' is the correct column to reference in the 'users' table
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Assuming 'user_id' is the correct column to reference in the 'users' table
             $table->foreign('rfc')->references('id')->on('customers'); // Assuming 'id' is the correct column to reference in the 'customers' table
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_general_ci';
+            
         });
     }
 

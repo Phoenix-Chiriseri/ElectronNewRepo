@@ -8,7 +8,8 @@ use App\Models\Product;
 
 class ElectronPOE extends Controller
 {
-    //
+    
+    //show the products and customers on the front end of the point of sale application 
     public function index()
     {
         $customers = Customer::orderBy("id","desc")->get();
@@ -16,4 +17,5 @@ class ElectronPOE extends Controller
         return view('pages.cart.index')->with("customers",$customers)->with("products",$products);
     }
 
+    
 }
