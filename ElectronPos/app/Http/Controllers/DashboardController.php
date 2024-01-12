@@ -32,6 +32,6 @@ class DashboardController extends Controller
         $users = User::all()->count();
         $user = Auth::user();
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
-        ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)->with("user",$user);
+        ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)->with("user",$user)->with("monthlySales",$monthSales);
     }
 }
