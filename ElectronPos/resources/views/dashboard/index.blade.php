@@ -113,8 +113,8 @@
                                     <i class="fas fa-folder"></i>
                                 </div>
                                 <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Number Of Cattegories</p>
-                                    <h4 class="mb-0">{{$numberOfCattegories}}</h4>
+                                    <p class="text-sm mb-0 text-capitalize">Total Sales Today</p>
+                                    <h4 class="mb-0">{{$totalSalesPerDay}}</h4>
                                 </div>
                             </div>
                             <hr class="dark horizontal my-0">
