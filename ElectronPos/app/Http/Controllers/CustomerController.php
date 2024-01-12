@@ -15,6 +15,7 @@ class CustomerController extends Controller
      */
     public function viewAllCustomers()
     {
+        //return the customers to the front end
         $customers = DB::table('customers')
         ->leftJoin('users', 'customers.user_id', '=', 'users.id')
         ->select('users.*','customers.*')
@@ -26,12 +27,13 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
     public function create()
     {
-        //
         return view("pages.create-customer");
     }
 
+    //save a customer to the database
     public function store(Request $request)
     {    
             $user = Auth::user()->id;
@@ -63,7 +65,6 @@ class CustomerController extends Controller
 
 
     public function editCustomer($id){
-
         $customer = Customer::find($id);
         return view("pages.edit-customer")->with("customer",$customer);
     }

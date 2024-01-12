@@ -1,4 +1,6 @@
 <!-- Latest compiled and minified CSS -->
+
+<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
 <!-- jQuery library -->
@@ -9,6 +11,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <div class="content-header">
    <div class="container-fluid">
       <div class="row mb-2">
@@ -18,6 +21,8 @@
                   <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
                </svg>
                Electron Point Of Sale
+               <br>
+               Total Sales Today {{$totalSalesPerDay}}
             </h3>
          </div>
          <div class="col-12 text-center">
@@ -43,7 +48,7 @@
                   @if($errors->any())
                   <div class="alert alert-danger"> @foreach($errors->all() as $error) - {{ $error }} <br> @endforeach</div>
                   @endif
-                  <form method="post" action="#" id="createSaleForm">
+                   <form method="POST" action="{{ route('submit.stock') }}">
                      <div class="form-group">
                         <label for="rfc">Customers</label> 
                         <select id="rfc" name="rfc" class="form-control">
@@ -95,8 +100,13 @@
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>
-                                    {{ $product->price }} <!-- Assuming there is a price attribute for the product -->
-                                    <td> <button class="btn btn-success btn-sm" data-name="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{ $product->product_id }}" data-left="{{ $product->product_left }}" > <i class="fas fa-plus"></i> Add </button></td>
+                                    {{ $product->price }}
+                                </td> <!-- Assuming there is a price attribute for the product -->
+                                <td>    
+                                <form method="POST" action="{{ route('add-to-cart', $product->id) }}">
+                                       @csrf
+                                       <button type="submit" class="btn btn-primary">Add To Cart</button>
+                                   </form>
                                 </td>
                             </tr>
                         @endforeach

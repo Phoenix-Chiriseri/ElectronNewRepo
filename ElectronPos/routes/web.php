@@ -43,8 +43,9 @@ Route::post('user-profile', [ProfileController::class, 'update'])->middleware('a
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
+	Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
+	//Route::post('/addcart/{id}',[CartController::class],'addToCart')->name('add-to-cart');
 	Route::get('/search/products', [ProductController::class, 'searchProducts'])->name('/search/products');
-	Route::post('/add-to-cart/{product}', [ProductController::class, 'addToCart'])->name('product.addToCart');
 	Route::get('/create-stock', [StockController::class, 'create'])->name('create-stock');
 	Route::post('/submit-product', [ProductController::class, 'store'])->name('submit-product');
 	Route::get('/updateProduct/{id}', [ProductController::class, 'editProduct'])->name('updateProduct');
@@ -55,14 +56,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/update/cattegory/{cattegory}', [CattegoryController::class, 'updateCattegory'])->name('update-cattegory');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
 	Route::get('/create-cattegory', [CattegoryController::class, 'create'])->name('create-cattegory');
-	Route::post('/add-to-cart/{product}',[ProductController::class, 'autoAddToCart'])->name('product.autoAddToCart');
 	Route::put('/update-product/{product}',[ProductController::class, 'updateProduct'])->name('products.update');
 	Route::put('/supplier-update/{supplier}',[SupplierController::class, 'updateSupplier'])->name('supplier.update');
 	Route::put('/customer-update/{customer}',[SupplierController::class, 'updateCustomer'])->name('customer.update');
 	Route::post('/submit-cattegory', [CattegoryController::class, 'store'])->name('submit-cattegory');
 	Route::post('/submit-employee', [EmployeeController::class, 'store'])->name('submit-employee');
 	Route::get('/sell-product', [SalesController::class, 'create'])->name('sell-product');
-	Route::post('add-to-cart',[CartController::class],'addToCart')->name('add-to-cart');
+
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
 	Route::post('/submit-suppliers', [SupplierController::class, 'store'])->name('submit-suppliers');
 	Route::get('/create-sales', [SalesController::class, 'index'])->name('create-sales');
@@ -93,6 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/search-cart-product',[CartController::class, 'searchCartProduct'])->name('search-cart-product');
 	//Route::get('/get-product/{id}',[PosController::class, 'create']);
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
+	//Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
 	//sales controller (route to get the controller for sales)
 	Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');

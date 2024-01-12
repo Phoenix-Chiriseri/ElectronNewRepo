@@ -24,12 +24,41 @@ class SaleController extends Controller
         //
     }
 
+    
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $sale = Sale::create(
+            [
+                'total'   => $request->input('total'),
+                'rfc'     => $request->input('rfc'),
+                'id'      => $request->input('id'),
+                'created' => date('Y-m-d')
+            ]
+        );
+
+         if(isset($sale)) {
+            $productsArray = (array)json_decode($request->input('products'));
+            $completed = [];
+            //Get the products sales
+            foreach ($productsArray as $index) {
+                $cart = new Cart();
+                $cart->sale_id = $sale->sale_id;
+                $cart->product_id = $index->id;
+                $cart->amount = $index->amount;
+                $cart->created = date('Y-m-d');
+                $cart->save();
+                $completed[] = $cart;
+            }
+
+            if (count($productsArray) === count($completed)) {
+                return new Response($completed, 201);
+            }
+        }
+        return new Response('Cart was not filled', 500);
     }
 
     /**

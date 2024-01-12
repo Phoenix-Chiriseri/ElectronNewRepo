@@ -9,6 +9,8 @@ use App\Models\Cattegory;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\Supplier;
+use App\Models\Sale;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -23,6 +25,10 @@ class DashboardController extends Controller
         $numberOfCustomers = Customer::all()->count();
         $numberOfCattegories = Cattegory::all()->count();
         $numberOfSuppliers = Supplier::all()->count();
+        $todaySales = Sale::whereDate('created_at', date('Y-m-d'))->count();
+        $monthSales = Sale::whereMonth('created_at', date('m'))->count();
+        $todayRevenue = Sale::whereDate('created_at', date('Y-m-d'))->sum('total');
+        $monthRevenue = Sale::whereMonth('created_at', date('m'))->sum('total');
         $users = User::all()->count();
         $user = Auth::user();
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Auth;
 
 class CartController extends Controller
 {
@@ -15,77 +17,32 @@ class CartController extends Controller
         return view('cart.index')->with("customers",$customers)->with("products",$products);
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'barcode' => 'required|exists:products,barcode',
-        ]);
-        
-        $barcode = $request->barcode;
-        $product = Product::where('barcode', $barcode)->first();
-        $cart = $request->user()->cart()->where('barcode', $barcode)->first();
-        if ($cart) {
-            // check product quantity
-            if ($product->quantity <= $cart->pivot->quantity) {
-                return response([
-                    'message' => 'Product available only: ' . $product->quantity,
-                ], 400);
-            }
-            // update only quantity
-            $cart->pivot->quantity = $cart->pivot->quantity + 1;
-            $cart->pivot->save();
+    public function addToCart($cartId){
+            // Get the authenticated user
+   
+           // Get the authenticated user
+        $user = auth()->user();
+
+        // Find or create the user's cart
+        $userCart = Cart::firstOrCreate(['user_id' => $user->id]);
+
+        // Check if the product is already in the cart
+        $cartItem = $userCart->items()->where('product_id', $product->id)->first();
+
+        if ($cartItem) {
+            // If the product is already in the cart, increment the quantity
+            $cartItem->increment('quantity');
         } else {
-            if ($product->quantity < 1) {
-                return response([
-                    'message' => 'Product out of stock',
-                ], 400);
-            }
-            $request->user()->cart()->attach($product->id, ['quantity' => 1]);
+            // If the product is not in the cart, create a new cart item
+            $userCart->items()->create([
+                'product_id' => $product->id,
+                'quantity'   => 1, // Assuming the initial quantity is 1
+            ]);
         }
 
-        return response('', 204);
+        // Redirect back to the product page or any other page
+        return redirect()->back()->with('success', 'Product added to cart successfully.');
     }
-
-    public function changeQty(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        $product = Product::find($request->product_id);
-        $cart = $request->user()->cart()->where('id', $request->product_id)->first();
-
-        if ($cart) {
-            // check product quantity
-            if ($product->quantity < $request->quantity) {
-                return response([
-                    'message' => 'Product available only: ' . $product->quantity,
-                ], 400);
-            }
-            $cart->pivot->quantity = $request->quantity;
-            $cart->pivot->save();
-        }
-
-        return response([
-            'success' => true
-        ]);
-    }
-
-    public function delete(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|integer|exists:products,id'
-        ]);
-        $request->user()->cart()->detach($request->product_id);
-
-        return response('', 204);
-    }
-
-    public function empty(Request $request)
-    {
-        $request->user()->cart()->detach();
-
-        return response('', 204);
-    }
+      
 }
+
