@@ -1,8 +1,22 @@
 <script src="{{ asset('../../assets/css/jquery-3.3.1.min.js') }}"></script>
-<link rel = "stylesheet" href = "{{ asset('../../assets/css/fontawesome.min.css') }}">
+<link rel = "stylesheet" href = "{{ asset('../../assets/css/font-awesome.min.css') }}">
+<script src="{{ asset('../../assets/js/axios.min.js') }}"></script>
 <script>
     $(document).ready(function(){
-        alert("hello world");
+        //make calls with axios to the backend to pupulate the 
+        axios.get('/products-json')
+        .then(function (response) {
+        // handle success
+        console.log("These Are The Products", response);
+        })
+        .catch(function (error) {
+        // handle error
+        console.log(error);
+        })
+        .finally(function (response) {
+        // always executed
+        console.log("These Are The Products", response);
+        });
     });
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">

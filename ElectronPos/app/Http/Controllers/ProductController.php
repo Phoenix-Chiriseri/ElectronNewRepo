@@ -29,6 +29,11 @@ class ProductController extends Controller
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
+    public function getProductsJson(){
+        $products = Product::all();
+        return response()->json(["products" => $products]);
+    }
+    
     //function that will search the products
     public function searchProducts(Request $request){
        

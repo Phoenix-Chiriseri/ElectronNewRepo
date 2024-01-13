@@ -100,6 +100,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
     Route::delete('/cart/delete', [CartController::class, 'delete']);
     Route::delete('/cart/empty', [CartController::class, 'empty']);
+	//api routes
+	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
+	
 	
 	Route::get('rtl', function () {
 		return view('pages.rtl');
