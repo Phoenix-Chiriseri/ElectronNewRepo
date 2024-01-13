@@ -2,15 +2,23 @@
 <link rel = "stylesheet" href = "{{ asset('../../assets/css/font-awesome.min.css') }}">
 <script src="{{ asset('../../assets/js/axios.min.js') }}"></script>
 <script>
-    
     //make an api call to the server and get the products to the front end as json data
     $(document).ready(function(){
         //make calls with axios to the backend to pupulate the
-        
         //search a single product. using on change
         $("#searchProduct").on("change",function(event){
-            const search = event.target.value;
-            console.log(search);
+            const product = event.target.value;
+            console.log(product);
+        });
+
+        $("#searchProduct").on("keydown",function(event){
+
+            var code = event.keyCode || e.which;
+            if(code == 13) { //Enter keycode
+            //Do something
+              const product = event.target.value;
+              console.log(product);
+            }
         });
     });
 </script>
