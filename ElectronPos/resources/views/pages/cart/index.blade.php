@@ -8,9 +8,9 @@
         //make calls with axios to the backend to pupulate the
         
         //trigger event for the textfield that is going to search a product
-        $("#searchProduct").on("change",function(){
-            const value = $(this).val();
-            console.log(value);
+        $("#searchProduct").on("change",function(event){
+            const search = event.target.value;
+            console.log(search);
         });
 
         axios.get('/products-json')
