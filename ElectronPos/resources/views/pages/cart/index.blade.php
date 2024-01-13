@@ -1,5 +1,10 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
-
+<script src="{{ asset('../../assets/css/jquery-3.3.1.min.js') }}"></script>
+<link rel = "stylesheet" href = "{{ asset('../../assets/css/fontawesome.min.css') }}">
+<script>
+    $(document).ready(function(){
+        alert("hello world");
+    });
+</script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
@@ -71,6 +76,7 @@
                             </table>
                         </div>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col">Total:</div>
                         <div class="col text-right"></div>
@@ -89,7 +95,7 @@
                         <div class="col">
                             <button
                                 type="button"
-                                class="btn btn-primary btn-block"
+                                class="btn btn-dark btn-block"
                                 disabled=""
                                 onClick=""
                             >
