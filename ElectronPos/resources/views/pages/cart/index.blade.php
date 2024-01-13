@@ -2,8 +2,17 @@
 <link rel = "stylesheet" href = "{{ asset('../../assets/css/font-awesome.min.css') }}">
 <script src="{{ asset('../../assets/js/axios.min.js') }}"></script>
 <script>
+    
+    //make an api call to the server and get the products to the front end as json data
     $(document).ready(function(){
-        //make calls with axios to the backend to pupulate the 
+        //make calls with axios to the backend to pupulate the
+        
+        //trigger event for the textfield that is going to search a product
+        $("#searchProduct").on("change",function(){
+            const value = $(this).val();
+            console.log(value);
+        });
+
         axios.get('/products-json')
         .then(function (response) {
         // handle success
@@ -127,6 +136,7 @@
                          placeholder="Search Product"
                          onChange=""
                          onKeyDown=""
+                         id = "searchProduct"
                      />
                  </div>
                  <div className="order-product">
