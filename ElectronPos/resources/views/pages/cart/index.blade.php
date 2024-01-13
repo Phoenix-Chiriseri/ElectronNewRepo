@@ -25,10 +25,13 @@
                     </form>
                 </div>
                 <div class="col">
-                    <select class="form-control border border-2 p-2">
-                        <option value="">Walking Customer</option>
-                    </select>
-                </div>
+                  <select class="form-control border border-2 p-2">
+                      <option value="">Walking Customer</option>
+                      @foreach($customers as $customer)
+                          <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                      @endforeach
+                  </select>
+              </div>
             </div>
             <div class="user-cart">
                 <div class="card">
@@ -94,7 +97,6 @@
                 </div>
             </div>
          </div>
-         
       </div>
    <x-plugins></x-plugins>
 </x-layout>
