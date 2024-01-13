@@ -10,9 +10,8 @@
             const product = event.target.value;
             console.log(product);
         });
-
+        //if enter key is pressed then search for the product
         $("#searchProduct").on("keydown",function(event){
-
             var code = event.keyCode || e.which;
             if(code == 13) { //Enter keycode
             //Do something

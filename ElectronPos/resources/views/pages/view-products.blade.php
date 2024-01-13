@@ -97,12 +97,12 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('delete-product',$product->id) }}">Delete Product</a>
-                                            </td>
-                                           
+                                            </td>             
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{$products->links()}}
                             </div>
                         </div>
                     </div>

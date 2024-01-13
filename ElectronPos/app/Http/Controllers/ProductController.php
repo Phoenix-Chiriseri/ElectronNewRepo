@@ -24,7 +24,7 @@ class ProductController extends Controller
         ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('*')
         ->count(); */
-        $products = Product::orderBy("id", "desc")->get();  $products = Product::orderBy("id", "desc")->get();
+        $products = Product::orderBy("id", "desc")->paginate(8);
         $productCount = Product::all()->count();  
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
@@ -33,7 +33,7 @@ class ProductController extends Controller
         $products = Product::all();
         return response()->json(["products" => $products]);
     }
-    
+
     //function that will search the products
     public function searchProducts(Request $request){
        
