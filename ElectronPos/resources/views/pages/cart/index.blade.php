@@ -7,24 +7,10 @@
     $(document).ready(function(){
         //make calls with axios to the backend to pupulate the
         
-        //trigger event for the textfield that is going to search a product
+        //search a single product. using on change
         $("#searchProduct").on("change",function(event){
             const search = event.target.value;
             console.log(search);
-        });
-
-        axios.get('/products-json')
-        .then(function (response) {
-        // handle success
-        console.log("These Are The Products", response);
-        })
-        .catch(function (error) {
-        // handle error
-        console.log(error);
-        })
-        .finally(function (response) {
-        // always executed
-        console.log("These Are The Products", response);
         });
     });
 </script>
