@@ -1,11 +1,16 @@
 <script src="{{ asset('../../assets/css/jquery-3.3.1.min.js') }}"></script>
 <link rel = "stylesheet" href = "{{ asset('../../assets/css/font-awesome.min.css') }}">
 <script src="{{ asset('../../assets/js/axios.min.js') }}"></script>
+<script src="{{ asset('../../assets/js/ElectronPOE.js') }}"></script>
 <script>
     //make an api call to the server and get the products to the front end as json data
     $(document).ready(function(){
         //make calls with axios to the backend to pupulate the
         //search a single product. using on change
+        function getAllProducts(){
+
+        }
+
         $("#searchProduct").on("change",function(event){
             const product = event.target.value;
             console.log(product);
