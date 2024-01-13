@@ -100,7 +100,24 @@
                 </div>
                 <div class="col-md-6">
                     <!-- Add your content for the second column here -->
-                    Hello World
+                    <div className="mb-2">
+                     <input
+                         type="text"
+                         class="form-control border border-2 p-2"
+                         placeholder="Search Product"
+                         onChange=""
+                         onKeyDown=""
+                     />
+                 </div>
+                 <div className="order-product">
+                         <div
+                             onClick=""
+                           >
+                             <img src="" alt="" />
+                             <h5>
+                             </h5>
+                         </div>
+                 </div>
                 </div>
             </div>
         </div>
