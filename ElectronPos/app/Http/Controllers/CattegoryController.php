@@ -22,10 +22,7 @@ class CattegoryController extends Controller
         return view("pages.view-cattegories")->with("cattegories",$cattegories)->with("numberOfCattegories",$numberOfCattegories);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-
+    
      public function editGroup($id){
 
         $cattegory = Cattegory::find($id);

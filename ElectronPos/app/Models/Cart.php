@@ -17,10 +17,5 @@ class Cart extends Model
     protected $fillable = [
         'sale_id', 'product_id','amount', 'created'
     ];
-
-    public function items()
-    {
-        return $this->hasMany(CartItem::class, 'cart_id');
-    }
     //This model can have one or many products
 }

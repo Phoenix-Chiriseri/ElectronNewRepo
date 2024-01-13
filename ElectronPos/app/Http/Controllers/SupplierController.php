@@ -25,7 +25,9 @@ class SupplierController extends Controller
         ->select('users.*', 'suppliers.*')
         ->orderBy('suppliers.id', 'desc')  // Use 'orderBy' instead of 'orderby'
         ->get();
-         return view('pages.view-suppliers')->with("suppliers",$suppliers);
+        //return the number of suppliers to the suppliers view
+        $numberOfSuppliers = Supplier::all()->count();
+         return view('pages.view-suppliers')->with("suppliers",$suppliers)->with("numberOfSuppliers",$suppliers);
     }
 
     

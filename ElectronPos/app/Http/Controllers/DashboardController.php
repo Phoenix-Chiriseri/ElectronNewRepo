@@ -24,11 +24,13 @@ class DashboardController extends Controller
         $numberOfProducts = Product::all()->count();
         $numberOfCustomers = Customer::all()->count();
         $numberOfCattegories = Cattegory::all()->count();
-        $numberOfSuppliers = Supplier::all()->count();
-        //$todaySales = Sale::whereDate('created_at', date('Y-m-d'))->count();
+        $numberOfSuppliers = Supplier::all()->count(); 
+        
+        //calculate the total sales per each and every day;
         $totalSalesPerDay = 0;
         $salesToday = Sale::select('total')->where('created_at', date('Y-m-d'))
             ->get();
+        
         //add the number to the total amount and return to the blade view
         foreach ($salesToday as $sale) {
             $totalSalesPerDay += $sale->total;

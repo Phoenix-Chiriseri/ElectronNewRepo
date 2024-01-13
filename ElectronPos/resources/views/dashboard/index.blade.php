@@ -110,7 +110,7 @@
                             <div class="card-header p-3 pt-2">
                                 <div
                                     class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                                    <i class="fas fa-folder"></i>
+                                    <i class="fa fa-money"></i>
                                 </div>
                                 <div class="text-end pt-1">
                                     <p class="text-sm mb-0 text-capitalize">Total Sales Today</p>

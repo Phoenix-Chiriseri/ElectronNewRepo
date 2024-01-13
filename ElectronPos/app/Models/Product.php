@@ -22,10 +22,6 @@ class Product extends Model
         'markup'
     ];
     
-    // This model can exists in N carts
-     public function carts() {
-        return $this->belongsToMany('App\Cart', 'carts', 'sale_id');
-    }
 
     public function getGetExtractAttribute() {
         return substr($this->description, 0, 50);
@@ -35,5 +31,10 @@ class Product extends Model
     public function stock()
     {
     return $this->hasOne(Stock::class);
+    }
+
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class)->withPivot('quantity')->withTimestamps();
     }
 }
