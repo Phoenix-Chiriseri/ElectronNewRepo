@@ -37,7 +37,7 @@ class StockController extends Controller
             DB::raw('SUM(stocks.quantity * products.price) as price')
         )
         ->groupBy('products.id', 'products.name', 'products.unit_of_measurement', 'suppliers.supplier_name')
-        ->orderBy("stocks.id","desc")
+        ->orderBy("stocks.id","asc")
         ->get();
 
         //the total amount of stock in the database

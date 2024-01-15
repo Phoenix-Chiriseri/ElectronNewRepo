@@ -103,7 +103,6 @@ Route::group(['middleware' => 'auth'], function () {
 	//api routes
 	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');
-	
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');

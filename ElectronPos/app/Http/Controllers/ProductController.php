@@ -30,17 +30,15 @@ class ProductController extends Controller
     }
 
     public function getProductsJson(){
-        $products = Product::all();
+        $products = Product::orderBy("id","desc")->get();
         return response()->json(["products" => $products]);
     }
 
     //function that will search the products
     public function searchProducts(Request $request){
-       
         $searchTerm = $request->input('product_search');    
         $products = Product::where('name', 'like', "%$searchTerm%")->get(); 
         return response()->json(['products' => $products]);
-        
     }
 
     
