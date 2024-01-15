@@ -71,7 +71,6 @@
             const cartTableBody = $(".user-cart table tbody");
             // Clear the existing rows in the table
             cartTableBody.empty();
-
             // Iterate over cart items and append rows to the table
             state.cart.forEach((item) => {
                 const rowHtml = `
@@ -154,25 +153,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Sadza</td>
-                                        <td>
-                                            <div class="input-group">
-                                                <input
-                                                    type="number"
-                                                    class="form-control border border-2 py-1 px-2"
-                                                    value=""
-                                                />
-                                                <div class="input-group-append">
-                                                    <button
-                                                        class="btn btn-danger btn-lg py-1 px-2"
-                                                        onClick=""
-                                                    >
-                                                        <i class="fas fa-trash fa-2x"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-right"></td>
+                                       
+                                       
                                     </tr>
                                 </tbody>
                             </table>
