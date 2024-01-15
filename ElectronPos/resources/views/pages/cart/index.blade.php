@@ -38,6 +38,11 @@
             }
         });
 
+        
+        $("#sellItems").on("click",function(){
+            alert("hello world");
+        });
+
         // Add a product to cart using a click event
         $(".addToCart").click(function (event) {
             event.preventDefault(); // Prevent the default behavior of the anchor tag
@@ -149,6 +154,7 @@ function updateCartUI() {
 
         cartTableBody.append(rowHtml);
     });
+
 
     // Attach event listeners for quantity change and remove item
     $(".quantity-input").on("input", function () {
@@ -275,11 +281,11 @@ function updateTotal() {
                         </div>
                         <div class="col">
                             <button
-                                type="button"
-                                class="btn btn-dark btn-block"
-                                onClick="" id = "sellItems"
-                                >
-                                Submit
+                             type="button"
+                            class="btn btn-dark btn-block btn-submit" 
+                            id="sellItems"
+                            >
+                             Submit
                             </button>
                         </div>
                     </div>
