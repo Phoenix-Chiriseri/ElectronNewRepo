@@ -2,28 +2,39 @@
 <link rel = "stylesheet" href = "{{ asset('../../assets/css/font-awesome.min.css') }}">
 <script src="{{ asset('../../assets/js/axios.min.js') }}"></script>
 <script src="{{ asset('../../assets/js/ElectronPOE.js') }}"></script>
-<script>
-    //make an api call to the server and get the products to the front end as json data
-    $(document).ready(function(){
-        //make calls with axios to the backend to pupulate the
-        //search a single product. using on change
-        function getAllProducts(){
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        // Function that will load the products based on a search query
+        function loadProducts(search = "") {
+            const query = !!search ? `?search=${search}` : "";
+            axios.get(`/products-json/${query}`).then((response) => {
+                const products = response.data;
+                console.log(products);
+                // Handle the retrieved products as needed, e.g., update the UI
+            });
         }
 
-        $("#searchProduct").on("change",function(event){
+        // Make calls with axios to the backend to populate the search for a single product.
+        // Using 'input' event instead of 'change' for real-time updates
+        $("#searchProduct").on("input", function (event) {
             const product = event.target.value;
-            console.log(product);
+            loadProducts(product);
         });
-        //if enter key is pressed then search for the product
-        $("#searchProduct").on("keydown",function(event){
-            var code = event.keyCode || e.which;
-            if(code == 13) { //Enter keycode
-            //Do something
-              const product = event.target.value;
-              console.log(product);
+
+        // If Enter key is pressed, then search for the product
+        $("#searchProduct").on("keydown", function (event) {
+            var code = event.keyCode || event.which;
+            if (code === 13) { // Enter keycode
+                const product = event.target.value;
+                loadProducts(product);
             }
         });
+
+        // Initial load of products when the page is ready
+        loadProducts();
     });
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
