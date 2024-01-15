@@ -29,19 +29,26 @@
         });
 
         $("#sellItems").on("click", function () {
-            
-            const saleItems = state.cart.map((item) => ({
+    // Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
+
+    const saleItems = state.cart.map((item) => ({
         product_id: item.id,
         quantity: item.quantity || 1,
+        customerName: selectedCustomerName, // Include customer name in each item
     }));
 
-    console.log(selectedCustomerName);
-    // Include the selected customer name in the request data
+    // Calculate the total value
+    const totalValue = state.cart.reduce((total, item) => {
+        return total + item.price * (item.quantity || 1);
+    }, 0).toFixed(2);
+
+    // Include the selected customer name, quantities, and total in the request data
     const requestData = {
         saleItems,
-        customerName: selectedCustomerName,
+        total: totalValue,
     };
 
+    console.log(requestData);
     // Send a POST request to your server to handle the sale
     axios.post("/api/sell", requestData)
         .then((response) => {
@@ -53,9 +60,7 @@
             // Handle errors (e.g., show an error message)
             console.error("Error selling products:", error);
         });
-
-        });
-
+});
         $(".addToCart").click(function (event) {
             event.preventDefault();
             var productId = $(this).data('product-id');
@@ -177,7 +182,7 @@
                             </form>
                         </div>
                         <div class="col">
-                            <select class="form-control border border-2 p-2" id = "customerName">
+                            <select class="form-control border border-2 p-2" id="customerName">
                                 <option value="">Walking Customer</option>
                                 @foreach($customers as $customer)
                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
