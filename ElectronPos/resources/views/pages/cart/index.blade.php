@@ -1,6 +1,6 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
     $(document).ready(function () {
         const state = {
@@ -28,13 +28,14 @@
             loadProducts(product);
         });
 
+
+        //selling the items out of the system
         $("#sellItems").on("click", function () {
     // Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
 
-    const saleItems = state.cart.map((item) => ({
+     const saleItems = state.cart.map((item) => ({
         product_id: item.id,
         quantity: item.quantity || 1,
-        customerName: selectedCustomerName, // Include customer name in each item
     }));
 
     // Calculate the total value
@@ -45,22 +46,39 @@
     // Include the selected customer name, quantities, and total in the request data
     const requestData = {
         saleItems,
+        customerName: selectedCustomerName,
         total: totalValue,
     };
+    // Include the CSRF token in the headers
+    const headers = {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    };
 
-    console.log(requestData);
-    // Send a POST request to your server to handle the sale
-    axios.post("/api/sell", requestData)
-        .then((response) => {
-            // Handle successful sale (e.g., show a success message, clear the cart, update UI)
-            console.log("Sale successful:", response.data);
-            clearCart();
-        })
-        .catch((error) => {
-            // Handle errors (e.g., show an error message)
-            console.error("Error selling products:", error);
-        });
+    $.ajax({
+    url: "/api/sell",
+    type: "POST",
+    data: requestData,
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    dataType: 'JSON',
+    success: function (response) {
+        // Handle successful sale
+        console.log("Sale successful:", response);
+        clearCart();
+    },
+    error: function (error) {
+        // Handle errors
+        //console.error("Error selling products:", error);
+    },
 });
+
+});
+
+
+       
+
+
         $(".addToCart").click(function (event) {
             event.preventDefault();
             var productId = $(this).data('product-id');
@@ -227,13 +245,13 @@
                             </button>
                         </div>
                         <div class="col">
-                            <button
-                             type="button"
-                            class="btn btn-dark btn-block btn-submit" 
-                            id="sellItems"
-                            >
-                             Submit
-                            </button>
+                            <form method="post" action="{{ route('submit.sale') }}">
+                                @csrf
+                                <!-- Your other form fields go here -->
+                                <button type="submit" class="btn btn-dark btn-block btn-submit" id="sellItems">
+                                    Submit
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

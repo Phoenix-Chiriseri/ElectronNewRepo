@@ -41,6 +41,8 @@ Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('aut
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
+	
+	Route::post('/api/sell', [SaleController::class, 'store'])->name("submit.sale");
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
 	Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
@@ -63,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-employee', [EmployeeController::class, 'store'])->name('submit-employee');
 	Route::get('/sell-product', [SalesController::class, 'create'])->name('sell-product');
 	//loop through the products and then add them to cart
-	Route::post('/api/sell', [SaleController::class, 'store']);
+	
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
 	Route::post('/submit-suppliers', [SupplierController::class, 'store'])->name('submit-suppliers');
 	Route::get('/create-sales', [SalesController::class, 'index'])->name('create-sales');
