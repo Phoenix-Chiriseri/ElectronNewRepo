@@ -17,22 +17,42 @@
             });
         }
 
+        let selectedCustomerName = "";
+
+        $("#customerName").on("change", function () {
+            selectedCustomerName = $(this).val();
+        });
+
         $("#searchProduct").on("input", function (event) {
             const product = event.target.value;
             loadProducts(product);
         });
 
         $("#sellItems").on("click", function () {
+            
             const saleItems = state.cart.map((item) => ({
-                product_id: item.id,
-                quantity: item.quantity || 1,
-            }));
-            
-            //console.log(saleItems);
-            // Send a POST request to your server to handle the sale
+        product_id: item.id,
+        quantity: item.quantity || 1,
+    }));
 
-            
+    console.log(selectedCustomerName);
+    // Include the selected customer name in the request data
+    const requestData = {
+        saleItems,
+        customerName: selectedCustomerName,
+    };
 
+    // Send a POST request to your server to handle the sale
+    axios.post("/api/sell", requestData)
+        .then((response) => {
+            // Handle successful sale (e.g., show a success message, clear the cart, update UI)
+            console.log("Sale successful:", response.data);
+            clearCart();
+        })
+        .catch((error) => {
+            // Handle errors (e.g., show an error message)
+            console.error("Error selling products:", error);
+        });
 
         });
 
@@ -157,7 +177,7 @@
                             </form>
                         </div>
                         <div class="col">
-                            <select class="form-control border border-2 p-2">
+                            <select class="form-control border border-2 p-2" id = "customerName">
                                 <option value="">Walking Customer</option>
                                 @foreach($customers as $customer)
                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>

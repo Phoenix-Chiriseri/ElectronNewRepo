@@ -31,6 +31,10 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+        
+
+        dd($request->all());
+        //create a sale
         $sale = Sale::create(
             [
                 'total'   => $request->input('total'),
@@ -40,7 +44,7 @@ class SaleController extends Controller
             ]
         );
 
-         if(isset($sale)) {
+         /*if(isset($sale)) {
             $productsArray = (array)json_decode($request->input('products'));
             $completed = [];
             //Get the products sales
@@ -57,7 +61,7 @@ class SaleController extends Controller
             if (count($productsArray) === count($completed)) {
                 return new Response($completed, 201);
             }
-        }
+        }*/
         return new Response('Cart was not filled', 500);
     }
 
