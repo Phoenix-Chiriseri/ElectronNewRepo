@@ -4,7 +4,6 @@
 <script src="{{ asset('../../assets/js/ElectronPOE.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
 <script>
     $(document).ready(function () {
         // Define the state to store products and cart
@@ -41,29 +40,67 @@
 
         // Add a product to cart using a click event
         $(".addToCart").click(function (event) {
-    event.preventDefault(); // Prevent the default behavior of the anchor tag
+            event.preventDefault(); // Prevent the default behavior of the anchor tag
 
-    // Retrieve the product ID from the clicked button
-    var productId = $(this).data('product-id');
+            // Retrieve the product ID from the clicked button
+            var productId = $(this).data('product-id');
 
-    // Find the product in the state based on the ID
-    let product = state.products.find((p) => p.id === productId);
+            // Find the product in the state based on the ID
+            let product = state.products.find((p) => p.id === productId);
 
-    if (product) {
-        // Update the cart state by adding the product
-        state.cart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            // Add other relevant properties
+            if (product) {
+                // Update the cart state by adding the product
+                state.cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    // Add other relevant properties
+                });
+
+                // Log a message (you can replace this with your actual logic)
+                console.log("Product added to cart:", product);
+
+                // Update the UI or perform other actions as needed
+                updateCartUI();
+            }
         });
 
-        // Log a message (you can replace this with your actual logic)
-        console.log("Product added to cart:", product);
+        // Function to update the UI with the cart items
+        function updateCartUI() {
+            // Select the table body where cart items will be displayed
+            const cartTableBody = $(".user-cart table tbody");
+            // Clear the existing rows in the table
+            cartTableBody.empty();
 
-        // Update the UI or perform other actions as needed
-    }
-});
+            // Iterate over cart items and append rows to the table
+            state.cart.forEach((item) => {
+                const rowHtml = `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>
+                            <div class="input-group">
+                                <input
+                                    type="number"
+                                    class="form-control border border-2 py-1 px-2"
+                                    value=""
+                                />
+                                <div class="input-group-append">
+                                    <button
+                                        class="btn btn-danger btn-lg py-1 px-2"
+                                        onClick=""
+                                    >
+                                        <i class="fas fa-trash fa-2x"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right">${item.price}</td>
+                    </tr>
+                `;
+
+                cartTableBody.append(rowHtml);
+            });
+        }
 
         // Initial load of products when the page is ready
         loadProducts();
