@@ -33,6 +33,13 @@
             }
         });
 
+        //add a product to cart using a click event
+        $(".addToCart").click(function (event) {
+          event.preventDefault(); // Prevent the default behavior of the anchor tag
+          var productId = $(this).data('product-id'); 
+          //console.log("Product added to cart with ID:", productId);
+          alert("Product Id is"+productId);
+         });
         // Initial load of products when the page is ready
         loadProducts();
     });
@@ -158,7 +165,7 @@
                                     <!-- You can add more information here as needed -->
                                     <p class="card-text">Price: ${{ $product->price }}</p>
                                     <!-- Add more details or customize as necessary -->
-                                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                                    <a href="" data-product-id="{{ $product->id }}" class="btn btn-primary addToCart">Add to Cart</a>
                                 </div>
                             </div>
                         </div>
