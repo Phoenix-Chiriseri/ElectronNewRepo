@@ -57,7 +57,7 @@
     $.ajax({
     url: "/api/sell",
     type: "POST",
-    data: requestData,
+    data: JSON.stringify(requestData),
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
@@ -74,10 +74,6 @@
 });
 
 });
-
-
-       
-
 
         $(".addToCart").click(function (event) {
             event.preventDefault();

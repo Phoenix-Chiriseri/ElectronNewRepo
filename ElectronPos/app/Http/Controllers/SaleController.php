@@ -31,7 +31,10 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+
         dd($request->all());
+        //echo "hello world";
+        //dd($request->all());
         //create a sale
         $sale = Sale::create(
             [
