@@ -67,39 +67,75 @@
 
         // Function to update the UI with the cart items
         function updateCartUI() {
-            // Select the table body where cart items will be displayed
-            const cartTableBody = $(".user-cart table tbody");
-            // Clear the existing rows in the table
-            cartTableBody.empty();
-            // Iterate over cart items and append rows to the table
-            state.cart.forEach((item) => {
-                const rowHtml = `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>
-                            <div class="input-group">
-                                <input
-                                    type="number"
-                                    class="form-control border border-2 py-1 px-2"
-                                    value=""
-                                />
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn btn-danger btn-lg py-1 px-2"
-                                        onClick=""
-                                    >
-                                        <i class="fas fa-trash fa-2x"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-right">${item.price}</td>
-                    </tr>
-                `;
+    // Select the table body where cart items will be displayed
+    const cartTableBody = $(".user-cart table tbody");
+    // Clear the existing rows in the table
+    cartTableBody.empty();
+    // Iterate over cart items and append rows to the table
+    state.cart.forEach((item) => {
+        const rowHtml = `
+            <tr>
+                <td>${item.name}</td>
+                <td>
+                    <div class="input-group">
+                        <input
+                            type="number"
+                            class="form-control border border-2 py-1 px-2 quantity-input"
+                            value="${item.quantity || 1}"  // Set the default quantity to 1
+                            data-product-id="${item.id}"
+                        />
+                        <div class="input-group-append">
+                            <button
+                                class="btn btn-danger btn-lg py-1 px-2 remove-item"
+                                data-product-id="${item.id}"
+                            >
+                                <i class="fas fa-trash fa-2x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-right">${(item.price * (item.quantity || 1)).toFixed(2)}</td>
+            </tr>
+        `;
 
-                cartTableBody.append(rowHtml);
-            });
-        }
+        cartTableBody.append(rowHtml);
+    });
+
+    // Attach event listeners for quantity change and remove item
+    $(".quantity-input").on("input", function () {
+        const productId = $(this).data("product-id");
+        const newQuantity = parseInt($(this).val(), 10);
+        updateCartQuantity(productId, newQuantity);
+    });
+
+    $(".remove-item").on("click", function () {
+        const productId = $(this).data("product-id");
+        removeCartItem(productId);
+    });
+}
+
+// Function to update quantity in the cart
+function updateCartQuantity(productId, newQuantity) {
+    // Find the item in the cart
+    const cartItem = state.cart.find((item) => item.id === productId);
+
+    // Update the quantity if the item is found
+    if (cartItem) {
+        cartItem.quantity = newQuantity;
+    }
+
+    // Update the UI
+    updateCartUI();
+}
+
+// Function to remove an item from the cart
+function removeCartItem(productId) {
+    // Remove the item from the cart
+    state.cart = state.cart.filter((item) => item.id !== productId);
+
+    // Update the UI
+    updateCartUI();
+}
 
         // Initial load of products when the page is ready
         loadProducts();
