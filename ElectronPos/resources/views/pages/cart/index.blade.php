@@ -114,6 +114,58 @@
     });
 }
 
+function updateCartUI() {
+    // Select the table body where cart items will be displayed
+    const cartTableBody = $(".user-cart table tbody");
+    // Clear the existing rows in the table
+    cartTableBody.empty();
+
+    // Iterate over cart items and append rows to the table
+    state.cart.forEach((item) => {
+        const rowHtml = `
+            <tr>
+                <td>${item.name}</td>
+                <td>
+                    <div class="input-group">
+                        <input
+                            type="number"
+                            class="form-control border border-2 py-1 px-2 quantity-input"
+                            value="${item.quantity || 1}"
+                            data-product-id="${item.id}"
+                        />
+                        <div class="input-group-append">
+                            <button
+                                class="btn btn-danger btn-lg py-1 px-2 remove-item"
+                                data-product-id="${item.id}"
+                            >
+                                <i class="fas fa-trash fa-2x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-right">${(item.price * (item.quantity || 1)).toFixed(2)}</td>
+            </tr>
+        `;
+
+        cartTableBody.append(rowHtml);
+    });
+
+    // Attach event listeners for quantity change and remove item
+    $(".quantity-input").on("input", function () {
+        const productId = $(this).data("product-id");
+        const newQuantity = parseInt($(this).val(), 10);
+        updateCartQuantity(productId, newQuantity);
+    });
+
+    $(".remove-item").on("click", function () {
+        const productId = $(this).data("product-id");
+        removeCartItem(productId);
+    });
+
+    // Update the total cart value
+    updateTotal();
+}
+
 // Function to update quantity in the cart
 function updateCartQuantity(productId, newQuantity) {
     // Find the item in the cart
@@ -137,9 +189,17 @@ function removeCartItem(productId) {
     updateCartUI();
 }
 
-        // Initial load of products when the page is ready
-        loadProducts();
-    });
+// Function to calculate and update the total cart value
+function updateTotal() {
+    const totalValue = state.cart.reduce((total, item) => {
+        return total + item.price * (item.quantity || 1);
+    }, 0).toFixed(2);
+
+    // Update the total value in the UI
+    $("#total-value").text("Total Value is"+' '+' '+totalValue);
+     
+        }
+});
 </script>
 <!-- Rest of your HTML content -->
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
@@ -198,16 +258,17 @@ function removeCartItem(productId) {
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col">Total:</div>
-                        <div class="col text-right"></div>
+                        <div class="col"></div>
+                        <div class="col text-centre" id="total-value">Total:</div>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col">
                             <button
                                 type="button"
                                 class="btn btn-danger btn-block"
                                 onClick=""
-                                disabled=""
+                                
                             >
                                 Cancel
                             </button>
@@ -216,9 +277,8 @@ function removeCartItem(productId) {
                             <button
                                 type="button"
                                 class="btn btn-dark btn-block"
-                                disabled=""
-                                onClick=""
-                            >
+                                onClick="" id = "sellItems"
+                                >
                                 Submit
                             </button>
                         </div>
