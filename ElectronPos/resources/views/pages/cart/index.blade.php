@@ -1,5 +1,5 @@
 <script src="{{ asset('../../assets/css/jquery-3.3.1.min.js') }}"></script>
-<link rel = "stylesheet" href = "{{ asset('../../assets/css/font-awesome.min.css') }}">
+<link rel="stylesheet" href="{{ asset('../../assets/css/font-awesome.min.css') }}">
 <script src="{{ asset('../../assets/js/axios.min.js') }}"></script>
 <script src="{{ asset('../../assets/js/ElectronPOE.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -7,6 +7,12 @@
 
 <script>
     $(document).ready(function () {
+        // Define the state to store products and cart
+        const state = {
+            products: {!! json_encode($products) !!}, // Assuming you pass the products from the server
+            cart: [],
+        };
+
         // Function that will load the products based on a search query
         function loadProducts(search = "") {
             const query = !!search ? `?search=${search}` : "";
@@ -29,21 +35,41 @@
             var code = event.keyCode || event.which;
             if (code === 13) { // Enter keycode
                 const product = event.target.value;
-                loadProducts(product);
+                //this.loadProducts(product);
             }
         });
 
-        //add a product to cart using a click event
+        // Add a product to cart using a click event
         $(".addToCart").click(function (event) {
-          event.preventDefault(); // Prevent the default behavior of the anchor tag
-          var productId = $(this).data('product-id'); 
-          //console.log("Product added to cart with ID:", productId);
-          alert("Product Id is"+productId);
-         });
+    event.preventDefault(); // Prevent the default behavior of the anchor tag
+
+    // Retrieve the product ID from the clicked button
+    var productId = $(this).data('product-id');
+
+    // Find the product in the state based on the ID
+    let product = state.products.find((p) => p.id === productId);
+
+    if (product) {
+        // Update the cart state by adding the product
+        state.cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            // Add other relevant properties
+        });
+
+        // Log a message (you can replace this with your actual logic)
+        console.log("Product added to cart:", product);
+
+        // Update the UI or perform other actions as needed
+    }
+});
+
         // Initial load of products when the page is ready
         loadProducts();
     });
 </script>
+<!-- Rest of your HTML content -->
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
@@ -165,7 +191,7 @@
                                     <!-- You can add more information here as needed -->
                                     <p class="card-text">Price: ${{ $product->price }}</p>
                                     <!-- Add more details or customize as necessary -->
-                                    <a href="" data-product-id="{{ $product->id }}" class="btn btn-primary addToCart">Add to Cart</a>
+                                    <a data-product-id="{{ $product->id }}" class="btn btn-primary addToCart">Add to Cart</a>
                                 </div>
                             </div>
                         </div>
