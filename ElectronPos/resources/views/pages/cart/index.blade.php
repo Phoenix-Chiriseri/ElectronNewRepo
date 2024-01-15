@@ -148,15 +148,23 @@
                          id = "searchProduct"
                      />
                  </div>
-                 <div className="order-product">
-                         <div
-                             onClick=""
-                           >
-                             <img src="" alt="" />
-                             <h5>
-                             </h5>
-                         </div>
-                 </div>
+                 <hr>
+                 <div class="order-product row">
+                    @foreach($products as $product)
+                        <div class="col-md-4 mb-4"> <!-- Adjust 'md' based on your responsiveness needs -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $product->name }}</h5>
+                                    <!-- You can add more information here as needed -->
+                                    <p class="card-text">Price: ${{ $product->price }}</p>
+                                    <!-- Add more details or customize as necessary -->
+                                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                
                 </div>
             </div>
         </div>
