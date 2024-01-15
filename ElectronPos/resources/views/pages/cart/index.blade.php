@@ -1,18 +1,13 @@
-<script src="{{ asset('../../assets/css/jquery-3.3.1.min.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('../../assets/css/font-awesome.min.css') }}">
-<script src="{{ asset('../../assets/js/axios.min.js') }}"></script>
-<script src="{{ asset('../../assets/js/ElectronPOE.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script>
     $(document).ready(function () {
-        // Define the state to store products and cart
         const state = {
-            products: {!! json_encode($products) !!}, // Assuming you pass the products from the server
+            products: {!! json_encode($products) !!},
             cart: [],
         };
 
-        // Function that will load the products based on a search query
         function loadProducts(search = "") {
             const query = !!search ? `?search=${search}` : "";
             axios.get(`/products-json/${query}`).then((response) => {
@@ -22,190 +17,117 @@
             });
         }
 
-        // Make calls with axios to the backend to populate the search for a single product.
-        // Using 'input' event instead of 'change' for real-time updates
         $("#searchProduct").on("input", function (event) {
             const product = event.target.value;
             loadProducts(product);
         });
 
-        // If Enter key is pressed, then search for the product
-        $("#searchProduct").on("keydown", function (event) {
-            var code = event.keyCode || event.which;
-            if (code === 13) { // Enter keycode
-                const product = event.target.value;
-                //this.loadProducts(product);
-            }
+        $("#sellItems").on("click", function () {
+            const saleItems = state.cart.map((item) => ({
+                product_id: item.id,
+                quantity: item.quantity || 1,
+            }));
+            
+            //console.log(saleItems);
+            // Send a POST request to your server to handle the sale
+
+            
+
+
         });
 
-        
-        $("#sellItems").on("click",function(){
-            alert("hello world");
-        });
-
-        // Add a product to cart using a click event
         $(".addToCart").click(function (event) {
-            event.preventDefault(); // Prevent the default behavior of the anchor tag
-
-            // Retrieve the product ID from the clicked button
+            event.preventDefault();
             var productId = $(this).data('product-id');
-
-            // Find the product in the state based on the ID
             let product = state.products.find((p) => p.id === productId);
 
             if (product) {
-                // Update the cart state by adding the product
                 state.cart.push({
                     id: product.id,
                     name: product.name,
                     price: product.price,
-                    // Add other relevant properties
+                    quantity: 1,
                 });
 
-                // Log a message (you can replace this with your actual logic)
                 console.log("Product added to cart:", product);
-
-                // Update the UI or perform other actions as needed
                 updateCartUI();
             }
         });
 
-        // Function to update the UI with the cart items
         function updateCartUI() {
-    // Select the table body where cart items will be displayed
-    const cartTableBody = $(".user-cart table tbody");
-    // Clear the existing rows in the table
-    cartTableBody.empty();
-    // Iterate over cart items and append rows to the table
-    state.cart.forEach((item) => {
-        const rowHtml = `
-            <tr>
-                <td>${item.name}</td>
-                <td>
-                    <div class="input-group">
-                        <input
-                            type="number"
-                            class="form-control border border-2 py-1 px-2 quantity-input"
-                            value="${item.quantity || 1}"  // Set the default quantity to 1
-                            data-product-id="${item.id}"
-                        />
-                        <div class="input-group-append">
-                            <button
-                                class="btn btn-danger btn-lg py-1 px-2 remove-item"
-                                data-product-id="${item.id}"
-                            >
-                                <i class="fas fa-trash fa-2x"></i>
-                            </button>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-right">${(item.price * (item.quantity || 1)).toFixed(2)}</td>
-            </tr>
-        `;
+            const cartTableBody = $(".user-cart table tbody");
+            cartTableBody.empty();
 
-        cartTableBody.append(rowHtml);
-    });
+            state.cart.forEach((item) => {
+                const rowHtml = `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>
+                            <div class="input-group">
+                                <input
+                                    type="number"
+                                    class="form-control border border-2 py-1 px-2 quantity-input"
+                                    value="${item.quantity}"
+                                    data-product-id="${item.id}"
+                                />
+                                <div class="input-group-append">
+                                    <button
+                                        class="btn btn-danger btn-lg py-1 px-2 remove-item"
+                                        data-product-id="${item.id}"
+                                    >
+                                        <i class="fas fa-trash fa-2x"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right">${(item.price * item.quantity).toFixed(2)}</td>
+                    </tr>
+                `;
 
-    // Attach event listeners for quantity change and remove item
-    $(".quantity-input").on("input", function () {
-        const productId = $(this).data("product-id");
-        const newQuantity = parseInt($(this).val(), 10);
-        updateCartQuantity(productId, newQuantity);
-    });
+                cartTableBody.append(rowHtml);
+            });
 
-    $(".remove-item").on("click", function () {
-        const productId = $(this).data("product-id");
-        removeCartItem(productId);
-    });
-}
+            $(".quantity-input").on("input", function () {
+                const productId = $(this).data("product-id");
+                const newQuantity = parseInt($(this).val(), 10);
+                updateCartQuantity(productId, newQuantity);
+            });
 
-function updateCartUI() {
-    // Select the table body where cart items will be displayed
-    const cartTableBody = $(".user-cart table tbody");
-    // Clear the existing rows in the table
-    cartTableBody.empty();
+            $(".remove-item").on("click", function () {
+                const productId = $(this).data("product-id");
+                removeCartItem(productId);
+            });
 
-    // Iterate over cart items and append rows to the table
-    state.cart.forEach((item) => {
-        const rowHtml = `
-            <tr>
-                <td>${item.name}</td>
-                <td>
-                    <div class="input-group">
-                        <input
-                            type="number"
-                            class="form-control border border-2 py-1 px-2 quantity-input"
-                            value="${item.quantity || 1}"
-                            data-product-id="${item.id}"
-                        />
-                        <div class="input-group-append">
-                            <button
-                                class="btn btn-danger btn-lg py-1 px-2 remove-item"
-                                data-product-id="${item.id}"
-                            >
-                                <i class="fas fa-trash fa-2x"></i>
-                            </button>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-right">${(item.price * (item.quantity || 1)).toFixed(2)}</td>
-            </tr>
-        `;
-
-        cartTableBody.append(rowHtml);
-    });
-
-
-    // Attach event listeners for quantity change and remove item
-    $(".quantity-input").on("input", function () {
-        const productId = $(this).data("product-id");
-        const newQuantity = parseInt($(this).val(), 10);
-        updateCartQuantity(productId, newQuantity);
-    });
-
-    $(".remove-item").on("click", function () {
-        const productId = $(this).data("product-id");
-        removeCartItem(productId);
-    });
-
-    // Update the total cart value
-    updateTotal();
-}
-
-// Function to update quantity in the cart
-function updateCartQuantity(productId, newQuantity) {
-    // Find the item in the cart
-    const cartItem = state.cart.find((item) => item.id === productId);
-
-    // Update the quantity if the item is found
-    if (cartItem) {
-        cartItem.quantity = newQuantity;
-    }
-
-    // Update the UI
-    updateCartUI();
-}
-
-// Function to remove an item from the cart
-function removeCartItem(productId) {
-    // Remove the item from the cart
-    state.cart = state.cart.filter((item) => item.id !== productId);
-
-    // Update the UI
-    updateCartUI();
-}
-
-// Function to calculate and update the total cart value
-function updateTotal() {
-    const totalValue = state.cart.reduce((total, item) => {
-        return total + item.price * (item.quantity || 1);
-    }, 0).toFixed(2);
-
-    // Update the total value in the UI
-    $("#total-value").text("Total Value is"+' '+' '+totalValue);
-     
+            updateTotal();
         }
-});
+
+        function updateCartQuantity(productId, newQuantity) {
+            const cartItem = state.cart.find((item) => item.id === productId);
+            if (cartItem) {
+                cartItem.quantity = newQuantity;
+            }
+            updateCartUI();
+        }
+
+        function removeCartItem(productId) {
+            state.cart = state.cart.filter((item) => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateTotal() {
+            const totalValue = state.cart.reduce((total, item) => {
+                return total + item.price * item.quantity;
+            }, 0).toFixed(2);
+
+            $("#total-value").text("Total Value is: " + totalValue);
+        }
+
+        function clearCart() {
+            // Implement your logic to clear the cart
+            state.cart = [];
+            updateCartUI();
+        }
+    });
 </script>
 <!-- Rest of your HTML content -->
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
