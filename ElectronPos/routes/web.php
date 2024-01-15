@@ -20,6 +20,7 @@ use App\Http\Controllers\PosController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ElectronPOE;
+use App\Http\Controllers\SaleController;
 
 
 Route::get('/', [DashboardController::class, 'welcome']);
