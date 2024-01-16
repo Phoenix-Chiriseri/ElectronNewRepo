@@ -30,17 +30,28 @@
         //selling the items out of the system
             //Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
             $("#sellItems").on("click", function () {
-    const saleItems = state.cart.map((item) => ({
+    
+                const saleItems = state.cart.map((item) => ({
         product_id: item.id,
         quantity: item.quantity || 1,
     }));
+
+    console.log(saleItems);
 
     const totalValue = state.cart.reduce((total, item) => {
         return total + item.price * (item.quantity || 1);
     }, 0).toFixed(2);
 
-    // Update form data
-    $("#sellForm").append('<input type="hidden" name="saleItems" value="' + JSON.stringify(saleItems) + '">');
+    // Clear previous form data
+    $("#sellForm").find('input[name^="saleItems"]').remove();
+    
+    // Add new form data for each sale item
+    saleItems.forEach((item, index) => {
+        $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][product_id]" value="' + item.product_id + '">');
+        $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][quantity]" value="' + item.quantity + '">');
+    });
+
+    // Add other form data
     $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
     $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
 
