@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Auth;
+use App\Models\Stock;
 
 class SaleController extends Controller
 {
@@ -56,18 +57,18 @@ class SaleController extends Controller
             //saving the sale
             // Deduct items from stock
             foreach ($request->input('saleItems') as $item) {
-                $product = Product::findOrFail($item['product_id']); 
+                $product = Product::findOrFail($item['product_id']);
+                $stock = Stock::where('product_id', $item['product_id'])->firstOrFail();
+    
                 // Check if there's enough stock before deducting
-                if ($product->stock >= $item['quantity']) {
+                if ($stock->quantity >= $item['quantity']) {
                     // Deduct stock
-                    $product->stock -= $item['quantity'];
-                    $product->save();
-
+                    $stock->quantity -= $item['quantity'];
+                    $stock->save();
                 } else {
                     // Handle insufficient stock (you may throw an exception or return an error response)
                     return response()->json(['error' => 'Insufficient stock for product ID ' . $product->id], 422);
                 }
-    
                 // Attach sale items to the sale
                 $sale->items()->create([
                     'product_id' => $item['product_id'],
