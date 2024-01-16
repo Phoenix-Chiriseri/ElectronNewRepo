@@ -34,16 +34,17 @@ class ProductController extends Controller
         return response()->json(["products" => $products]);
     }
 
-    //function that will search the products
-    public function searchProducts(Request $request){
-        $searchTerm = $request->input('product_search');    
-        $products = Product::where('name', 'like', "%$searchTerm%")->get(); 
-        return response()->json(['products' => $products]);
+    public function searchProducts($productName)
+    {
+        // Perform the product search based on the $productName
+        $products = Product::where('name', 'like', '%' . $productName . '%')->get();
+
+        // Return the products as JSON response
+        return response()->json($products);
     }
 
-    
+    //function that will search the products    
     public function editProduct($id){ 
-
         $product = Product::find($id);
         $cattegories=Cattegory::all();
         return view("pages.update-product")->with("product",$product)->with("cattegories",$cattegories);

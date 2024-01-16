@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Auth;
 
 class SaleController extends Controller
 {
@@ -32,15 +34,49 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        $sale = Sale::create(
-            [
-                'total'   => $request->input('total'),
-                'rfc'     => $request->input('rfc'),
-                'id'      => $request->input('id'),
-                'created' => date('Y-m-d')
-            ]
-        );
+            //Validate the incoming data
+            /*$request->validate([
+                'customerName' => 'required|string',
+                'total' => 'required|numeric',
+                'saleItems' => 'required|array',
+                'saleItems.*.product_id' => 'required|exists:products,id',
+                'saleItems.*.quantity' => 'required|integer|min:1',
+            ]);*/
+    
+            $id = Auth::user()->id;;
+            // Create a new Sale instance
+            $sale = new Sale();
+            $sale->user_id = $id;
+            $sale->customer_id = $request->input('customerName');
+            $sale->total = $request->input('total');
+            $sale->save();
+
+            echo "done";
+
+            //saving the sale
+            // Deduct items from stock
+            foreach ($request->input('saleItems') as $item) {
+                $product = Product::findOrFail($item['product_id']); 
+                // Check if there's enough stock before deducting
+                if ($product->stock >= $item['quantity']) {
+                    // Deduct stock
+                    $product->stock -= $item['quantity'];
+                    $product->save();
+
+                } else {
+                    // Handle insufficient stock (you may throw an exception or return an error response)
+                    return response()->json(['error' => 'Insufficient stock for product ID ' . $product->id], 422);
+                }
+    
+                // Attach sale items to the sale
+                $sale->items()->create([
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                ]);
+            }
+            // You can return a response as needed (e.g., success message or the created sale)
+            return response()->json(['message' => 'Sale created successfully']);
+        }
 
          /*if(isset($sale)) {
             $productsArray = (array)json_decode($request->input('products'));
@@ -60,8 +96,7 @@ class SaleController extends Controller
                 return new Response($completed, 201);
             }
         }*/
-        return new Response('Cart was not filled', 500);
-    }
+        //return new Response('Cart was not filled', 500)
 
     /**
      * Display the specified resource.

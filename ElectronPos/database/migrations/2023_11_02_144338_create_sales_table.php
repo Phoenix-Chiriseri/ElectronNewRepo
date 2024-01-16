@@ -12,16 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->id('sale_id');
+
+            $table->id('id');
             $table->float('total');
-            $table->unsignedBigInteger('rfc');
-            $table->unsignedBigInteger('user_id'); // Assuming 'user_id' is the correct foreign key
-            $table->timestamps();
+            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('user_id');  
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Assuming 'user_id' is the correct column to reference in the 'users' table
-            $table->foreign('rfc')->references('id')->on('customers'); // Assuming 'id' is the correct column to reference in the 'customers' table
-            $table->engine = 'InnoDB';
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_general_ci';
+            $table->foreign('customer_id')->references('id')->on('customers'); // Assuming 'id' is the correct column 
+            $table->timestamps();
         });
     }
 

@@ -8,6 +8,19 @@
             cart: [],
         };
 
+        $("#searchSelectedProd").on("keydown", function (event) {
+        if (event.which == 13) {
+        event.preventDefault();
+        var productName = $(this).val();
+
+        axios.get(`/product-json/${productName}`).then((response) => {
+            const products = response;
+            console.log(products);
+            // Handle the retrieved products as needed, e.g., update the UI
+            });
+          }
+        });
+ 
         function loadProducts(search = "") {
             const query = !!search ? `?search=${search}` : "";
             axios.get(`/products-json/${query}`).then((response) => {
@@ -21,6 +34,13 @@
 
         $("#customerName").on("change", function () {
             selectedCustomerName = $(this).val();
+            
+            if(selectedCustomerName==null){
+
+                
+
+            }
+
         });
 
         $("#searchProduct").on("input", function (event) {
@@ -28,33 +48,28 @@
             loadProducts(product);
         });
         //selling the items out of the system
-            //Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
-            $("#sellItems").on("click", function () {
-    
-                const saleItems = state.cart.map((item) => ({
+    //Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
+    $("#sellItems").on("click", function () {
+        const saleItems = state.cart.map((item) => ({
         product_id: item.id,
         quantity: item.quantity || 1,
     }));
 
     console.log(saleItems);
-
     const totalValue = state.cart.reduce((total, item) => {
         return total + item.price * (item.quantity || 1);
     }, 0).toFixed(2);
 
     // Clear previous form data
     $("#sellForm").find('input[name^="saleItems"]').remove();
-    
-    // Add new form data for each sale item
+    //Add new form data for each sale item
     saleItems.forEach((item, index) => {
         $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][product_id]" value="' + item.product_id + '">');
         $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][quantity]" value="' + item.quantity + '">');
     });
-
     // Add other form data
     $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
     $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
-
     // Submit the form
     $("#sellForm").submit();
 });
@@ -187,6 +202,7 @@
                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
                                 @endforeach
                             </select>
+                            <div id = "customerName" hidden></div>
                         </div>
                     </div>
                     <div class="user-cart">
@@ -238,7 +254,7 @@
                          placeholder="Search Product"
                          onChange=""
                          onKeyDown=""
-                         id = "searchProduct"
+                         id = "searchSelectedProd"
                      />
                  </div>
                  <hr>
@@ -250,6 +266,7 @@
                                     <h5 class="card-title">{{ $product->name }}</h5>
                                     <!-- You can add more information here as needed -->
                                     <p class="card-text">Price: ${{ $product->price }}</p>
+                                    <p class="card-text">Price: ${{ $product->quantity }}</p>
                                     <!-- Add more details or customize as necessary -->
                                     <a data-product-id="{{ $product->id }}" class="btn btn-primary addToCart">Add to Cart</a>
                                 </div>
@@ -257,7 +274,6 @@
                         </div>
                     @endforeach
                 </div>
-                
                 </div>
             </div>
         </div>
