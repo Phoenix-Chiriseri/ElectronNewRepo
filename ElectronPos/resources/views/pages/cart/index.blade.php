@@ -20,6 +20,10 @@
             });
           }
         });
+
+        $("#clearCart").on("click",function(){
+            cart.clear();
+        });
  
         function loadProducts(search = "") {
             const query = !!search ? `?search=${search}` : "";
@@ -232,7 +236,7 @@
                             <button
                                 type="button"
                                 class="btn btn-danger btn-block"
-                                onClick=""
+                                onClick="" id = "clearCart"
                                 
                             >
                                 Cancel
