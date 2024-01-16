@@ -17,7 +17,7 @@ class CattegoryController extends Controller
     public function viewCattegories()
     {
         //$cattegories = Cattegory::all();
-        $cattegories = Cattegory::orderBy("id", "desc")->get();
+        $cattegories = Cattegory::orderBy("id", "desc")->paginate(10);;
         $numberOfCattegories = Cattegory::all()->count();
         return view("pages.view-cattegories")->with("cattegories",$cattegories)->with("numberOfCattegories",$numberOfCattegories);
     }

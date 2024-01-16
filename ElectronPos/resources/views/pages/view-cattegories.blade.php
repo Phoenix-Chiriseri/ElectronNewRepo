@@ -63,6 +63,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{$cattegories->links()}}
                             </div>
                         </div>
                     </div>
