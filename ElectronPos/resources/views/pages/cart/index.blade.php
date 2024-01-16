@@ -27,55 +27,28 @@
             const product = event.target.value;
             loadProducts(product);
         });
-
-
         //selling the items out of the system
-        $("#sellItems").on("click", function () {
-    // Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
-
-     const saleItems = state.cart.map((item) => ({
+            //Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
+            $("#sellItems").on("click", function () {
+    const saleItems = state.cart.map((item) => ({
         product_id: item.id,
         quantity: item.quantity || 1,
     }));
 
-    // Calculate the total value
     const totalValue = state.cart.reduce((total, item) => {
         return total + item.price * (item.quantity || 1);
     }, 0).toFixed(2);
 
-    // Include the selected customer name, quantities, and total in the request data
-    const requestData = {
-        saleItems,
-        customerName: selectedCustomerName,
-        total: totalValue,
-    };
-    // Include the CSRF token in the headers
-    const headers = {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    };
+    // Update form data
+    $("#sellForm").append('<input type="hidden" name="saleItems" value="' + JSON.stringify(saleItems) + '">');
+    $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
+    $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
 
-    $.ajax({
-    url: "/api/sell",
-    type: "POST",
-    data: JSON.stringify(requestData),
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    dataType: 'JSON',
-    success: function (response) {
-        // Handle successful sale
-        console.log("Sale successful:", response);
-        clearCart();
-    },
-    error: function (error) {
-        // Handle errors
-        //console.error("Error selling products:", error);
-    },
+    // Submit the form
+    $("#sellForm").submit();
 });
 
-});
-
-        $(".addToCart").click(function (event) {
+     $(".addToCart").click(function (event) {
             event.preventDefault();
             var productId = $(this).data('product-id');
             let product = state.products.find((p) => p.id === productId);
@@ -175,6 +148,7 @@
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage='Sell Product'></x-navbars.navs.auth>
         <!-- End Navbar -->
+        <body>
         <div class="container-fluid px-2 px-md-4">
             <div class="row">
                 <div class="col-md-6">
@@ -215,10 +189,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                       
-                                       
-                                    </tr>
+                                
                                 </tbody>
                             </table>
                         </div>
@@ -240,15 +211,11 @@
                                 Cancel
                             </button>
                         </div>
-                        <div class="col">
-                            <form method="post" action="{{ route('submit.sale') }}">
-                                @csrf
-                                <!-- Your other form fields go here -->
-                                <button type="submit" class="btn btn-dark btn-block btn-submit" id="sellItems">
-                                    Submit
-                                </button>
-                            </form>
-                        </div>
+                        <form method="POST" action="/sell" id="sellForm">
+                            @csrf
+                            <!-- Add other form fields here if needed -->
+                            <button type="submit" class="btn btn-dark btn-block" id="sellItems">Submit</button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -285,4 +252,5 @@
         </div>
         <x-plugins></x-plugins>
     </div>
+</body>
 </x-layout>

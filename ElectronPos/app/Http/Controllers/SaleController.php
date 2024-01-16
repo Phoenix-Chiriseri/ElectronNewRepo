@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SaleController extends Controller
 {
@@ -31,11 +32,7 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-
         dd($request->all());
-        //echo "hello world";
-        //dd($request->all());
-        //create a sale
         $sale = Sale::create(
             [
                 'total'   => $request->input('total'),

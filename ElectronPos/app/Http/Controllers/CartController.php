@@ -13,9 +13,12 @@ class CartController extends Controller
 {
     public function index()
     {
-        $customers = Customer::orderBy("id","desc");
-        $products = Product::all();
-        return view('cart.index')->with("customers",$customers)->with("products",$products);
+        $customers = Customer::orderBy("id", "desc")->get(); // Retrieve customers
+        $products = Product::all(); // Retrieve products
+        // Assuming you have some logic to prepare the $state variable
+        // Pass the variables to the view
+        return view('cart.index', compact('customers', 'products'));
+    
     }
 
     public function addToCart(Product $product)
