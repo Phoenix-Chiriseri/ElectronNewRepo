@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
 
             $table->id('id');
-            $table->float('total');
             $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('user_id');  
+            $table->unsignedBigInteger('user_id');
+            $table->float('total');
+            $table->string("received_amount");
+            $table->string("change");  
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Assuming 'user_id' is the correct column to reference in the 'users' table
             $table->foreign('customer_id')->references('id')->on('customers'); // Assuming 'id' is the correct column 
             $table->timestamps();

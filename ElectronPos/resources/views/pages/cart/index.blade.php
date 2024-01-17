@@ -7,6 +7,7 @@
         const state = {
             products: {!! json_encode($products) !!},
             cart: [],
+
         };
 
         $("#searchSelectedProd").on("keydown", function (event) {
@@ -34,6 +35,8 @@
                 // Handle the retrieved products as needed, e.g., update the UI
             });
         }
+
+        loadProducts();
 
         let selectedCustomerName = "";
 
@@ -204,7 +207,22 @@
             updateCartUI();
         }
     });
+
+    
 </script>
+@if(session('message'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('message') }}',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        });
+    </script>
+@endif
 <!-- Rest of your HTML content -->
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
@@ -304,7 +322,6 @@
                                     <h5 class="card-title">{{ $product->name }}</h5>
                                     <!-- You can add more information here as needed -->
                                     <p class="card-text">Price: ${{ $product->price }}</p>
-                                    <p class="card-text">Price: ${{ $product->quantity }}</p>
                                     <!-- Add more details or customize as necessary -->
                                     <a data-product-id="{{ $product->id }}" class="btn btn-primary addToCart">Add to Cart</a>
                                 </div>

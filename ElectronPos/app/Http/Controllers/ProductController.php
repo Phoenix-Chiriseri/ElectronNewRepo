@@ -16,21 +16,26 @@ class ProductController extends Controller
     //view all the products
     public function viewProducts()
     {
-        /*$products = DB::table('cattegories')
+        $products = DB::table('cattegories')
         ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('products.*','cattegories.cattegory_name')
         ->get();
         $productCount = DB::table('cattegories')
         ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('*')
-        ->count(); */
+        ->count();
         $products = Product::orderBy("id", "desc")->paginate(10);
         $productCount = Product::all()->count();  
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
     public function getProductsJson(){
-        $products = Product::orderBy("id","desc")->get();
+        //$products = Product::orderBy("id","desc")->get();
+       $products = DB::table('products')
+        ->leftJoin('stocks', 'stocks.product_id', '=', 'products.id')
+        ->select('products.id', 'products.name', 'products.price', DB::raw('SUM(stocks.quantity) as stock'))
+        ->groupBy('products.id', 'products.name', 'products.price') // Include 'stock' in the GROUP BY
+        ->get();
         return response()->json(["products" => $products]);
     }
 
