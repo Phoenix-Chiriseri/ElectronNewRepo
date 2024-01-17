@@ -23,6 +23,7 @@ use App\Http\Controllers\ElectronPOE;
 use App\Http\Controllers\SaleController;
 
 
+
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -42,6 +43,7 @@ Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('aut
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
+	Route::get('/view-orders', [OrdersController::class, 'index'])->name('orders-index');
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
@@ -76,6 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-employees', [EmployeeController::class, 'viewEmployees'])->name('view-employees');
 	Route::get('/view-cattegories', [CattegoryController::class, 'viewCattegories'])->name('view-cattegories');
 	Route::get('/view-suppliers', [SupplierController::class, 'viewSuppliers'])->name('view-suppliers');
+	
 	Route::get('/create-customers', [CustomerController::class, 'create'])->name('create-customers');
 	Route::get('/view-stock', [StockController::class, 'viewStock'])->name('view-stock');
 	Route::get('/view-all-stock-items', [StockController::class, 'viewAllStockItems'])->name('viewall-stock');
