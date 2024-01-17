@@ -26,14 +26,18 @@
                                                Customer Name
                                             </th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Quantity
+                                               Received Total
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Stock Value
+                                               Paid Amount
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Unit Of Measurement
-                                            </th>
+                                                Change
+                                             </th>
+                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Created At
+                                             </th>
+                                        
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,11 +49,40 @@
                                                         <h6 class="mb-0 text-sm">{{$sale->customer_name}}</h6>
                                                     </div>
                                                 </div>
-                                            </td>       
+                                            </td>  
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$sale->total}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>  
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$sale->received_amount}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td> 
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$sale->change}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>  
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$sale->created_at}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>  
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{$sales->links()}}
                             </div>
                         </div>
                     </div>
