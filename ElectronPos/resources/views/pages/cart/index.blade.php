@@ -56,13 +56,18 @@
     //Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
 
     $("#sellItems").on("click", function (event) {
+    event.preventDefault();
+
+    // Calculate totalValue before showing the SweetAlert
+    const totalValue = state.cart.reduce((total, item) => {
+        return total + item.price * (item.quantity || 1);
+    }, 0).toFixed(2);
+
     // Show SweetAlert input box for received amount
-
-        event.preventDefault();
-
     Swal.fire({
         title: 'Enter Received Amount',
         input: 'number',
+        icon: 'info',
         inputAttributes: {
             autocapitalize: 'off',
         },
@@ -71,7 +76,7 @@
         cancelButtonText: 'Cancel',
         showLoaderOnConfirm: true,
         preConfirm: (receivedAmount) => {
-            if (!receivedAmount || receivedAmount < 0) {
+            if (!receivedAmount || receivedAmount < totalValue) {
                 Swal.showValidationMessage('Invalid received amount');
             }
             return receivedAmount;
@@ -83,10 +88,6 @@
                 product_id: item.id,
                 quantity: item.quantity || 1,
             }));
-
-            const totalValue = state.cart.reduce((total, item) => {
-                return total + item.price * (item.quantity || 1);
-            }, 0).toFixed(2);
 
             const receivedAmount = parseFloat(result.value) || 0;
             const change = totalValue - receivedAmount;
@@ -109,6 +110,7 @@
         }
     });
 });
+
 
      $(".addToCart").click(function (event) {
             event.preventDefault();
