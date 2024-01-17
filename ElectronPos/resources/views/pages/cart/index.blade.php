@@ -1,5 +1,6 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
     $(document).ready(function () {
@@ -54,28 +55,53 @@
         //selling the items out of the system
     //Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
     $("#sellItems").on("click", function () {
-        const saleItems = state.cart.map((item) => ({
-        product_id: item.id,
-        quantity: item.quantity || 1,
-    }));
+    // Show SweetAlert input box for received amount
+    Swal.fire({
+        title: 'Enter Received Amount',
+        input: 'number',
+        inputAttributes: {
+            autocapitalize: 'off',
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Sell',
+        cancelButtonText: 'Cancel',
+        showLoaderOnConfirm: true,
+        preConfirm: (receivedAmount) => {
+            if (!receivedAmount || receivedAmount < 0) {
+                Swal.showValidationMessage('Invalid received amount');
+            }
+            return receivedAmount;
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+        if (result.isConfirmed) {
+            const saleItems = state.cart.map((item) => ({
+                product_id: item.id,
+                quantity: item.quantity || 1,
+            }));
 
-    console.log(saleItems);
-    const totalValue = state.cart.reduce((total, item) => {
-        return total + item.price * (item.quantity || 1);
-    }, 0).toFixed(2);
+            const totalValue = state.cart.reduce((total, item) => {
+                return total + item.price * (item.quantity || 1);
+            }, 0).toFixed(2);
 
-    // Clear previous form data
-    $("#sellForm").find('input[name^="saleItems"]').remove();
-    //Add new form data for each sale item
-    saleItems.forEach((item, index) => {
-        $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][product_id]" value="' + item.product_id + '">');
-        $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][quantity]" value="' + item.quantity + '">');
+            const receivedAmount = parseFloat(result.value) || 0;
+            const change = totalValue-receivedAmount;
+            // Clear previous form data
+            $("#sellForm").find('input[name^="saleItems"]').remove();
+            // Add new form data for each sale item
+            saleItems.forEach((item, index) => {
+                $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][product_id]" value="' + item.product_id + '">');
+                $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][quantity]" value="' + item.quantity + '">');
+            });
+            // Add other form data
+            $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
+            $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
+            $("#sellForm").append('<input type="hidden" name="receivedAmount" value="' + receivedAmount + '">');
+            $("#sellForm").append('<input type="hidden" name="change" value="' + change + '">');
+            // Submit the form
+            $("#sellForm").submit();
+        }
     });
-    // Add other form data
-    $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
-    $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
-    // Submit the form
-    $("#sellForm").submit();
 });
 
      $(".addToCart").click(function (event) {

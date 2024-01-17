@@ -43,6 +43,8 @@ class SaleController extends Controller
                 'saleItems.*.product_id' => 'required|exists:products,id',
                 'saleItems.*.quantity' => 'required|integer|min:1',
             ]);*/
+
+            dd($request->all());
     
             $id = Auth::user()->id;;
             // Create a new Sale instance
