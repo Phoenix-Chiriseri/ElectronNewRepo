@@ -1,7 +1,6 @@
 <?php
 
 
-
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
@@ -51,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
 	//Route::post('/addcart/{id}',[CartController::class],'addToCart')->name('add-to-cart');
 	Route::get('/search/products', [ProductController::class, 'searchProducts'])->name('/search/products');
+	Route::get('/view-sales', [SalesController::class, 'index'])->name('sales.index');
 	Route::get('/create-stock', [StockController::class, 'create'])->name('create-stock');
 	Route::post('/submit-product', [ProductController::class, 'store'])->name('submit-product');
 	Route::get('/updateProduct/{id}', [ProductController::class, 'editProduct'])->name('updateProduct');
@@ -102,7 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
 	//Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
 	//sales controller (route to get the controller for sales)
-	Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
+	Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
     Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
     Route::delete('/cart/delete', [CartController::class, 'delete']);

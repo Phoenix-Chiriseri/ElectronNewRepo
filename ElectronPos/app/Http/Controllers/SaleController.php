@@ -18,6 +18,8 @@ class SaleController extends Controller
     public function index()
     {
         //
+        $sales = Sale::orderBy('id','desc')->get();
+        return view("pages.view-sales")->with("sales",$sales);
     }
 
     /**
