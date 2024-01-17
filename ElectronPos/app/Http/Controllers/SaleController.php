@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sales;
+use App\Models\Sale;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -55,7 +56,7 @@ class SaleController extends Controller
             ]);*/
             $id = Auth::user()->id;;
             // Create a new Sale instance
-            $sale = new Sale();
+            $sale = new Sales();
             $sale->user_id = $id;
             $sale->customer_id = $request->input('customerName');
             $sale->total = $request->input('total');
