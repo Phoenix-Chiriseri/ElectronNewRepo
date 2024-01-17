@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sale;
+use App\Models\Sales;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,8 +18,16 @@ class SaleController extends Controller
     public function index()
     {
         //
-        $sales = Sale::orderBy('id','desc')->get();
-        return view("pages.view-sales")->with("sales",$sales);
+        $sales = Sales::leftJoin('users', 'users.id', '=', 'sales.user_id')
+        ->leftJoin('customers', 'sales.customer_id', '=', 'customers.id') // Corrected condition
+        ->select(
+            'sales.*',
+            'users.*',
+            'customers.*',
+        )
+        ->orderBy('sales.id', 'desc')
+        ->paginate(5);
+        return view("view-sales")->with("sales",$sales);
     }
 
     /**
