@@ -54,8 +54,12 @@
         });
         //selling the items out of the system
     //Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
-    $("#sellItems").on("click", function () {
+
+    $("#sellItems").on("click", function (event) {
     // Show SweetAlert input box for received amount
+
+        event.preventDefault();
+
     Swal.fire({
         title: 'Enter Received Amount',
         input: 'number',
@@ -73,7 +77,7 @@
             return receivedAmount;
         },
         allowOutsideClick: () => !Swal.isLoading(),
-        }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             const saleItems = state.cart.map((item) => ({
                 product_id: item.id,
@@ -85,7 +89,8 @@
             }, 0).toFixed(2);
 
             const receivedAmount = parseFloat(result.value) || 0;
-            const change = totalValue-receivedAmount;
+            const change = totalValue - receivedAmount;
+
             // Clear previous form data
             $("#sellForm").find('input[name^="saleItems"]').remove();
             // Add new form data for each sale item
@@ -98,6 +103,7 @@
             $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
             $("#sellForm").append('<input type="hidden" name="receivedAmount" value="' + receivedAmount + '">');
             $("#sellForm").append('<input type="hidden" name="change" value="' + change + '">');
+
             // Submit the form
             $("#sellForm").submit();
         }
