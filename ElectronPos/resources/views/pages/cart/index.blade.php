@@ -73,7 +73,7 @@ loadProducts();
                 cancelButtonText: 'Cancel',
                 showLoaderOnConfirm: true,
                 preConfirm: (receivedAmount) => {
-                    if (!receivedAmount || receivedAmount < totalValue) {
+                    if (!receivedAmount || receivedAmount<totalValue) {
                         Swal.showValidationMessage('Invalid received amount');
                     }
                     return receivedAmount;
@@ -252,7 +252,7 @@ loadProducts();
                         </div>
                         <div class="col">
                             <select class="form-control border border-2 p-2" id="selectedCustomerName" required>
-                                <option value="">Walking Customer</option>
+                                <option value="">Select Customer</option>
                                 @foreach($customers as $customer)
                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
                                 @endforeach
