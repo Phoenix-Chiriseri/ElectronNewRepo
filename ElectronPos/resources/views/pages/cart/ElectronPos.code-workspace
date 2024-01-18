@@ -4,10 +4,22 @@
 			"path": "../../../.."
 		},
 		{
-			"path": "../../../../../../Downloads/sprystore-starter_Free30-04-2020_914133946"
+			"path": "../../../../../larapos-master"
 		},
 		{
-			"path": "../../../../../WeChoose2Care"
+			"path": "../../../../../../QrCodeScanner"
+		},
+		{
+			"path": "../../../../../../Downloads/PointofSale-Laravel (1)"
+		},
+		{
+			"path": "../../../../../../Downloads/laravel-pos-master/laravel-pos-master"
+		},
+		{
+			"path": "../../../../../../Downloads/soft-ui-dashboard-main/soft-ui-dashboard-main"
+		},
+		{
+			"path": "../../../../../laravel-pos"
 		}
 	],
 	"settings": {}

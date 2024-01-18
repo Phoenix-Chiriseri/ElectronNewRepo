@@ -20,14 +20,14 @@ class SupplierController extends Controller
 
     public function viewSuppliers()
     {
-        $suppliers = DB::table('suppliers')
-        ->leftJoin('users', 'suppliers.user_id', '=', 'users.id')
-        ->select('users.*', 'suppliers.*')
-        ->orderBy('suppliers.id', 'desc')  // Use 'orderBy' instead of 'orderby'
+        $suppliers = Supplier::leftJoin('users', 'suppliers.user_id', '=', 'users.id')
+        ->select('users.name', 'suppliers.*')
+        ->orderBy('suppliers.id', 'desc')
         ->get();
+        //dd($suppliers);
         //return the number of suppliers to the suppliers view
-        $numberOfSuppliers = Supplier::all()->count();
-         return view('pages.view-suppliers')->with("suppliers",$suppliers)->with("numberOfSuppliers",$suppliers);
+        //$numberOfSuppliers = Supplier::all()->count();
+         return view('pages.view-suppliers')->with("suppliers",$suppliers);
     }
 
     

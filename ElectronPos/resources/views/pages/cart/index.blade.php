@@ -42,13 +42,6 @@
 
         $("#customerName").on("change", function () {
             selectedCustomerName = $(this).val();
-            
-            if(selectedCustomerName==null){
-
-                
-
-            }
-
         });
 
         $("#searchProduct").on("input", function (event) {
@@ -85,16 +78,18 @@
             return receivedAmount;
         },
         allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
+        }).then((result) => {
         if (result.isConfirmed) {
             const saleItems = state.cart.map((item) => ({
                 product_id: item.id,
                 quantity: item.quantity || 1,
             }));
-
             const receivedAmount = parseFloat(result.value) || 0;
-            const change = totalValue - receivedAmount;
-
+            const change = totalValue -+ receivedAmount;
+            if(selectedCustomerName==null){
+                $("showCustomerMessage").show();
+                $("showCustomerMessage").html("Please Enter A Customer Name");
+            }
             // Clear previous form data
             $("#sellForm").find('input[name^="saleItems"]').remove();
             // Add new form data for each sale item
@@ -102,6 +97,14 @@
                 $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][product_id]" value="' + item.product_id + '">');
                 $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][quantity]" value="' + item.quantity + '">');
             });
+
+            var selectedCustomerName = $"#selectedCustomerName").val();
+
+            if(selectedCustomerName==null){
+
+                alert("please enter customer name");
+            }
+
             // Add other form data
             $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
             $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
@@ -113,7 +116,6 @@
         }
     });
 });
-
 
      $(".addToCart").click(function (event) {
             event.preventDefault();
@@ -207,7 +209,6 @@
             updateCartUI();
         }
     });
-
     
 </script>
 @if(session('message'))
@@ -252,13 +253,13 @@
                             </form>
                         </div>
                         <div class="col">
-                            <select class="form-control border border-2 p-2" id="customerName">
+                            <select class="form-control border border-2 p-2" id="customerName" required>
                                 <option value="">Walking Customer</option>
                                 @foreach($customers as $customer)
                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
                                 @endforeach
                             </select>
-                            <div id = "customerName" hidden></div>
+                            <div id = "showCustomerMessage" hidden></div>
                         </div>
                     </div>
                     <div class="user-cart">
@@ -288,8 +289,7 @@
                             <button
                                 type="button"
                                 class="btn btn-danger btn-block"
-                                onClick="" id = "clearCart"
-                                
+                                onClick="clearCart()" id = "clearCart"
                             >
                                 Cancel
                             </button>
