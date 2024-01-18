@@ -63,7 +63,7 @@ class SaleController extends Controller
             $sale->total = $request->input('total');
             $sale->received_amount = $request->input("receivedAmount");
             $sale->change = $request->input("change");
-            $sale->save();
+            //$sale->save();
             //saving the sale
             // Deduct items from stock
             foreach ($request->input('saleItems') as $item) {
