@@ -16,10 +16,10 @@ class ProductController extends Controller
     //view all the products
     public function viewProducts()
     {
-        $products = DB::table('cattegories')
+        /*$products = DB::table('cattegories')
         ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('products.*','cattegories.cattegory_name')
-        ->get();
+        ->get();*/
         $productCount = DB::table('cattegories')
         ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('*')

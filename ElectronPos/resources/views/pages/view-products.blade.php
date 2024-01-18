@@ -28,10 +28,6 @@
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                                 Product Name</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                               Cattegory Name</th>
-    
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Description</th>
@@ -41,6 +37,9 @@
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Selling Price</th>
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Unit Of Measurement</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Created At</th>
@@ -78,11 +77,11 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{$product->unit_of_measurement}}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{$product->selling_price}}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{$product->selling_price}}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{$product->unit_of_measurement}}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
