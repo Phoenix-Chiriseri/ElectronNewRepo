@@ -7,26 +7,26 @@
         const state = {
             products: {!! json_encode($products) !!},
             cart: [],
-
         };
 
         $("#searchSelectedProd").on("keydown", function (event) {
-        if (event.which == 13) {
-        event.preventDefault();
-        var productName = $(this).val();
+            if (event.which == 13) {
+                event.preventDefault();
+                var productName = $(this).val();
 
-        axios.get(`/product-json/${productName}`).then((response) => {
-            const products = response;
-            console.log(products);
-            // Handle the retrieved products as needed, e.g., update the UI
-            });
-          }
+                axios.get(`/product-json/${productName}`).then((response) => {
+                    const products = response.data; // Use response.data to get the actual data
+                    console.log(products);
+                    // Handle the retrieved products as needed, e.g., update the UI
+                });
+            }
         });
 
-        $("#clearCart").on("click",function(){
-            cart.clear();
+        $("#clearCart").on("click", function () {
+            state.cart = []; // Corrected from cart.clear();
+            updateCartUI();
         });
- 
+
         function loadProducts(search = "") {
             const query = !!search ? `?search=${search}` : "";
             axios.get(`/products-json/${query}`).then((response) => {
@@ -48,76 +48,75 @@
             const product = event.target.value;
             loadProducts(product);
         });
-        //selling the items out of the system
-    //Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
 
-    $("#sellItems").on("click", function (event) {
-    event.preventDefault();
+        // Selling the items out of the system
+        // Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
 
-    // Calculate totalValue before showing the SweetAlert
-    const totalValue = state.cart.reduce((total, item) => {
-        return total + item.price * (item.quantity || 1);
-    }, 0).toFixed(2);
+        $("#sellItems").on("click", function (event) {
+            event.preventDefault();
 
-    // Show SweetAlert input box for received amount
-    Swal.fire({
-        title: 'Enter Received Amount',
-        input: 'number',
-        icon: 'info',
-        inputAttributes: {
-            autocapitalize: 'off',
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Sell',
-        cancelButtonText: 'Cancel',
-        showLoaderOnConfirm: true,
-        preConfirm: (receivedAmount) => {
-            if (!receivedAmount || receivedAmount < totalValue) {
-                Swal.showValidationMessage('Invalid received amount');
-            }
-            return receivedAmount;
-        },
-        allowOutsideClick: () => !Swal.isLoading(),
-        }).then((result) => {
-        if (result.isConfirmed) {
-            const saleItems = state.cart.map((item) => ({
-                product_id: item.id,
-                quantity: item.quantity || 1,
-            }));
-            const receivedAmount = parseFloat(result.value) || 0;
-            const change = totalValue -+ receivedAmount;
-            if(selectedCustomerName==null){
-                $("showCustomerMessage").show();
-                $("showCustomerMessage").html("Please Enter A Customer Name");
-            }
-            // Clear previous form data
-            $("#sellForm").find('input[name^="saleItems"]').remove();
-            // Add new form data for each sale item
-            saleItems.forEach((item, index) => {
-                $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][product_id]" value="' + item.product_id + '">');
-                $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][quantity]" value="' + item.quantity + '">');
+            // Calculate totalValue before showing the SweetAlert
+            const totalValue = state.cart.reduce((total, item) => {
+                return total + item.price * (item.quantity || 1);
+            }, 0).toFixed(2);
+
+            // Show SweetAlert input box for received amount
+            Swal.fire({
+                title: 'Enter Received Amount',
+                input: 'number',
+                icon: 'info',
+                inputAttributes: {
+                    autocapitalize: 'off',
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Sell',
+                cancelButtonText: 'Cancel',
+                showLoaderOnConfirm: true,
+                preConfirm: (receivedAmount) => {
+                    if (!receivedAmount || receivedAmount < totalValue) {
+                        Swal.showValidationMessage('Invalid received amount');
+                    }
+                    return receivedAmount;
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const saleItems = state.cart.map((item) => ({
+                        product_id: item.id,
+                        quantity: item.quantity || 1,
+                    }));
+                    const receivedAmount = parseFloat(result.value) || 0;
+                    const change = totalValue - receivedAmount;
+                    if (selectedCustomerName == "") { // Corrected from null
+                        $("#showCustomerMessage").show();
+                        $("#showCustomerMessage").html("Please Enter A Customer Name");
+                    }
+                    // Clear previous form data
+                    $("#sellForm").find('input[name^="saleItems"]').remove();
+                    // Add new form data for each sale item
+                    saleItems.forEach((item, index) => {
+                        $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][product_id]" value="' + item.product_id + '">');
+                        $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][quantity]" value="' + item.quantity + '">');
+                    });
+
+                    var selectedCustomerName = $("#selectedCustomerName").val(); // Corrected from $"#selectedCustomerName").val();
+
+                    if (selectedCustomerName == "") {
+                        alert("Please enter customer name");
+                    }
+                    // Add other form data
+                    $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
+                    $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
+                    $("#sellForm").append('<input type="hidden" name="receivedAmount" value="' + receivedAmount + '">');
+                    $("#sellForm").append('<input type="hidden" name="change" value="' + change + '">');
+
+                    // Submit the form
+                    $("#sellForm").submit();
+                }
             });
+        });
 
-            var selectedCustomerName = $"#selectedCustomerName").val();
-
-            if(selectedCustomerName==null){
-
-                alert("please enter customer name");
-            }
-
-            // Add other form data
-            $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
-            $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
-            $("#sellForm").append('<input type="hidden" name="receivedAmount" value="' + receivedAmount + '">');
-            $("#sellForm").append('<input type="hidden" name="change" value="' + change + '">');
-
-            // Submit the form
-            $("#sellForm").submit();
-        }
-    });
-});
-
-     $(".addToCart").click(function (event) {
+        $(".addToCart").click(function (event) {
             event.preventDefault();
             var productId = $(this).data('product-id');
             let product = state.products.find((p) => p.id === productId);
@@ -204,13 +203,12 @@
         }
 
         function clearCart() {
-            // Implement your logic to clear the cart
             state.cart = [];
             updateCartUI();
         }
     });
-    
 </script>
+
 @if(session('message'))
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -253,7 +251,7 @@
                             </form>
                         </div>
                         <div class="col">
-                            <select class="form-control border border-2 p-2" id="customerName" required>
+                            <select class="form-control border border-2 p-2" id="selectedCustomerName" required>
                                 <option value="">Walking Customer</option>
                                 @foreach($customers as $customer)
                                     <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
