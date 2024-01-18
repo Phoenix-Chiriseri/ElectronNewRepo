@@ -67,8 +67,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-cattegory', [CattegoryController::class, 'store'])->name('submit-cattegory');
 	Route::post('/submit-employee', [EmployeeController::class, 'store'])->name('submit-employee');
 	Route::get('/sell-product', [SalesController::class, 'create'])->name('sell-product');
+	Route::get('/products-json/{productName}', [ProductController::class, 'searchByName'])->name('products.searchByName');
 	//loop through the products and then add them to cart
-	
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
 	Route::post('/submit-suppliers', [SupplierController::class, 'store'])->name('submit-suppliers');
 	Route::get('/create-sales', [SalesController::class, 'index'])->name('create-sales');

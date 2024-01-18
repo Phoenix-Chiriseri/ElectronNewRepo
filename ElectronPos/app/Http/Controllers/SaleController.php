@@ -76,7 +76,8 @@ class SaleController extends Controller
                     $stock->save();
                 } else {
                     // Handle insufficient stock (you may throw an exception or return an error response)
-                    return response()->json(['error' => 'Insufficient stock for product ID ' . $product->id], 422);
+                    //return response()->json(['error' => 'Insufficient Stock For Product ' . $product->name], 422);
+                    return redirect()->back()->with('error', 'Insufficient Stock For Product ' . $product->name);
                 }
                 // Attach sale items to the sale
                 /*$sale->items()->create([

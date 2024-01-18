@@ -10,34 +10,33 @@
             cart: [],
         };
 
-        $("#searchSelectedProd").on("keydown", function (event) {
-            if (event.which == 13) {
-                event.preventDefault();
-                var productName = $(this).val();
-
-                axios.get(`/product-json/${productName}`).then((response) => {
-                    const products = response.data; // Use response.data to get the actual data
-                    console.log(products);
-                    // Handle the retrieved products as needed, e.g., update the UI
-                });
-            }
-        });
-
+        //function to clear the cart
         $("#clearCart").on("click", function () {
             state.cart = []; // Corrected from cart.clear();
             updateCartUI();
         });
 
         function loadProducts(search = "") {
-            const query = !!search ? `?search=${search}` : "";
-            axios.get(`/products-json/${query}`).then((response) => {
-                const products = response.data;
-                console.log(products);
-                // Handle the retrieved products as needed, e.g., update the UI
-            });
-        }
+    const query = !!search ? `?search=${search}` : "";
+    axios.get(`/products-json/${query}`).then((response) => {
+        const products = response.data;
+        console.log('Products:', products);
+        // Handle the retrieved products as needed, e.g., update the UI
+    });
+}
 
-        loadProducts();
+$("#searchSelectedProd").on("keydown", function (event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        var productName = $(this).val();
+        console.log('Search Term:', productName);
+        // Load the products with the productName
+        loadProducts(productName);
+    }
+});
+
+// Load products initially (without search term)
+loadProducts();
 
         let selectedCustomerName = "";
 
@@ -288,7 +287,7 @@
                             <button
                                 type="button"
                                 class="btn btn-danger btn-block"
-                                onClick="clearCart()" id = "clearCart"
+                                onClick="" id = "clearCart"
                             >
                                 Cancel
                             </button>
@@ -312,6 +311,18 @@
                          id = "searchSelectedProd"
                      />
                  </div>
+                 @if(session('error'))
+                 <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="color: white;">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <script>
+                    // Automatically dismiss the alert after 5000 milliseconds (5 seconds)
+                    setTimeout(function() {
+                        $("#errorAlert").alert('close');
+                    }, 1500);
+                </script>
+                @endif
                  <hr>
                  <div class="order-product row">
                     @foreach($products as $product)
