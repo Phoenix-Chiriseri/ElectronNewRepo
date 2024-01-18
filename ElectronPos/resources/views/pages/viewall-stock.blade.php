@@ -14,7 +14,6 @@
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Stock Report</h6>
                                 <h6 class="text-white text-capitalize ps-3">Number Of Items In Stock {{ $stockCount }}</h6>
-                                <h6 class="text-white text-capitalize ps-3">Total Amount {{ $totalStock[0]->total }}</h6>
                             </div>
                             <hr>
                             <button class="btn btn-info" onclick="generatePDF()">Export To Pdf</button>
