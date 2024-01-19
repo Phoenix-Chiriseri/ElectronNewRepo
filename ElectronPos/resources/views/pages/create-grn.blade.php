@@ -15,7 +15,7 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <a class="btn btn-danger" href="{{ route('create-grn-view') }}"
+                                <a class="btn btn-danger brn-lg" href="{{ route('create-grn-view') }}"
                                 role="tab" aria-selected="true">
                                 <i class="material-icons text-lg position-relative"></i>
                                 <span class="ms-1">Add GRN</span>

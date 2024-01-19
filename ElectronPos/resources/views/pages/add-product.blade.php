@@ -134,10 +134,17 @@ $(document).ready(function(){
         </div>
         <div class="mb-3 col-md-12">
             <label class="form-label">Unit Of Measurement</label>
-            <input type="number" name="unit_of_measurement" class="form-control border border-2 p-2" required>
-            @error('unit_of_measurement')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
+            <div class="form-group">
+                <label for="unit">Select Unit</label>
+                <select name="unit" class="form-control border border-2 p-2" required>
+                    <option value="each">Each</option>
+                    <option value="g">Grams (g)</option>
+                    <option value="kg">Kilograms (kg)</option>
+                    <option value="l">Liters (l)</option>
+                    <option value="lb">Pounds (lb)</option>
+                    <option value="m">Meters (m)</option>
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <label for="category_id">Select Category</label>
