@@ -20,6 +20,12 @@
 		},
 		{
 			"path": "../../../../../laravel-pos"
+		},
+		{
+			"path": "../../../../../QrCode"
+		},
+		{
+			"path": "../../../../../triangle-pos"
 		}
 	],
 	"settings": {}

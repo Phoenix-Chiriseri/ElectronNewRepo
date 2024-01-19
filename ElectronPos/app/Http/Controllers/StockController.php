@@ -56,7 +56,6 @@ class StockController extends Controller
         ->select('stocks.*','suppliers.supplier_name','products.name')
         ->count();
         $stockCount = $stocks->count();
-
         return view("pages.viewall-stock")->with("stocks",$stocks)->with("stockCount",$stockCount)->with("totalStock",$totalStock);
     }
    

@@ -16,12 +16,10 @@ class CattegoryController extends Controller
      */
     public function viewCattegories()
     {
-        //$cattegories = Cattegory::all();
         $cattegories = Cattegory::orderBy("id", "desc")->paginate(10);;
         $numberOfCattegories = Cattegory::all()->count();
         return view("pages.view-cattegories")->with("cattegories",$cattegories)->with("numberOfCattegories",$numberOfCattegories);
     }
-
     
      public function editGroup($id){
 
@@ -53,11 +51,13 @@ class CattegoryController extends Controller
         $cattegory = Cattegory::create([
             'cattegory_name' => $request->name,
         ]);
+        
         if (!$cattegory) {
             return redirect()->back()->with('error', 'Sorry, there a problem while creating product.');
         }
         return redirect()->route('dashboard')->with('success', 'Success, you cattegory have been created.');
     }
+
 
     public function updateCattegory(Request $request, Cattegory $cattegory)
     {
