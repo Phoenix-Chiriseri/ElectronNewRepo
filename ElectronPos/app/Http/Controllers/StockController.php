@@ -19,7 +19,8 @@ class StockController extends Controller
 
     public function createGRNView(){
 
-        return view("pages.create-grn-view");
+        $suppliers = Supplier::orderBy("id","desc")->get();
+        return view("pages.create-grn-view")->with("suppliers",$suppliers);
     }
 
     public function viewStock()

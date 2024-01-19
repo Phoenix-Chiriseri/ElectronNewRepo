@@ -90,70 +90,44 @@ $(document).ready(function(){
                         <form method="POST" action="{{ route('submit-product') }}">
                           @csrf
                         <div class="row">
-         <div class="mb-3 col-md-6">
-            <label class="form-label">Product Name</label>
-            <input type="text" name="name" class="form-control border border-2 p-2" required>
-            @error('name')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
+                            <div class="form-group">
+                                <label for="supplier_id">Select Supplier</label>
+                                <select name="supplier_id" class="form-control border border-2 p-2" required>
+                                    @foreach ($suppliers as $supplier)
+                                        <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="supplier_id">Select Shop</label>
+                                <select name="supplier_id" class="form-control border border-2 p-2" required>
+                                    @foreach ($suppliers as $supplier)
+                                        <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Grn Date</label>
+                                <input type="date" name="grn_date" class="form-control border border-2 p-2" required>
+                            
+                                <label class="form-label mt-3">Payment Method</label>
+                                <select name="payment_method" class="form-control border border-2 p-2" required>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Card</option>
+                                    <option value="credit">Credit</option>
+                                </select>
+                            
+                                @error('barcode')
+                                    <p class="text-danger inputerror">{{ $message }}</p>
+                                @enderror
+                            </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Barcode</label>
-            <input type="text" name="barcode" class="form-control border border-2 p-2" required>
-            @error('barcode')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-        <div class="mb-3 col-md-6">
-            <label class="form-label">Description</label>
+            <label class="form-label">Supplier Invoice Number</label>
             <input type="text" name="description" class="form-control border border-2 p-2" required>
             @error('description')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
-        <div class="mb-3 col-md-6">
-            <label class="form-label">Cost Price</label>
-            <input type="number" name="price" id = 'costPrice' class="form-control border border-2 p-2" required>
-            @error('price')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-        <div class="mb-3 col-md-6">
-            <label class="form-label">Markup %</label>
-            <input type="number" name="markup" id = 'viewMarkup' class="form-control border border-2 p-2" required readonly>
-            @error('markup')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-        <div class="mb-3 col-md-6">
-            <label class="form-label">Selling Price</label>
-            <input type="number" name="selling_price" id = 'sellingPrice' class="form-control border border-2 p-2" required>
-            @error('selling_price')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-        <div class="mb-3 col-md-12">
-            <label class="form-label">Unit Of Measurement</label>
-            <input type="number" name="unit_of_measurement" class="form-control border border-2 p-2" required>
-            @error('unit_of_measurement')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
-        </div>
-       
-        </div>
-        <div class="form-group">
-            <fieldset>
-                <legend class="form-label">Product Status</legend>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="product_status" value="Active" id="independently_mobile">
-                    <label class="form-check-label">Active</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="product_status" value="Inactive" id="mobility_with_support">
-                    <label class="form-check-label">Inactive</label>
-                </div>
-            </fieldset>
-        </div>  
     </div>
     <hr>
     <button type="submit" class="btn bg-gradient-dark">Submit</button>
