@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
-    public function index()
-    {
-        
+    
+    public function createGRN(){
+
+        return view("pages.create-grn");
     }
 
     public function viewStock()
