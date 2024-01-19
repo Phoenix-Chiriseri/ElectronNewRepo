@@ -10,7 +10,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Authors table</h6>
+                                <h6 class="text-white text-capitalize ps-3">Goods Received Notes</h6>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -18,7 +18,7 @@
                                 <a class="btn btn-danger" href="{{ route('create-grn-view') }}"
                                 role="tab" aria-selected="true">
                                 <i class="material-icons text-lg position-relative"></i>
-                                <span class="ms-1">Add New Grn</span>
+                                <span class="ms-1">Add GRN</span>
                                 </a>
                                 <table class="table align-items-center mb-0">
                                     <thead>
