@@ -12,12 +12,13 @@
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Goods Received Notes</h6>
                             </div>
+                            <br>
+                            <a class="btn btn-danger brn-lg" href="{{ route('create-grn-view') }}"
+                            role="tab" aria-selected="true">Create GRN</a>
                         </div>
                         <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <a class="btn btn-danger brn-lg" href="{{ route('create-grn-view') }}"
-                                role="tab" aria-selected="true">
-                                <i class="material-icons text-lg position-relative"></i>
+                            <div class="table-responsive p-0">      
+                              <i class="material-icons text-lg position-relative"></i>
                                 <span class="ms-1">Add GRN</span>
                                 </a>
                                 <table class="table align-items-center mb-0">
