@@ -17,6 +17,11 @@ class StockController extends Controller
         return view("pages.create-grn");
     }
 
+    public function createGRNView(){
+
+        return view("pages.create-grn-view");
+    }
+
     public function viewStock()
     {
         $products = Product::all();

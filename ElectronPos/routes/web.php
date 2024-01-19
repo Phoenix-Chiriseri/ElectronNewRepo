@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/create-grn', [StockController::class, 'createGRN'])->name('create-grn');
+	Route::get('/create-grn-view', [StockController::class, 'createGRNView'])->name('create-grn-view');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
 	Route::get('/products-json/{productName}', [ProductController::class, 'searchProducts']);
 	Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
