@@ -136,7 +136,7 @@ $(document).ready(function(){
             <label class="form-label">Unit Of Measurement</label>
             <div class="form-group">
                 <label for="unit">Select Unit</label>
-                <select name="unit" class="form-control border border-2 p-2" required>
+                <select name="unit_of_measurement" class="form-control border border-2 p-2" required>
                     <option value="each">Each</option>
                     <option value="g">Grams (g)</option>
                     <option value="kg">Kilograms (kg)</option>

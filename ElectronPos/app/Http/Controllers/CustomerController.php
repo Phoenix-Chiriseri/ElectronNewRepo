@@ -16,10 +16,10 @@ class CustomerController extends Controller
     public function viewAllCustomers()
     {
         //return the customers to the front end
-        $customers = DB::table('customers')
-        ->leftJoin('users', 'customers.user_id', '=', 'users.id')
-        ->select('users.*','customers.*')
-        ->orderBy("customers.id",'desc')
+
+        $customers = Customer::leftJoin('users', 'customers.user_id', '=', 'users.id')
+        ->select('users.name', 'customers.*')
+        ->orderBy('customers.id', 'desc')
         ->get();
         return view("pages.view-customers")->with("customers",$customers);
     }

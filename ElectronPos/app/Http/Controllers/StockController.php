@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
+use App\Models\Shop;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Http\Controllers\Controller;
@@ -19,8 +20,10 @@ class StockController extends Controller
 
     public function createGRNView(){
 
+        $shops = Shop::orderBy("id","desc")->get();
         $suppliers = Supplier::orderBy("id","desc")->get();
-        return view("pages.create-grn-view")->with("suppliers",$suppliers);
+        return view("pages.create-grn-view")->with("suppliers",$suppliers)
+        ->with("shops",$shops);
     }
 
     public function viewStock()

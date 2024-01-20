@@ -16,6 +16,12 @@
                                 <h6 class="text-white text-capitalize ps-3">Products</h6>
                                 <h6 class="text-white text-capitalize ps-3">Number Of Products {{$productCount}}</h6>
                             </div>
+                            <hr>
+                            <a class="btn btn-danger" href="{{ route('create-product') }}"
+                                        role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Add New Product</span>
+                            </a>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">

@@ -38,7 +38,6 @@ class CattegoryController extends Controller
     public function create()
     {
         //
-
         return view("pages.add-cattegory");
     }
 

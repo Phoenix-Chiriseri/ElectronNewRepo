@@ -11,14 +11,15 @@
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Cattegories</h6>
                                 <h6 class="text-white text-capitalize ps-3">Number Of Cattegories {{$numberOfCattegories}}</h6>
-                                <hr>
-                                <a class="btn btn-white" href="{{ route('create-cattegory') }}"
-                                            role="tab" aria-selected="true">
-                                            <i class="material-icons text-lg position-relative"></i>
-                                            <span class="ms-1">Add New Cattegory</span>
-                                </a>
                             </div>
+                            <hr>
+                            <a class="btn btn-danger" href="{{ route('create-cattegory') }}"
+                                        role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Add New Cattegory</span>
+                            </a>
                         </div>
+                       
                         <hr>   
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">

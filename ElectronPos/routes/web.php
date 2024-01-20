@@ -20,6 +20,7 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ElectronPOE;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ShopController;
 
 
 
@@ -67,7 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/supplier-update/{supplier}',[SupplierController::class, 'updateSupplier'])->name('supplier.update');
 	Route::put('/customer-update/{customer}',[SupplierController::class, 'updateCustomer'])->name('customer.update');
 	Route::post('/submit-cattegory', [CattegoryController::class, 'store'])->name('submit-cattegory');
-	Route::post('/submit-employee', [EmployeeController::class, 'store'])->name('submit-employee');
+	Route::post('/submit-employee', [ShopController::class, 'store'])->name('submit-shop');
+	Route::post('/submit-shop', [ShopController::class, 'store'])->name('submit-shop');
 	Route::get('/sell-product', [SalesController::class, 'create'])->name('sell-product');
 	Route::get('/products-json/{productName}', [ProductController::class, 'searchByName'])->name('products.searchByName');
 	//loop through the products and then add them to cart
@@ -77,10 +79,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-sale', [SalesController::class, 'store'])->name('submit-sale');
 	Route::get('/create-employee', [EmployeeController::class, 'create'])->name('create-employee');
 	Route::get('/view-products', [ProductController::class, 'viewProducts'])->name('view-products');
+	Route::get('/view-products', [ProductController::class, 'viewProducts'])->name('view-products');
 	Route::get('/view-employees', [EmployeeController::class, 'viewEmployees'])->name('view-employees');
 	Route::get('/view-cattegories', [CattegoryController::class, 'viewCattegories'])->name('view-cattegories');
 	Route::get('/view-suppliers', [SupplierController::class, 'viewSuppliers'])->name('view-suppliers');
-	
+	Route::get('/view-shop', [ShopController::class, 'index'])->name('view-shop');
 	Route::get('/create-customers', [CustomerController::class, 'create'])->name('create-customers');
 	Route::get('/view-stock', [StockController::class, 'viewStock'])->name('view-stock');
 	Route::get('/view-all-stock-items', [StockController::class, 'viewAllStockItems'])->name('viewall-stock');

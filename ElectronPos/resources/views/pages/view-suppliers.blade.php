@@ -4,6 +4,7 @@
         <!-- gi -->
         <x-navbars.navs.auth titlePage="View Suppliers"></x-navbars.navs.auth>
         <!-- End Navbar -->
+       
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
@@ -11,9 +12,13 @@
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Suppliers</h6>
-                            </div><div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                               
                             </div>
+                            <hr>
+                            <a class="btn btn-danger" href="{{ route('create-suppliers') }}"
+                                        role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Add New Supplier</span>
+                            </a>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
