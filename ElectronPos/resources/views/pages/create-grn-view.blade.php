@@ -23,7 +23,6 @@ $(document).ready(function(){
         }
     });
 
-    // Function to update the product table
     function updateProductTable(products) {
     var tableBody = $("table tbody");
 
@@ -37,8 +36,32 @@ $(document).ready(function(){
         newRow.append("<td class='total-cost'></td>");
         tableBody.append(newRow);
     });
+
+    // Calculate total cost at the end
+    calculateTotalCost();
 }
 
+// Calculate total cost when quantity or unit cost is changed
+$(document).on("input", ".quantity, .unit-cost", function () {
+    calculateTotalCost();
+});
+
+// Function to calculate total cost
+function calculateTotalCost() {
+    var total = 0;
+
+    $("table tbody tr").each(function () {
+        var row = $(this);
+        var quantity = parseFloat(row.find(".quantity").text()) || 0;
+        var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
+        var rowTotal = quantity * unitCost;
+        total += isNaN(rowTotal) ? 0 : rowTotal;
+    });
+
+    // Display the total at the end
+    $("#total-value").text("Total: $" + total.toFixed(2));
+}
+   
 });
 $(document).on("input", ".quantity, .unit-cost", function () {
     var row = $(this).closest("tr");
