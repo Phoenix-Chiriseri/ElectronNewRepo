@@ -25,20 +25,20 @@ $(document).ready(function(){
 
     // Function to update the product table
     function updateProductTable(products) {
-        var tableBody = $("table tbody");
-        tableBody.empty(); // Clear existing rows
+    var tableBody = $("table tbody");
 
-        // Append new rows based on the fetched products
-        products.forEach(function (product) {
-            var newRow = $("<tr>");
-            newRow.append("<td>" + product.name + "</td>");
-            newRow.append("<td>" + product.measurement + "</td>");
-            newRow.append("<td contenteditable='true' class='quantity'></td>");
-            newRow.append("<td contenteditable='true' class='unit-cost'></td>");
-            newRow.append("<td class='total-cost'></td>");
-            tableBody.append(newRow);
-        });
-    }
+    // Append new rows based on the fetched products
+    products.forEach(function (product) {
+        var newRow = $("<tr>");
+        newRow.append("<td>" + product.name + "</td>");
+        newRow.append("<td>" + product.measurement + "</td>");
+        newRow.append("<td contenteditable='true' class='quantity'></td>");
+        newRow.append("<td contenteditable='true' class='unit-cost'></td>");
+        newRow.append("<td class='total-cost'></td>");
+        tableBody.append(newRow);
+    });
+}
+
 });
 $(document).on("input", ".quantity, .unit-cost", function () {
     var row = $(this).closest("tr");
