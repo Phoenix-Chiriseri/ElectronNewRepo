@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "../../../../../triangle-pos"
+		},
+		{
+			"path": "../../../../../HomeCareLeads"
 		}
 	],
 	"settings": {}

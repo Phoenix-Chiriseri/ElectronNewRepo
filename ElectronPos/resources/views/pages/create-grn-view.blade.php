@@ -18,6 +18,8 @@ $(document).ready(function(){
                 },
                 error: function (error) {
                     console.error('Error fetching products:', error);
+                    $("#noProductFound").show();
+                    $("#noProductFound").html("no product found");
                 }
             });
         }
@@ -30,8 +32,8 @@ $(document).ready(function(){
     products.forEach(function (product) {
         var newRow = $("<tr>");
         newRow.append("<td>" + product.name + "</td>");
-        newRow.append("<td>" + product.measurement + "</td>");
-        newRow.append("<td contenteditable='true' class='quantity'></td>");
+        newRow.append("<td>" + product.unit_of_measurement + "</td>");
+        newRow.append("<td contenteditable='true' class='quantity form-control border border-2 p-2'></td>");
         newRow.append("<td contenteditable='true' class='unit-cost'></td>");
         newRow.append("<td class='total-cost'></td>");
         tableBody.append(newRow);
@@ -156,7 +158,6 @@ $(document).on("input", ".quantity, .unit-cost", function () {
                                     @endforeach
                                 </select>
                             </div>
-            
                             <div class="form-group">
                                 <label for="shop_id">Select Shop</label>
                                 <select name="shop_id" class="form-control border border-2 p-2" required>
@@ -180,7 +181,7 @@ $(document).on("input", ".quantity, .unit-cost", function () {
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Additional Information</label>
-                                <textarea type="text" rows="8" name="description" class="form-control border border-2 p-2" required>
+                                <textarea type="text" rows="8" name="additional_information" class="form-control border border-2 p-2" required>
                                 @error('description')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                 @enderror
@@ -188,14 +189,14 @@ $(document).on("input", ".quantity, .unit-cost", function () {
                             </div>
         <div class="mb-3 col-md-6">
             <label class="form-label">Supplier Invoice Number</label>
-            <input type="text" name="description" class="form-control border border-2 p-2" required>
+            <input type="text" name="supplier_invoicenumber" class="form-control border border-2 p-2" required>
             @error('description')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-3 col-md-6">
             <label class="form-label">Add Aditional Costs</label>
-            <input type="text" name="description" class="form-control border border-2 p-2" required>
+            <input type="text" name="additional_costs" class="form-control border border-2 p-2" required>
             @error('description')
                 <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
@@ -249,6 +250,7 @@ $(document).on("input", ".quantity, .unit-cost", function () {
                      onKeyDown=""
                      id = "searchSelectedProd"
                  />
+                 <div id = "noProductFound" hidden></div>
              </div>
              @if(session('error'))
              <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="color: white;">

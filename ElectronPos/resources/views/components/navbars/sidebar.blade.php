@@ -1,5 +1,59 @@
 @props(['activePage'])
+<link rel="stylesheet" href="{{asset('assets/css/waves.min.css')}} " type="text/css" media="all">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<style>
+    /* Sidebar styles */
+    .sidebar {
+        width: 250px;
+        background-color: #333;
+        color: white;
+        padding-top: 20px;
+    }
 
+    /* Main navigation item styles */
+    .nav-item {
+        list-style: none;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        color: white;
+    }
+
+    .nav-link:hover {
+        background-color: #555;
+    }
+
+    /* Submenu styles */
+    .submenu {
+        list-style: none;
+        padding-left: 20px;
+        display: none; /* Hide the submenu by default */
+    }
+
+    .submenu li {
+        margin-bottom: 5px;
+    }
+
+    .submenu a {
+        color: #bbb;
+        text-decoration: none;
+    }
+
+    .submenu a:hover {
+        color: #fff;
+    }
+
+    .nav-item .btn-group {
+    display: flex;
+    align-items: center;
+}
+</style>
 <aside
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
@@ -61,14 +115,21 @@
                     <span class="nav-link-text ms-1">Products</span>
                 </a>
             </li>
+            <li>
+<!-- Split dropright button -->
             <li class="nav-item">
-                <a class="nav-link text-white"
-                    href="{{ route('create-grn') }}">
+                <a class="nav-link text-white" href="{{ route('create-grn') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i style="font-size: 1.2rem;" class="fas fa-plus ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Inventory</span>
                 </a>
+                <!-- Submenu -->
+                <ul class="submenu">
+                    <li><a href="#" style="color:white">Submenu Item 1</a></li>
+                    <li><a href="#">Submenu Item 2</a></li>
+                    <!-- Add more submenu items as needed -->
+                </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white"
