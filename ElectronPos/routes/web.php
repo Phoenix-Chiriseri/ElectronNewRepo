@@ -44,12 +44,13 @@ Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')-
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('orders-index');
+	Route::get('/search-product/{productName}', [ProductController::class, 'searchProduct']);
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/create-grn', [StockController::class, 'createGRN'])->name('create-grn');
 	Route::get('/create-grn-view', [StockController::class, 'createGRNView'])->name('create-grn-view');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
-	Route::get('/products-json/{productName}', [ProductController::class, 'searchProducts']);
+	//Route::get('/products-json/{productName}', [ProductController::class, 'searchProducts']);
 	Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
 	//Route::post('/addcart/{id}',[CartController::class],'addToCart')->name('add-to-cart');
 	Route::get('/search/products', [ProductController::class, 'searchProducts'])->name('/search/products');

@@ -3,14 +3,49 @@
 <script>
 $(document).ready(function(){
     $("#searchSelectedProd").on("keydown", function (event) {
-    if (event.which == 13) {
-        event.preventDefault();
-        var productName = $(this).val();
-        console.log('Search Term:', productName);
-        // Load the products with the productName
-        //loadProduct(productName);
+        if (event.which == 13) {
+            event.preventDefault();
+            var productName = $(this).val();
+            console.log('Search Term:', productName);
+            // Make an AJAX request to fetch products
+            $.ajax({
+                type: 'GET',
+                url: '/search-product/' + productName,
+                success: function (response) {
+                    // Update the table with the fetched products
+                    console.log(response.products);
+                    updateProductTable(response.products);
+                },
+                error: function (error) {
+                    console.error('Error fetching products:', error);
+                }
+            });
         }
     });
+
+    // Function to update the product table
+    function updateProductTable(products) {
+        var tableBody = $("table tbody");
+        tableBody.empty(); // Clear existing rows
+
+        // Append new rows based on the fetched products
+        products.forEach(function (product) {
+            var newRow = $("<tr>");
+            newRow.append("<td>" + product.name + "</td>");
+            newRow.append("<td>" + product.measurement + "</td>");
+            newRow.append("<td contenteditable='true' class='quantity'></td>");
+            newRow.append("<td contenteditable='true' class='unit-cost'></td>");
+            newRow.append("<td class='total-cost'></td>");
+            tableBody.append(newRow);
+        });
+    }
+});
+$(document).on("input", ".quantity, .unit-cost", function () {
+    var row = $(this).closest("tr");
+    var quantity = parseFloat(row.find(".quantity").text()) || 0;
+    var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
+    var totalCost = quantity * unitCost;
+    row.find(".total-cost").text(totalCost.toFixed(2));
 });
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">

@@ -29,9 +29,10 @@ class ProductController extends Controller
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
-    public function searchByName($productName){
+    public function searchProduct($productName)
+    {
         $products = Product::where('name', 'like', '%' . $productName . '%')->get();
-        return response()->json($products);
+        return response()->json(['products' => $products]);
     }
 
     public function getProductsJson(){
