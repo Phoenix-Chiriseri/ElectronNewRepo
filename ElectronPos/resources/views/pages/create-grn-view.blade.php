@@ -13,8 +13,8 @@ $(document).ready(function(){
         var tableData = [];
         $(".table tbody tr").each(function () {
         var row = {};
-        row.product_name = $(this).find("td:nth-child(1) input").val();
-        row.measurement = $(this).find("td:nth-child(2) input").val();
+        row.product_name = $(this).find("td:nth-child(1)").text();
+        row.measurement = $(this).find("td:nth-child(2)").text();
         row.quantity = $(this).find(".quantity").text();
         row.unit_cost = $(this).find(".unit-cost").text();
         row.total_cost = $(this).find(".total-cost").text();
@@ -24,7 +24,7 @@ $(document).ready(function(){
         if (tableData.length > 0) {
         //Include table data in the form data
         if (tableData.length > 0) {
-    tableData.forEach(function (row, index) {
+        tableData.forEach(function (row, index) {
         formData.push({
             name: "table_data[" + index + "][product_name]",
             value: row.product_name
@@ -284,7 +284,7 @@ $(document).ready(function(){
                                 </tr>
                             </thead>
                             <tbody>
-            
+                                
                             </tbody>
                         </table>
                     </div>
