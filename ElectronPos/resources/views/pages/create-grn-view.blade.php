@@ -3,10 +3,8 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
 $(document).ready(function(){
-     // Form submission
-     
-
-     $("form").submit(function (event) {
+    // Form submission
+    $("form").submit(function (event) {
         event.preventDefault();
 
         // Get form data
@@ -24,8 +22,11 @@ $(document).ready(function(){
             tableData.push(row);
         });
 
+       
         // Include table data in the form data
         formData.push({ name: "table_data", value: JSON.stringify(tableData) });
+
+        console.log("form data is"+''+formData);
 
         // Create a hidden form and submit it
         var hiddenForm = $('<form action="' + $(this).attr('action') + '" method="POST"></form>');
@@ -40,7 +41,7 @@ $(document).ready(function(){
         hiddenForm.submit();
     });
 
-
+    // Handle the search input
     $("#searchSelectedProd").on("keydown", function (event) {
         if (event.which == 13) {
             event.preventDefault();
@@ -64,54 +65,49 @@ $(document).ready(function(){
         }
     });
 
-    
-
-    function updateProductTable(products) {
-    var tableBody = $("table tbody");
-
-    // Append new rows based on the fetched products
-    products.forEach(function (product) {
-        var newRow = $("<tr>");
-        newRow.append("<td>" + product.name + "</td>");
-        newRow.append("<td>" + product.unit_of_measurement + "</td>");
-        newRow.append("<td contenteditable='true' class='quantity form-control border border-2 p-2'></td>");
-        newRow.append("<td contenteditable='true' class='unit-cost'></td>");
-        newRow.append("<td class='total-cost'></td>");
-        tableBody.append(newRow);
-    });
-
-    // Calculate total cost at the end
-    calculateTotalCost();
-}
-
-// Calculate total cost when quantity or unit cost is changed
-$(document).on("input", ".quantity, .unit-cost", function () {
-    calculateTotalCost();
-});
-
-// Function to calculate total cost
-function calculateTotalCost() {
-    var total = 0;
-
-    $("table tbody tr").each(function () {
-        var row = $(this);
+    // Calculate total cost when quantity or unit cost is changed
+    $(document).on("input", ".quantity, .unit-cost", function () {
+        var row = $(this).closest("tr");
         var quantity = parseFloat(row.find(".quantity").text()) || 0;
         var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
-        var rowTotal = quantity * unitCost;
-        total += isNaN(rowTotal) ? 0 : rowTotal;
+        var totalCost = quantity * unitCost;
+        row.find(".total-cost").text(totalCost.toFixed(2));
+        calculateTotalCost();
     });
 
-    // Display the total at the end
-    $("#total-value").text("Total: $" + total.toFixed(2));
-}
-   
-});
-$(document).on("input", ".quantity, .unit-cost", function () {
-    var row = $(this).closest("tr");
-    var quantity = parseFloat(row.find(".quantity").text()) || 0;
-    var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
-    var totalCost = quantity * unitCost;
-    row.find(".total-cost").text(totalCost.toFixed(2));
+    function updateProductTable(products) {
+        var tableBody = $("table tbody");
+
+        // Append new rows based on the fetched products
+        products.forEach(function (product) {
+            var newRow = $("<tr>");
+            newRow.append("<td>" + product.name + "</td>");
+            newRow.append("<td>" + product.unit_of_measurement + "</td>");
+            newRow.append("<td contenteditable='true' class='quantity form-control border border-2 p-2'></td>");
+            newRow.append("<td contenteditable='true' class='unit-cost'></td>");
+            newRow.append("<td class='total-cost'></td>");
+            tableBody.append(newRow);
+        });
+
+        // Calculate total cost at the end
+        calculateTotalCost();
+    }
+
+    // Function to calculate total cost
+    function calculateTotalCost() {
+        var total = 0;
+
+        $("table tbody tr").each(function () {
+            var row = $(this);
+            var quantity = parseFloat(row.find(".quantity").text()) || 0;
+            var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
+            var rowTotal = quantity * unitCost;
+            total += isNaN(rowTotal) ? 0 : rowTotal;
+        });
+
+        // Display the total at the end
+        $("#total-value").text("Total: $" + total.toFixed(2));
+    }
 });
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
