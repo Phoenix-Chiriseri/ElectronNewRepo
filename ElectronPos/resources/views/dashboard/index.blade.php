@@ -121,8 +121,7 @@
         </ul>
         </div>
         </div>
-        </nav>
-        
+        </nav>       
         <div class="container-fluid py-4">
         <div class="row">
         <div class="col-lg-8">
@@ -130,24 +129,19 @@
         <div class="col-xl-6 mb-xl-0 mb-4">
         <div class="card bg-transparent shadow-xl">
         <div class="overflow-hidden position-relative border-radius-xl">
-        <img src="../assets/img/illustrations/pattern-tree.svg" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
+        <img src="" class="position-absolute opacity-2 start-0 top-0 w-100 z-index-1 h-100" alt="pattern-tree">
         <span class="mask bg-gradient-dark opacity-10"></span>
         <div class="card-body position-relative z-index-1 p-3">
-        <i class="material-icons text-white p-2">wifi</i>
-        <h5 class="text-white mt-4 mb-5 pb-2">4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
+        <i class="material-icons text-white p-2">user</i>
+        <h5 class="text-white mt-4 mb-5 pb-2">Welcome {{$user->name}}</h5>
         <div class="d-flex">
         <div class="d-flex">
         <div class="me-4">
-        <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
-        <h6 class="text-white mb-0">Jack Peterson</h6>
         </div>
         <div>
-        <p class="text-white text-sm opacity-8 mb-0">Expires</p>
-        <h6 class="text-white mb-0">11/22</h6>
         </div>
         </div>
         <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
-        <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png" alt="logo">
         </div>
         </div>
         </div>
@@ -164,8 +158,8 @@
         </div>
         </div>
         <div class="card-body pt-0 p-3 text-center">
-        <h6 class="text-center mb-0">Salary</h6>
-        <span class="text-xs">Belong Interactive</span>
+        <h6 class="text-center mb-0">Total Sales</h6>
+        <span class="text-xs">For This Month</span>
         <hr class="horizontal dark my-3">
         <h5 class="mb-0">+$2000</h5>
         </div>
@@ -193,10 +187,10 @@
         <div class="card-header pb-0 p-3">
         <div class="row">
         <div class="col-6 d-flex align-items-center">
-        <h6 class="mb-0">Payment Method</h6>
+        <h6 class="mb-0">Add New Product</h6>
         </div>
         <div class="col-6 text-end">
-        <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Card</a>
+        <a class="btn bg-gradient-dark mb-0" href="{{ route('create-product') }}"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Product</a>
         </div>
         </div>
         </div>
@@ -227,7 +221,7 @@
         <div class="card-header pb-0 p-3">
         <div class="row">
         <div class="col-6 d-flex align-items-center">
-        <h6 class="mb-0">Invoices</h6>
+        <h6 class="mb-0">Statistics</h6>
         </div>
         <div class="col-6 text-end">
         <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
@@ -238,52 +232,42 @@
         <ul class="list-group">
         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
         <div class="d-flex flex-column">
-        <h6 class="mb-1 text-dark font-weight-bold text-sm">March, 01, 2020</h6>
-        <span class="text-xs">#MS-415646</span>
+        <h6 class="mb-1 text-dark font-weight-bold text-sm">Number Of</h6>
+        <span class="text-xs">Products</span>
         </div>
         <div class="d-flex align-items-center text-sm">
-        $180
-        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+            {{$numberOfProducts}}
+        <a class="btn btn-link text-dark text-sm mb-0 px-0 ms-4" href="{{ route('view-products') }}"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i>Read More</a>
         </div>
         </li>
         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
         <div class="d-flex flex-column">
-        <h6 class="text-dark mb-1 font-weight-bold text-sm">February, 10, 2021</h6>
-        <span class="text-xs">#RV-126749</span>
+        <h6 class="text-dark mb-1 font-weight-bold text-sm">Number Of</h6>
+        <span class="text-xs">Customers</span>
         </div>
         <div class="d-flex align-items-center text-sm">
-        $250
-        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+          {{$numberOfCustomers }}
+          <a class="btn btn-link text-dark text-sm mb-0 px-0 ms-4" href="{{ route('view-customers') }}"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i>Read More</a>
         </div>
         </li>
         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
         <div class="d-flex flex-column">
-        <h6 class="text-dark mb-1 font-weight-bold text-sm">April, 05, 2020</h6>
-        <span class="text-xs">#FB-212562</span>
+        <h6 class="text-dark mb-1 font-weight-bold text-sm">Number Of</h6>
+        <span class="text-xs">Cattegories</span>
         </div>
         <div class="d-flex align-items-center text-sm">
-        $560
-        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+        {{ $numberOfCattegories}}
+        <a class="btn btn-link text-dark text-sm mb-0 px-0 ms-4" href="{{ route('view-cattegories') }}"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i>Read More</a>
         </div>
         </li>
         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
         <div class="d-flex flex-column">
-        <h6 class="text-dark mb-1 font-weight-bold text-sm">June, 25, 2019</h6>
-        <span class="text-xs">#QW-103578</span>
+        <h6 class="text-dark mb-1 font-weight-bold text-sm">Number Of </h6>
+        <span class="text-xs">Suppliers</span>
         </div>
         <div class="d-flex align-items-center text-sm">
-        $120
-        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
-        </div>
-        </li>
-        <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-        <div class="d-flex flex-column">
-        <h6 class="text-dark mb-1 font-weight-bold text-sm">March, 01, 2019</h6>
-        <span class="text-xs">#AR-803481</span>
-        </div>
-        <div class="d-flex align-items-center text-sm">
-        $300
-        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i> PDF</button>
+          {{$numberOfSuppliers}}
+          <a class="btn btn-link text-dark text-sm mb-0 px-0 ms-4" href="{{ route('view-suppliers') }}"><i class="material-icons text-lg position-relative me-1">picture_as_pdf</i>Read More</a>
         </div>
         </li>
         </ul>

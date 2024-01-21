@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-sales', [SalesController::class, 'index'])->name('sales.index');
 	Route::get('/create-stock', [StockController::class, 'create'])->name('create-stock');
 	Route::post('/submit-product', [ProductController::class, 'store'])->name('submit-product');
+	Route::post('/submit-grv', [StockController::class, 'store'])->name('submit-grv');
 	Route::get('/updateProduct/{id}', [ProductController::class, 'editProduct'])->name('updateProduct');
 	Route::get('/edit-supplier/{id}', [SupplierController::class, 'editSupplier'])->name('edit-supplier');
 	Route::get('/edit-customer/{id}', [CustomerController::class, 'editCustomer'])->name('edit-customer');

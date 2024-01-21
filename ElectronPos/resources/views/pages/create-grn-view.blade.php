@@ -1,7 +1,46 @@
 <script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
 $(document).ready(function(){
+     // Form submission
+     
+
+     $("form").submit(function (event) {
+        event.preventDefault();
+
+        // Get form data
+        var formData = $(this).serializeArray();
+
+        // Get table data
+        var tableData = [];
+        $("table tbody tr").each(function () {
+            var row = {};
+            row.product_name = $(this).find("td:nth-child(1)").text();
+            row.measurement = $(this).find("td:nth-child(2)").text();
+            row.quantity = $(this).find(".quantity").text();
+            row.unit_cost = $(this).find(".unit-cost").text();
+            row.total_cost = $(this).find(".total-cost").text();
+            tableData.push(row);
+        });
+
+        // Include table data in the form data
+        formData.push({ name: "table_data", value: JSON.stringify(tableData) });
+
+        // Create a hidden form and submit it
+        var hiddenForm = $('<form action="' + $(this).attr('action') + '" method="POST"></form>');
+
+        // Append form data to the hidden form
+        formData.forEach(function (field) {
+            hiddenForm.append('<input type="hidden" name="' + field.name + '" value="' + field.value + '">');
+        });
+
+        // Append the hidden form to the body and submit
+        $('body').append(hiddenForm);
+        hiddenForm.submit();
+    });
+
+
     $("#searchSelectedProd").on("keydown", function (event) {
         if (event.which == 13) {
             event.preventDefault();
@@ -24,6 +63,8 @@ $(document).ready(function(){
             });
         }
     });
+
+    
 
     function updateProductTable(products) {
     var tableBody = $("table tbody");
@@ -147,7 +188,7 @@ $(document).on("input", ".quantity, .unit-cost", function () {
                                     </div>
                                 </div>
                         @endif
-                        <form method="POST" action="#">
+                        <form method="POST" id="submitForm" action="{{ route('submit-grv') }}">
                           @csrf
                         <div class="row">
                             <div class="form-group">
@@ -195,7 +236,7 @@ $(document).on("input", ".quantity, .unit-cost", function () {
             @enderror
         </div>
         <div class="mb-3 col-md-6">
-            <label class="form-label">Add Aditional Costs</label>
+            <label class="form-label">Add Additional Costs</label>
             <input type="text" name="additional_costs" class="form-control border border-2 p-2" required>
             @error('description')
                 <p class="text-danger inputerror">{{ $message }}</p>

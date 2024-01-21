@@ -55,7 +55,7 @@
 }
 </style>
 <aside
-    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3  bg-gradient-dark"
     id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -116,21 +116,19 @@
                 </a>
             </li>
             <li>
-<!-- Split dropright button -->
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('create-grn') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-plus ps-2 pe-2 text-center"></i>
+                <li class="nav-item">
+                    <div class="btn-group dropright" style="padding: 10px;">
+                        <button type="button" class="btn btn-dark btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only" style="margin-left: -60px;">Inventory</span>
+                        </button>
+                       <div class="dropdown-menu">
+                             <a class="dropdown-item nav-link-text ms-1" href="{{ route('create-grn') }}">Goods Received Note</a>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item nav-link-text ms-1" href="">Inventory COunts</a>
+                       </div>
                     </div>
-                    <span class="nav-link-text ms-1">Inventory</span>
-                </a>
-                <!-- Submenu -->
-                <ul class="submenu">
-                    <li><a href="#" style="color:white">Submenu Item 1</a></li>
-                    <li><a href="#">Submenu Item 2</a></li>
-                    <!-- Add more submenu items as needed -->
-                </ul>
-            </li>
+                </li>
             <li class="nav-item">
                 <a class="nav-link text-white"
                     href="{{ route('cart-index') }}">
