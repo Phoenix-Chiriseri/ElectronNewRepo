@@ -1,46 +1,71 @@
 <script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
 $(document).ready(function(){
     // Form submission
-    $("form").submit(function (event) {
+    $("#submitForm").submit(function (event) {
         event.preventDefault();
-
+        var formData = [];  // Form data state
         // Get form data
-        var formData = $(this).serializeArray();
-
+        formData = $(this).serializeArray();
+        console.log(formData);
         // Get table data
         var tableData = [];
-        $("table tbody tr").each(function () {
-            var row = {};
-            row.product_name = $(this).find("td:nth-child(1)").text();
-            row.measurement = $(this).find("td:nth-child(2)").text();
-            row.quantity = $(this).find(".quantity").text();
-            row.unit_cost = $(this).find(".unit-cost").text();
-            row.total_cost = $(this).find(".total-cost").text();
-            tableData.push(row);
+        $(".table tbody tr").each(function () {
+        var row = {};
+        row.product_name = $(this).find("td:nth-child(1) input").val();
+        row.measurement = $(this).find("td:nth-child(2) input").val();
+        row.quantity = $(this).find(".quantity").text();
+        row.unit_cost = $(this).find(".unit-cost").text();
+        row.total_cost = $(this).find(".total-cost").text();
+        tableData.push(row);
         });
-
-       
         // Include table data in the form data
-        formData.push({ name: "table_data", value: JSON.stringify(tableData) });
-
-        console.log("form data is"+''+formData);
-
+        if (tableData.length > 0) {
+        //Include table data in the form data
+        if (tableData.length > 0) {
+    tableData.forEach(function (row, index) {
+        formData.push({
+            name: "table_data[" + index + "][product_name]",
+            value: row.product_name
+        });
+        formData.push({
+            name: "table_data[" + index + "][measurement]",
+            value: row.measurement
+        });
+        formData.push({
+            name: "table_data[" + index + "][quantity]",
+            value: row.quantity
+        });
+        formData.push({
+            name: "table_data[" + index + "][unit_cost]",
+            value: row.unit_cost
+        });
+        formData.push({
+            name: "table_data[" + index + "][total_cost]",
+            value: row.total_cost
+        });
+    });
+} else {
+    console.error("Table data is empty");
+    return; // Stop form submission if table data is empty
+}
+        } else {
+        console.error("Table data is empty");
+        return; // Stop form submission if table data is empty
+        }
         // Create a hidden form and submit it
-        var hiddenForm = $('<form action="' + $(this).attr('action') + '" method="POST"></form>');
-
+        //var hiddenForm = $('<form action="' + $(this).attr('action') + '" method="POST"></form>');
         // Append form data to the hidden form
+        var hiddenForm = $('<form action="/submit-grv" method="POST"></form>');
         formData.forEach(function (field) {
             hiddenForm.append('<input type="hidden" name="' + field.name + '" value="' + field.value + '">');
         });
-
         // Append the hidden form to the body and submit
+        hiddenForm.append(tableData);
         $('body').append(hiddenForm);
         hiddenForm.submit();
     });
-
     // Handle the search input
     $("#searchSelectedProd").on("keydown", function (event) {
         if (event.which == 13) {
@@ -77,15 +102,15 @@ $(document).ready(function(){
 
     function updateProductTable(products) {
         var tableBody = $("table tbody");
-
         // Append new rows based on the fetched products
         products.forEach(function (product) {
             var newRow = $("<tr>");
             newRow.append("<td>" + product.name + "</td>");
             newRow.append("<td>" + product.unit_of_measurement + "</td>");
-            newRow.append("<td contenteditable='true' class='quantity form-control border border-2 p-2'></td>");
+            newRow.append("<td contenteditable='true' class='quantity'></td>");
             newRow.append("<td contenteditable='true' class='unit-cost'></td>");
             newRow.append("<td class='total-cost'></td>");
+            newRow.append("</tr>");
             tableBody.append(newRow);
         });
 
@@ -96,7 +121,6 @@ $(document).ready(function(){
     // Function to calculate total cost
     function calculateTotalCost() {
         var total = 0;
-
         $("table tbody tr").each(function () {
             var row = $(this);
             var quantity = parseFloat(row.find(".quantity").text()) || 0;
@@ -112,6 +136,7 @@ $(document).ready(function(){
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
+    <body>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage='Create Product'></x-navbars.navs.auth>
@@ -248,7 +273,7 @@ $(document).ready(function(){
                 </div>
                 <div class="user-cart">
                     <div class="card">
-                        <table class="table align-items-center">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
@@ -259,7 +284,7 @@ $(document).ready(function(){
                                 </tr>
                             </thead>
                             <tbody>
-                            
+            
                             </tbody>
                         </table>
                     </div>
@@ -314,8 +339,9 @@ $(document).ready(function(){
             </div>
 
         </div>
-        <x-footers.auth></x-footers.auth>
+       
     </div>
+    </body>
     <x-plugins></x-plugins>
 
 </x-layout>

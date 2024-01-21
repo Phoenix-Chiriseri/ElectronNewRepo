@@ -112,13 +112,10 @@ class StockController extends Controller
 
     public function store(Request $request)
     {
-        //
-        dd($request->all());
+       //dd($request->all());
+       dd($request->all());
+    
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Stock $stock)
     {
         //
