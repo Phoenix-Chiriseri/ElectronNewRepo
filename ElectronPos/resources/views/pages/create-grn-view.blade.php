@@ -5,6 +5,7 @@ $(document).ready(function(){
     // Form submission
     $("#submitForm").submit(function (event) {
         event.preventDefault();
+        var total=0;
         var formData = [];  // Form data state
         // Get form data
         formData = $(this).serializeArray();
@@ -44,6 +45,17 @@ $(document).ready(function(){
         formData.push({
             name: "table_data[" + index + "][total_cost]",
             value: row.total_cost
+        });
+
+        formData.push({
+            name:"total",
+            value:total
+        });
+
+        total = calculateTotalCost();
+        formData.push({
+            name: "total",
+            value: total
         });
     });
 } else {
@@ -118,9 +130,12 @@ $(document).ready(function(){
         calculateTotalCost();
     }
 
+
+    
+    
     // Function to calculate total cost
     function calculateTotalCost() {
-        var total = 0;
+        total = 0;
         $("table tbody tr").each(function () {
             var row = $(this);
             var quantity = parseFloat(row.find(".quantity").text()) || 0;
@@ -131,6 +146,7 @@ $(document).ready(function(){
 
         // Display the total at the end
         $("#total-value").text("Total: $" + total.toFixed(2));
+        return total;
     }
 });
 </script>
