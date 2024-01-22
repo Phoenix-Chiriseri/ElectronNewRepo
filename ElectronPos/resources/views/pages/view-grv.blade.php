@@ -1,5 +1,11 @@
 <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+<head>
 <script src='https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+<!-- Include jQuery from the Google CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Include Bootstrap JS from the CDN -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <style>
 body{
 background:#eee;
@@ -93,7 +99,18 @@ margin-top:20px;
 			background-color: #dcdcdc;
 		}
 </style>
-
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <button id="exportBtn" class="btn btn-primary">Export to PDF</button>
+    </div>
+</div>
+<script>
+    document.getElementById('exportBtn').addEventListener('click', function () {
+        var element = document.getElementById('pdfContent'); // ID of the element to be exported
+        html2pdf(element);
+    });
+</script>
 <div class="col-md-12">   
     <div class="row">
            
@@ -102,7 +119,7 @@ margin-top:20px;
                    <div class="receipt-header">
                        <div class="col-xs-6 col-sm-6 col-md-6">
                            <div class="receipt-left">
-                               <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;">
+                               <img class="img-responsive" alt="iamgurdeeposahan" src="https://img.freepik.com/premium-vector/invoice-vector-icon_418020-311.jpg?w=740" style="width: 71px; border-radius: 43px;">
                            </div>
                        </div>
                        <div class="col-xs-6 col-sm-6 col-md-6 text-right">
@@ -165,7 +182,7 @@ margin-top:20px;
                 <div class="receipt-header receipt-header-mid receipt-footer">
                     <div class="col-xs-8 col-sm-8 col-md-8 text-right">
                         <div class="receipt-right">
-                            <h4><b>Total</b> {{$grv->total}}</h4>   
+                            <h4><b>Total:  </b> {{$grv->total}}</h4>   
                         </div>
                     </div>
                 </div>
