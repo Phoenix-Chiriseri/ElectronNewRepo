@@ -21,6 +21,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ElectronPOE;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\GrvController;
+
 
 
 
@@ -105,6 +107,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/delete-supplier/{id}', [SupplierController::class, 'deleteSupplier'])->name('delete-supplier');
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
 	Route::post('/search-cart-product',[CartController::class, 'searchCartProduct'])->name('search-cart-product');
+	Route::post('/submit-grv', [GrvController::class, 'submitGrv'])->name('submit-grv');
 	//Route::get('/get-product/{id}',[PosController::class, 'create']);
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
 	//Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');

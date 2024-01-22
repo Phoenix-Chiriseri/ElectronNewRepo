@@ -13,19 +13,15 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('supplier_id');
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('shop_id');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->date('date');
-            $table->date('due_date');
-            $table->date('stock_date');
-            $table->integer('quantity');
-            $table->decimal('price', 10, 2);
-            $table->decimal('total', 10, 2);
+            $table->unsignedBigInteger('grv_id');
+            $table->string('product_name');
+            $table->string('measurement');
+            $table->decimal('quantity', 10, 2);
+            $table->decimal('unit_cost', 10, 2);
+            $table->decimal('total_cost', 10, 2);
             $table->timestamps();
+            // Foreign key
+            $table->foreign('grv_id')->references('id')->on('g_r_v_s');
         });
     }
     /**
