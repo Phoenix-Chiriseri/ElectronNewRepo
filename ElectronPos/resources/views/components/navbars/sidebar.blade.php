@@ -117,7 +117,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i style="font-size: 1.2rem;" class="fas fa-warehouse me-2 ps-2 pe-2 text-center"></i>
-                    Inventory
+                    <span class="text-capitalize">inventory</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('viewall-stock') }}">Available Stock</a>
