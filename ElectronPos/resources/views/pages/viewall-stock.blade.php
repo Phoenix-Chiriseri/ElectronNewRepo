@@ -12,8 +12,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Stock Report</h6>
-                                <h6 class="text-white text-capitalize ps-3">Number Of Items In Stock {{ $stockCount }}</h6>
+                                <h6 class="text-white text-capitalize ps-3">Available Stock</h6>
                             </div>
                             <hr>
                             <button class="btn btn-info" onclick="generatePDF()">Export To Pdf</button>
@@ -27,33 +26,21 @@
                                                 Product Name
                                             </th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Quantity
+                                                Product Code
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Stock Value
+                                                Cattegory
+                                             </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                               Selling Price
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Unit Of Measurement
+                                                Stock Count
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($stocks as $stock)
-                                            <tr>
-                                                <td>
-                                                    <p class="text-xs font-weight-bold mb-0">{{ $stock->name }}</p>
-                                                </td>
-                                                <td>
-                                                    <p class="text-xs font-weight-bold mb-0">{{ $stock->quantity }}</p>
-                                                </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <h6 class="mb-0 text-sm">{{ $stock->price }}</h6>
-                                                </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <h6 class="mb-0 text-sm">{{ $stock->measurement }}</h6>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                       
                                     </tbody>
                                 </table>
                             </div>

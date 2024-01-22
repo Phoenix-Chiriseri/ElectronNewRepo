@@ -122,11 +122,9 @@
                             <span class="sr-only" style="margin-left: -60px;">Inventory</span>
                         </button>
                        <div class="dropdown-menu">
+                             <a class="dropdown-item nav-link-text ms-1" href="{{ route('viewall-stock') }}">Available Stock</a>
                              <a class="dropdown-item nav-link-text ms-1" href="{{ route('create-grn') }}">Goods Received Note</a>
                         </div>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item nav-link-text ms-1" href="">Inventory COunts</a>
-                       </div>
                     </div>
                 </li>
             <li class="nav-item">
