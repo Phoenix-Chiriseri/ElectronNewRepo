@@ -6,6 +6,9 @@ use App\Models\GRV;
 use App\Models\Stock;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade;
+
 
 class GRVController extends Controller
 {
@@ -22,6 +25,14 @@ class GRVController extends Controller
         ->orderBy("g_r_v_s.id", "desc")
         ->paginate(10);
         return view("pages.create-grn")->with("grvs",$grvs);
+    }
+
+    public function generateGrv(){
+    {
+
+        $pdf = PDF::loadView('pages.generate_grv');
+        return $pdf->download('receipt.pdf');
+        }
     }
 
     public function viewById($id){

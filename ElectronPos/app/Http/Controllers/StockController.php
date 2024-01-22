@@ -37,13 +37,12 @@ class StockController extends Controller
         $stocks = GRV::join('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('products', 'stocks.product_name', '=', 'products.name') // Join with the products table
-        ->leftJoin('cattegories', 'cattegories.id', '=', 'products.category_id') // Join with the cattegories table
         ->select(
             'products.id',
             'products.*',
             'stocks.*',
-            'cattegories.*',
-            \DB::raw('(SELECT SUM(quantity) FROM stocks WHERE product_name = products.name) as total_stock') // Calculate the total stock for each product
+            \DB::raw('(SELECT COALESCE(SUM(quantity), 0) FROM stocks WHERE product_name = products.name) as total_stock') // Calculate the total stock for each product
+             // Calculate the total stock for each product
         )
         ->orderByDesc("total_stock") // Order by total stock in descending order
         ->get();

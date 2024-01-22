@@ -93,6 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-stock', [StockController::class, 'viewStock'])->name('view-stock');
 	Route::get('/view-all-stock-items', [StockController::class, 'viewAllStockItems'])->name('viewall-stock');
 	Route::get('/stock/add/{product}', [StockController::class, 'addToStock'])->name('stock.add');
+	Route::get('/generate-grv', [GrvController::class, 'generateGrv'])->name("generate-grv");
 	Route::get('/stock/edit/{product}', [StockController::class, 'editStock'])->name('stock.edit');
 	Route::post('/submit-stock', [StockController::class, 'submitProductToStock'])->name('submit.stock');
 	Route::post('/submit-customers', [CustomerController::class, 'store'])->name('submit-customers');

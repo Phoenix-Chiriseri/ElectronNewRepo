@@ -28,9 +28,7 @@
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Product Code
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Cattegory Name
-                                             </th>
+                                          
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                Selling Price
                                             </th>
@@ -48,9 +46,7 @@
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0">{{$stock->barcode}}</p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$stock->cattegory_name}}</p>
-                                            </td>
+                                            
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0">{{$stock->selling_price}}</p>
                                             </td>

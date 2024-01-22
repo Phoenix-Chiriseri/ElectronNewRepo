@@ -102,7 +102,7 @@ margin-top:20px;
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <div class="row">
     <div class="col-md-12 text-center">
-        <button id="exportBtn" class="btn btn-primary">Export to PDF</button>
+        <a href="{{ route('generate-grv') }}" class="btn btn-primary">Export to PDF</a>
     </div>
 </div>
 <script>
@@ -166,7 +166,7 @@ margin-top:20px;
                        <tbody>
                         @foreach ($grv->stocks as $stock)
                         <tr>
-                            <td>{{ $stock->product_name }}</td>
+                            <td>{{ $stock->name }}</td>
                             <td>{{ $stock->measurement }}</td>
                             <td>{{ $stock->quantity }}</td>
                             <td>{{ $stock->unit_cost }}</td>
