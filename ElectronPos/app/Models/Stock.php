@@ -23,5 +23,10 @@ class Stock extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function grv()
+    {
+        return $this->belongsTo(GRV::class, 'grv_id'); // 'grv_id' should match the actual foreign key in the 'stocks' table
+    }
     
 }

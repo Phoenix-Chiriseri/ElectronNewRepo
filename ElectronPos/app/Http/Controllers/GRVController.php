@@ -11,9 +11,15 @@ class GRVController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function createGRN(){
+        
+        
+        $grvs = GRV::join('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
+        ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
+        ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
+        ->get();
+        return view("pages.create-grn")->with("grvs",$grvs);
     }
 
     /**
@@ -30,7 +36,14 @@ class GRVController extends Controller
     public function submitGrv(Request $request)
     {
         
+        $prefix = 'GRN';
+        $uniqueIdentifier = str_pad(uniqid(), 5, '0', STR_PAD_LEFT); // Ensuring a fixed length of 5 digits
+        //Concatenate the parts to create the GRN number
+        $grvNumber = $prefix . '-' . $uniqueIdentifier;
+
         $grv = new GRV(); // Use the GRV model
+        $grv->grvNumber = $grvNumber;
+        $grv->total = $request->input("total");
         $grv->supplier_id = $request->input('supplier_id');
         $grv->shop_id = $request->input('shop_id');
         $grv->grn_date = $request->input('grn_date');
@@ -53,7 +66,8 @@ class GRVController extends Controller
             $tableRow->save();
         }
         // Redirect or respond with success message
-        return redirect()->route('/dashboard')->with('status', 'GRV submitted successfully');
+        //return redirect()->route('/dashboard')->with('status', 'GRV submitted successfully');
+        return view('pages.view-gnn-result')->with('grv', $grv);
     }
 
     /**

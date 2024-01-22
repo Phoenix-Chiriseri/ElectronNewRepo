@@ -1,4 +1,4 @@
-<x-layout bodyClass="g-sidenav-show  bg-gray-200">
+<x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
@@ -33,9 +33,6 @@
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Grn Type</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Po Number</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Created At</th>
@@ -52,17 +49,74 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($grvs as $grv)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                   
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$grv->grvNumber}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td> 
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                   
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$grv->created_at}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>   
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                   
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">Direct GRN</h6>
+                                                    </div>
+                                                </div>
+                                            </td> 
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                   
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$grv->created_at}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>   
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                   
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$grv->supplier_name}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>  
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                   
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$grv->shop_name}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>    
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                   
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$grv->total}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>           
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-          
+            </div>    
         </div>
     </main>
     <x-plugins></x-plugins>
-
 </x-layout>

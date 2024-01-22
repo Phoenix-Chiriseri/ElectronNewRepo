@@ -18,4 +18,9 @@ class GRV extends Model
         'supplier_invoicenumber',
         'additional_costs',
     ];
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class, 'grv_id'); // 'grv_id' should match the actual foreign key in the 'stocks' table
+    }
 }

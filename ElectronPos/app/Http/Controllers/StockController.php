@@ -14,10 +14,7 @@ use Auth;
 class StockController extends Controller
 {
     
-    public function createGRN(){
-
-        return view("pages.create-grn");
-    }
+    
 
     public function createGRNView(){
 

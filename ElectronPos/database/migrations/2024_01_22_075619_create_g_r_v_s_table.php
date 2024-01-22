@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('g_r_v_s', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supplier_id');
-            $table->unsignedBigInteger('shop_id');
+            $table->unsignedBigInteger('shop_id'); 
             $table->date('grn_date');
             $table->string('payment_method');
+            $table->string('grvNumber');
+            $table->string('total');
             $table->text('additional_information');
             $table->string('supplier_invoicenumber');
             $table->decimal('additional_costs', 10, 2);
