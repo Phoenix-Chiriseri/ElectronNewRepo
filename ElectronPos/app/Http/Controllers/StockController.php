@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
+use App\Models\Grv;
 use App\Models\Shop;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -32,6 +33,27 @@ class StockController extends Controller
 
 
     public function viewAllStockItems(){
+       
+        $stocks = GRV::join('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
+        ->leftJoin('products', 'stocks.product_name', '=', 'products.name') // Join with the products table
+        ->leftJoin('cattegories', 'cattegories.id', '=', 'products.category_id') // Join with the cattegories table
+        ->select(
+            'products.id',
+            'products.*',
+            'stocks.*',
+            'cattegories.*',
+            \DB::raw('(SELECT SUM(quantity) FROM stocks WHERE product_name = products.name) as total_stock') // Calculate the total stock for each product
+        )
+        ->orderByDesc("total_stock") // Order by total stock in descending order
+        ->get();
+        // Access the total_stock directly from the first item in the collection
+     $total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;
+    
+    return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
+
+
+
         //all the stock items in the database
         /*$stocks = DB::table('stocks')
         ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
@@ -66,9 +88,8 @@ class StockController extends Controller
         $stockCount = $stocks->count();*/
         //return view("pages.viewall-stock")->with("stocks",$stocks)->with("stockCount",$stockCount)->with("totalStock",$totalStock);
 
-        return view("pages.viewall-stock");
     }
-   
+        
     public function addToStock($id){
 
         $product = Product::find($id);
