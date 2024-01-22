@@ -23,6 +23,17 @@ class GRVController extends Controller
         return view("pages.create-grn")->with("grvs",$grvs);
     }
 
+    public function viewById($id){
+
+        $email = auth()->user()->email;
+        $grv = GRV::join('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
+        ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
+        ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
+        ->find($id);  // Use find directly to fetch a single record by ID
+        return view("pages.view-grv")->with("grv",$grv)->with("email",$email);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

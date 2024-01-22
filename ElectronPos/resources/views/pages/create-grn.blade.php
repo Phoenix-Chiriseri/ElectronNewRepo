@@ -45,6 +45,9 @@
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Total Cost</th>
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                View GRN</th>
                                             <th class="text-secondary opacity-7"></th>
                                         </tr>
                                     </thead>
@@ -106,7 +109,16 @@
                                                         <h6 class="mb-0 text-sm">{{$grv->total}}</h6>
                                                     </div>
                                                 </div>
-                                            </td>           
+                                            </td>   
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">
+                                                            <a href="{{ route('grn.show', $grv->id) }}" class ="btn btn-danger">View GRN</a>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </td>        
                                         </tr>
                                         @endforeach
                                     </tbody>
