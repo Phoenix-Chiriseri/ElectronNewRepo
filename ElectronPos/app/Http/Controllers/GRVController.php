@@ -18,6 +18,7 @@ class GRVController extends Controller
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
+        ->orderBy("g_r_v_s.id","desc")
         ->get();
         return view("pages.create-grn")->with("grvs",$grvs);
     }
@@ -35,12 +36,15 @@ class GRVController extends Controller
      */
     public function submitGrv(Request $request)
     {
-        
-        $prefix = 'GRN';
-        $uniqueIdentifier = str_pad(uniqid(), 5, '0', STR_PAD_LEFT); // Ensuring a fixed length of 5 digits
-        //Concatenate the parts to create the GRN number
-        $grvNumber = $prefix . '-' . $uniqueIdentifier;
 
+        $counter = 1;
+        // Format the counter with leading zeros
+        $formattedCounter = str_pad($counter, 4, '0', STR_PAD_LEFT);
+        //Concatenate the parts to create the GRN number
+        $grvNumber = 'GRN-' . $formattedCounter;
+        //Increment the counter for the next use    
+        $counter++;
+        
         $grv = new GRV(); // Use the GRV model
         $grv->grvNumber = $grvNumber;
         $grv->total = $request->input("total");
