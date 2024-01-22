@@ -107,26 +107,23 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white"
-                    href="{{ route('create-product') }}">
+                <a class="nav-link text-white" href="{{ route('create-product') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i style="font-size: 1.2rem;" class="fa fa-box ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Products</span>
                 </a>
             </li>
-            <li>
-                <li class="nav-item">
-                    <div class="btn-group dropright" style="padding: 10px;">
-                        <button type="button" class="btn btn-dark btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="sr-only" style="margin-left: -60px;">Inventory</span>
-                        </button>
-                       <div class="dropdown-menu">
-                             <a class="dropdown-item nav-link-text ms-1" href="{{ route('viewall-stock') }}">Available Stock</a>
-                             <a class="dropdown-item nav-link-text ms-1" href="{{ route('create-grn') }}">Goods Received Note</a>
-                        </div>
-                    </div>
-                </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i style="font-size: 1.2rem;" class="fas fa-warehouse me-2 ps-2 pe-2 text-center"></i>
+                    Inventory
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
+                    <a class="dropdown-item" href="{{ route('viewall-stock') }}">Available Stock</a>
+                    <a class="dropdown-item" href="{{ route('create-grn') }}">Goods Received Note</a>
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link text-white"
                     href="{{ route('cart-index') }}">
