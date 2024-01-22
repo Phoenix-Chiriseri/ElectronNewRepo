@@ -9,6 +9,7 @@ use App\Models\Supplier;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class StockController extends Controller
 {
@@ -112,7 +113,6 @@ class StockController extends Controller
 
     public function store(Request $request)
     {
-       //dd($request->all());
        dd($request->all());
     
     }
