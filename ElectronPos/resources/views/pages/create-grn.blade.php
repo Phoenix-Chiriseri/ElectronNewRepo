@@ -123,6 +123,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{$grvs->links()}}
                             </div>
                         </div>
                     </div>

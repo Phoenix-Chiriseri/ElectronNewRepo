@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GRV;
 use App\Models\Stock;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class GRVController extends Controller
@@ -18,8 +19,8 @@ class GRVController extends Controller
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
-        ->orderBy("g_r_v_s.id","desc")
-        ->get();
+        ->orderBy("g_r_v_s.id", "desc")
+        ->paginate(10);
         return view("pages.create-grn")->with("grvs",$grvs);
     }
 
@@ -48,16 +49,9 @@ class GRVController extends Controller
     public function submitGrv(Request $request)
     {
 
-        $counter = 1;
-        // Format the counter with leading zeros
-        $formattedCounter = str_pad($counter, 4, '0', STR_PAD_LEFT);
-        //Concatenate the parts to create the GRN number
-        $grvNumber = 'GRN-' . $formattedCounter;
-        //Increment the counter for the next use    
-        $counter++;
         
         $grv = new GRV(); // Use the GRV model
-        $grv->grvNumber = $grvNumber;
+        $grv->grvNumber = $this->generateGRNNumber();
         $grv->total = $request->input("total");
         $grv->supplier_id = $request->input('supplier_id');
         $grv->shop_id = $request->input('shop_id');
@@ -84,6 +78,22 @@ class GRVController extends Controller
         //return redirect()->route('/dashboard')->with('status', 'GRV submitted successfully');
         return view('pages.view-gnn-result')->with('grv', $grv);
     }
+
+    public function generateGRNNumber()
+{
+    // Check if the counter is already set in the session, if not, initialize it
+    if (!Session::has('grn_counter')) {
+        Session::put('grn_counter', 1);
+    } else {
+        // Increment the counter
+        Session::put('grn_counter', Session::get('grn_counter') + 1);
+    }
+    // Format the counter with leading zeros
+    $formattedCounter = str_pad(Session::get('grn_counter'), 4, '0', STR_PAD_LEFT);
+    // Concatenate the parts to create the GRN number
+    $grvNumber = 'GRN-' . $formattedCounter;
+    return $grvNumber;
+}
 
     /**
      * Display the specified resource.
