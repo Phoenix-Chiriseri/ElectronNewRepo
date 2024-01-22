@@ -107,10 +107,8 @@ margin-top:20px;
                        </div>
                        <div class="col-xs-6 col-sm-6 col-md-6 text-right">
                            <div class="receipt-right">
-                               <h5>Company Name.</h5>
-                               <p>+1 3649-6589 <i class="fa fa-phone"></i></p>
-                               <p>company@gmail.com <i class="fa fa-envelope-o"></i></p>
-                               <p>USA <i class="fa fa-location-arrow"></i></p>
+                               <h5>{{ $grv->grvNumber }}</h5>
+                               <p>Created At {{ $grv->created_at }} <i class="fa fa-phone"></i></p> 
                            </div>
                        </div>
                    </div>
@@ -120,96 +118,83 @@ margin-top:20px;
                    <div class="receipt-header receipt-header-mid">
                        <div class="col-xs-8 col-sm-8 col-md-8 text-left">
                            <div class="receipt-right">
-                               <h5>Customer Name </h5>
-                               <p><b>Mobile :</b> +1 12345-4569</p>
-                               <p><b>Email :</b> customer@gmail.com</p>
-                               <p><b>Address :</b> New York, USA</p>
+                               <h5>Supplier Name : {{ $grv->supplier_name }}</h5>
+                               <p><b>Location: </b> {{ $grv->shop_name }}</p>
+                               <p><b> GRN Date </b> {{ $grv->grn_date }}</p>
+                               <p><strong>Print Date:</strong> {{ $grv->created_at }}</p>
+                               <p><strong>Payment Method </strong> {{ $grv->payment_method }}</p>
+                               <p><strong>Type </strong>Direct GRN </p>
+                               <p><strong>Created By </strong> {{ $email }}</p>
                            </div>
                        </div>
                        <div class="col-xs-4 col-sm-4 col-md-4">
                            <div class="receipt-left">
-                               <h3>INVOICE # 102</h3>
+                               
                            </div>
                        </div>
                    </div>
                </div>
-               
                <div>
+                <p class = "text-center"><strong>Products</strong></p>
                    <table class="table table-bordered">
                        <thead>
                            <tr>
-                               <th>Description</th>
-                               <th>Amount</th>
+                               <th>Product</th>
+                               <th>Measurement</th>
+                               <th>Quantity</th>
+                               <th>Unit Cost</th>
+                               <th>Total Cost</th>
                            </tr>
                        </thead>
                        <tbody>
-                           <tr>
-                               <td class="col-md-9">Payment for August 2016</td>
-                               <td class="col-md-3"><i class="fa fa-inr"></i> 15,000/-</td>
-                           </tr>
-                           <tr>
-                               <td class="col-md-9">Payment for June 2016</td>
-                               <td class="col-md-3"><i class="fa fa-inr"></i> 6,00/-</td>
-                           </tr>
-                           <tr>
-                               <td class="col-md-9">Payment for May 2016</td>
-                               <td class="col-md-3"><i class="fa fa-inr"></i> 35,00/-</td>
-                           </tr>
-                           <tr>
-                               <td class="text-right">
-                               <p>
-                                   <strong>Total Amount: </strong>
-                               </p>
-                               <p>
-                                   <strong>Late Fees: </strong>
-                               </p>
-                               <p>
-                                   <strong>Payable Amount: </strong>
-                               </p>
-                               <p>
-                                   <strong>Balance Due: </strong>
-                               </p>
-                               </td>
-                               <td>
-                               <p>
-                                   <strong><i class="fa fa-inr"></i> 65,500/-</strong>
-                               </p>
-                               <p>
-                                   <strong><i class="fa fa-inr"></i> 500/-</strong>
-                               </p>
-                               <p>
-                                   <strong><i class="fa fa-inr"></i> 1300/-</strong>
-                               </p>
-                               <p>
-                                   <strong><i class="fa fa-inr"></i> 9500/-</strong>
-                               </p>
-                               </td>
-                           </tr>
-                           <tr>
+                        @foreach ($grv->stocks as $stock)
+                        <tr>
+                            <td>{{ $stock->product_name }}</td>
+                            <td>{{ $stock->measurement }}</td>
+                            <td>{{ $stock->quantity }}</td>
+                            <td>{{ $stock->unit_cost }}</td>
+                            <td>{{ $stock->total_cost }}</td>
+                        </tr>
+                        @endforeach   
                               
-                               <td class="text-right"><h2><strong>Total: </strong></h2></td>
-                               <td class="text-left text-danger"><h2><strong><i class="fa fa-inr"></i> 31.566/-</strong></h2></td>
                            </tr>
                        </tbody>
                    </table>
-               </div>
-               
+               </div>   
                <div class="row">
-                   <div class="receipt-header receipt-header-mid receipt-footer">
-                       <div class="col-xs-8 col-sm-8 col-md-8 text-left">
-                           <div class="receipt-right">
-                               <p><b>Date :</b> 15 Aug 2016</p>
-                               <h5 style="color: rgb(140, 140, 140);">Thanks for shopping.!</h5>
-                           </div>
-                       </div>
-                       <div class="col-xs-4 col-sm-4 col-md-4">
-                           <div class="receipt-left">
-                               <h1>Stamp</h1>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-               
+                <div class="receipt-header receipt-header-mid receipt-footer">
+                    <div class="col-xs-8 col-sm-8 col-md-8 text-right">
+                        <div class="receipt-right">
+                            <h4><b>Total</b> {{$grv->total}}</h4>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="receipt-header receipt-header-mid receipt-footer">
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <div class="receipt-left">
+                            <p><strong>Storekeeper's Signature:</strong></p>
+                            <p>.........................................</p>
+                            <!-- Add space for the storekeeper's signature -->
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <div class="receipt-left">
+                            <p><strong>Approved By:</strong></p>
+                            <p>.........................................</p>
+                            <!-- Add space for the received by signature -->
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <div class="receipt-left">
+                            <p><strong>Received By:</strong></p>
+                            <p>.........................................</p>
+                            <!-- Add space for the received by signature -->
+                        </div>
+                    </div>
+                </div>
+            </div>
            </div>    
        </div>
    </div>
