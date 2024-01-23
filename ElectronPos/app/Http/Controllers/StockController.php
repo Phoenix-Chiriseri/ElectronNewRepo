@@ -34,12 +34,11 @@ class StockController extends Controller
         $stocks = DB::table('stocks')
         ->leftJoin('products', 'stocks.product_id', '=', 'products.id') // Join with the products table
         ->select(
-            'products.id as product_id',
             'products.*',
             'stocks.*',
             DB::raw('SUM(stocks.quantity) OVER (PARTITION BY products.id) as total_stock') // Calculate the total stock for each product
         )
-        ->distinct('products.name')
+        ->distinct('stocks.name')
         ->orderByDesc('products.id') // Order by total stock in descending order
         ->get();
          $total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;          

@@ -166,7 +166,7 @@ margin-top:20px;
                        <tbody>
                         @foreach ($grv->stocks as $stock)
                         <tr>
-                            <td>{{ $stock->name }}</td>
+                            <td>{{ $stock->product_name }}</td>
                             <td>{{ $stock->measurement }}</td>
                             <td>{{ $stock->quantity }}</td>
                             <td>{{ $stock->unit_cost }}</td>
