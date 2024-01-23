@@ -32,10 +32,10 @@
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('view-cattegories') }}"
+                                    <a class="btn btn-info" href="{{ route('view-shop') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1"></span>
+                                        <span class="ms-1"></span>View Shops
                                     </a>
                                 </li>
                             </ul>
