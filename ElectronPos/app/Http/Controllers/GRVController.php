@@ -90,8 +90,7 @@ class GRVController extends Controller
             $tableRow->save();
         }
         // Redirect or respond with success message
-        //return redirect()->route('/dashboard')->with('status', 'GRV submitted successfully');
-        return view('pages.view-gnn-result')->with('grv', $grv);
+            return redirect()->route('create-grn');
     }
 
     public function generateGRNNumber()
