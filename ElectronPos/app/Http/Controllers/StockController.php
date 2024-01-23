@@ -32,17 +32,22 @@ class StockController extends Controller
 
     public function viewAllStockItems(){ 
         $stocks = DB::table('stocks')
-        ->leftJoin('products', 'stocks.product_id', '=', 'products.id') // Join with the products table
-        ->select(
+        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+        ->select('products.name as product_name', 'products.barcode as barcode','products.selling_price as selling_price',DB::raw('SUM(stocks.quantity) as   total_quantity'))
+        ->groupBy('products.name','products.barcode','products.selling_price') 
+        ->get();
+        return view("pages.viewall-stock")->with("stocks", $stocks);
+        // Join with the products table
+        /*->select(
             'products.*',
             'stocks.*',
             DB::raw('SUM(stocks.quantity) OVER (PARTITION BY products.id) as total_stock') // Calculate the total stock for each product
         )
         ->distinct('stocks.name')
         ->orderByDesc('products.id') // Order by total stock in descending order
-        ->get();
-         $total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;          
-         return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
+        ->get();*/
+         //$total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;          
+         //return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
     }
         
     public function addToStock($id){

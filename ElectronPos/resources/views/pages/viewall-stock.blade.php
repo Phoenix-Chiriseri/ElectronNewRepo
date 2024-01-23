@@ -38,6 +38,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                      
                                         @foreach($stocks as $stock)
                                         <tr>
                                             <td>
@@ -51,7 +52,7 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{$stock->selling_price}}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$stock->total_stock}}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{$stock->total_quantity}}</p>
                                             </td>
                                             </tr>
                                         @endforeach
