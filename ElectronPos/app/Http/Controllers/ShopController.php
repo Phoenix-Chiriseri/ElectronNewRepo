@@ -19,9 +19,12 @@ class ShopController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function viewShopList()
     {
-        //
+        //return all the shops to the front end
+        $shops = Shop::orderBy("id", "desc")->paginate(10);
+        $numberOfShops = Shop::all()->count();
+        return view("pages.shop-list")->with("shops",$shops)->with("numberOfShops",$numberOfShops);
 
 
     }

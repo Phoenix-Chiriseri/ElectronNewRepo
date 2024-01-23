@@ -160,18 +160,17 @@
                     <span class="nav-link-text ms-1">Reports</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                    href="{{ route('view-shop') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fa fa-shop ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Shop</span>
+            <li class="nav-item dropdown">
+                <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i style="font-size: 1.2rem;" class="fa fa-cogs me-2 ps-2 pe-2 text-center"></i>
+                    <span class="text-capitalize">Settings</span>
                 </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
+                    <a class="dropdown-item" href="{{ route('shop-list') }}">Shops</a>
+                </div>
             </li>
-        </ul>
-    </div>
-    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+         </div>
+        <div class="sidenav-footer position-absolute w-100 bottom-0 ">
         <div class="mx-3">
             <a href="javascript:;" class="btn bg-gradient-primary w-100">
                 <i class="fa fa-user me-sm-1"></i>
