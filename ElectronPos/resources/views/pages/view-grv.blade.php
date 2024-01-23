@@ -5,6 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- Include Bootstrap JS from the CDN -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 </head>
 <style>
 body{
@@ -102,19 +103,29 @@ margin-top:20px;
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <div class="row">
     <div class="col-md-12 text-center">
-        <a href="{{ route('generate-grv') }}" class="btn btn-primary">Export to PDF</a>
+        <a id="exportBtn" class="btn btn-primary">Export to PDF</a>
     </div>
 </div>
 <script>
     document.getElementById('exportBtn').addEventListener('click', function () {
-        var element = document.getElementById('pdfContent'); // ID of the element to be exported
-        html2pdf(element);
+        var element = document.getElementById('pdfContent');
+        
+        // Set options for the PDF export
+        var options = {
+            margin: 10,  // Adjust the margin as needed
+            filename: 'exported-document.pdf',  // Specify the filename
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf(element, options);
     });
 </script>
 <div class="col-md-12">   
     <div class="row">
            
-           <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+           <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3" id="pdfContent">
                <div class="row">
                    <div class="receipt-header">
                        <div class="col-xs-6 col-sm-6 col-md-6">
@@ -172,8 +183,7 @@ margin-top:20px;
                             <td>{{ $stock->unit_cost }}</td>
                             <td>{{ $stock->total_cost }}</td>
                         </tr>
-                        @endforeach   
-                              
+                        @endforeach         
                            </tr>
                        </tbody>
                    </table>
