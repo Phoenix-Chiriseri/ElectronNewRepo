@@ -14,8 +14,6 @@ use Auth;
 
 class StockController extends Controller
 {
-    
-    
 
     public function createGRNView(){
 
@@ -46,47 +44,8 @@ class StockController extends Controller
         )
         ->orderByDesc("total_stock") // Order by total stock in descending order
         ->get();
-        // Access the total_stock directly from the first item in the collection
-     $total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;
-    
-    return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
-
-
-
-        //all the stock items in the database
-        /*$stocks = DB::table('stocks')
-        ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
-        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
-        ->select(
-            'products.id as product_id',
-            'products.name as name',
-            'products.unit_of_measurement as measurement', // Add this line to include unit_of_measurement
-            'suppliers.supplier_name',
-            DB::raw('SUM(stocks.quantity) as quantity'),
-            DB::raw('SUM(stocks.quantity * products.price) as price')
-        )
-        ->groupBy('products.id', 'products.name', 'products.unit_of_measurement', 'suppliers.supplier_name')
-        ->orderBy("stocks.id","asc")
-        ->get();
-
-        //the total amount of stock in the database
-        /*$totalStock = DB::table('stocks')
-        ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
-        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
-        ->select(
-            DB::raw('SUM(stocks.total) as total'),
-        )
-        ->get();*/
-
-        //the number of items in stock      
-        /*$stockCount = DB::table('stocks')
-        ->leftJoin('suppliers', 'stocks.supplier_id', '=', 'suppliers.id')
-        ->leftJoin("products",'stocks.product_id','products.id')
-        ->select('stocks.*','suppliers.supplier_name','products.name')
-        ->count();
-        $stockCount = $stocks->count();*/
-        //return view("pages.viewall-stock")->with("stocks",$stocks)->with("stockCount",$stockCount)->with("totalStock",$totalStock);
-
+         $total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;          
+          return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
     }
         
     public function addToStock($id){

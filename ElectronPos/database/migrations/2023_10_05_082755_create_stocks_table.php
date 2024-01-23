@@ -14,14 +14,16 @@ return new class extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('grv_id');
+            $table->unsignedBigInteger('product_id')->nullable(); // Assuming you're linking to products
             $table->string('product_name');
             $table->string('measurement');
-            $table->decimal('quantity', 10, 2);
+            $table->integer('quantity');
             $table->decimal('unit_cost', 10, 2);
             $table->decimal('total_cost', 10, 2);
             $table->timestamps();
-            // Foreign key
-            $table->foreign('grv_id')->references('id')->on('g_r_v_s');
+            // Foreign keys
+            $table->foreign('grv_id')->references('id')->on('g_r_v_s')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
         });
     }
     /**

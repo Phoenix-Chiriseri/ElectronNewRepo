@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GRV;
 use App\Models\Stock;
+use App\Models\Product;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -16,8 +17,7 @@ class GRVController extends Controller
      * Display a listing of the resource.
      */
     public function createGRN(){
-        
-        
+      
         $grvs = GRV::join('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
@@ -25,6 +25,7 @@ class GRVController extends Controller
         ->orderBy("g_r_v_s.id", "desc")
         ->paginate(10);
         return view("pages.create-grn")->with("grvs",$grvs);
+      
     }
 
     public function generateGrv(){
@@ -82,7 +83,10 @@ class GRVController extends Controller
             $tableRow->quantity = $rowData['quantity'];
             $tableRow->unit_cost = $rowData['unit_cost'];
             $tableRow->total_cost = $rowData['total_cost'];
-            $tableRow->grv_id = $grv->id; // Assuming you have a foreign key in the Stock model linking to the main GRV table
+            // Find or create the product based on the product_name
+            $product = Product::firstOrCreate(['name' => $rowData['product_name']]);
+            $tableRow->product_id = $product->id;
+            $tableRow->grv_id = $grv->id;
             $tableRow->save();
         }
         // Redirect or respond with success message

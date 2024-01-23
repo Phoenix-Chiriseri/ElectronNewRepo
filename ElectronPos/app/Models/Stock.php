@@ -21,12 +21,12 @@ class Stock extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function grv()
     {
-        return $this->belongsTo(GRV::class, 'grv_id'); // 'grv_id' should match the actual foreign key in the 'stocks' table
+        return $this->belongsTo(GRV::class, 'grv_id');
     }
     
 }
