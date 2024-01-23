@@ -37,17 +37,6 @@ class StockController extends Controller
         ->groupBy('products.name','products.barcode','products.selling_price') 
         ->get();
         return view("pages.viewall-stock")->with("stocks", $stocks);
-        // Join with the products table
-        /*->select(
-            'products.*',
-            'stocks.*',
-            DB::raw('SUM(stocks.quantity) OVER (PARTITION BY products.id) as total_stock') // Calculate the total stock for each product
-        )
-        ->distinct('stocks.name')
-        ->orderByDesc('products.id') // Order by total stock in descending order
-        ->get();*/
-         //$total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;          
-         //return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
     }
         
     public function addToStock($id){
