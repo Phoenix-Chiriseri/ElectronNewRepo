@@ -38,12 +38,12 @@ class StockController extends Controller
             'products.id as product_id',
             'products.*',
             'stocks.*',
-            DB::raw('(SELECT COALESCE(SUM(quantity), 0) FROM stocks WHERE product_name = products.name) as total_stock') // Calculate the total stock for each product
+            DB::raw('SUM(stocks.quantity) OVER (PARTITION BY products.id) as total_stock') // Calculate the total stock for each product
         )
-        ->orderByDesc('total_stock') // Order by total stock in descending order
+        ->orderByDesc('products.id') // Order by total stock in descending order
         ->get();
          $total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;          
-          return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
+         return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
     }
         
     public function addToStock($id){

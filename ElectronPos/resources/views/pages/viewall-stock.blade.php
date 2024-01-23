@@ -51,7 +51,7 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{$stock->selling_price}}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$total_stock}}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{$stock->total_stock}}</p>
                                             </td>
                                             </tr>
                                         @endforeach
