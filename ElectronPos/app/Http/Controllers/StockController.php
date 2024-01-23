@@ -32,17 +32,15 @@ class StockController extends Controller
 
     public function viewAllStockItems(){
        
-        $stocks = GRV::join('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
-        ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
-        ->leftJoin('products', 'stocks.product_name', '=', 'products.name') // Join with the products table
+        $stocks = DB::table('stocks')
+        ->leftJoin('products', 'stocks.product_id', '=', 'products.id') // Join with the products table
         ->select(
-            'products.id',
+            'products.id as product_id',
             'products.*',
             'stocks.*',
-            \DB::raw('(SELECT COALESCE(SUM(quantity), 0) FROM stocks WHERE product_name = products.name) as total_stock') // Calculate the total stock for each product
-             // Calculate the total stock for each product
+            DB::raw('(SELECT COALESCE(SUM(quantity), 0) FROM stocks WHERE product_name = products.name) as total_stock') // Calculate the total stock for each product
         )
-        ->orderByDesc("total_stock") // Order by total stock in descending order
+        ->orderByDesc('total_stock') // Order by total stock in descending order
         ->get();
          $total_stock = $stocks->isEmpty() ? 0 : $stocks->first()->total_stock;          
           return view("pages.viewall-stock")->with("stocks", $stocks)->with("total_stock", $total_stock);
