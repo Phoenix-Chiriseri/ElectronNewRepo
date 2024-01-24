@@ -26,36 +26,71 @@ $("#searchSelectedProd").on("keydown", function (event) {
     }
 });
 
-//load the products by name.
+// Load the products by name.
 function loadProductsByName(productName) {
     axios.get(`/products/searchByName/${productName}`)
         .then((response) => {
-            const product = response.data;  // Get the product details from the response data
-            console.log(product);
-            // Check if the product is already in the cart
-            const existingCartItem = state.cart.find(item => item.id === product.id);
-            if (existingCartItem) {
-                // If the product is already in the cart, increase the quantity
-                existingCartItem.quantity += 1;
+            const products = response.data.products;  // Accessing products array in the response
+            const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
+
+            if (product) {
+                // Check if the product is already in the cart
+                const existingCartItem = state.cart.find(item => item.id === product.id);
+                if (existingCartItem) {
+                    // If the product is already in the cart, increase the quantity
+                    existingCartItem.quantity += 1;
+                } else {
+                    // If the product is not in the cart, add it with quantity 1
+                    state.cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: parseFloat(product.price), // Assuming price is a string, convert it to a number
+                        quantity: 1,
+                    });
+                }
+
+                // Update the UI with the product information
+                updateCartUI();
             } else {
-                // If the product is not in the cart, add it with quantity 1
-                state.cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    quantity: 1,
-                });
+                console.error('No product found with the given name.');
             }
-            // Update the UI With The Product Information
-            updateCartUI();
         })
         .catch((error) => {
             // Handle errors here
             console.error('Error loading products:', error);
         });
-        
     }
-
+    
+    function updateCartUI() {
+    const cartTableBody = $(".user-cart table tbody");
+    cartTableBody.empty();
+    state.cart.forEach((item) => {
+        const rowHtml = `
+            <tr>
+                <td>${item.name}</td>
+                <td>
+                    <div class="input-group">
+                        <input
+                            type="number"
+                            class="form-control border border-2 py-1 px-2 quantity-input"
+                            value="${item.quantity}"
+                            data-product-id="${item.id}"
+                        />
+                        <div class="input-group-append">
+                            <button
+                                class="btn btn-danger btn-lg py-1 px-2 remove-item"
+                                data-product-id="${item.id}"
+                            >
+                                <i class="fas fa-trash fa-2x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-right">${(item.price * item.quantity).toFixed(2)}</td>
+            </tr>
+        `;
+        cartTableBody.append(rowHtml);
+    });
         function updateTotal() {
             const totalValue = state.cart.reduce((total, item) => {
                 return total + item.price * item.quantity;
@@ -169,37 +204,6 @@ function loadProductsByName(productName) {
                 updateCartUI();
             }
         });
-
-        function updateCartUI() {
-            const cartTableBody = $(".user-cart table tbody");
-            cartTableBody.empty();
-            state.cart.forEach((item) => {
-                const rowHtml = `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>
-                            <div class="input-group">
-                                <input
-                                    type="number"
-                                    class="form-control border border-2 py-1 px-2 quantity-input"
-                                    value="${item.quantity}"
-                                    data-product-id="${item.id}"
-                                />
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn btn-danger btn-lg py-1 px-2 remove-item"
-                                        data-product-id="${item.id}"
-                                    >
-                                        <i class="fas fa-trash fa-2x"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-right">${(item.price * item.quantity).toFixed(2)}</td>
-                    </tr>
-                `;
-                cartTableBody.append(rowHtml);
-            });
 
             $(".quantity-input").on("input", function () {
                 const productId = $(this).data("product-id");
