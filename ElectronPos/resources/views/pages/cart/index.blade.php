@@ -12,9 +12,57 @@
 
         //function to clear the cart
         $("#clearCart").on("click", function () {
-            state.cart = []; // Corrected from cart.clear();
+            state.cart = [];
             updateCartUI();
         });
+        
+$("#searchSelectedProd").on("keydown", function (event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        var productName = $(this).val();
+        console.log('Search Term:', productName);
+        //load the products with the productName
+        loadProductsByName(productName);
+    }
+});
+
+//load the products by name.
+function loadProductsByName(productName) {
+    axios.get(`/products/searchByName/${productName}`)
+        .then((response) => {
+            const product = response.data;  // Get the product details from the response data
+            console.log(product);
+            // Check if the product is already in the cart
+            const existingCartItem = state.cart.find(item => item.id === product.id);
+            if (existingCartItem) {
+                // If the product is already in the cart, increase the quantity
+                existingCartItem.quantity += 1;
+            } else {
+                // If the product is not in the cart, add it with quantity 1
+                state.cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1,
+                });
+            }
+            // Update the UI With The Product Information
+            updateCartUI();
+        })
+        .catch((error) => {
+            // Handle errors here
+            console.error('Error loading products:', error);
+        });
+        
+    }
+
+        function updateTotal() {
+            const totalValue = state.cart.reduce((total, item) => {
+                return total + item.price * item.quantity;
+            }, 0).toFixed(2);
+
+            $("#total-value").text("Total Value is: " + totalValue);
+        }
 
     /*function loadProducts(search = "") {
     const query = !!search ? `?search=${search}` : "";
@@ -25,32 +73,6 @@
     });
     }*/
 
-    $("#searchSelectedProd").on("keydown", function (event) {
-    if (event.which == 13) {
-        event.preventDefault();
-        var productName = $(this).val();
-        console.log('Search Term:', productName);
-        // Load the products with the productName
-        loadProductsByName(productName);
-     }
-    });
-
-    function loadProductsByName(productName) {
-    // const query = !!search ? `?search=${search}` : "";
-    axios.get(`/products/searchByName/${productName}`)
-        .then((response) => {
-
-            console.log(response);
-            //const products = response.data;
-            //console.log('Products:', products); // Fix: Log 'products' instead of 'product'
-            // Handle the retrieved products as needed, e.g., update the UI
-        })
-        .catch((error) => {
-            // Handle errors here
-            console.error('Error loading products:', error);
-        });
-        }
-
         let selectedCustomerName = "";
 
         $("#customerName").on("change", function () {
@@ -59,7 +81,8 @@
 
         $("#searchProduct").on("input", function (event) {
             const product = event.target.value;
-            loadProducts(product);
+            loadProductsByName(product);
+            //loadProducts(product);
         });
 
         // Selling the items out of the system
@@ -150,7 +173,6 @@
         function updateCartUI() {
             const cartTableBody = $(".user-cart table tbody");
             cartTableBody.empty();
-
             state.cart.forEach((item) => {
                 const rowHtml = `
                     <tr>
@@ -176,7 +198,6 @@
                         <td class="text-right">${(item.price * item.quantity).toFixed(2)}</td>
                     </tr>
                 `;
-
                 cartTableBody.append(rowHtml);
             });
 
@@ -221,7 +242,6 @@
         }
     });
 </script>
-
 @if(session('message'))
     <script>
         document.addEventListener('DOMContentLoaded', function() {
