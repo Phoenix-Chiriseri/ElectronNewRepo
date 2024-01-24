@@ -272,6 +272,7 @@
                         /> 
                     </div>
                     <hr>
+                    <hr>
                     <div class="user-cart">
                         <div class="card">
                             <table class="table align-items-center">
