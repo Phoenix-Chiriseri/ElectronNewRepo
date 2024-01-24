@@ -63,7 +63,6 @@ class GRVController extends Controller
     public function submitGrv(Request $request)
     {
 
-        
         $grv = new GRV(); // Use the GRV model
         $grv->grvNumber = $this->generateGRNNumber();
         $grv->total = $request->input("total");

@@ -24,10 +24,8 @@ class SupplierController extends Controller
         ->select('users.name', 'suppliers.*')
         ->orderBy('suppliers.id', 'desc')
         ->get();
-        //dd($suppliers);
-        //return the number of suppliers to the suppliers view
-        //$numberOfSuppliers = Supplier::all()->count();
-         return view('pages.view-suppliers')->with("suppliers",$suppliers);
+        $numberOfSuppliers = Supplier::all()->count();
+        return view('pages.view-suppliers')->with("suppliers",$suppliers)->with("numberOfSuppliers",$numberOfSuppliers);
     }
 
     

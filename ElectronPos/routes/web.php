@@ -24,8 +24,6 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\GrvController;
 
 
-
-
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');

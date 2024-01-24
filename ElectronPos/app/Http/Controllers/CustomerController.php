@@ -21,7 +21,8 @@ class CustomerController extends Controller
         ->select('users.name', 'customers.*')
         ->orderBy('customers.id', 'desc')
         ->get();
-        return view("pages.view-customers")->with("customers",$customers);
+        $numberOfCustomers = Customer::all()->count();
+        return view("pages.view-customers")->with("customers",$customers)->with("numberOfCustomers",$numberOfCustomers);
     }
 
     /**
