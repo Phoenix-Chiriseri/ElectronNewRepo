@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         @endif
-                        <form method="POST" action="{{ route('submit-employee') }}">
+                        <form method="POST" action="">
                             @csrf
                             <div class="row">
                                 <div class="mb-3 col-md-12">
