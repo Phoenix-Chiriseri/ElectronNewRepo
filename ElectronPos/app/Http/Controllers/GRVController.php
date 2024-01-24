@@ -18,10 +18,12 @@ class GRVController extends Controller
      */
     public function createGRN(){
       
-        $grvs = GRV::join('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
+        //list of grvs going back to the front end
+        $grvs = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
+        ->distinct("g_r_v_s.id")
         ->orderBy("g_r_v_s.id", "desc")
         ->paginate(10);
         return view("pages.create-grn")->with("grvs",$grvs);
@@ -30,16 +32,16 @@ class GRVController extends Controller
 
     public function generateGrv(){
     {
-
+        //load the pdf view....
         $pdf = PDF::loadView('pages.generate_grv');
-        return $pdf->download('receipt.pdf');
+        return $pdf->download('receipt.pdf');  
         }
     }
 
     public function viewById($id){
 
         $email = auth()->user()->email;
-        $grv = GRV::join('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
+        $grv = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
@@ -89,12 +91,13 @@ class GRVController extends Controller
             $tableRow->grv_id = $grv->id;
             $tableRow->save();
         }
-        // Redirect or respond with success message
-            return redirect()->route('create-grn');
+        //Redirect or respond with success message
+        return redirect()->route('create-grn');
     }
 
     public function generateGRNNumber()
-{
+    
+    {
     // Check if the counter is already set in the session, if not, initialize it
     if (!Session::has('grn_counter')) {
         Session::put('grn_counter', 1);
@@ -107,7 +110,8 @@ class GRVController extends Controller
     // Concatenate the parts to create the GRN number
     $grvNumber = 'GRN-' . $formattedCounter;
     return $grvNumber;
-}
+
+    }
 
     /**
      * Display the specified resource.

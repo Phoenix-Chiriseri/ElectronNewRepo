@@ -76,7 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-employee', [ShopController::class, 'store'])->name('submit-shop');
 	Route::post('/submit-shop', [ShopController::class, 'store'])->name('submit-shop');
 	Route::get('/sell-product', [SalesController::class, 'create'])->name('sell-product');
-	Route::get('/products-json/{productName}', [ProductController::class, 'searchByName'])->name('products.searchByName');
+	Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByName'])->name('products.searchByName');
 	//loop through the products and then add them to cart
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
 	Route::post('/submit-suppliers', [SupplierController::class, 'store'])->name('submit-suppliers');

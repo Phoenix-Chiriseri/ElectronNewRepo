@@ -16,27 +16,40 @@
             updateCartUI();
         });
 
-        function loadProducts(search = "") {
+    /*function loadProducts(search = "") {
     const query = !!search ? `?search=${search}` : "";
     axios.get(`/products-json/${query}`).then((response) => {
         const products = response.data;
         console.log('Products:', products);
         // Handle the retrieved products as needed, e.g., update the UI
     });
-}
+    }*/
 
-$("#searchSelectedProd").on("keydown", function (event) {
+    $("#searchSelectedProd").on("keydown", function (event) {
     if (event.which == 13) {
         event.preventDefault();
         var productName = $(this).val();
         console.log('Search Term:', productName);
         // Load the products with the productName
-        loadProducts(productName);
-    }
-});
+        loadProductsByName(productName);
+     }
+    });
 
-// Load products initially (without search term)
-loadProducts();
+    function loadProductsByName(productName) {
+    // const query = !!search ? `?search=${search}` : "";
+    axios.get(`/products/searchByName/${productName}`)
+        .then((response) => {
+
+            console.log(response);
+            //const products = response.data;
+            //console.log('Products:', products); // Fix: Log 'products' instead of 'product'
+            // Handle the retrieved products as needed, e.g., update the UI
+        })
+        .catch((error) => {
+            // Handle errors here
+            console.error('Error loading products:', error);
+        });
+        }
 
         let selectedCustomerName = "";
 
@@ -305,7 +318,7 @@ loadProducts();
                      <input
                          type="text"
                          class="form-control border border-2 p-2"
-                         placeholder="Search Product"
+                         placeholder="Search Product By Name"
                          onChange=""
                          onKeyDown=""
                          id = "searchSelectedProd"
@@ -323,23 +336,6 @@ loadProducts();
                     }, 1500);
                 </script>
                 @endif
-                 <hr>
-                 <div class="order-product row">
-                    @foreach($products as $product)
-                        <div class="col-md-4 mb-4"> <!-- Adjust 'md' based on your responsiveness needs -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $product->name }}</h5>
-                                    <!-- You can add more information here as needed -->
-                                    <p class="card-text">Price: ${{ $product->price }}</p>
-                                    <!-- Add more details or customize as necessary -->
-                                    <a data-product-id="{{ $product->id }}" class="btn btn-primary addToCart">Add to Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                </div>
             </div>
         </div>
         <x-plugins></x-plugins>
