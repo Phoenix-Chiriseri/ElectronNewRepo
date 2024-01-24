@@ -29,7 +29,15 @@ class ProductController extends Controller
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
+    //search by name on the cart
     public function searchByName($productName)
+    {
+        $products = Product::where('name', 'like', '%' . $productName . '%')->get();
+        return response()->json(['products' => $products]);
+    }
+
+    //search product on the cart on grv
+    public function searchProduct($productName)
     {
         $products = Product::where('name', 'like', '%' . $productName . '%')->get();
         return response()->json(['products' => $products]);

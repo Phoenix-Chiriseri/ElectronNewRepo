@@ -1,7 +1,6 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
     $(document).ready(function () {
@@ -16,23 +15,22 @@
             updateCartUI();
         });
         
-$("#searchSelectedProd").on("keydown", function (event) {
-    if (event.which == 13) {
+    $("#searchSelectedProd").on("keydown", function (event) {
+        if (event.which == 13) {
         event.preventDefault();
         var productName = $(this).val();
         console.log('Search Term:', productName);
         //load the products with the productName
         loadProductsByName(productName);
-    }
-});
+        }
+    });
 
-// Load the products by name.
-function loadProductsByName(productName) {
+    // Load the products by name.
+    function loadProductsByName(productName) {
     axios.get(`/products/searchByName/${productName}`)
         .then((response) => {
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
-
             if (product) {
                 // Check if the product is already in the cart
                 const existingCartItem = state.cart.find(item => item.id === product.id);
@@ -48,8 +46,7 @@ function loadProductsByName(productName) {
                         quantity: 1,
                     });
                 }
-
-                // Update the UI with the product information
+                // Update the user interface with the product information
                 updateCartUI();
             } else {
                 console.error('No product found with the given name..');
@@ -90,7 +87,9 @@ function loadProductsByName(productName) {
             </tr>
         `;
         cartTableBody.append(rowHtml);
-    });
+        
+     });
+     
         function updateTotal() {
             const totalValue = state.cart.reduce((total, item) => {
                 return total + item.price * item.quantity;
@@ -98,7 +97,7 @@ function loadProductsByName(productName) {
 
             $("#total-value").text("Total Value is: " + totalValue);
         }
-        
+
         let selectedCustomerName = "";
 
         $("#customerName").on("change", function () {
@@ -107,19 +106,17 @@ function loadProductsByName(productName) {
                 console.log("customer name cannot be equal to null")
             }
         });
-
+        
+        //search the product by its name when you press the enter button
         $("#searchProduct").on("input", function (event) {
             const product = event.target.value;
+            //function that will load the product by its name
             loadProductsByName(product);
-            //loadProducts(product);
         });
 
-        // Selling the items out of the system
-        // Perform any necessary validation before submitting (e.g., checking if the cart is not empty)
-
+        //function that will sell the product and then deduct the products from stokc
         $("#sellItems").on("click", function (event) {
             event.preventDefault();
-
             // Calculate totalValue before showing the SweetAlert
             const totalValue = state.cart.reduce((total, item) => {
                 return total + item.price * (item.quantity || 1);
@@ -265,32 +262,16 @@ function loadProductsByName(productName) {
             <div class="row">
                 <div class="col-md-6">
                     <div class="row mb-2">
-                        <div class="col">
-                            <form onSubmit="">
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        class="form-control border border-2 p-2"
-                                        placeholder="Scan Barcode..."
-                                        value=""
-                                        onChange=""
-                                    />
-                                    <div class="input-group-append">
-                                        
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col">
-                            <select class="form-control border border-2 p-2" id="selectedCustomerName" required>
-                                <option value="">Select Customer</option>
-                                @foreach($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
-                                @endforeach
-                            </select>
-                            <div id = "showCustomerMessage" hidden></div>
-                        </div>
+                        <input
+                        type="text"
+                        class="form-control border border-2 p-2"
+                        placeholder="Search Product By Name"
+                        onChange=""
+                        onKeyDown=""
+                        id="searchSelectedProd"
+                        /> 
                     </div>
+                    <hr>
                     <div class="user-cart">
                         <div class="card">
                             <table class="table align-items-center">
@@ -315,13 +296,7 @@ function loadProductsByName(productName) {
                     <hr>
                     <div class="row">
                         <div class="col">
-                            <button
-                                type="button"
-                                class="btn btn-danger btn-block"
-                                onClick="" id = "clearCart"
-                            >
-                                Cancel
-                            </button>
+                        
                         </div>
                         <form method="POST" action="/sell" id="sellForm">
                             @csrf
@@ -333,15 +308,24 @@ function loadProductsByName(productName) {
                 <div class="col-md-6">
                     <!-- Add your content for the second column here -->
                     <div className="mb-2">
-                     <input
-                         type="text"
-                         class="form-control border border-2 p-2"
-                         placeholder="Search Product By Name"
-                         onChange=""
-                         onKeyDown=""
-                         id = "searchSelectedProd"
-                     />
-                 </div>
+                        <div class="col">
+                            <select class="form-control border border-2 p-2" id="selectedCustomerName" required>
+                                <option value="">Select Customer</option>
+                                @foreach($customers as $customer)
+                                    <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                                @endforeach
+                            </select>
+                            <div id = "showCustomerMessage" hidden></div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div className="mb-2">
+                        <!-- Buttons for payment options -->
+                        <button type="button" class="btn btn-primary btn-lg mr-2" onclick="handleCashPayment()"><i class = "fa fa-money"></i> Cash</button>
+                        <button type="button" class="btn btn-success btn-lg mr-2" onclick="handleCreditCardPayment()"><i class="fa fa-credit-card"></i> Credit Card</button>
+                        <button type="button" class="btn btn-info btn-lg" onclick="handleDebitCardPayment()"><i class="fa fa-credit-card"></i> Debit Card</button>
+                    </div>
+                </div>
                  @if(session('error'))
                  <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="color: white;">
                     {{ session('error') }}
