@@ -52,7 +52,7 @@ function loadProductsByName(productName) {
                 // Update the UI with the product information
                 updateCartUI();
             } else {
-                console.error('No product found with the given name.');
+                console.error('No product found with the given name..');
             }
         })
         .catch((error) => {
