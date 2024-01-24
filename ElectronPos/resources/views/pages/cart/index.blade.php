@@ -278,9 +278,9 @@
                             <table class="table align-items-center">
                                 <thead>
                                     <tr>
-                                        <th>Product Name</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
+                                        <th style="color:black;">Product Name</th>
+                                        <th style="color:black;">Quantity</th>
+                                        <th style="color:black;">Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -292,7 +292,7 @@
                     <hr>
                     <div class="row">
                         <div class="col"></div>
-                        <div class="col text-centre" id="total-value">Total:</div>
+                        <div class="col text-centre" id="total-value" style="color:black;">Total:</div>
                     </div>
                     <hr>
                     <div class="row">
