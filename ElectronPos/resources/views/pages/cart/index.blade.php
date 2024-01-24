@@ -98,20 +98,14 @@ function loadProductsByName(productName) {
 
             $("#total-value").text("Total Value is: " + totalValue);
         }
-
-    /*function loadProducts(search = "") {
-    const query = !!search ? `?search=${search}` : "";
-    axios.get(`/products-json/${query}`).then((response) => {
-        const products = response.data;
-        console.log('Products:', products);
-        // Handle the retrieved products as needed, e.g., update the UI
-    });
-    }*/
-
+        
         let selectedCustomerName = "";
 
         $("#customerName").on("change", function () {
             selectedCustomerName = $(this).val();
+            if(selectedCustomerName==null){
+                console.log("customer name cannot be equal to null")
+            }
         });
 
         $("#searchProduct").on("input", function (event) {
