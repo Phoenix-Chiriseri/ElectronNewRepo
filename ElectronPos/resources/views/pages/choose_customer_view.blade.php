@@ -1,71 +1,96 @@
 <!-- Add jQuery library (include it before the script) -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-    <script>
-        $(document).ready(function () {
-            const searchInput = $("#search");
-            const searchResultsContainer = $("#searchResults");
+   <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
+   <!-- Add SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-            // Event listener for keyup on the search input
-            searchInput.on("keyup", function () {
-                // Delay the search by a small interval to prevent too frequent requests
-                setTimeout(function () {
-                    performSearch(searchInput.val());
-                }, 300);
-            });
+<script>
+    $(document).ready(function () {
+        const searchInput = $("#search");
+        const searchResultsContainer = $("#searchResults");
 
-            // Event listener for the search button
-            $("#searchBtn").on("click", function () {
+        // Event listener for keyup on the search input
+        searchInput.on("keyup", function () {
+            // Delay the search by a small interval to prevent too frequent requests
+            setTimeout(function () {
                 performSearch(searchInput.val());
+            }, 300);
+        });
+
+        // Event listener for the search button
+        $("#searchBtn").on("click", function () {
+            performSearch(searchInput.val());
+        });
+
+        function performSearch(searchQuery) {
+            // Make an AJAX request to the search endpoint
+            $.ajax({
+                url: "{{ route('search-customers') }}",
+                method: "GET",
+                data: { search: searchQuery },
+                dataType: 'json', // Expect JSON response
+                success: function (data) {
+                    // Update the search results container with the received JSON data
+                    displaySearchResults(data.customers);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function displaySearchResults(customers) {
+            // Clear previous results
+            searchResultsContainer.empty();
+
+            // Create an unordered list
+            const resultList = $('<ul class="list-group"></ul>');
+            resultList.append("<br>");
+
+            // Append list items for each customer
+            customers.forEach(function (customer) {
+                // Create a clickable list item
+                const listItem = $('<li class="list-group-item clickable list-group-item active">' + customer.customer_name + '</li>');
+
+                // Add a click event listener
+                listItem.on("click", function () {
+                    // Show a SweetAlert with payment methods
+                    showPaymentMethodsAlert(customer.payment_methods);
+                });
+
+                // Append the list item to the list
+                resultList.append(listItem);
             });
 
-            function performSearch(searchQuery) {
-                // Make an AJAX request to the search endpoint
-                $.ajax({
-                    url: "{{ route('search-customers') }}",
-                    method: "GET",
-                    data: { search: searchQuery },
-                    dataType: 'json', // Expect JSON response
-                    success: function (data) {
-                        // Update the search results container with the received JSON data
-                        displaySearchResults(data.customers);
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
+            // Append the list to the container
+            searchResultsContainer.append(resultList);
+        }
 
-            function displaySearchResults(customers) {
-                // Clear previous results
-                searchResultsContainer.empty();
+        function showPaymentMethodsAlert(paymentMethods) {
+            // Use SweetAlert to show a customized alert
+            Swal.fire({
+                title: 'Select Payment Method',
+                icon: 'info',
+                html: '<button class="btn btn-success" onclick="printReceipt()">Print Receipt</button>' +
+                      '<button class="btn btn-primary" onclick="saveReceipt()">Save Receipt</button>',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                showCloseButton: true,
+            });
+        }
 
-                // Create an unordered list
-                const resultList = $('<ul class="list-group"></ul>');
-                resultList.append("<br>");
+        // Function to simulate printing receipt
+        function printReceipt() {
+            Swal.fire('Receipt printed!', '', 'success');
+        }
 
-                // Append list items for each customer
-                customers.forEach(function (customer) {
-                    // Create a clickable list item
-                    const listItem = $('<li class="list-group-item clickable list-group-item active">' + customer.customer_name + '</li>');
-
-                    // Add a click event listener
-                    listItem.on("click", function () {
-                        // Perform an action when the list item is clicked
-                        alert("Selected customer: " + customer.customer_name);
-                        // You can replace the alert with your desired action, like redirecting to a page.
-                    });
-
-                    // Append the list item to the list
-                    resultList.append(listItem);
-                });
-
-                // Append the list to the container
-                searchResultsContainer.append(resultList);
-            }
-        });
-    </script>
-    <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
+        // Function to simulate saving receipt
+        function saveReceipt() {
+            Swal.fire('Receipt saved!', '', 'success');
+        }
+    });
+</script>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage='Select Customer'></x-navbars.navs.auth>
