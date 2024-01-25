@@ -1,8 +1,70 @@
 <!-- Add jQuery library (include it before the script) -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
    <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
-   <!-- Add SweetAlert library -->
+    <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
+        <!-- Navbar -->
+        <x-navbars.navs.auth titlePage='Select Customer'></x-navbars.navs.auth>
+        <!-- End Navbar -->
+
+        <div class="container-fluid" style="margin-top:120px;">
+            
+            <div class="card card-body mx-3 mx-md-4 mt-n6" style="margin-top: 50px;"> <!-- Adjust the margin-top value as needed -->
+                <div class="row gx-4 mb-2">
+                    <div class="col-auto">
+                        <div class="avatar avatar-xl position-relative">
+                            <img src="{{ asset('assets') }}/img/bruce-mars.jpg" alt="profile_image"
+                                class="w-100 border-radius-lg shadow-sm">
+                        </div>
+                    </div>
+                    <div class="col-auto my-auto">
+                        <div class="h-100">
+                            <div class="h-100">
+                                <h5 class="mb-1">
+                                   
+                                </h5>
+                                <p class="mb-0 font-weight-normal text-sm">
+                                   
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                        <div class="nav-wrapper position-relative end-0">
+                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                                <li class="nav-item">
+                                    <a class="btn btn-danger" href="{{ route('shop-list') }}" role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1"></span><i class = "fa fa-user"></i> Create Customer
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-info" href="{{ route('shop-list') }}" role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1"></span><i class = "fa fa-user"></i> Select Customer
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
+                                    </div>
+                                    <!-- Display search results -->
+                                    <div id="searchResults"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <x-footers.auth></x-footers.auth>
+    </div>
+    <x-plugins></x-plugins>
+</x-layout>
+<!-- Add SweetAlert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
@@ -91,64 +153,4 @@
         }
     });
 </script>
-    <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
-        <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='Select Customer'></x-navbars.navs.auth>
-        <!-- End Navbar -->
 
-        <div class="container-fluid" style="margin-top:120px;">
-            
-            <div class="card card-body mx-3 mx-md-4 mt-n6" style="margin-top: 50px;"> <!-- Adjust the margin-top value as needed -->
-                <div class="row gx-4 mb-2">
-                    <div class="col-auto">
-                        <div class="avatar avatar-xl position-relative">
-                            <img src="{{ asset('assets') }}/img/bruce-mars.jpg" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm">
-                        </div>
-                    </div>
-                    <div class="col-auto my-auto">
-                        <div class="h-100">
-                            <div class="h-100">
-                                <h5 class="mb-1">
-                                   
-                                </h5>
-                                <p class="mb-0 font-weight-normal text-sm">
-                                   
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                        <div class="nav-wrapper position-relative end-0">
-                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                                <li class="nav-item">
-                                    <a class="btn btn-danger" href="{{ route('shop-list') }}" role="tab" aria-selected="true">
-                                        <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1"></span><i class = "fa fa-user"></i> Create Customer
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('shop-list') }}" role="tab" aria-selected="true">
-                                        <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1"></span><i class = "fa fa-user"></i> Select Customer
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <div class="input-group">
-                                        <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
-                                    </div>
-                                    <!-- Display search results -->
-                                    <div id="searchResults"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <x-footers.auth></x-footers.auth>
-    </div>
-    <x-plugins></x-plugins>
-</x-layout>
