@@ -114,69 +114,41 @@
             loadProductsByName(product);
         });
 
+        
         //function that will sell the product and then deduct the products from stokc
-        $("#sellItems").on("click", function (event) {
-            event.preventDefault();
-            // Calculate totalValue before showing the SweetAlert
-            const totalValue = state.cart.reduce((total, item) => {
-                return total + item.price * (item.quantity || 1);
-            }, 0).toFixed(2);
+      
+    $("#sellItems").on("click", function (event) {
+    event.preventDefault();
+    
+    // Calculate totalValue before showing the SweetAlert
+    const totalValue = state.cart.reduce((total, item) => {
+        return total + item.price * (item.quantity || 1);
+    }, 0).toFixed(2);
 
-            // Show SweetAlert input box for received amount
-            Swal.fire({
-                title: 'Enter Received Amount',
-                input: 'number',
-                icon: 'info',
-                inputAttributes: {
-                    autocapitalize: 'off',
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Sell',
-                cancelButtonText: 'Cancel',
-                showLoaderOnConfirm: true,
-                preConfirm: (receivedAmount) => {
-                    if (!receivedAmount || receivedAmount<totalValue) {
-                        Swal.showValidationMessage('Invalid received amount');
-                    }
-                    return receivedAmount;
-                },
-                allowOutsideClick: () => !Swal.isLoading(),
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const saleItems = state.cart.map((item) => ({
-                        product_id: item.id,
-                        quantity: item.quantity || 1,
-                    }));
-                    const receivedAmount = parseFloat(result.value) || 0;
-                    const change = totalValue - receivedAmount;
-                    if (selectedCustomerName == "") { // Corrected from null
-                        $("#showCustomerMessage").show();
-                        $("#showCustomerMessage").html("Please Enter A Customer Name");
-                    }
-                    // Clear previous form data
-                    $("#sellForm").find('input[name^="saleItems"]').remove();
-                    // Add new form data for each sale item
-                    saleItems.forEach((item, index) => {
-                        $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][product_id]" value="' + item.product_id + '">');
-                        $("#sellForm").append('<input type="hidden" name="saleItems[' + index + '][quantity]" value="' + item.quantity + '">');
-                    });
+    // Collect other data
+    const saleItems = state.cart.map((item) => ({
+        product_id: item.id,
+        quantity: item.quantity || 1,
+    }));
+    
+    // Set URL parameters
+    const queryParams = new URLSearchParams();
+    
+    saleItems.forEach((item, index) => {
+        queryParams.append('saleItems[' + index + '][product_id]', item.product_id);
+        queryParams.append('saleItems[' + index + '][quantity]', item.quantity);
+    });
 
-                    var selectedCustomerName = $("#selectedCustomerName").val(); // Corrected from $"#selectedCustomerName").val();
+    queryParams.append('total', totalValue);
 
-                    if (selectedCustomerName == "") {
-                        alert("Please enter customer name");
-                    }
-                    // Add other form data
-                    $("#sellForm").append('<input type="hidden" name="customerName" value="' + selectedCustomerName + '">');
-                    $("#sellForm").append('<input type="hidden" name="total" value="' + totalValue + '">');
-                    $("#sellForm").append('<input type="hidden" name="receivedAmount" value="' + receivedAmount + '">');
-                    $("#sellForm").append('<input type="hidden" name="change" value="' + change + '">');
+    // Append all data to the form
+    queryParams.forEach((value, key) => {
+        $("#sellForm").append('<input type="hidden" name="' + key + '" value="' + value + '">');
+    });
+    // Submit the form
+    $("#sellForm").submit();
+    });
 
-                    // Submit the form
-                    $("#sellForm").submit();
-                }
-            });
-        });
 
         $(".addToCart").click(function (event) {
             event.preventDefault();
@@ -310,12 +282,7 @@
                     <!-- Add your content for the second column here -->
                     <div className="mb-2">
                         <div class="col">
-                            <select class="form-control border border-2 p-2" id="selectedCustomerName" required>
-                                <option value="">Select Customer</option>
-                                @foreach($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
-                                @endforeach
-                            </select>
+                            
                             <div id = "showCustomerMessage" hidden></div>
                         </div>
                     </div>

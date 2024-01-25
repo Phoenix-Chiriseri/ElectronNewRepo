@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sales;
+use App\Models\Customer;
 use App\Models\Sale;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
@@ -31,6 +32,12 @@ class SaleController extends Controller
         return view("pages.view-sales")->with("sales",$sales);
     }
 
+    public function finishTransaction(){
+
+        dd($request->all());
+
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -46,6 +53,12 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+
+
+            $saleItems = $request->all();
+            $customers = Customer::all();
+            return view("pages.choose_customer_view")->with("allCustomers",$customers);
+
             //Validate the incoming data
             /*$request->validate([
                 'customerName' => 'required|string',
@@ -55,11 +68,13 @@ class SaleController extends Controller
                 'saleItems.*.quantity' => 'required|integer|min:1',
             ]);*/
             
-            $id = Auth::user()->id;;
+            //dd($request->all());
+
+            //$id = Auth::user()->id;;
             // Create a new Sale instance
-            $sale = new Sales();
+            /*$sale = new Sales();
             $sale->user_id = $id;
-            $sale->customer_id = $request->input('customerName');
+            $sale->customer_id = 1;
             $sale->total = $request->input('total');
             $sale->received_amount = $request->input("receivedAmount");
             $sale->change = $request->input("change");
@@ -84,10 +99,10 @@ class SaleController extends Controller
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
                 ]);*/
-            }
+    }
             // You can return a response as needed (e.g., success message or the created sale)
-            return redirect()->back()->with('message', 'Sale created successfully');
-        }
+            //return redirect()->back()->with('message', 'Sale created successfully');
+        
 
         public function show(Sale $sale)
         {

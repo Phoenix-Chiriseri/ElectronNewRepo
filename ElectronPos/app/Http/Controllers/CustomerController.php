@@ -25,6 +25,14 @@ class CustomerController extends Controller
         return view("pages.view-customers")->with("customers",$customers)->with("numberOfCustomers",$numberOfCustomers);
     }
 
+    public function searchCustomers(Request $request)
+    {
+        // Your search logic here
+        $searchQuery = $request->input('search');
+        $customers = Customer::where('customer_name', 'like', '%' . $searchQuery . '%')->get();
+        // Return the search results as JSON
+        return response()->json(['customers' => $customers]);
+    }
     /**
      * Show the form for creating a new resource.
      */

@@ -81,11 +81,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/create-sales', [SalesController::class, 'index'])->name('create-sales');
 	Route::post('/submit-sale', [SalesController::class, 'store'])->name('submit-sale');
 	Route::get('/create-employee', [EmployeeController::class, 'create'])->name('create-employee');
+	Route::get('/search-customers', [CustomerController::class, 'searchCustomers'])->name('search-customers');
 	Route::get('/view-products', [ProductController::class, 'viewProducts'])->name('view-products');
 	Route::get('/view-products', [ProductController::class, 'viewProducts'])->name('view-products');
 	Route::get('/view-employees', [EmployeeController::class, 'viewEmployees'])->name('view-employees');
 	Route::get('/view-cattegories', [CattegoryController::class, 'viewCattegories'])->name('view-cattegories');
 	Route::get('/view-suppliers', [SupplierController::class, 'viewSuppliers'])->name('view-suppliers');
+	Route::get('/finish-transaction/{customerId}', [SaleController::class, 'finishTransaction'])->name('finish-transaction');
 	Route::get('/view-shop', [ShopController::class, 'index'])->name('view-shop');
 	Route::get('/create-customers', [CustomerController::class, 'create'])->name('create-customers');
 	Route::get('/view-stock', [StockController::class, 'viewStock'])->name('view-stock');
