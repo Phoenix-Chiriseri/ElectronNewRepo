@@ -7,9 +7,8 @@ use App\Models\Stock;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade as PDF;
-use Barryvdh\DomPDF\Facade;
-
+use PDF;
+use Auth;
 
 class GRVController extends Controller
 {
@@ -52,17 +51,29 @@ class GRVController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    
+     public function downloadPdf($id)
+     {
+        $grv = Grv::find($id);
 
-    /**
-     * Store a newly created resource in storage.
-     */
+        if (!$grv) {
+            abort(404); // Or handle the case when the GRV is not found
+        }
+    
+        // Fetch the user's email using the Auth facade
+        $email = Auth::user()->email;
+    
+        // Generate PDF using Dompdf
+        $pdf = PDF::loadView('pages.view-grv', ['grv' => $grv, 'email' => $email]);
+    
+        // Set the file name for the downloaded PDF
+        $fileName = 'grv_' . $grv->id . '.pdf';
+        // Stream the file to the browser with appropriate headers for download
+        return $pdf->download($fileName);
+     
+    }
     public function submitGrv(Request $request)
     {
-
         $grv = new GRV(); // Use the GRV model
         $grv->grvNumber = $this->generateGRNNumber();
         $grv->total = $request->input("total");

@@ -85,6 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-products', [ProductController::class, 'viewProducts'])->name('view-products');
 	Route::get('/view-products', [ProductController::class, 'viewProducts'])->name('view-products');
 	Route::get('/view-employees', [EmployeeController::class, 'viewEmployees'])->name('view-employees');
+	Route::get('grn/download/{id}', [GrVController::class, 'downloadPdf'])->name('grn.download');
 	Route::get('/view-cattegories', [CattegoryController::class, 'viewCattegories'])->name('view-cattegories');
 	Route::get('/view-suppliers', [SupplierController::class, 'viewSuppliers'])->name('view-suppliers');
 	Route::get('/finish-transaction/{customerId}', [SaleController::class, 'finishTransaction'])->name('finish-transaction');
