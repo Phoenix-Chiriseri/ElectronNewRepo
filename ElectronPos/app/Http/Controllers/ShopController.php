@@ -48,6 +48,16 @@ class ShopController extends Controller
             'phone_number' => $request->phonenumber,
             'shop_city' => $request->shop_city,
         ]);
+
+        if(!$shop){
+
+            return redirect()->back()->with('error', 'Sorry, there a problem while creating a shop.');
+
+        }else{
+
+            return redirect()->back()->with('success', 'Shop Created Successfully');
+
+        }
        
         return redirect("/dashboard");
     }
