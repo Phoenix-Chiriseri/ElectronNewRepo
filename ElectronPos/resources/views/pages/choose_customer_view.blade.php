@@ -62,6 +62,7 @@
                     '<select id="status" class="swal2-select" placeholder="Customer Status" required>' +
                     '<option value="active" class="form-control">Active</option>' +
                     '<option value="inactive" class="form-control">Inactive</option></select>' +
+                    '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
                     '</form>',
                 showCancelButton: true,
                 confirmButtonText: 'Create',
@@ -96,6 +97,11 @@
 
                     // Append the form to the body and submit
                     document.body.appendChild(form);
+                    const csrfTokenInput = document.createElement('input'); 
+                    csrfTokenInput.type = 'hidden';
+                    csrfTokenInput.name = '_token';
+                    csrfTokenInput.value = '{{ csrf_token() }}'; // Use Blade syntax to get the CSRF token
+                    form.appendChild(csrfTokenInput);
                     form.submit();
 
                     // After creating the customer, prompt the user to select the customer for the sale
