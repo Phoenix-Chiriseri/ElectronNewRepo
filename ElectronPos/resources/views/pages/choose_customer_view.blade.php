@@ -1,3 +1,4 @@
+<!-- Add jQuery library (include it before the script) -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
@@ -15,12 +16,14 @@
                         <div id="searchResults"></div>
                     </div>
                     <div class="col-md-4">
-                        <a class="btn btn-danger" id="createCustomerBtn" role="tab" aria-selected="true">
+                        <a class="btn btn-danger" id="createCustomer" role="tab" aria-selected="true">
                             <i class="material-icons text-lg position-relative"></i>
                             <span class="ms-1"></span><i class="fa fa-user"></i>Create Customer
                         </a>
-                        <!-- Add a button to proceed with the sale -->
-                        <button class="btn btn-success" id="proceedWithSale">Proceed with Sale</button>
+                        <a class="btn btn-danger" id="processSale" role="tab" aria-selected="true">
+                            <i class="material-icons text-lg position-relative"></i>
+                            <span class="ms-1"></span><i class="fa fa-user"></i>Process Sale
+                        </a>
                     </div>
                 </div>
             </div>
@@ -44,10 +47,66 @@
             }, 300);
         });
 
-        // Event listener for the button to proceed with the sale
-        $("#proceedWithSale").on("click", function () {
-            const selectedCustomer = $(".list-group-item.active").text();
+        // Event listener for the 'Create Customer' button
+        $("#createCustomer").on("click", function () {
+            Swal.fire({
+                title: 'Create Customer',
+                icon: 'info',
+                html:
+                    '<form id="createCustomerForm">' +
+                    '<input type="text" id="customerName" class="swal2-input form-control" placeholder="Customer Name" required>' +
+                    '<input type="text" id="code" class="swal2-input" placeholder="Code" required>' +
+                    '<input type="text" id="taxNumber" class="swal2-input" placeholder="Customer Tax Number" required>' +
+                    '<input type="text" id="city" class="swal2-input" placeholder="Customer City" required>' +
+                    '<input type="text" id="address" class="swal2-input" placeholder="Customer Address" required>' +
+                    '<select id="status" class="swal2-select" placeholder="Customer Status" required>' +
+                    '<option value="active" class="form-control">Active</option>' +
+                    '<option value="inactive" class="form-control">Inactive</option></select>' +
+                    '</form>',
+                showCancelButton: true,
+                confirmButtonText: 'Create',
+                cancelButtonText: 'Cancel',
+                focusConfirm: false,
+                preConfirm: () => {
+                    // Collect form data
+                    return {
+                        customerName: document.getElementById('customerName').value,
+                        code: document.getElementById('code').value,
+                        taxNumber: document.getElementById('taxNumber').value,
+                        city: document.getElementById('city').value,
+                        address: document.getElementById('address').value,
+                        status: document.getElementById('status').value,
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Create a form element dynamically
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/submit-customers';
 
+                    // Append input fields to the form
+                    Object.keys(result.value).forEach(key => {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = result.value[key];
+                        form.appendChild(input);
+                    });
+
+                    // Append the form to the body and submit
+                    document.body.appendChild(form);
+                    form.submit();
+
+                    // After creating the customer, prompt the user to select the customer for the sale
+                    promptSelectCustomerForSale(result.value.customerName);
+                }
+            });
+        });
+
+        // Event listener for the 'Process Sale' button
+        $("#processSale").on("click", function () {
+            const selectedCustomer = $(".list-group-item.active").text();
             if (selectedCustomer) {
                 // Proceed with the sale, you can add your logic here
                 Swal.fire({
@@ -58,11 +117,6 @@
             } else {
                 showAlert('Please select a customer', 'error');
             }
-        });
-
-        // Event listener for the create customer button
-        $("#createCustomerBtn").on("click", function () {
-            createCustomer();
         });
 
         function performSearch(searchQuery) {
@@ -78,42 +132,6 @@
                 },
                 error: function (error) {
                     showAlert('Customer Not Found', 'error');
-                }
-            });
-        }
-
-        function createCustomer() {
-            Swal.fire({
-                title: 'Create Customer',
-                icon: 'info',
-                html:
-                    '<input id="customerName" class="swal2-input form-control" placeholder="Customer Name">' +
-                    '<input id="code" class="swal2-input" placeholder="Code">' +
-                    '<input id="taxNumber" class="swal2-input" placeholder="Customer Tax Number">' +
-                    '<input id="city" class="swal2-input" placeholder="Customer City">' +
-                    '<input id="address" class="swal2-input" placeholder="Customer Address">' +
-                    '<select id="status" class="swal2-select" placeholder="Customer Status">' +
-                    '<option value="active" class="form-control">Active</option>' +
-                    '<option value="inactive" class="form-control">Inactive</option></select>',
-                showCancelButton: true,
-                confirmButtonText: 'Create',
-                cancelButtonText: 'Cancel',
-                focusConfirm: false,
-                preConfirm: () => {
-                    return {
-                        customerName: document.getElementById('customerName').value,
-                        code: document.getElementById('code').value,
-                        taxNumber: document.getElementById('taxNumber').value,
-                        city: document.getElementById('city').value,
-                        address: document.getElementById('address').value,
-                        status: document.getElementById('status').value,
-                    };
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Handle the data submitted by the user (result.value)
-                    console.log(result.value);
-                    // You can perform further actions here, like sending the data to the server
                 }
             });
         }
