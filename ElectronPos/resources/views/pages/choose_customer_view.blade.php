@@ -94,11 +94,22 @@
                     // Update the search results container with the received JSON data
                     displaySearchResults(data.customers);
                 },
-                error: function (error) {
-                    console.error('Error:', error);
+                error: function (error) {        
+                    showAlert('Customer Not Found','error');
                 }
             });
         }
+
+        function showAlert(message,errorIconMessage){
+        Swal.fire({
+                position: "top-end",
+                icon: errorIconMessage,
+                title: message,
+                showConfirmButton: false,
+                timer: 1000
+                });    
+            }
+    
 
         function displaySearchResults(customers) {
             // Clear previous results

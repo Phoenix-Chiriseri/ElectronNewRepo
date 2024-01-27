@@ -1,9 +1,20 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
-        <!-- Navbar -->
         <x-navbars.navs.auth titlePage='Customers'></x-navbars.navs.auth>
+        @if(session('success'))
+        <script>
+        Swal.fire({
+            icon: 'success',
+            position: "top-end",
+            title: 'Success!',
+            text: '{{ session('success') }}',
+            showConfirmButton: false,
+            timer: 1000 // Adjust the timer as needed
+        });
+    </script>
+    @endif
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"

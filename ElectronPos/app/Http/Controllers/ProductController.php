@@ -170,7 +170,8 @@ class ProductController extends Controller
          $product->save();   
          
          if ($product->save()) {
-             return redirect()->route('view-products')->with('success', 'Success, your product has been created and added to stock');
+            return redirect()->back()->with('success', 'Product Added Successfully');
+            // return redirect()->route('view-products')->with('success', 'Success, your product has been created and added to stock');
          } else {
              return redirect()->back()->with('error', 'Sorry, there was a problem while saving your product');
           }    

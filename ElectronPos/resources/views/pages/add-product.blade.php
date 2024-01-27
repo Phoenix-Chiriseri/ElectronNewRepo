@@ -1,4 +1,5 @@
 <script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 $(document).ready(function(){
     $("#costPrice, #sellingPrice").on("input", function() {
@@ -16,6 +17,18 @@ $(document).ready(function(){
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
+        @if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    position: "top-end",
+    title: 'Success!',
+    text: '{{ session('success') }}',
+    showConfirmButton: false,
+    timer: 1000 // Adjust the timer as needed
+});
+</script>
+@endif
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage='Create Product'></x-navbars.navs.auth>
         <!-- End Navbar -->

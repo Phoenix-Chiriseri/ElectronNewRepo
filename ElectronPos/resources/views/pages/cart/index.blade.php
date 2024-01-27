@@ -54,12 +54,6 @@
             } else {    
 
                 showAlert('Product Not Found',"error");
-                //$("#prodResult").html("<div class = 'alert alert-danger'>No Product Found</div>");
-                //$("#prodResult").html("<div class='alert alert-danger' id='customAlert' style='color:white;'>No Product Found <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
-                // Automatically dismiss the alert after 2 seconds
-                //setTimeout(function() {
-                // $("#customAlert").alert('close');
-                //}, 2000);
             }
         })
         .catch((error) => {
