@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use Illuminate\Http\Request;
+use Auth;
 
 class ShopController extends Controller
 {
@@ -22,11 +23,13 @@ class ShopController extends Controller
     public function viewShopList()
     {
         //return all the shops to the front end
-        $shops = Shop::orderBy("id", "desc")->paginate(10);
+        //$shops = Shop::orderBy("id", "desc")->paginate(10);
+        $shops = Shop::leftJoin('users', 'shops.user_id', '=', 'users.id')
+        ->select('users.*', 'shops.*')
+        ->orderBy('shops.id', 'desc')
+        ->get();
         $numberOfShops = Shop::all()->count();
         return view("pages.shop-list")->with("shops",$shops)->with("numberOfShops",$numberOfShops);
-
-
     }
 
     /**
@@ -34,14 +37,18 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
+
+        $userId = Auth::user()->id;
         //save the shop details
         $shop = Shop::create([
             'shop_name' => $request->shop_name,
             'email' => $request->shop_email,
+            'user_id'=>$userId,
             'shop_address' => $request->shop_address,
             'phone_number' => $request->phonenumber,
             'shop_city' => $request->shop_city,
         ]);
+       
         return redirect("/dashboard");
     }
 

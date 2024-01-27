@@ -35,7 +35,9 @@
                                             <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                             City</th>
-                                             
+                                            <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                            Created By</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -54,12 +56,14 @@
                                             <td><div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm">{{$shop->shop_city}}</h6>
                                             </div></td>
+                                            <td><div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{$shop->name}}</h6>
+                                            </div></td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{$shops->links()}}
-                            </div>
+                              </div>
                         </div>
                     </div>
                 </div>

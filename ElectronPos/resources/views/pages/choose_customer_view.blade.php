@@ -8,14 +8,15 @@
         <x-navbars.navs.auth titlePage='Select Customer'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid" style="margin-top:120px;">
-            <div class="card card-body mx-3 mx-md-4 mt-n6" style="margin-top: 50px;"> <!-- Adjust the margin-top value as needed -->
+            <div class="card card-body mx-3 mx-md-4 mt-n6" style="margin-top: 50px;">
                 <div class="row">
                     <div class="col-md-8">
-                        <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer" value="">
+                        <h4 class = "text-center">Welcome {{$name}}</h4>
+                        <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
                         <div id="searchResults"></div>
                     </div>
                     <div class="col-md-4">
-                        <a class="btn btn-danger" href="{{ route('shop-list') }}" role="tab" aria-selected="true">
+                        <a class="btn btn-danger" id = "createCustomer" role="tab" aria-selected="true">
                             <i class="material-icons text-lg position-relative"></i>
                             <span class="ms-1"></span><i class = "fa fa-user"></i>Create Customer
                         </a>
@@ -40,8 +41,43 @@
                 $(this).val("");
                 performSearch(searchInput.val());
             }, 300);
+            //button that will be clicked and save a customer to the database....
+            $("#createCustomer").on("click",function(){
+            Swal.fire({
+            title: 'Create Customer',
+            icon: 'info',
+            html:
+                '<input id="customerName" class="swal2-input form-control" placeholder="Customer Name">' +
+                '<input id="code" class="swal2-input" placeholder="Code">' +
+                '<input id="taxNumber" class="swal2-input" placeholder="Customer Tax Number">' +
+                '<input id="city" class="swal2-input" placeholder="Customer City">' +
+                '<input id="address" class="swal2-input" placeholder="Customer Address">' +
+                '<select id="status" class="swal2-select" placeholder="Customer Status">' +
+                '<option value="active">Active</option>' +
+                '<option value="inactive">Inactive</option></select>',
+            showCancelButton: true,
+            confirmButtonText: 'Create',
+            cancelButtonText: 'Cancel',
+            focusConfirm: false,
+            preConfirm: () => {
+                return {
+                    customerName: document.getElementById('customerName').value,
+                    code: document.getElementById('code').value,
+                    taxNumber: document.getElementById('taxNumber').value,
+                    city: document.getElementById('city').value,
+                    address: document.getElementById('address').value,
+                    status: document.getElementById('status').value,
+                };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Handle the data submitted by the user (result.value)
+                console.log(result.value);
+                // You can perform further actions here, like sending the data to the server
+            }
         });
-
+    });
+});
         // Event listener for the search button
         $("#searchBtn").on("click", function () {
             performSearch(searchInput.val());

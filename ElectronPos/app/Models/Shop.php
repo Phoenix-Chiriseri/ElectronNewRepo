@@ -14,7 +14,7 @@ class Shop extends Model
         'email',
         'shop_address',
         'phone_number',
-        'shop_city'
-
+        'shop_city',
+        'user_id'
     ];
 }

@@ -54,10 +54,17 @@ class SaleController extends Controller
     public function store(Request $request)
     {
 
-
             $saleItems = $request->all();
             $customers = Customer::all();
-            return view("pages.choose_customer_view")->with("allCustomers",$customers);
+            return redirect()->route('select-customer-view')->with("allCustomers",$customers);
+    }
+
+    public function viewCustomerView(){
+        $name = Auth::user()->name;
+        return view("pages.choose_customer_view")->with("name",$name);
+    }
+
+            //return view("pages.choose_customer_view")->with("allCustomers",$customers);
 
             //Validate the incoming data
             /*$request->validate([
@@ -99,7 +106,6 @@ class SaleController extends Controller
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
                 ]);*/
-    }
             // You can return a response as needed (e.g., success message or the created sale)
             //return redirect()->back()->with('message', 'Sale created successfully');
         
