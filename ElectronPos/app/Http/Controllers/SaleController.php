@@ -62,7 +62,7 @@ class SaleController extends Controller
 
     $name = Auth::user()->name;
     $saleItems = session('saleItems', []);
-    $customers = Customer::all();
+    $customers = Customer::orderBy("id","desc");
     return view("pages.choose_customer_view")->with("name", $name)->with("saleItems", $saleItems)->with("customers",$customers);
     
 }
