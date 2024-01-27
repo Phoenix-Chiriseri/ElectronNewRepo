@@ -53,17 +53,17 @@ class SaleController extends Controller
 {
     $saleItems = $request->all();
     $request->session()->put('saleItems', $saleItems);
-
     $customers = Customer::all();
     return redirect()->route('select-customer-view')->with("allCustomers", $customers);
 }
 
     public function viewCustomerView()
 {
-    
+
     $name = Auth::user()->name;
     $saleItems = session('saleItems', []);
-    return view("pages.choose_customer_view")->with("name", $name)->with("saleItems", $saleItems);
+    $customers = Customer::all();
+    return view("pages.choose_customer_view")->with("name", $name)->with("saleItems", $saleItems)->with("customers",$customers);
     
 }
 

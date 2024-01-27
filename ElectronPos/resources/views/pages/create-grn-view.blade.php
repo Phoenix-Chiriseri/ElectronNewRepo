@@ -96,7 +96,7 @@ $(document).ready(function(){
                     updateProductTable(response.products);
                 },
                 error: function (error) {
-                    showAlert("Product Not Found","error");
+                    //showAlert("Product Not Found","error");
                     console.log("error dude");
                 }
             });
