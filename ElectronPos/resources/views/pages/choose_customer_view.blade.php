@@ -54,12 +54,14 @@
                 icon: 'info',
                 html:
                     '<form id="createCustomerForm">' +
-                    '<input type="text" id="customerName" class="swal2-input form-control" placeholder="Customer Name" required>' +
-                    '<input type="text" id="code" class="swal2-input" placeholder="Code" required>' +
-                    '<input type="text" id="taxNumber" class="swal2-input" placeholder="Customer Tax Number" required>' +
-                    '<input type="text" id="city" class="swal2-input" placeholder="Customer City" required>' +
-                    '<input type="text" id="address" class="swal2-input" placeholder="Customer Address" required>' +
-                    '<select id="status" class="swal2-select" placeholder="Customer Status" required>' +
+                    '<input type="text" id="customer_name" class="swal2-input form-control" placeholder="Customer Name" required name="customer_name">' +
+                    '<input type="text" id="code" class="swal2-input" placeholder="Code" name="code" required>' +
+                    '<input type="text" id="customer_taxnumber" class="swal2-input" placeholder="Customer Tax Number" name="customer_taxnumber" required>' +
+                    '<input type="text" id="city" class="swal2-input" placeholder="Customer City" required name="customer_city">' +
+                    '<input type="text" id="customer_address" class="swal2-input" placeholder="Customer Address" name="customer_address" required>' +
+                    '<input type="text" id="customer_phonenumber" class="swal2-input" placeholder="Customer Phone Number" name="customer_phonenumber" required>' +
+                    '<input type="text" id="customer_city" class="swal2-input" placeholder="Customer City" name="customer_city" required>' +
+                    '<select id="customer_status" class="swal2-select" placeholder="Customer Status" required name="customer_status">' +
                     '<option value="active" class="form-control">Active</option>' +
                     '<option value="inactive" class="form-control">Inactive</option></select>' +
                     '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
@@ -71,12 +73,14 @@
                 preConfirm: () => {
                     // Collect form data
                     return {
-                        customerName: document.getElementById('customerName').value,
+                        customer_name: document.getElementById('customer_name').value,
                         code: document.getElementById('code').value,
-                        taxNumber: document.getElementById('taxNumber').value,
+                        customer_taxnumber: document.getElementById('customer_taxnumber').value,
                         city: document.getElementById('city').value,
-                        address: document.getElementById('address').value,
-                        status: document.getElementById('status').value,
+                        customer_address: document.getElementById('customer_address').value,
+                        customer_phonenumber: document.getElementById('customer_phonenumber').value,
+                        customer_status: document.getElementById('customer_status').value,
+                        customer_city: document.getElementById('customer_city').value,
                     };
                 }
             }).then((result) => {
