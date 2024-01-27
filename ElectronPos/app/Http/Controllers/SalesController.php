@@ -37,13 +37,6 @@ class SalesController extends Controller
             return redirect()->back()->with('error', 'Not enough stock available.');
         }
 
-        // Perform the sale (update stock, generate receipt, etc.)
-        // You should implement your business logic here
-
-        // For example, you can update the stock:
-        // Stock::where('product_id', $productId)->decrement('quantity', $quantity);
-
-        // Redirect with success message
         return redirect()->back()->with('success', 'Sale completed successfully.');
     }
 }

@@ -53,8 +53,8 @@
                 '<input id="city" class="swal2-input" placeholder="Customer City">' +
                 '<input id="address" class="swal2-input" placeholder="Customer Address">' +
                 '<select id="status" class="swal2-select" placeholder="Customer Status">' +
-                '<option value="active">Active</option>' +
-                '<option value="inactive">Inactive</option></select>',
+                '<option value="active" class = "form-control">Active</option>' +
+                '<option value="inactive" class = "form-control">Inactive</option></select>',
             showCancelButton: true,
             confirmButtonText: 'Create',
             cancelButtonText: 'Cancel',

@@ -4,6 +4,8 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
     $(document).ready(function () {
+
+        $("#prodResult").hide();
         const state = {
             products: {!! json_encode($products) !!},
             cart: [],
@@ -29,6 +31,7 @@
     function loadProductsByName(productName) {
     axios.get(`/products/searchByName/${productName}`)
         .then((response) => {
+            $("#prodResult").hide();
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
             if (product) {
@@ -48,8 +51,9 @@
                 }
                 // Update the user interface with the product information
                 updateCartUI();
-            } else {
-                console.error('No product found with the given name..');
+            } else {    
+                $("#prodResult").show();    
+                $("#prodResult").html("<div class = 'alert alert-danger'>No Product Found</div>");
             }
         })
         .catch((error) => {
@@ -114,7 +118,7 @@
             loadProductsByName(product);
         });
 
-        
+ 
         //function that will sell the product and then deduct the products from stokc
       
     $("#sellItems").on("click", function (event) {
@@ -148,6 +152,7 @@
     // Submit the form
     $("#sellForm").submit();
     });
+
 
 
         $(".addToCart").click(function (event) {
@@ -234,6 +239,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="row mb-2">
+                        <div id = "prodResult"></div>
                         <input
                         type="text"
                         class="form-control border border-2 p-2"

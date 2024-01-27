@@ -163,7 +163,7 @@ margin-top:20px;
                    </div>
                </div>
                <div>
-                <p class = "text-center"><strong>Products</strong></p>
+                <h4 class = "text-center" style="color:black;"><strong>Products</strong></h4>
                    <table class="table table-bordered">
                        <thead>
                            <tr>

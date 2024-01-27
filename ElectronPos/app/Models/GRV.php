@@ -16,7 +16,6 @@ class GRV extends Model
         'payment_method',
         'additional_information',
         'supplier_invoicenumber',
-        'additional_costs',
     ];
 
     public function stocks()

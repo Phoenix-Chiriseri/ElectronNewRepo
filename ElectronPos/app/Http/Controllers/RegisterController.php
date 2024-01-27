@@ -25,9 +25,5 @@ class RegisterController extends Controller
         auth()->login($user); 
         return redirect('/dashboard'); 
     }
-        //create a new user from the attributes
-        //$user = User::create($attributes);
-        //auth()->login($user);  
-        //return redirect('/dashboard');
-    } 
+} 
 

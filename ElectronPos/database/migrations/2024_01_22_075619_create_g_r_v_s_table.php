@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('total');
             $table->text('additional_information');
             $table->string('supplier_invoicenumber');
-            $table->decimal('additional_costs', 10, 2);
             $table->timestamps();
             // Foreign keys
             $table->foreign('supplier_id')->references('id')->on('suppliers');

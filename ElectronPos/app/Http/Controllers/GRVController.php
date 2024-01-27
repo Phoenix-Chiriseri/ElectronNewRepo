@@ -55,17 +55,13 @@ class GRVController extends Controller
      public function downloadPdf($id)
      {
         $grv = Grv::find($id);
-
         if (!$grv) {
             abort(404); // Or handle the case when the GRV is not found
         }
-    
         // Fetch the user's email using the Auth facade
         $email = Auth::user()->email;
-    
         // Generate PDF using Dompdf
         $pdf = PDF::loadView('pages.view-grv', ['grv' => $grv, 'email' => $email]);
-    
         // Set the file name for the downloaded PDF
         $fileName = 'grv_' . $grv->id . '.pdf';
         // Stream the file to the browser with appropriate headers for download
@@ -83,7 +79,7 @@ class GRVController extends Controller
         $grv->payment_method = $request->input('payment_method');
         $grv->additional_information = $request->input('additional_information');
         $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');
-        $grv->additional_costs = $request->input('additional_costs');
+        //$grv->additional_costs = $request->input('additional_costs');
         $grv->save();
         
         // Save the table data

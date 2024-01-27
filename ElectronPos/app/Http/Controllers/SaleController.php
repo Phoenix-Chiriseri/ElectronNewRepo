@@ -53,7 +53,6 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-
             $saleItems = $request->all();
             $customers = Customer::all();
             return redirect()->route('select-customer-view')->with("allCustomers",$customers);
