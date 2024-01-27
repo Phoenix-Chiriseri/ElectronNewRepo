@@ -164,8 +164,6 @@
     $("#sellForm").submit();
     });
 
-
-
         $(".addToCart").click(function (event) {
             event.preventDefault();
             var productId = $(this).data('product-id');

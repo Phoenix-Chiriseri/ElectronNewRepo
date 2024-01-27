@@ -1,4 +1,6 @@
 <script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
 $(document).ready(function(){
@@ -94,13 +96,24 @@ $(document).ready(function(){
                     updateProductTable(response.products);
                 },
                 error: function (error) {
-                    console.error('Error fetching products:', error);
-                    $("#noProductFound").show();
-                    $("#noProductFound").html("no product found");
+                    showAlert("Product Not Found","error");
+                    console.log("error dude");
                 }
             });
         }
     });
+
+    function showAlert(message,errorIconMessage){
+        Swal.fire({
+                position: "top-end",
+                icon: errorIconMessage,
+                title: message,
+                showConfirmButton: false,
+                timer: 1000
+                });    
+    
+     }
+    
 
     // Calculate total cost when quantity or unit cost is changed
     $(document).on("input", ".quantity, .unit-cost", function () {
@@ -154,6 +167,18 @@ $(document).ready(function(){
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <body>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
+        @if(session('success'))
+        <script>
+        Swal.fire({
+            icon: 'success',
+            position: "top-end",
+            title: 'Success!',
+            text: '{{ session('success') }}',
+            showConfirmButton: false,
+            timer: 1000 // Adjust the timer as needed
+        });
+    </script>
+    @endif
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage='Create Product'></x-navbars.navs.auth>
         <!-- End Navbar -->

@@ -46,22 +46,26 @@ class SaleController extends Controller
         //
     }
 
-    
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-            $saleItems = $request->all();
-            $customers = Customer::all();
-            return redirect()->route('select-customer-view')->with("allCustomers",$customers);
-    }
+{
+    $saleItems = $request->all();
+    $request->session()->put('saleItems', $saleItems);
 
-    public function viewCustomerView(){
-        $name = Auth::user()->name;
-        return view("pages.choose_customer_view")->with("name",$name);
-    }
+    $customers = Customer::all();
+    return redirect()->route('select-customer-view')->with("allCustomers", $customers);
+}
+
+    public function viewCustomerView()
+{
+    
+    $name = Auth::user()->name;
+    $saleItems = session('saleItems', []);
+    return view("pages.choose_customer_view")->with("name", $name)->with("saleItems", $saleItems);
+    
+}
 
             //return view("pages.choose_customer_view")->with("allCustomers",$customers);
 
