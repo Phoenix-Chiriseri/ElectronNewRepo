@@ -52,8 +52,14 @@
                 // Update the user interface with the product information
                 updateCartUI();
             } else {    
-                $("#prodResult").show();    
-                $("#prodResult").html("<div class = 'alert alert-danger'>No Product Found</div>");
+
+                showAlert('Product Not Found',"error");
+                //$("#prodResult").html("<div class = 'alert alert-danger'>No Product Found</div>");
+                //$("#prodResult").html("<div class='alert alert-danger' id='customAlert' style='color:white;'>No Product Found <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+                // Automatically dismiss the alert after 2 seconds
+                //setTimeout(function() {
+                // $("#customAlert").alert('close');
+                //}, 2000);
             }
         })
         .catch((error) => {
@@ -61,6 +67,17 @@
             console.error('Error loading products:', error);
         });
     }
+
+    function showAlert(message,errorIconMessage){
+        Swal.fire({
+                position: "top-end",
+                icon: errorIconMessage,
+                title: message,
+                showConfirmButton: false,
+                timer: 1000
+                });    
+    
+     }
     
     function updateCartUI() {
     const cartTableBody = $(".user-cart table tbody");
