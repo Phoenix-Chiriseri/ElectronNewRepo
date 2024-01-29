@@ -42,9 +42,24 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     $(document).ready(function () {
+
+        //get the data from the controller code, the customers and the users as json
+        const name = @json($name);
+        const saleItemsJson = @json($saleItemsJson);
+        const customersJson = @json($customersJson);
+        // Parse JSON data if needed (assuming saleItemsJson and customersJson are arrays)
+        const saleItems = JSON.parse(saleItemsJson);
+        const customers = JSON.parse(customersJson);
+
+        // Use the data in your JavaScript code as needed
+        console.log('Name:', name);
+        console.log('Sale Items:', saleItems);
+        console.log('Customers:', customers);
+
         const searchInput = $("#search");
         const searchResultsContainer = $("#searchResults");
         const selectedCustomerDropdown = $("#selectedCustomer");
+            
         let selectedItem;  // Declare the variable here
 
         // Event listener for keyup on the search input
@@ -68,7 +83,7 @@
                     '<input type="text" id="city" class="swal2-input" placeholder="Customer City" required name="customer_city">' +
                     '<input type="text" id="customer_address" class="swal2-input" placeholder="Customer Address" name="customer_address" required>' +
                     '<input type="text" id="customer_phonenumber" class="swal2-input" placeholder="Customer Phone Number" name="customer_phonenumber" required>' +
-                    '<input type="text" id="customer_city" class="swal2-input" placeholder="Customer City" name="customer_city" required>' +
+                    '<input type="text" id="customer_city" class="swal2-input" placeholder="Customer City" name="customer_city" required>'+
                     '<select id="customer_status" class="swal2-select" placeholder="Customer Status" required name="customer_status">' +
                     '<option value="active" class="form-control">Active</option>' +
                     '<option value="inactive" class="form-control">Inactive</option></select>' +
@@ -89,6 +104,7 @@
                         customer_phonenumber: document.getElementById('customer_phonenumber').value,
                         customer_status: document.getElementById('customer_status').value,
                         customer_city: document.getElementById('customer_city').value,
+                   
                     };
                 }
             }).then((result) => {
@@ -127,7 +143,7 @@
             //const selectedCustomer = selectedCustomerDropdown.val();// Declare the variable here
             if (selectedItem) {
                 // Proceed with the sale, you can add your logic here
-                const saleItems = getSaleItems(); // Implement a function to get sale items
+                //const saleItems = getSaleItems(); // Implement a function to get sale items
                 // ...
                 Swal.fire({
                     title: 'Sale Completed',
@@ -138,6 +154,14 @@
                 
             }
         });
+
+        function performSale(customerId) {
+        // Add your logic to perform the sale using the customerId
+        // For example:
+        console.log('Sale completed for customer ID:', customerId);
+        // You can also update the UI or trigger any necessary actions
+        // ...
+    }
 
         function performSearch(searchQuery) {
             // Make an AJAX request to the search endpoint
@@ -167,7 +191,7 @@
         }
 
 
-        function displaySearchResults(customers) {
+    function displaySearchResults(customers) {
     // Clear previous results
     searchResultsContainer.empty();
 

@@ -63,9 +63,16 @@ class SaleController extends Controller
 
     $name = Auth::user()->name;
     $saleItems = session('saleItems', []);
-    $customers = Customer::orderBy("id","desc");
-    return view("pages.choose_customer_view")->with("name", $name)->with("saleItems", $saleItems)->with("customers",$customers);
-    
+    $customers = Customer::orderBy("id", "desc")->get(); // Assuming you want to get the customers as a collection
+    //Convert PHP variables to JSON
+    $saleItemsJson = json_encode($saleItems);
+    $customersJson = $customers->toJson();
+    // Return the view with the JSON data
+    return view('pages.choose_customer_view')->with([
+        'name' => $name,
+        'saleItemsJson' => $saleItemsJson,
+        'customersJson' => $customersJson,
+    ]);
 }
 
             //return view("pages.choose_customer_view")->with("allCustomers",$customers);
