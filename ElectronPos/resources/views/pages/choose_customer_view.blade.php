@@ -14,6 +14,12 @@
                         <h4 class="text-center">Welcome {{$name}}</h4>
                         <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
                         <div id="searchResults"></div>
+                        <div class="form-group">
+                            <label for="selectedCustomer">Select Customer for Sale</label>
+                            <select id="selectedCustomer" class="form-control">
+                                <!-- Options will be dynamically populated when searching for customers -->
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <a class="btn btn-danger" id="createCustomer" role="tab" aria-selected="true">
@@ -38,6 +44,8 @@
     $(document).ready(function () {
         const searchInput = $("#search");
         const searchResultsContainer = $("#searchResults");
+        const selectedCustomerDropdown = $("#selectedCustomer");
+        let selectedItem;  // Declare the variable here
 
         // Event listener for keyup on the search input
         searchInput.on("keyup", function () {
@@ -108,24 +116,26 @@
                     form.appendChild(csrfTokenInput);
                     form.submit();
 
-                    // After creating the customer, prompt the user to select the customer for the sale
-                    promptSelectCustomerForSale(result.value.customerName);
+                    // After creating the customer, update the customer dropdown
+                    updateCustomerDropdown();
                 }
             });
         });
 
         // Event listener for the 'Process Sale' button
         $("#processSale").on("click", function () {
-            const selectedCustomer = $(".list-group-item.active").text();
-            if (selectedCustomer) {
+            //const selectedCustomer = selectedCustomerDropdown.val();// Declare the variable here
+            if (selectedItem) {
                 // Proceed with the sale, you can add your logic here
+                const saleItems = getSaleItems(); // Implement a function to get sale items
+                // ...
                 Swal.fire({
                     title: 'Sale Completed',
                     icon: 'success',
-                    text: `Sale completed for ${selectedCustomer}`,
+                    text: `Sale completed for ${selectedItem}`,
                 });
             } else {
-                showAlert('Please select a customer', 'error');
+                
             }
         });
 
@@ -156,32 +166,58 @@
             });
         }
 
+
         function displaySearchResults(customers) {
-            // Clear previous results
-            searchResultsContainer.empty();
+    // Clear previous results
+    searchResultsContainer.empty();
 
-            // Create an unordered list
-            const resultList = $('<ul class="list-group"></ul>');
-            resultList.append("<br>");
+    // Create an unordered list
+    const resultList = $('<ul class="list-group"></ul>');
+    resultList.append("<br>");
 
-            // Append list items for each customer
-            customers.forEach(function (customer) {
-                // Create a clickable list item
-                const listItem = $('<li class="list-group-item clickable">' + customer.customer_name + '</li>');
+  
+    // Append list items for each customer
+    customers.forEach(function (customer) {
+        // Create a clickable list item
+        const listItem = $('<li class="list-group-item clickable">' + customer.customer_name + '</li>');
+        // Add a click event listener
+        listItem.on("click", function () {
+            // Toggle the active class on click
+            $(".list-group-item").removeClass("active");
+            listItem.addClass("active");
 
-                // Add a click event listener
-                listItem.on("click", function () {
-                    // Toggle the active class on click
-                    $(".list-group-item").removeClass("active");
-                    listItem.addClass("active");
-                });
+            // Set the selected customer in the dropdown
+            selectedItem = customer.id;
+            selectedCustomerDropdown.val(selectedItem).trigger('change');
+        });
 
-                // Append the list item to the list
-                resultList.append(listItem);
-            });
+        // Append the list item to the list
+        resultList.append(listItem);
+    });
 
-            // Append the list to the container
-            searchResultsContainer.append(resultList);
+    // Append the list to the container
+    searchResultsContainer.append(resultList);
+}
+
+
+function updateCustomerDropdown() {
+            // Clear previous options
+            selectedCustomerDropdown.empty();
+
+            // Refresh the customer dropdown options by performing a search
+            performSearch("");
+
+            // Optionally, you can add a default option or trigger a search here
+        }
+
+        function getSaleItems() {
+            // Implement a function to get sale items from your UI or data source
+            // For example, you can retrieve them from a form or any other input elements
+            // and return them as an array or object
+            // ...
+
+            // For demonstration purposes, return an empty array
+            return [];
         }
     });
 </script>

@@ -17,9 +17,10 @@ class SaleController extends Controller
     /**
      * Display a listing of the resource.
      */
+    
     public function index()
     {
-        //
+        //return the akes to the front end
         $sales = Sales::leftJoin('users', 'users.id', '=', 'sales.user_id')
         ->leftJoin('customers', 'sales.customer_id', '=', 'customers.id') // Corrected condition
         ->select(
