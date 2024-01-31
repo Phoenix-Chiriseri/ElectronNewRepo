@@ -15,18 +15,12 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="container">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- Display dynamic content from the database -->
-                                        <!-- Replace the static content with data from your database -->
-                                            <!-- Assuming the controller passes $data to the view -->
-                                            @foreach ($saleItems as $item)
-                                            <p>Product ID: {{ $item['product_id'] }}</p>
-                                            <p>Quantity: {{ $item['quantity'] }}</p>
-                                        @endforeach
-                                        
-                                        <p>Customer ID: {{ $customerId }}</p>  
-                                </div>
+                                @foreach ($saleItems as $item)
+                                <p>Product ID: {{ $item['product_id'] }}</p>
+                                <p>Quantity: {{ $item['quantity'] }}</p>
+                            @endforeach
+                            
+                            <p>Customer ID: {{ $customerId }}</p>  
                             </div>
                         </div>
                     </div>
