@@ -35,11 +35,16 @@ class SaleController extends Controller
 
     public function finaliseSale(Request $request){
 
-       // Retrieve data from the form submission
-       $customerId = $request->input('customer_id');
-       $saleItems = $request->input('sale_items');
-       $data = json_decode($saleItems, true);
-       return redirect()->route('confirmation-screen')->with(['customerId' => $customerId, 'saleItems' => $data]);
+        $customerId = $request->input('customer_id');
+        $saleItemsJson = $request->input('sale_items');
+        $saleItemsArray = json_decode($saleItemsJson, true); // Decode JSON string to array
+        $token = $request->input('_token');
+        // Access the decoded saleItemsArray
+        $saleItems = $saleItemsArray['saleItems'];
+       // Your logic to process the data goes here
+       // For example, you can return a response
+      //$data = json_decode($saleItems, true);
+       return redirect()->route('confirmation-screen')->with(['customerId' => $customerId, 'saleItems' => $saleItems]);
 
     }
 

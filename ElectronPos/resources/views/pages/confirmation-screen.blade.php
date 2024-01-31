@@ -19,17 +19,13 @@
                                     <div class="col-md-12">
                                         <!-- Display dynamic content from the database -->
                                         <!-- Replace the static content with data from your database -->
-                                        @if(isset($saleItems))
-                                        @foreach($saleItems as $saleItem)
-                                            <div class="mb-3" style="color:black;">
-                                                Product ID: {{ $saleItem['product_id'] }} - Quantity: {{ $saleItem['quantity'] }}
-                                            </div>
+                                            <!-- Assuming the controller passes $data to the view -->
+                                            @foreach ($saleItems as $item)
+                                            <p>Product ID: {{ $item['product_id'] }}</p>
+                                            <p>Quantity: {{ $item['quantity'] }}</p>
                                         @endforeach
-                                        <hr>
-                                    @else
-                                        <p>No sale items available.</p>
-                                    @endif
-                                    </div>
+                                        
+                                        <p>Customer ID: {{ $customerId }}</p>  
                                 </div>
                             </div>
                         </div>
