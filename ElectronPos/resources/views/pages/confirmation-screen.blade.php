@@ -15,9 +15,8 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="container">
-                                <h4>Invoice</h4>
+                                <h4>Items</h4>
                                 <p>Customer Name: {{ $customerName }}</p>
-                            
                                 <ul class="list-group">
                                     @foreach ($saleItems as $item)
                                         <li class="list-group-item">
