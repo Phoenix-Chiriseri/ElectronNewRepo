@@ -17,40 +17,29 @@
                             <div class="container">
                                 <h4>Invoice</h4>
                                 <p>Customer Name: {{ $customerName }}</p>
-                                
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Product ID</th>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($saleItems as $item)
-                                            <tr>
-                                                <td>{{ $item['product_id'] }}</td>
-                                                
-                                                @php
-                                                    $product = \App\Models\Product::find($item['product_id']);
-                                                @endphp
-                        
-                                                <td>
-                                                    @if ($product)
-                                                        {{ $product->name }}
-                                                    @else
-                                                        Product Not Found
-                                                    @endif
-                                                </td>
-                                                
-                                                <td>{{ $item['quantity'] }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                
+                            
+                                <ul class="list-group">
+                                    @foreach ($saleItems as $item)
+                                        <li class="list-group-item">
+                                            <strong>Product ID:</strong> {{ $item['product_id'] }} |
+                                            
+                                            @php
+                                                $product = \App\Models\Product::find($item['product_id']);
+                                            @endphp
+                                            
+                                            <strong>Product Name:</strong> 
+                                            @if ($product)
+                                                {{ $product->name }}
+                                            @else
+                                                Product Not Found
+                                            @endif |
+                                            
+                                            <strong>Quantity:</strong> {{ $item['quantity'] }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            
                                 <p>Total: {{ $total }}</p>
-                               
                             </div>
                         </div>
                     </div>
