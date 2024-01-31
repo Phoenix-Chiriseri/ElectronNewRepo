@@ -153,7 +153,7 @@
         form.method = 'POST';
         form.action = '/finalise-sale'; // Replace with your actual endpoint
 
-        // Create and append hidden input fields for customer ID, sale items, and CSRF token
+        // send the data and append eveything to the method
         const customerIdInput = document.createElement('input');
         customerIdInput.type = 'hidden';
         customerIdInput.name = 'customer_id';
