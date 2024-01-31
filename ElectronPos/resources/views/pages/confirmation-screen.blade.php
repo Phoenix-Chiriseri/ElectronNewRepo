@@ -18,9 +18,10 @@
                                 @foreach ($saleItems as $item)
                                 <p>Product ID: {{ $item['product_id'] }}</p>
                                 <p>Quantity: {{ $item['quantity'] }}</p>
+                                
                             @endforeach
-                            
-                            <p>Customer ID: {{ $customerId }}</p>  
+                            <p>Customer Name  {{ $customerName }}</p>  
+                            <p>Total {{ $total }}</p>  
                             </div>
                         </div>
                     </div>

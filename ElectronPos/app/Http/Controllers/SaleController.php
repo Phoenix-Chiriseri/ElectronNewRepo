@@ -33,19 +33,22 @@ class SaleController extends Controller
         return view("pages.view-sales")->with("sales",$sales);
     }
 
-    public function finaliseSale(Request $request){
-
+    public function finaliseSale(Request $request)
+    {
         $customerId = $request->input('customer_id');
         $saleItemsJson = $request->input('sale_items');
         $saleItemsArray = json_decode($saleItemsJson, true); // Decode JSON string to array
         $token = $request->input('_token');
+        $customerName = Customer::find($customerId)->customer_name;
         // Access the decoded saleItemsArray
         $saleItems = $saleItemsArray['saleItems'];
-       // Your logic to process the data goes here
-       // For example, you can return a response
-      //$data = json_decode($saleItems, true);
-       return redirect()->route('confirmation-screen')->with(['customerId' => $customerId, 'saleItems' => $saleItems]);
-
+        $total = $saleItemsArray['total'];
+        // Redirect to the confirmation-screen route with data
+        return redirect()->route('confirmation-screen')->with([
+            'customerName' => $customerName,
+            'saleItems' => $saleItems,
+            'total'=>$total
+        ]);
     }
 
     public function confirmationScreen()
@@ -53,9 +56,10 @@ class SaleController extends Controller
         // Retrieve data from the session
         $customerId = session('customerId');
         $saleItems = session('saleItems');
-      
+        $customerName = session("customerName");
+        $total = session("total");
         // Display a view with the data
-        return view('pages.confirmation-screen', compact('customerId', 'saleItems'));
+        return view('pages.confirmation-screen', compact('customerId', 'saleItems','customerName','total'));
     }
 
     /**
