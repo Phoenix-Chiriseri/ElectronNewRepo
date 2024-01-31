@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="card-header p-0 poition-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Confirm Payment</h6>
                             </div>
@@ -20,9 +20,8 @@
                                         <!-- Display dynamic content from the database -->
                                         <!-- Replace the static content with data from your database -->
                                         @if(isset($saleItems))
-                                       
                                         @foreach($saleItems as $saleItem)
-                                            <div class="mb-3">
+                                            <div class="mb-3" style="color:black;">
                                                 Product ID: {{ $saleItem['product_id'] }} - Quantity: {{ $saleItem['quantity'] }}
                                             </div>
                                         @endforeach
