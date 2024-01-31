@@ -102,6 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-customers', [CustomerController::class, 'store'])->name('submit-customers');
 	Route::get('/sell-product', [SalesController::class, 'index'])->name('sell-product');
 	Route::get('/create-suppliers', [SupplierController::class, 'create'])->name('create-suppliers');
+	Route::get('/confirmation-screen', [SaleController::class, 'confirmationScreen'])->name('confirmation-screen');
 	Route::post('/submit-supplier', [SupplierController::class, 'store'])->name('submit-supplier');
 	Route::post('/finalise-sale', [SaleController::class, 'finaliseSale'])->name('finalise-sale');
 	Route::post('/submit-customer', [CustomerController::class, 'store'])->name('submit-customer');

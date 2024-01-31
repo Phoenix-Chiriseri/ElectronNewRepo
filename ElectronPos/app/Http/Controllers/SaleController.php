@@ -35,8 +35,20 @@ class SaleController extends Controller
 
     public function finaliseSale(Request $request){
 
-        dd($request->all());
+       // Retrieve data from the form submission
+       $customerId = $request->input('customer_id');
+       $saleItems = $request->input('sale_items');
+       return redirect()->route('confirmation-screen')->with(['customerId' => $customerId, 'saleItems' => $saleItems]);
 
+    }
+
+    public function confirmationScreen()
+    {
+        // Retrieve data from the session
+        $customerId = session('customerId');
+        $saleItems = session('saleItems');
+        // Display a view with the data
+        return view('pages.confirmation-screen', compact('customerId', 'saleItems'));
     }
 
     /**

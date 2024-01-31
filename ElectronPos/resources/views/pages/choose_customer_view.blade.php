@@ -140,7 +140,7 @@
 
         // Event listener for the 'Process Sale' button
         $("#processSale").on("click", function () {
-    if (selectedItem) {
+        if (selectedItem) {
         const selectedCustomerId = $("#customerDropdown").val();
         const name = @json($name);
         const saleItemsJson = @json($saleItemsJson);
