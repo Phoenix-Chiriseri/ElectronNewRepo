@@ -33,7 +33,7 @@ class SaleController extends Controller
         return view("pages.view-sales")->with("sales",$sales);
     }
 
-    public function finishTransaction(){
+    public function finaliseSale(Request $request){
 
         dd($request->all());
 
@@ -67,6 +67,7 @@ class SaleController extends Controller
     //Convert PHP variables to JSON
     $saleItemsJson = json_encode($saleItems);
     $customersJson = $customers->toJson();
+
     // Return the view with the JSON data
     return view('pages.choose_customer_view')->with([
         'name' => $name,

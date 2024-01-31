@@ -67,7 +67,8 @@ class GRVController extends Controller
         // Stream the file to the browser with appropriate headers for download
         return $pdf->download($fileName);
      
-    }
+     }
+     //function that will submit the grv
     public function submitGrv(Request $request)
     {
         $grv = new GRV(); // Use the GRV model
@@ -78,8 +79,7 @@ class GRVController extends Controller
         $grv->grn_date = $request->input('grn_date');
         $grv->payment_method = $request->input('payment_method');
         $grv->additional_information = $request->input('additional_information');
-        $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');
-        //$grv->additional_costs = $request->input('additional_costs');
+        $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');        
         $grv->save();
         
         // Save the table data

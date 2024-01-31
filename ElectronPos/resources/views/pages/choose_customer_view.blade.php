@@ -140,28 +140,56 @@
 
         // Event listener for the 'Process Sale' button
         $("#processSale").on("click", function () {
-            //const selectedCustomer = selectedCustomerDropdown.val();// Declare the variable here
-            if (selectedItem) {
-                // Proceed with the sale, you can add your logic here
-                //const saleItems = getSaleItems(); // Implement a function to get sale items
-                // ...
-                Swal.fire({
-                    title: 'Sale Completed',
-                    icon: 'success',
-                    text: `Sale completed for ${selectedItem}`,
-                });
-            } else {
-                
-            }
-        });
+    if (selectedItem) {
+        const selectedCustomerId = $("#customerDropdown").val();
+        const name = @json($name);
+        const saleItemsJson = @json($saleItemsJson);
 
-        function performSale(customerId) {
-        // Add your logic to perform the sale using the customerId
-        // For example:
-        console.log('Sale completed for customer ID:', customerId);
-        // You can also update the UI or trigger any necessary actions
-        // ...
+        // Parse JSON data if needed (assuming saleItemsJson is an array)
+        const saleItems = JSON.parse(saleItemsJson);
+
+        // Create a form element
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/finalise-sale'; // Replace with your actual endpoint
+
+        // Create and append hidden input fields for customer ID, sale items, and CSRF token
+        const customerIdInput = document.createElement('input');
+        customerIdInput.type = 'hidden';
+        customerIdInput.name = 'customer_id';
+        customerIdInput.value = selectedItem;
+        form.appendChild(customerIdInput);
+
+        const saleItemsInput = document.createElement('input');
+        saleItemsInput.type = 'hidden';
+        saleItemsInput.name = 'sale_items';
+        saleItemsInput.value = JSON.stringify(saleItems);
+        form.appendChild(saleItemsInput);
+
+        const csrfTokenInput = document.createElement('input');
+        csrfTokenInput.type = 'hidden';
+        csrfTokenInput.name = '_token';
+        csrfTokenInput.value = '{{ csrf_token() }}'; // Laravel's way to get CSRF token
+        form.appendChild(csrfTokenInput);
+
+        // Append the form to the document body
+        document.body.appendChild(form);
+
+        // Submit the form
+        form.submit();
+
+        // Remove the form from the document body
+        document.body.removeChild(form);
+
+        Swal.fire({
+            title: 'Sale Completed',
+            icon: 'success',
+            text: `Sale completed for ${selectedItem}`,
+        });
+    } else {
+        // Handle the case when no item is selected
     }
+});
 
         function performSearch(searchQuery) {
             // Make an AJAX request to the search endpoint

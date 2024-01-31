@@ -180,10 +180,11 @@ Swal.fire({
                     <label class="form-check-label">Inactive</label>
                 </div>
             </fieldset>
-        </div>  
+        </div> 
+        <button type="submit" class="btn bg-gradient-dark">Submit</button> 
     </div>
     <hr>
-    <button type="submit" class="btn bg-gradient-dark">Submit</button>
+   
 </form>
 
                     </div>

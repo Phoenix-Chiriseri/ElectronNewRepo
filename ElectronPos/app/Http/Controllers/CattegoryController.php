@@ -55,7 +55,8 @@ class CattegoryController extends Controller
             return redirect()->back()->with('error', 'Sorry, there a problem while creating product.');
         }
         return redirect()->back()->with('success', 'Cattegory Successfully Created');
-        //return redirect()->route('dashboard')->with('success', 'Success, you cattegory have been created.');
+      
+        
     }
 
 

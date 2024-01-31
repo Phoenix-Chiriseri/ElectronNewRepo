@@ -103,6 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/sell-product', [SalesController::class, 'index'])->name('sell-product');
 	Route::get('/create-suppliers', [SupplierController::class, 'create'])->name('create-suppliers');
 	Route::post('/submit-supplier', [SupplierController::class, 'store'])->name('submit-supplier');
+	Route::post('/finalise-sale', [SaleController::class, 'finaliseSale'])->name('finalise-sale');
 	Route::post('/submit-customer', [CustomerController::class, 'store'])->name('submit-customer');
 	Route::get('/view-customers', [CustomerController::class, 'viewAllCustomers'])->name('view-customers');
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('view-orders');

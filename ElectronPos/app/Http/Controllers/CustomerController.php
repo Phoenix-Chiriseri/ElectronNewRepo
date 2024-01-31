@@ -43,6 +43,7 @@ class CustomerController extends Controller
         return view("pages.create-customer");
     }
 
+    
     //save a customer to the database
     public function store(Request $request)
     {    

@@ -23,6 +23,12 @@ class SalesController extends Controller
         return view('pages.sell-products', compact('products'))->with("customers",$customers);
     }
 
+    public function finaliseSale(Request $request){
+
+        dd($request->all());
+
+    }
+
     public function processSale(Request $request)
     {
         $productId = $request->input('product');
