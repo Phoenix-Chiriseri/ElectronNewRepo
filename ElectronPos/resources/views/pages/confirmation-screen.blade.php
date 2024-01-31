@@ -15,13 +15,42 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="container">
-                                @foreach ($saleItems as $item)
-                                <p>Product ID: {{ $item['product_id'] }}</p>
-                                <p>Quantity: {{ $item['quantity'] }}</p>
+                                <h4>Invoice</h4>
+                                <p>Customer Name: {{ $customerName }}</p>
                                 
-                            @endforeach
-                            <p>Customer Name  {{ $customerName }}</p>  
-                            <p>Total {{ $total }}</p>  
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product ID</th>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($saleItems as $item)
+                                            <tr>
+                                                <td>{{ $item['product_id'] }}</td>
+                                                
+                                                @php
+                                                    $product = \App\Models\Product::find($item['product_id']);
+                                                @endphp
+                        
+                                                <td>
+                                                    @if ($product)
+                                                        {{ $product->name }}
+                                                    @else
+                                                        Product Not Found
+                                                    @endif
+                                                </td>
+                                                
+                                                <td>{{ $item['quantity'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                
+                                <p>Total: {{ $total }}</p>
+                               
                             </div>
                         </div>
                     </div>
