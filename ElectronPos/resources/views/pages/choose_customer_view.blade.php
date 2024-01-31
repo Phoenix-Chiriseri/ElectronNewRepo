@@ -180,16 +180,13 @@
 
         // Remove the form from the document body
         document.body.removeChild(form);
-
-        Swal.fire({
-            title: 'Sale Completed',
-            icon: 'success',
-            text: `Sale completed for ${selectedItem}`,
-        });
-    } else {
+        } else {
         // Handle the case when no item is selected
-    }
-});
+        console.log("cannot finalise the transaction");    
+        
+        }
+        
+    });
 
         function performSearch(searchQuery) {
             // Make an AJAX request to the search endpoint
