@@ -1,5 +1,6 @@
 <script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -21,6 +22,15 @@
                 console.log(result);
                 $("#changeResult").text(result);
             });
+
+            $("#exportPdf").on("click", function () {
+            // Clone the printable content
+            var printableContent = $("#printableInvoice").clone();
+            // Remove any unwanted elements (e.g., buttons, input fields)
+            printableContent.find("button, input").remove();
+            // Convert the content to PDF
+            html2pdf(printableContent[0]);
+        });
  
             // Function to submit the form
             function showAlert(message, errorIconMessage){     
@@ -51,13 +61,12 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="card-body px-0 pb-2">
-                        <div class="container">
+                        <div class="container" id="printableInvoice">
                             <h4>Items</h4>
                             <p>Customer Name: {{ $customerName }}</p>
                             <ul class="list-group">
                                 @foreach ($saleItems as $item)
                                     <li class="list-group-item" data-product-id="{{ $item['product_id'] }}">
-                                        <strong>Product ID:</strong> {{ $item['product_id'] }} |
                                         @php
                                             $product = \App\Models\Product::find($item['product_id']);
                                         @endphp
@@ -84,11 +93,11 @@
                             <input type="hidden" name="change" id="hiddenChange" value="">
                             <input type="hidden" name="customerId" id="customerId" value="{{ $customerId}}">
                             <input type="hidden" name="tableData" id="hiddenTableData" value="">
-                            <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class = "fa fa-money"></i> Pay</button>
-                            <button type="button" class="btn btn-info mb-2">Print Invoice</button>
+                            <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class = "fa fa-money"></i> Pay</button>  
                         </form>
+                        <button type="button" class="btn btn-info mb-2">Print Invoice</button>
+                        <button type="button" class="btn btn-info mb-2" id="exportPdf"><i class="fa fa-file-pdf"></i> Export As Pdf</button>
                     </div>
-                    
                     <script>
                         $(document).ready(function(){
 

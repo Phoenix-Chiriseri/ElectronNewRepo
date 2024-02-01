@@ -83,6 +83,7 @@
         const rowHtml = `
             <tr>
                 <td>${item.name}</td>
+                
                 <td>
                     <div class="input-group">
                         <input
@@ -247,6 +248,18 @@
         <x-navbars.navs.auth titlePage='Sell Product'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <body>
+            @if(session('success'))
+            <script>
+            Swal.fire({
+                icon: 'success',
+                position: "top-end",
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 1000 // Adjust the timer as needed
+            });
+            </script>
+            @endif
         <div class="container-fluid px-2 px-md-4">
             <div class="row">
                 <div class="col-md-6">
