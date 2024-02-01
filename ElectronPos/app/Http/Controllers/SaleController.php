@@ -89,7 +89,11 @@ class SaleController extends Controller
         $sale->products()->attach($productId, ['quantity' => $quantitySold]);
     }
 
-    return response()->json(['success' => true]);
+    if ($sale->save()) {
+        return redirect()->route('cart-index')->with('success', 'Sale Completed Successfully');
+     } else {
+         return redirect()->back()->with('error', 'Sorry, there was a problem doing the sale');
+      }   
     
 }
     /**
