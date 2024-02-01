@@ -190,7 +190,7 @@
         <h6 class="mb-0">Add New Product</h6>
         </div>
         <div class="col-6 text-end">
-        <a class="btn bg-gradient-dark mb-0" href="{{ route('create-product') }}"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Product</a>
+        <a class="btn bg-gradient-dark mb-0" href="{{ route('create-product') }}">Add New Product</a>
         </div>
         </div>
         </div>
