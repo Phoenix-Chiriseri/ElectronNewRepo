@@ -28,7 +28,7 @@
                         </a>
                         <a class="btn btn-danger" id="processSale" role="tab" aria-selected="true">
                             <i class="material-icons text-lg position-relative"></i>
-                            <span class="ms-1"></span><i class="fa fa-user"></i>Process Sale
+                            <span class="ms-1"></span><i class="fa fa-arrow-right"></i>Next
                         </a>
                     </div>
                 </div>
