@@ -6,36 +6,54 @@
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Finish Transaction"></x-navbars.navs.auth>
         <script>
-            $(document).ready(function(){
-                //this is the function to get the rreceived amount
-                $("#receivedAmount").on('input', function(event) {
-    if ($(this).val() == '') {
-        showAlert("Field cannot be empty", "error");
-        return;
-    }
-
-    var receivedAmount = parseFloat($(this).val()) || 0; // Parse the input value to a float
-    var total = parseFloat($("#totalValue").text()) || 0; // Parse the total value to a float
-    var result = receivedAmount - total;
-
-    console.log(result);
-    $("#changeResult").text(result);
-});
-                $("#printReceipt").on("click",function(){
-                    alert("hello world");
-                }); 
-                
-                function showAlert(message,errorIconMessage){     
-                Swal.fire({
-                position: "top-end",
-                icon: errorIconMessage,
-                title: message,
-                showConfirmButton: false,
-                timer: 1000
-                });    
-              }
+        $(document).ready(function(){
+            // Function to get the received amount
+            $("#receivedAmount").on('input', function(event) {
+                if ($(this).val() == '') {
+                    showAlert("Field cannot be empty", "error");
+                    return;
+                }
+        
+                var receivedAmount = parseFloat($(this).val()) || 0; // Parse the input value to a float
+                var total = parseFloat($("#totalValue").text()) || 0; // Parse the total value to a float
+                var result = receivedAmount - total;
+        
+                console.log(result);
+                $("#changeResult").text(result);
             });
-        </script>   
+        
+            // Function to submit the form
+            $("#printReceipt").on("click", function(){
+    // Create a form element
+    var form = $('<form action="/do-transaction" method="POST"></form>');
+    // Add CSRF token input field
+    form.append('@csrf');
+    form.append('<input type="hidden" name="change" value="' + ($("#changeResult").text() || 0) + '">')
+    // Add hidden input fields for total and table data
+    form.append('<input type="hidden" name="total" value="' + ($("#totalValue").text() || 0) + '">');
+    // Assuming each list item in the saleItems list has a data attribute 'product-id'
+    $(".list-group-item").each(function() {
+        var productId = $(this).data('product-id');
+        var quantity = $(this).find('strong:contains("Quantity:")').next().text();
+        form.append('<input type="hidden" name="tableData[]" value="' + productId + ',' + quantity + '">');
+    });
+
+    // Append the form to the body and submit it
+    $('body').append(form);
+    form.submit();
+});
+        
+            function showAlert(message, errorIconMessage){     
+                Swal.fire({
+                    position: "top-end",
+                    icon: errorIconMessage,
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 1000
+                });    
+            }
+        });
+    </script>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">

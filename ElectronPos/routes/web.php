@@ -79,6 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
 	//loop through the products and then add them to cart
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
 	Route::post('/submit-suppliers', [SupplierController::class, 'store'])->name('submit-suppliers');
+	Route::post('/do-transaction', [SaleController::class, 'doTransaction'])->name('do-transaction');
 	Route::get('/create-sales', [SalesController::class, 'index'])->name('create-sales');
 	Route::post('/submit-sale', [SalesController::class, 'store'])->name('submit-sale');
 	Route::get('/create-employee', [EmployeeController::class, 'create'])->name('create-employee');

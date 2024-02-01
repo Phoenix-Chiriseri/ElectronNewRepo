@@ -62,6 +62,9 @@ class SaleController extends Controller
         return view('pages.confirmation-screen', compact('customerId', 'saleItems','customerName','total'));
     }
 
+    public function doTransaction(Request $request){
+        dd($request->all());
+    }
     /**
      * Show the form for creating a new resource.
      */
