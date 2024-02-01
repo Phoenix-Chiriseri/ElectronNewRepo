@@ -95,20 +95,18 @@ class SaleController extends Controller
          return redirect()->back()->with('error', 'Sorry, there was a problem doing the sale');
       }   
     
-}
-    /**
-     * Show the form for creating a new resource.
-     */
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
-{
+    
+    {
+    
     $saleItems = $request->all();
     $request->session()->put('saleItems', $saleItems);
     $customers = Customer::all();

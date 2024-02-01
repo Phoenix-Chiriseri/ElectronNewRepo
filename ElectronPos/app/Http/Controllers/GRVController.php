@@ -34,6 +34,7 @@ class GRVController extends Controller
         //load the pdf view....
         $pdf = PDF::loadView('pages.generate_grv');
         return $pdf->download('receipt.pdf');  
+       
         }
     }
 

@@ -289,28 +289,25 @@
                         <div class="col">
                         
                         </div>
-                        <form method="POST" action="/sell" id="sellForm">
-                            @csrf
-                            <!-- Add other form fields here if needed -->
-                            <button type="submit" class="btn btn-dark btn-block" id="sellItems">Submit</button>
-                        </form>
+                        
                     </div>
                 </div>
                 <div class="col-md-6">
                     <!-- Add your content for the second column here -->
                     <div className="mb-2">
                         <div class="col">
+                            <form method="POST" action="/sell" id="sellForm">
+                                @csrf
+                                <!-- Add other form fields here if needed -->
+                                <button type="submit" class="btn btn-success btn-block" id="sellItems"><i class = "fa fa-money"></i> Cash</button>
+                            </form>
                             
                             <div id = "showCustomerMessage" hidden></div>
                         </div>
                     </div>
+                    
                     <hr>
-                    <div className="mb-2">
-                        <!-- Buttons for payment options -->
-                        <button type="button" class="btn btn-primary btn-lg mr-2" onclick="handleCashPayment()"><i class = "fa fa-money"></i> Cash</button>
-                        <button type="button" class="btn btn-success btn-lg mr-2" onclick="handleCreditCardPayment()"><i class="fa fa-credit-card"></i> Credit Card</button>
-                        <button type="button" class="btn btn-info btn-lg" onclick="handleDebitCardPayment()"><i class="fa fa-credit-card"></i> Debit Card</button>
-                    </div>
+                  
                 </div>
                  @if(session('error'))
                  <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="color: white;">
