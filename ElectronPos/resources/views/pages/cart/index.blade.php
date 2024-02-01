@@ -17,11 +17,14 @@
             updateCartUI();
         });
         
+    //search for a product by the name
     $("#searchSelectedProd").on("keydown", function (event) {
         if (event.which == 13) {
         event.preventDefault();
         var productName = $(this).val();
-        console.log('Search Term:', productName);
+        if(productName==''){
+            showAlert("Product Name Cannot Be Empty",'error');
+        }
         //load the products with the productName
         loadProductsByName(productName);
         }

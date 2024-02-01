@@ -114,7 +114,7 @@ class GRVController extends Controller
     // Format the counter with leading zeros
     $formattedCounter = str_pad(Session::get('grn_counter'), 4, '0', STR_PAD_LEFT);
     // Concatenate the parts to create the GRN number
-    $grvNumber = 'GRN-' . $formattedCounter;
+    $grvNumber = 'GRN -' . $formattedCounter;
     return $grvNumber;
 
     }

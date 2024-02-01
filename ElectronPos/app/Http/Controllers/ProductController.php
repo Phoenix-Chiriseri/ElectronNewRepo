@@ -90,17 +90,17 @@ class ProductController extends Controller
     public function create()
     {
         //return the cattegories for the product to the view
-        $cattegories = Cattegory::all();
+        $cattegories = Cattegory::orderBy("id","desc")->get();
         $user = Auth::user();
         return view("pages.add-product")->with("cattegories",$cattegories)->with("user",$user);
     }
 
 
     public function addToCart(Request $request,$productId){
-
-    $product = Product::find($productId);
-
-    if (!$product) {
+    
+        $product = Product::find($productId);
+    
+        if (!$product) {
         return redirect()->route('pages.sales.index')->with('error', 'Product not found.');
     }
 
@@ -171,7 +171,6 @@ class ProductController extends Controller
          
          if ($product->save()) {
             return redirect()->back()->with('success', 'Product Added Successfully');
-            // return redirect()->route('view-products')->with('success', 'Success, your product has been created and added to stock');
          } else {
              return redirect()->back()->with('error', 'Sorry, there was a problem while saving your product');
           }    
