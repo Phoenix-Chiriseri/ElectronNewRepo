@@ -197,14 +197,12 @@
         <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
         <img class="w-10 me-3 mb-0">
         <h6 class="mb-0"></h6>
-        <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card">edit</i>
         </div>
         </div>
         <div class="col-md-6">
         <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
         <img class="w-10 me-3 mb-0">
         <h6 class="mb-0"></h6>
-        <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card">edit</i>
         </div>
         </div>
         </div>
