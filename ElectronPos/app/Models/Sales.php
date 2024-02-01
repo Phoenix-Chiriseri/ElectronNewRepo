@@ -8,27 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Sales extends Model
 {
     use HasFactory;
-
-    protected $table = 'sales';
-
-    protected $primaryKey = 'sale_id';
-
-    public $incrementing = true;
-
-    protected $fillable = [
-        'total', 'rfc', 'id', 'created'
-    ];
-
-    public function client() {
-        return $this->belongsTo('App\Customer', 'rfc');
+    protected $fillable = ['customer_id', 'total', 'change'];
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_sale')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
-
-    // This model can exists in N carts
-    public function carts() {
-        return $this->belongsToMany('App\Cart', 'sales', 'sale_id',
-                                    'sale_id', 'sale_id', 'sale_id')
-            ;
-    }
-
 }
 

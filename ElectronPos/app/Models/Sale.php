@@ -9,7 +9,12 @@ class Sale extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'total'
-    ];
+    protected $fillable = ['customer_id', 'total', 'change'];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'sale_product')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
 }

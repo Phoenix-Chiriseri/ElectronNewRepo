@@ -70,8 +70,9 @@
                             @csrf
                             <input type="hidden" name="total" id="hiddenTotal" value="{{ $total }}">
                             <input type="hidden" name="change" id="hiddenChange" value="">
+                            <input type="hidden" name="customerId" id="customerId" value="{{ $customerId}}">
                             <input type="hidden" name="tableData" id="hiddenTableData" value="">
-                            <button type="button" class="btn btn-success mb-2" id="printReceipt">Print Receipt</button>
+                            <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class = "fa fa-money"></i> Pay</button>
                             <button type="button" class="btn btn-info mb-2">Print Invoice</button>
                         </form>
                     </div>
@@ -132,9 +133,7 @@
                                 <label class="form-label" id="changeResult"></label>
                                 <input type="text" class="form-control" id="change">
                             </div>
-                            <!-- Buttons for printing -->
-                            <button class="btn btn-success mb-2" id="printReceipt">Print Receipt</button>
-                            <button class="btn btn-info mb-2">Print Invoice</button>
+                            
                         </div>
                     </div>
                 </div>

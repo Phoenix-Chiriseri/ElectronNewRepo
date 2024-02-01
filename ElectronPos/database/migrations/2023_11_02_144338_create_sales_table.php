@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->decimal('total_amount', 10, 2);
+            $table->unsignedBigInteger('customer_id'); // Assuming you have a customers table
+            $table->decimal('total', 10, 2);
+            $table->decimal('change', 10, 2);
             $table->timestamps();
+            // Foreign key
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 
