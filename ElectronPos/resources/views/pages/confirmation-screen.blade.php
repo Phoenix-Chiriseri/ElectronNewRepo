@@ -74,35 +74,44 @@
                             <button type="button" class="btn btn-success mb-2" id="printReceipt">Print Receipt</button>
                             <button type="button" class="btn btn-info mb-2">Print Invoice</button>
                         </form>
-                    </div>  
+                    </div>
+                    
                     <script>
                         $(document).ready(function(){
+
                             $("#printReceipt").on("click", function(){
-                                // Calculate change and update hidden input
-                                var receivedAmount = parseFloat($("#receivedAmount").val()) || 0;
-                                var total = parseFloat($("#totalValue").text()) || 0;
-                                var change = receivedAmount - total;
-                                $("#changeResult").text(change);
-                                $("#hiddenChange").val(change);
-                    
-                                // Collect table data and update hidden input
-                                var tableData = [];
-                                $(".list-group-item").each(function() {
-                                    var productId = $(this).data('product-id');
-                                    var quantityElement = $(this).find('strong:contains("Quantity:")').next();
-                                    var quantity = quantityElement.length > 0 ? quantityElement.text().trim() : '';
-                                    
-                                    // Log for debugging
-                                    console.log('Product ID:', productId);
-                                    console.log('Quantity:', quantity);
-                    
-                                    tableData.push({ 'product_id': productId, 'quantity': quantity });
-                                });
-                                $("#hiddenTableData").val(JSON.stringify(tableData));
-                    
-                                // Submit the form
-                                $("#transactionForm").submit();
-                            });
+    // Calculate change and update hidden input
+    var receivedAmount = parseFloat($("#receivedAmount").val()) || 0;
+    var total = parseFloat($("#totalValue").text()) || 0;
+    var change = receivedAmount - total;
+    $("#changeResult").text(change);
+    $("#hiddenChange").val(change);
+
+    // Collect table data and update hidden input
+    var tableData = [];
+    $(".list-group-item").each(function() {
+        var productId = $(this).data('product-id');
+        var textContent = $(this).text();
+
+        // Use regular expression to extract quantity from text content
+        var quantityMatch = textContent.match(/Quantity:\s*(\d+)/);
+        var quantity = quantityMatch ? quantityMatch[1] : '';
+
+        // Log for debugging
+        console.log('Product ID:', productId);
+        console.log('Text Content:', textContent);
+        console.log('Quantity:', quantity);
+
+        tableData.push({ 'product_id': productId, 'quantity': quantity });
+    });
+
+    console.log('Table Data:', tableData);
+    $("#hiddenTableData").val(JSON.stringify(tableData));
+
+    // Submit the form
+    $("#transactionForm").submit();
+});
+                           
                         });
                     </script>
                 </div>

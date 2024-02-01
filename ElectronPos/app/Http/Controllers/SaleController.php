@@ -65,6 +65,7 @@ class SaleController extends Controller
     public function doTransaction(Request $request){
         $total = $request->input('total');
         $change = $request->input('change');
+        $customerName = $request->input('customerName');
         $tableDataJson = $request->input('tableData');
         // Decode the JSON string into a PHP array
         $tableData = json_decode($tableDataJson, true);
