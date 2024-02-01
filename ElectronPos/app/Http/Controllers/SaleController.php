@@ -63,7 +63,13 @@ class SaleController extends Controller
     }
 
     public function doTransaction(Request $request){
-        dd($request->all());
+        $total = $request->input('total');
+        $change = $request->input('change');
+        $tableDataJson = $request->input('tableData');
+        // Decode the JSON string into a PHP array
+        $tableData = json_decode($tableDataJson, true);
+        dd($tableData);
+        return response()->json(['success' => true]);
     }
     /**
      * Show the form for creating a new resource.

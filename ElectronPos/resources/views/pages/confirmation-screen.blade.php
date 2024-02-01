@@ -21,28 +21,8 @@
                 console.log(result);
                 $("#changeResult").text(result);
             });
-        
+ 
             // Function to submit the form
-            $("#printReceipt").on("click", function(){
-    // Create a form element
-    var form = $('<form action="/do-transaction" method="POST"></form>');
-    // Add CSRF token input field
-    form.append('@csrf');
-    form.append('<input type="hidden" name="change" value="' + ($("#changeResult").text() || 0) + '">')
-    // Add hidden input fields for total and table data
-    form.append('<input type="hidden" name="total" value="' + ($("#totalValue").text() || 0) + '">');
-    // Assuming each list item in the saleItems list has a data attribute 'product-id'
-    $(".list-group-item").each(function() {
-        var productId = $(this).data('product-id');
-        var quantity = $(this).find('strong:contains("Quantity:")').next().text();
-        form.append('<input type="hidden" name="tableData[]" value="' + productId + ',' + quantity + '">');
-    });
-
-    // Append the form to the body and submit it
-    $('body').append(form);
-    form.submit();
-});
-        
             function showAlert(message, errorIconMessage){     
                 Swal.fire({
                     position: "top-end",
@@ -58,42 +38,74 @@
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="card my-4">
-                        <div class="card-header p-0 poition-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Confirm Payment</h6>
-                            </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="container">
+                            <h4>Items</h4>
+                            <p>Customer Name: {{ $customerName }}</p>
+                            <ul class="list-group">
+                                @foreach ($saleItems as $item)
+                                    <li class="list-group-item" data-product-id="{{ $item['product_id'] }}">
+                                        <strong>Product ID:</strong> {{ $item['product_id'] }} |
+                                        @php
+                                            $product = \App\Models\Product::find($item['product_id']);
+                                        @endphp
+                                        
+                                        <strong>Product Name:</strong> 
+                                        @if ($product)
+                                            {{ $product->name }}
+                                        @else
+                                            Product Not Found
+                                        @endif |
+                                        
+                                        <strong>Quantity:</strong> {{ $item['quantity'] }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <p id="total">Total:</p>
+                            <p id="totalValue">{{ $total }}</p>
                         </div>
-                        <div class="card-body px-0 pb-2">
-                            <div class="container">
-                                <h4>Items</h4>
-                                <p>Customer Name: {{ $customerName }}</p>
-                                <ul class="list-group">
-                                    @foreach ($saleItems as $item)
-                                        <li class="list-group-item">
-                                            <strong>Product ID:</strong> {{ $item['product_id'] }} |
-                                            @php
-                                                $product = \App\Models\Product::find($item['product_id']);
-                                            @endphp
-                                            
-                                            <strong>Product Name:</strong> 
-                                            @if ($product)
-                                                {{ $product->name }}
-                                            @else
-                                                Product Not Found
-                                            @endif |
-                                            
-                                            <strong>Quantity:</strong> {{ $item['quantity'] }}
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <p id = "total">Total:</p>
-                                <p id = "totalValue">{{ $total }}</p>
-                            </div>
-                        </div>
-                    </div>
+                    
+                        <!-- Add a form for submitting the data -->
+                        <form id="transactionForm" action="/do-transaction" method="POST">
+                            @csrf
+                            <input type="hidden" name="total" id="hiddenTotal" value="{{ $total }}">
+                            <input type="hidden" name="change" id="hiddenChange" value="">
+                            <input type="hidden" name="tableData" id="hiddenTableData" value="">
+                            <button type="button" class="btn btn-success mb-2" id="printReceipt">Print Receipt</button>
+                            <button type="button" class="btn btn-info mb-2">Print Invoice</button>
+                        </form>
+                    </div>  
+                    <script>
+                        $(document).ready(function(){
+                            $("#printReceipt").on("click", function(){
+                                // Calculate change and update hidden input
+                                var receivedAmount = parseFloat($("#receivedAmount").val()) || 0;
+                                var total = parseFloat($("#totalValue").text()) || 0;
+                                var change = receivedAmount - total;
+                                $("#changeResult").text(change);
+                                $("#hiddenChange").val(change);
+                    
+                                // Collect table data and update hidden input
+                                var tableData = [];
+                                $(".list-group-item").each(function() {
+                                    var productId = $(this).data('product-id');
+                                    var quantityElement = $(this).find('strong:contains("Quantity:")').next();
+                                    var quantity = quantityElement.length > 0 ? quantityElement.text().trim() : '';
+                                    
+                                    // Log for debugging
+                                    console.log('Product ID:', productId);
+                                    console.log('Quantity:', quantity);
+                    
+                                    tableData.push({ 'product_id': productId, 'quantity': quantity });
+                                });
+                                $("#hiddenTableData").val(JSON.stringify(tableData));
+                    
+                                // Submit the form
+                                $("#transactionForm").submit();
+                            });
+                        });
+                    </script>
                 </div>
-
                 <div class="col-md-4">
                     <!-- Right column with change textfield and buttons -->
                     <div class="card my-4">
