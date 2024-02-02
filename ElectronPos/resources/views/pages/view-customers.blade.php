@@ -51,37 +51,37 @@
                                 <table class="table align-items-center" id="customersTable">
                                     <thead>
                                         <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder ">
-                                                Customer Name</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder ">
-                                               Customer Code</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                               Created By</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Customer Tax Number</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Customer City</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Customer Address</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Customer Phone Number</th>  
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Customer Status</th>  
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Edit Customer</th> 
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Delete Customer</th>  
-                                        </tr>   
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
+                                                Customer Name
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
+                                                Customer Code
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 100px;">
+                                                Created By
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
+                                                Customer Tax Number
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
+                                                Customer City
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 200px;">
+                                                Customer Address
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
+                                                Customer Phone Number
+                                            </th>  
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
+                                                Customer Status
+                                            </th>  
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 100px;">
+                                                Edit Customer
+                                            </th> 
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 100px;">
+                                                Delete Customer
+                                            </th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($customers as $customer)

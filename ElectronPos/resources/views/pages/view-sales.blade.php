@@ -26,10 +26,7 @@
                                                Customer Name
                                             </th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
-                                               Received Total
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                               Paid Amount
+                                               Total
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Change
@@ -57,13 +54,7 @@
                                                     </div>
                                                 </div>
                                             </td>  
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$sale->received_amount}}</h6>
-                                                    </div>
-                                                </div>
-                                            </td> 
+                                           
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">

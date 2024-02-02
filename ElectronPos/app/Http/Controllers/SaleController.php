@@ -21,14 +21,14 @@ class SaleController extends Controller
      public function index()
     {
         //return the akes to the front end
-        $sales = Sales::leftJoin('customers', 'sales.id', '=', 'customers.user_id')
+        $sales = Sales::leftJoin('customers', 'sales.customer_id', '=', 'customers.id')
         ->select(
-            'sales.*',
-            'customers.*',
+        'sales.*',
+        'customers.*',
         )
         ->orderBy('sales.id', 'desc')
         ->paginate(5);
-        dd($sales);
+        
         return view("pages.view-sales")->with("sales",$sales);
     }
 
