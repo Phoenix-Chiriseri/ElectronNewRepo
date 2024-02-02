@@ -138,6 +138,7 @@
         <div>
         </div>
         </div>
+        
         <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
         </div>
         </div>
@@ -170,15 +171,34 @@
         </div>
         </div>
         <div class="card-body pt-0 p-3 text-center">
-        <h6 class="text-center mb-0">Paypal</h6>
-        <span class="text-xs">Freelance Payment</span>
+        <h6 class="text-center mb-0">Top Selling Products</h6>
         <hr class="horizontal dark my-3">
-        <h5 class="mb-0">$455.00</h5>
+        <ul>
+          @foreach ($topSellingProducts as $product)
+              <li>
+                  {{ $product->product_name }} - {{ $product->total_quantity_sold }} units sold
+              </li>
+          @endforeach
+      </ul>
+  
+      {{ $topSellingProducts->links() }}
         </div>
         </div>
         </div>
         </div>
         </div>
+        <div>
+          <h2>Top Selling Products</h2>
+          <ul>
+              @foreach ($topSellingProducts as $product)
+                  <li>
+                      {{ $product->product_name }} - {{ $product->total_quantity_sold }} units sold
+                  </li>
+              @endforeach
+          </ul>
+      
+          {{ $topSellingProducts->links() }}
+      </div>
         <div class="col-md-12 mb-lg-0 mb-4">
         <div class="card mt-4">
         <div class="card-header pb-0 p-3">
@@ -293,7 +313,6 @@
         <i class="material-icons">clear</i>
         </button>
         </div>
-        
         </div>
         <hr class="horizontal dark my-1">
         <div class="card-body pt-sm-3 pt-0">

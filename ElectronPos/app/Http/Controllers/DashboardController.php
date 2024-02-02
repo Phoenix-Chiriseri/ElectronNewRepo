@@ -21,12 +21,13 @@ class DashboardController extends Controller
     //return the numbefoproducts, number of customers and number of cattegories and all the users
     public function index()
     {
+        
         $topSellingProducts = DB::table('product_sale')
         ->select('products.name as product_name', 'product_sale.product_id', DB::raw('SUM(product_sale.quantity) as total_quantity_sold'))
         ->join('products', 'products.id', '=', 'product_sale.product_id')
         ->groupBy('product_sale.product_id', 'products.name')
         ->orderByDesc('total_quantity_sold')
-        ->get();
+        ->paginate(10); // You can adjust the number of items per page as needed
 
         $numberOfProducts = Product::all()->count();
         $numberOfCustomers = Customer::all()->count();
