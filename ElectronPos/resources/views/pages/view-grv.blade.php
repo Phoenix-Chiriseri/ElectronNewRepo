@@ -109,23 +109,21 @@ margin-top:20px;
 <script>
     document.getElementById('exportBtn').addEventListener('click', function () {
         var element = document.getElementById('pdfContent');
-        
         // Set options for the PDF export
-        var options = {
-            margin: 10,  // Adjust the margin as needed
-            filename: 'exported-document.pdf',  // Specify the filename
+        var options = {  // Adjust the margin as needed
+            filename: 'GRN.pdf',  // Specify the filename
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            jsPDF: { unit: 'mm', format: 'a5', orientation: 'landscape' }
         };
 
+        // Use html2pdf library to export the content
         html2pdf(element, options);
     });
 </script>
-<div class="col-md-12">   
-    <div class="row">
-           
-           <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3" id="pdfContent">
+<div class="col-md-12" id="pdfContent">   
+    <div class="row">   
+           <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
                <div class="row">
                    <div class="receipt-header">
                        <div class="col-xs-6 col-sm-6 col-md-6">
