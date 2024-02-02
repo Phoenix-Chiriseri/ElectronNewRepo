@@ -178,7 +178,7 @@
           <h4>Top Selling Products</h4>
           <ul class = "list-group">
               @foreach ($topSellingProducts as $product)
-                  <li class = "list-group-item">
+                  <li class = "list-group-item" style="color:black;">
                       {{ $product->product_name }} - {{ $product->total_quantity_sold }} units sold
                   </li>
               @endforeach

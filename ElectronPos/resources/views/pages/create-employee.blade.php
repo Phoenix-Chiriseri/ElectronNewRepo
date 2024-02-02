@@ -35,7 +35,7 @@
                                     <a class="btn btn-info" href="{{ route('view-employees') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">View Users</span>
+                                        <span class="ms-1">View Employees</span>
                                     </a>
                                 </li>
                             </ul>
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         @endif
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('submit-employee') }}">
                             @csrf
                             <div class="row">
                                 <div class="mb-3 col-md-12">
@@ -96,8 +96,8 @@
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control border border-2 p-2" required>
+                                    <label class="form-label">Access Level</label>
+                                    <input type="number" name="acces_level" class="form-control border border-2 p-2" required>
                                     @error('last_name')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
@@ -105,8 +105,17 @@
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Phone Number</label>
-                                    <input type="text" name="phone_number" class="form-control border border-2 p-2" required>
+                                    <label class="form-label">Password</label>
+                                    <input type="password" name="password" class="form-control border border-2 p-2" required>
+                                    @error('last_name')
+                                    <p class="text-danger inputerror">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Confirm Password</label>
+                                    <input type="password" name="confirm_password" class="form-control border border-2 p-2" required>
                                     @error('last_name')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
