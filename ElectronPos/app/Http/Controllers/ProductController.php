@@ -186,21 +186,23 @@ class ProductController extends Controller
         $product->unit_of_measurement = $request->unit_of_measurement;
         $product->category_id = $request->category_id;
         $product->product_status = $request->product_status;
-
+    
         if ($request->has('category_id')) {
             $category = Cattegory::findOrFail($request->category_id);
             $product->category()->associate($category);
-            return redirect()->back()->with('success', 'Product Updated Successfully.');
         }
+    
         if (!$product->save()) {
             return redirect()->back()->with('error', 'Sorry, there\'s a problem while updating the product.');
         }
+        // Redirect to the 'view-products' route after successful update
+        return redirect()->route('view-products')->with('success', 'Success, your product has been updated.');
     }
-    
-
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Product $product)
     {
         //
     }
-
 }
