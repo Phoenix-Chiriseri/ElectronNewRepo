@@ -185,6 +185,19 @@
           </ul>
           {{ $topSellingProducts->links() }}
       </div>
+
+      <div>
+        <h4>Top Customers</h4>
+        <ul class = "list-group">
+            @foreach ($topCustomers as $customer)
+                <li class = "list-group-item">
+                    {{ $customer->customer_name }} - {{ $customer->total_purchase }} 
+                </li>
+            @endforeach
+        </ul>
+        {{ $topSellingProducts->links() }}
+      </div>
+
         <div class="col-md-12 mb-lg-0 mb-4">
         <div class="card mt-4">
         <div class="card-header pb-0 p-3">
