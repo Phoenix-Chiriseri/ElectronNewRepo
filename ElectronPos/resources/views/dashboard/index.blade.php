@@ -1,4 +1,3 @@
-
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage='dashboard'></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -170,7 +169,7 @@
         <i class="material-icons opacity-10">account_balance_wallet</i>
         </div>
         </div>
-      
+        <p class = "text-center">Hello There</p>
         </div>
         </div>
         </div>
@@ -204,9 +203,11 @@
         <div class="card-header pb-0 p-3">
         <div class="row">
         <div class="col-6 d-flex align-items-center">
-       
+        <h6 class="mb-0">Add New Product</h6>
         </div>
-        
+        <div class="col-6 text-end">
+        <a class="btn bg-gradient-dark mb-0" href="{{ route('create-product') }}">Add New Product</a>
+        </div>
         </div>
         </div>
         <div class="card-body p-3">
