@@ -1,10 +1,36 @@
-<x-layout bodyClass="g-sidenav-show  bg-gray-200">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script><x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- gi -->
         <x-navbars.navs.auth titlePage="View Suppliers"></x-navbars.navs.auth>
         <!-- End Navbar -->
-       
+         <script>
+            $(document).ready(function () {
+                $("#exportSuppliers").on("click", function () {
+                    // Clone the printable content
+                    var suppliersTable = $("#suppliersTable").clone();
+        
+                    // Remove any unwanted elements (e.g., buttons, input fields)
+                    suppliersTable.find("button, input").remove();
+        
+                    // Remove specific columns (edit and delete) from the cloned table
+                    suppliersTable.find('th:nth-child(n+6), td:nth-child(n+6)').remove();
+        
+                    // Convert the content to PDF with landscape orientation
+                    html2pdf(suppliersTable[0], {
+                        margin: 10,
+                        filename: 'SuppliersList.pdf',
+                        jsPDF: { 
+                            orientation: 'landscape' 
+                        }
+                    });
+                });
+            });
+        </script>
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
@@ -15,6 +41,7 @@
                                 <h6 class="text-white text-capitalize ps-3">Number Of Suppliers {{$numberOfSuppliers}}</h6>
                             </div>
                             <hr>
+                            <button class = "btn btn-info" id="exportSuppliers"><i class = "fa fa-print"></i>Generate PDF</button>
                             <a class="btn btn-danger" href="{{ route('create-suppliers') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
@@ -22,7 +49,7 @@
                             </a>
                         </div>
                         <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
+                            <div class="table-responsive p-0" id="suppliersTable">
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
