@@ -74,9 +74,7 @@
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 View GRN</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Download GRV</th>
+                                              
                                             <th class="text-secondary opacity-7"></th>
                                         </tr>
                                     </thead>
@@ -143,20 +141,12 @@
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="mb-0 text-sm">
-                                                            <a href="{{ route('grn.show', $grv->id) }}" class ="btn btn-danger">View GRN</a>
+                                                            <a href="{{ route('grn.show', $grv->id) }}" class ="btn btn-danger">Download GRN</a>
                                                         </h6>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">
-                                                            <a href="{{ route('grn.download', $grv->id) }}" class ="btn btn-danger">Download GRV</a>
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </td>        
+                                            
                                         </tr>
                                         @endforeach
                                     </tbody>

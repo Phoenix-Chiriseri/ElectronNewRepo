@@ -82,7 +82,7 @@
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Delete Customer</th>  
                                         </tr>
-                                        </tr>
+                                        
                                     </thead>
                                     <tbody>
                                         @foreach($customers as $customer)
