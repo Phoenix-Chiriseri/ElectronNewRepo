@@ -97,7 +97,7 @@
                             <div class="row">
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">Access Level</label>
-                                    <input type="number" name="acces_level" class="form-control border border-2 p-2" required>
+                                    <input type="number" name="access_level" class="form-control border border-2 p-2" required>
                                     @error('last_name')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror

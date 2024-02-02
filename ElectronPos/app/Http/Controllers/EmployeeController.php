@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -33,25 +34,16 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'role' => 'required|in:manager,cashier',
-            'access_level' => 'required|numeric',
-            'password' => 'required|string|min:8',
-            'confirm_password' => 'required|same:password',
-        ];
-
-        // Validate the request
-        $request->validate($rules);
-        // Create a new user
+        $userId = Auth::user()->id;
         $employee = Employee::create([
             'name' => $request->input('name'),
             'role' => $request->input('role'),
             'access_level' => $request->input('acces_level'),
+            'user_id'=>$userId,
             'password' => Hash::make($request->input('password')),
             'confirm_password' => Hash::make($request->input('confirm_password')),
         ]);
-        
+
         // Redirect back with a success message
         return redirect()->route('dashboard')->with('status', 'User created successfully.');
     } 
