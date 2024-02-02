@@ -1,10 +1,33 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="All Sales"></x-navbars.navs.auth>
+        <script>
+            $(document).ready(function () {
+                $("#exportSales").on("click", function () {
+                    // Clone the printable content
+                    var salesTable = $("#salesTable").clone();
+                    
+                    // Remove any unwanted elements (e.g., buttons, input fields)
+                    salesTable.find("button, input").remove();
+        
+                    // Remove specific columns (edit and delete) from the cloned table
+                    salesTable.find('th:nth-child(9), td:nth-child(9), th:nth-child(10), td:nth-child(10)').remove();
+        
+                    // Convert the content to PDF with landscape orientation
+                    html2pdf(salesTable[0], {
+                        margin: 10,
+                        filename: 'SalesList.pdf',
+                        jsPDF: { 
+                            orientation: 'landscape' 
+                        }
+                    });
+                });
+            });
+        </script>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -15,11 +38,11 @@
                                 <h6 class="text-white text-capitalize ps-3">Sales</h6>
                             </div>
                             <hr>
-                            <button class="btn btn-info" onclick="generatePDF()">Export To Pdf</button>
+                            <button class = "btn btn-info" id="exportSales"><i class = "fa fa-print"></i>Generate PDF</button>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0" id="stockTable">
+                                <table class="table align-items-center mb-0" id="salesTable">
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
