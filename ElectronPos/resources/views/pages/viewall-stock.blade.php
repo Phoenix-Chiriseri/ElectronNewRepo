@@ -18,7 +18,7 @@
                     stockTable.find("button, input").remove();
         
                     // Remove specific columns (Edit and Delete) from the cloned table
-                    stockTable.find('th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4)').remove();
+                    stockTable.find('th:nth-child(6), td:nth-child(6), th:nth-child(6), td:nth-child(6)').remove();
         
                     // Convert the content to PDF with landscape orientation
                     html2pdf(stockTable[0], {
