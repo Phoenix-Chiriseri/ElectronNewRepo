@@ -28,6 +28,7 @@ class DashboardController extends Controller
         ->groupBy('product_sale.product_id', 'products.name')
         ->orderByDesc('total_quantity_sold')
         ->paginate(10); // You can adjust the number of items per page as needed
+        
         $totalSales = Sale::sum('total');
         $numberOfProducts = Product::all()->count();
         $numberOfCustomers = Customer::all()->count();

@@ -172,14 +172,13 @@
         <div class="card-body pt-0 p-3 text-center">
         <h6 class="text-center mb-0">Top Selling Products</h6>
         <hr class="horizontal dark my-3">
-        <ul>
+        <ul class = "list-group">
           @foreach ($topSellingProducts as $product)
-              <li>
+              <li class = "list-group-item">
                   {{ $product->product_name }} - {{ $product->total_quantity_sold }}
               </li>
           @endforeach
       </ul>
-  
       {{ $topSellingProducts->links() }}
         </div>
         </div>
