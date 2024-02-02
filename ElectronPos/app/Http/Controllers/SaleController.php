@@ -34,6 +34,9 @@ class SaleController extends Controller
 
     public function finaliseSale(Request $request)
     {
+
+        dd($request->all());
+
         $customerId = $request->input('customer_id');
         $saleItemsJson = $request->input('sale_items');
         $saleItemsArray = json_decode($saleItemsJson, true); // Decode JSON string to array
