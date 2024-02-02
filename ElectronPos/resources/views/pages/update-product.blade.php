@@ -1,4 +1,5 @@
 <script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 $(document).ready(function(){
     //Bind the event listener to both costPrice and markup input fields
@@ -14,6 +15,18 @@ $(document).ready(function(){
   });
 });
 </script>
+@if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    position: "top-end",
+    title: 'Success!',
+    text: '{{ session('success') }}',
+    showConfirmButton: false,
+    timer: 1000 // Adjust the timer as needed
+});
+</script>
+@endif
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
@@ -22,15 +35,14 @@ $(document).ready(function(){
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
-                style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
-                <span class="mask  bg-gradient-primary  opacity-6"></span>
+                style="background-image: url('https://images.unsplash.com/photo-1592488874899-35c8ed86d2e3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
             </div>
             <div class="card card-body mx-3 mx-md-4 mt-n6">
                 <div class="row gx-4 mb-2">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            <img src="{{ asset('assets') }}/img/bruce-mars.jpg" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm">
+                            <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
+                            class="w-100 border-radius-lg shadow-sm">
                         </div>
                     </div>
                     <div class="col-auto my-auto">
@@ -136,10 +148,17 @@ $(document).ready(function(){
         </div>
         <div class="mb-3 col-md-12">
             <label class="form-label">Unit Of Measurement</label>
-            <input type="number" name="unit_of_measurement" class="form-control border border-2 p-2"  value="{{$product->unit_of_measurement}}" required>
-            @error('unit_of_measurement')
-                <p class="text-danger inputerror">{{ $message }}</p>
-            @enderror
+            <div class="form-group">
+                <label for="unit">Select Unit</label>
+                <select name="unit_of_measurement" class="form-control border border-2 p-2" required>
+                    <option value="each">Each</option>
+                    <option value="g">Grams (g)</option>
+                    <option value="kg">Kilograms (kg)</option>
+                    <option value="l">Liters (l)</option>
+                    <option value="lb">Pounds (lb)</option>
+                    <option value="m">Meters (m)</option>
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <label for="category_id">Select Category</label>

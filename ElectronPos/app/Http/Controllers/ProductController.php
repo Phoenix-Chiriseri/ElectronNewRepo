@@ -187,18 +187,20 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->product_status = $request->product_status;
 
-        if (!$product->save()) {
-            return redirect()->back()->with('error', 'Sorry, there\'re a problem while updating product.');
+        if ($request->has('category_id')) {
+            $category = Cattegory::findOrFail($request->category_id);
+            $product->category()->associate($category);
+            return redirect()->back()->with('success', 'Product Updated Successfully.');
         }
-        return redirect()->route('dashboard')->with('success', 'Success, your product have been updated.');
-        
+        if (!$product->save()) {
+            return redirect()->back()->with('error', 'Sorry, there\'s a problem while updating the product.');
+        }
     }
+    
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Product $product)
     {
         //
     }
+
 }
