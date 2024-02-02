@@ -180,7 +180,7 @@ $(document).ready(function(){
     </script>
     @endif
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='Create Product'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Create GRN'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid pxsae-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"

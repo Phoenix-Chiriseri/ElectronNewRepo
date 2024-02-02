@@ -16,8 +16,6 @@ class GRVController extends Controller
      * Display a listing of the resource.
      */
     public function createGRN(){
-      
-
         //retrieve the grvs
         $grvs = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
@@ -27,7 +25,7 @@ class GRVController extends Controller
         ->orderBy("g_r_v_s.id", "desc")
         ->paginate(10);
         return view("pages.create-grn")->with("grvs",$grvs);
-        
+
     }
 
     public function generateGrv(){
