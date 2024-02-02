@@ -10,8 +10,13 @@
                 $("#exportCattegories").on("click", function () {
                     // Clone the printable content
                     var cattegoryTable = $("#catteggoryTable").clone();
+                    
                     // Remove any unwanted elements (e.g., buttons, input fields)
-                    cattegoryTable.find("button, input").remove();  
+                    cattegoryTable.find("button, input").remove();
+        
+                    // Remove specific columns (Edit and Delete) from the cloned table
+                    cattegoryTable.find('th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4)').remove();
+        
                     // Convert the content to PDF with landscape orientation
                     html2pdf(cattegoryTable[0], {
                         margin: 10,
@@ -22,8 +27,7 @@
                     });
                 });
             });
-        </script>
-        
+        </script> 
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">

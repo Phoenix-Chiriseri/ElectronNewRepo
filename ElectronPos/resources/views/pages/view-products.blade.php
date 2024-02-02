@@ -26,7 +26,7 @@
                     // Convert the content to PDF with landscape orientation
                     html2pdf(productTable[0], {
                         margin: 10,
-                        filename: 'products.pdf',
+                        filename: 'ProductList.pdf',
                         jsPDF: { 
                             orientation: 'landscape' 
                         }
