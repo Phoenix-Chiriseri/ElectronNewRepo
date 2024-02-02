@@ -57,8 +57,8 @@
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                                 Created At</th>
-                                            <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                                <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                             Edit Cattegory</th>
                                             <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder ">
@@ -80,10 +80,10 @@
                                                 <h6 class="mb-0 text-sm">{{$cattegory->created_at}}</h6>
                                             </div></td>
                                             <td class="align-middle text-center">
-                                                <a class="btn btn-primary" href="{{ route('edit-group',$cattegory->id) }}">Edit Group</a>
+                                                <a class="btn btn-primary" href="{{ route('edit-group',$cattegory->id) }}">Edit</a>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a class="btn btn-primary" href="{{ route('delete-group',$cattegory->id) }}">Delete Group</a>
+                                                <a class="btn btn-primary" href="{{ route('delete-group',$cattegory->id) }}">Delete</a>
                                             </td>
                                         </tr>
                                         @endforeach
