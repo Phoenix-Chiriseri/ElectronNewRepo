@@ -185,18 +185,7 @@
         </div>
         </div>
         </div>
-        <div>
-          <h2>Top Selling Products</h2>
-          <ul>
-              @foreach ($topSellingProducts as $product)
-                  <li>
-                      {{ $product->product_name }} - {{ $product->total_quantity_sold }} units sold
-                  </li>
-              @endforeach
-          </ul>
-      
-          {{ $topSellingProducts->links() }}
-      </div>
+        
         <div class="col-md-12 mb-lg-0 mb-4">
         <div class="card mt-4">
         <div class="card-header pb-0 p-3">
