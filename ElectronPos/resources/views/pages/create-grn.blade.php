@@ -1,9 +1,34 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Create GRN"></x-navbars.navs.auth>
+        <script>
+            $(document).ready(function () {
+                $("#exportGrn").on("click", function () {
+                    // Clone the printable content
+                    var grnTable = $("#grnTable").clone();
+        
+                    // Remove any unwanted elements (e.g., buttons, input fields)
+                    grnTable.find("button, input").remove();
+        
+                    // Remove specific columns (6th and 7th) from the cloned table
+                    grnTable.find('th:nth-child(n+6), td:nth-child(n+6)').remove();
+        
+                    // Convert the content to PDF with landscape orientation
+                    html2pdf(grnTable[0], {
+                        margin: 10,
+                        filename: 'GoodsReceivedNotes.pdf',
+                        jsPDF: { 
+                            orientation: 'landscape' 
+                        }
+                    });
+                });
+            });
+        </script>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -14,15 +39,15 @@
                                 <h6 class="text-white text-capitalize ps-3">Goods Received Notes</h6>
                             </div>
                             <br>
+                            <button class = "btn btn-info" id="exportGrn"><i class = "fa fa-print"></i>Generate PDF</button>
                             <a class="btn btn-danger brn-lg" href="{{ route('create-grn-view') }}"
                             role="tab" aria-selected="true">Create GRN</a>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">      
                               <i class="material-icons text-lg position-relative"></i>
-                               
                                 </a>
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="grnTable">
                                     <thead>
                                         <tr>
                                             <th
