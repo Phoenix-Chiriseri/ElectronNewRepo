@@ -79,10 +79,10 @@
                                             <td><div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm">{{$cattegory->created_at}}</h6>
                                             </div></td>
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle">
                                                 <a class="btn btn-primary" href="{{ route('edit-group',$cattegory->id) }}">Edit</a>
                                             </td>
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle">
                                                 <a class="btn btn-primary" href="{{ route('delete-group',$cattegory->id) }}">Delete</a>
                                             </td>
                                         </tr>
