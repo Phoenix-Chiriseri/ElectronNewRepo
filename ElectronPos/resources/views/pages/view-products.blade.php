@@ -1,8 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
-<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <script>
     $(document).ready(function () {
         $('#productsTable').DataTable();
@@ -18,23 +17,25 @@
         <h1>No Products Found</h1>
         @endif
         <script>
-           function generatePDF() {
-    var doc = new jsPDF();
-
-    // Title
-    doc.setFontSize(12);
-    doc.text('Available Products', 10, 10);
-
-    // Table
-    var htmlContent = document.getElementById('productsTable').innerHTML;
-    doc.fromHTML(htmlContent, 10, 20, {
-        width: 180
-    });
-
-    // Save the PDF
-    doc.save('AvailableProducts.pdf');
-}
-            </script>
+            $(document).ready(function () {
+                $("#exportProducts").on("click", function () {
+                    // Clone the printable content
+                    var productTable = $("#productsTable").clone();
+                    // Remove any unwanted elements (e.g., buttons, input fields)
+                    productTable.find("button, input").remove();
+                    
+                    // Convert the content to PDF with landscape orientation
+                    html2pdf(productTable[0], {
+                        margin: 10,
+                        filename: 'products.pdf',
+                        jsPDF: { 
+                            orientation: 'landscape' 
+                        }
+                    });
+                });
+            });
+        </script>
+        
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
@@ -45,16 +46,16 @@
                                 <h6 class="text-white text-capitalize ps-3">Number Of Products {{$productCount}}</h6>
                             </div>
                             <hr>
-                            <button onclick="generatePDF()" class = "btn btn-info"><i class = "fa fa-print"></i>Generate PDF</button>
+                            <button class = "btn btn-info" id="exportProducts"><i class = "fa fa-print"></i>Generate PDF</button>
                             <a class="btn btn-danger" href="{{ route('create-product') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Product</span>
                             </a>
                         </div>
-                        <div class="card-body px-0 pb-2">
+                        <div class="card-body">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0 table-hover" id="productsTable">
+                                <table class="table align-items-center mb-0 table-hover"  id="productsTable">
                                     <thead>
                                         <tr>
                                             <th

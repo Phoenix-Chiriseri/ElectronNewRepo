@@ -16,20 +16,19 @@ class SaleController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */
+     */   
     
-    public function index()
+     public function index()
     {
         //return the akes to the front end
-        $sales = Sales::leftJoin('users', 'users.id', '=', 'sales.user_id')
-        ->leftJoin('customers', 'sales.customer_id', '=', 'customers.id') // Corrected condition
+        $sales = Sales::leftJoin('customers', 'sales.id', '=', 'customers.user_id')
         ->select(
             'sales.*',
-            'users.*',
             'customers.*',
         )
         ->orderBy('sales.id', 'desc')
         ->paginate(5);
+        dd($sales);
         return view("pages.view-sales")->with("sales",$sales);
     }
 
