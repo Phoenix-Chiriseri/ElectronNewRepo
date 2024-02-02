@@ -1,8 +1,29 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <!-- End Navbar -->
+        <script>
+            $(document).ready(function () {
+                $("#exportCattegories").on("click", function () {
+                    // Clone the printable content
+                    var cattegoryTable = $("#catteggoryTable").clone();
+                    // Remove any unwanted elements (e.g., buttons, input fields)
+                    cattegoryTable.find("button, input").remove();  
+                    // Convert the content to PDF with landscape orientation
+                    html2pdf(cattegoryTable[0], {
+                        margin: 10,
+                        filename: 'CattegoriesList.pdf',
+                        jsPDF: { 
+                            orientation: 'landscape' 
+                        }
+                    });
+                });
+            });
+        </script>
+        
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
@@ -13,17 +34,17 @@
                                 <h6 class="text-white text-capitalize ps-3">Number Of Cattegories {{$numberOfCattegories}}</h6>
                             </div>
                             <hr>
+                            <button class = "btn btn-info" id="exportCattegories"><i class = "fa fa-print"></i>Generate PDF</button>
                             <a class="btn btn-danger" href="{{ route('create-cattegory') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Cattegory</span>
                             </a>
                         </div>
-                       
                         <hr>   
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0" id="catteggoryTable">
                                     <thead>
                                         <tr>
                                             <th

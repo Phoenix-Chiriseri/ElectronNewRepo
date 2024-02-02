@@ -2,11 +2,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#productsTable').DataTable();
-    });
-</script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -21,9 +16,13 @@
                 $("#exportProducts").on("click", function () {
                     // Clone the printable content
                     var productTable = $("#productsTable").clone();
+                    
                     // Remove any unwanted elements (e.g., buttons, input fields)
                     productTable.find("button, input").remove();
-                    
+        
+                    // Remove specific columns (edit and delete) from the cloned table
+                    productTable.find('th:nth-child(9), td:nth-child(9), th:nth-child(10), td:nth-child(10)').remove();
+        
                     // Convert the content to PDF with landscape orientation
                     html2pdf(productTable[0], {
                         margin: 10,
@@ -35,7 +34,6 @@
                 });
             });
         </script>
-        
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
