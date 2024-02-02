@@ -169,23 +169,22 @@
         <i class="material-icons opacity-10">account_balance_wallet</i>
         </div>
         </div>
-        <div class="card-body pt-0 p-3 text-center">
-        <h6 class="text-center mb-0">Top Selling Products</h6>
-        <hr class="horizontal dark my-3">
-        <ul class = "list-group">
-          @foreach ($topSellingProducts as $product)
-              <li class = "list-group-item">
-                  {{ $product->product_name }} - {{ $product->total_quantity_sold }}
-              </li>
-          @endforeach
-      </ul>
-      {{ $topSellingProducts->links() }}
+      
         </div>
         </div>
         </div>
         </div>
-        </div>
-        
+        <div>
+          <h4>Top Selling Products</h4>
+          <ul class = "list-group">
+              @foreach ($topSellingProducts as $product)
+                  <li class = "list-group-item">
+                      {{ $product->product_name }} - {{ $product->total_quantity_sold }} units sold
+                  </li>
+              @endforeach
+          </ul>
+          {{ $topSellingProducts->links() }}
+      </div>
         <div class="col-md-12 mb-lg-0 mb-4">
         <div class="card mt-4">
         <div class="card-header pb-0 p-3">

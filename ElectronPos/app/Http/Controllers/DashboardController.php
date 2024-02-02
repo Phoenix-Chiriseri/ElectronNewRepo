@@ -27,10 +27,7 @@ class DashboardController extends Controller
         ->join('products', 'products.id', '=', 'product_sale.product_id')
         ->groupBy('product_sale.product_id', 'products.name')
         ->orderByDesc('total_quantity_sold')
-        ->paginate(10);
-
-        
-    
+        ->paginate(2);
         $totalSales = Sale::sum('total');
         $numberOfProducts = Product::all()->count();
         $numberOfCustomers = Customer::all()->count();
