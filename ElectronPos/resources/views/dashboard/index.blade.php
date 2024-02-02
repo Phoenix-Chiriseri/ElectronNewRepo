@@ -157,9 +157,8 @@
         </div>
         <div class="card-body pt-0 p-3 text-center">
         <h6 class="text-center mb-0">Total Sales</h6>
-        <span class="text-xs">For This Month</span>
         <hr class="horizontal dark my-3">
-        <h5 class="mb-0">+$2000</h5>
+        <h5 class="mb-0">{{$totalSales}}</h5>
         </div>
         </div>
         </div>
@@ -176,7 +175,7 @@
         <ul>
           @foreach ($topSellingProducts as $product)
               <li>
-                  {{ $product->product_name }} - {{ $product->total_quantity_sold }} units sold
+                  {{ $product->product_name }} - {{ $product->total_quantity_sold }}
               </li>
           @endforeach
       </ul>
