@@ -7,15 +7,15 @@
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
-                style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
-                <span class="mask bg-gradient-primary opacity-6"></span>
+                style="background-image: url('https://images.unsplash.com/photo-1592488874899-35c8ed86d2e3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+               
             </div>
             <div class="card card-body mx-3 mx-md-4 mt-n6">
                 <div class="row gx-4 mb-2">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            <img src="{{ asset('assets') }}/img/bruce-mars.jpg" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm">
+                            <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
+                            class="w-100 border-radius-lg shadow-sm">
                         </div>
                     </div>
                     <div class="col-auto my-auto">
@@ -77,26 +77,27 @@
                             @csrf
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">First Name</label>
-                                    <input type="text" name="first_name" class="form-control border border-2 p-2" required>
+                                    <label class="form-label">Name</label>
+                                    <input type="text" name="name" class="form-control border border-2 p-2" required>
                                     @error('first_name')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Last Name</label>
-                                    <input type="text" name="last_name" class="form-control border border-2 p-2" required>
-                                    @error('last_name')
-                                    <p class="text-danger inputerror">{{ $message }}</p>
-                                    @enderror
+                            <div class="mb-3 col-md-12">
+                                <label class="form-label">Role</label>
+                                <div class="form-group">
+                                    <label for="unit">Select Role</label>
+                                    <select name="role" class="form-control border border-2 p-2" required>
+                                        <option value="manager">Manager</option>
+                                        <option value="g">Cashier</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Address</label>
-                                    <input type="text" name="address" class="form-control border border-2 p-2" required>
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control border border-2 p-2" required>
                                     @error('last_name')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
@@ -111,43 +112,9 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-12">
-                                 <label class="form-label">Access Level</label>
-                                    <input type="number" name="access_level" class="form-control border border-2 p-2" id="access_level" value="1" min="1" max="10" step="1">
-                                    @error('access_level')
-                                    <p class="text-danger inputerror">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Password</label>
-                                    <input type="password" name="password" class="form-control border border-2 p-2" required>
-                                    @error('password')
-                                    <p class="text-danger inputerror">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Confirm Password</label>
-                                    <input type="password" name="confirm_password" class="form-control border border-2 p-2" required>
-                                    @error('password')
-                                    <p class="text-danger inputerror">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control border border-2 p-2" required>
-                                    <option value="active">Active</option>
-                                    <option value="not_active">Not Active</option>
-                                </select>
-                            </div>
                             <hr>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Create User</button>
+                                <button type="submit" class="btn btn-primary">Create Employee</button>
                             </div>
                             <hr>
                         </form>
