@@ -1,3 +1,4 @@
+
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage='dashboard'></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -191,7 +192,7 @@
         <ul class = "list-group">
             @foreach ($topCustomers as $customer)
                 <li class = "list-group-item">
-                    {{ $customer->customer_name }} - {{ $customer->total_purchase }} 
+                    {{ $customer->customer_name }} - {{ $customer->total_purchase }} units sold
                 </li>
             @endforeach
         </ul>
@@ -203,11 +204,9 @@
         <div class="card-header pb-0 p-3">
         <div class="row">
         <div class="col-6 d-flex align-items-center">
-        <h6 class="mb-0">Add New Product</h6>
+       
         </div>
-        <div class="col-6 text-end">
-        <a class="btn bg-gradient-dark mb-0" href="{{ route('create-product') }}">Add New Product</a>
-        </div>
+        
         </div>
         </div>
         <div class="card-body p-3">

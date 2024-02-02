@@ -35,6 +35,7 @@ class DashboardController extends Controller
         ->orderByDesc('total_purchase')
         ->paginate(3); // You can adjust the number of items per page as needed
 
+
         $totalSales = Sale::sum('total');
         $numberOfProducts = Product::all()->count();
         $numberOfCustomers = Customer::all()->count();
