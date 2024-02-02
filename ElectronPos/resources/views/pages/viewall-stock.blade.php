@@ -1,11 +1,36 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="All Stock Items"></x-navbars.navs.auth>
         <!-- End Navbar -->
+        <script>
+            $(document).ready(function () {
+                $("#exportStock").on("click", function () {
+                    // Clone the printable content
+                    var stockTable = $("#stockTable").clone();
+                    
+                    // Remove any unwanted elements (e.g., buttons, input fields)
+                    stockTable.find("button, input").remove();
+        
+                    // Remove specific columns (Edit and Delete) from the cloned table
+                    stockTable.find('th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4)').remove();
+        
+                    // Convert the content to PDF with landscape orientation
+                    html2pdf(stockTable[0], {
+                        margin: 10,
+                        filename: 'StockList.pdf',
+                        jsPDF: { 
+                            orientation: 'landscape' 
+                        }
+                    });
+                });
+            });
+        </script> 
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
@@ -15,7 +40,7 @@
                                 <h6 class="text-white text-capitalize ps-3">Available Stock</h6>
                             </div>
                             <hr>
-                            <button class="btn btn-info" onclick="generatePDF()">Export To Pdf</button>
+                            <button class="btn btn-info" id="exportStock">Export To Pdf</button>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
@@ -37,8 +62,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                      
+                                    <tbody>        
                                         @foreach($stocks as $stock)
                                         <tr>
                                             <td>
