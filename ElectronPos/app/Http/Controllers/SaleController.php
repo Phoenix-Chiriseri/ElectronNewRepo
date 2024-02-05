@@ -24,7 +24,7 @@ class SaleController extends Controller
         'customers.*',
         )
         ->orderBy('sales.id', 'desc')
-        ->paginate(5);
+        ->paginate(3);
         
         return view("pages.view-sales")->with("sales",$sales);
     }

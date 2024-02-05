@@ -23,7 +23,7 @@ class GRVController extends Controller
         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
         ->distinct("g_r_v_s.id")
         ->orderBy("g_r_v_s.id", "desc")
-        ->paginate(10);
+        ->paginate(3);
         return view("pages.create-grn")->with("grvs",$grvs);
 
     }

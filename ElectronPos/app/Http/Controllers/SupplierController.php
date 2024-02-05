@@ -23,7 +23,7 @@ class SupplierController extends Controller
         $suppliers = Supplier::leftJoin('users', 'suppliers.user_id', '=', 'users.id')
         ->select('users.name', 'suppliers.*')
         ->orderBy('suppliers.id', 'desc')
-        ->paginate(10);
+        ->paginate(3);
         $numberOfSuppliers = Supplier::all()->count();
         return view('pages.view-suppliers')->with("suppliers",$suppliers)->with("numberOfSuppliers",$numberOfSuppliers);
     }
