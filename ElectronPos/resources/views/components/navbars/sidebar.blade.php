@@ -170,12 +170,13 @@
                 </div>
             </li>
          </div>
+         <br>
         <div class="mx-3">
             <div class="mx-3">
-                    <i class="fa fa-user me-sm-1"></i>
+                 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <input type="submit" value="Logout." class = "btn btn-danger btn btn-block">
+                        <input type="submit" value="Logout." class = "btn btn-danger btn-block">
                     </form>
             </div>  
         </div>

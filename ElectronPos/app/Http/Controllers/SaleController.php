@@ -51,13 +51,20 @@ class SaleController extends Controller
 
     public function confirmationScreen()
     {
-        // Retrieve data from the session
-        $customerId = session('customerId');
+       //Retrieve data from the session
+         $customerId = session('customerId');
         $saleItems = session('saleItems');
         $customerName = session("customerName");
         $total = session("total");
+
+        // Check if all required session data is available
+        if (!$customerId || !$saleItems || !$customerName || !$total) {
+        // Redirect or handle the case where session data is missing
+        return view('pages.error-page');
+        }
+        
         // Display a view with the data
-        return view('pages.confirmation-screen', compact('customerId', 'saleItems','customerName','total'));
+        return view('pages.confirmation-screen', compact('customerId', 'saleItems', 'customerName', 'total'));
     }
 
     public function doTransaction(Request $request){
@@ -100,10 +107,8 @@ class SaleController extends Controller
     }
 
     
-    public function store(Request $request)
-    
+    public function store(Request $request) 
     {
-    
     $saleItems = $request->all();
     $request->session()->put('saleItems', $saleItems);
     $customers = Customer::all();

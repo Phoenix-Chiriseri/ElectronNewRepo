@@ -70,6 +70,7 @@
             }, 300);
         });
 
+       
         // Event listener for the 'Create Customer' button
         $("#createCustomer").on("click", function () {
             Swal.fire({
@@ -95,7 +96,7 @@
                 focusConfirm: false,
                 preConfirm: () => {
                     // Collect form data
-                    return {
+                    const formData = {
                         customer_name: document.getElementById('customer_name').value,
                         code: document.getElementById('code').value,
                         customer_taxnumber: document.getElementById('customer_taxnumber').value,
@@ -104,8 +105,15 @@
                         customer_phonenumber: document.getElementById('customer_phonenumber').value,
                         customer_status: document.getElementById('customer_status').value,
                         customer_city: document.getElementById('customer_city').value,
-                   
                     };
+
+                    // Gather sale items (replace this with your actual implementation)
+                    const saleItems = getSaleItems();
+
+                    // Append sale items to form data
+                    formData.sale_items = JSON.stringify(saleItems);
+
+                    return formData;
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -137,7 +145,6 @@
                 }
             });
         });
-
         // Event listener for the 'Process Sale' button
         $("#processSale").on("click", function () {
         if (selectedItem) {
