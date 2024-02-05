@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderItem;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\Shop;
@@ -40,6 +41,7 @@ class PurchaseOrderController extends Controller
      */
     public function store(Request $request)
     {
+
         $purchaseOrder = new PurchaseOrder();
         $purchaseOrder->supplier_id = $request->input("supplier_id");
         $purchaseOrder->shop_id = $request->input("shop_id");
@@ -48,6 +50,9 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->expected_date = $request->input("expected_date");
         $purchaseOrder->delivery_instructions = $request->input("delivery_instructions");
         $purchaseOrder->supplier_invoicenumber = $request->input("supplier_invoicenumber");
+        $purchaseOrder->payment_method = $request->input("payment_method");
+
+        $purchaseOrder->total = $request->input("total");
         $purchaseOrder->save();
         
         // Save the purchases order items
