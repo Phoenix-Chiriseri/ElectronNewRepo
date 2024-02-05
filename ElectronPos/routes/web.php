@@ -22,6 +22,7 @@ use App\Http\Controllers\ElectronPOE;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\GrvController;
+use App\Http\Controllers\PurchaseOrderController;
 
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -78,6 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByName'])->name('products.searchByName');
 	//loop through the products and then add them to cart
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
+	Route::get('/create-purchaseorder', [PurchaseOrderController::class, 'index'])->name('create-purchaseorder');
 	Route::post('/submit-suppliers', [SupplierController::class, 'store'])->name('submit-suppliers');
 	Route::post('/do-transaction', [SaleController::class, 'doTransaction'])->name('do-transaction');
 	Route::get('/create-sales', [SalesController::class, 'index'])->name('create-sales');
