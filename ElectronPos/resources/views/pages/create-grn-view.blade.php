@@ -320,6 +320,7 @@ $(document).ready(function(){
                                     <th>Grn Quantity</th>
                                     <th>Unit Cost</th>
                                     <th>Total Cost</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
