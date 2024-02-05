@@ -149,6 +149,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('view-employees') }}">View Employees</a>
+                    <a class="dropdown-item" href="{{ route('access-rights') }}">Access Rights</a>
                 </div>
             </li>
             <li class="nav-item">

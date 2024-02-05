@@ -21,6 +21,13 @@ class EmployeeController extends Controller
         return view("pages.view-employees")->with("employees",$employees)->with("employeesCount",$employeesCount);
     }
 
+    public function accessRights(){
+
+
+        return view("pages.access-rights");
+
+    }
+
     //return the employee to the view, find the employee by the id
     public function editEmployee($id){
 
