@@ -135,10 +135,15 @@ $(document).ready(function(){
             newRow.append("<td contenteditable='true' class='quantity'></td>");
             newRow.append("<td contenteditable='true' class='unit-cost'></td>");
             newRow.append("<td class='total-cost'></td>");
+            newRow.append('<td><button type="button" class="btn btn-danger btn-sm remove-product"><i class = "fa fa-trash"></i></button></td>');
             newRow.append("</tr>");
             tableBody.append(newRow);
         });
 
+        $(document).on("click", ".remove-product", function () {
+        $(this).closest("tr").remove();
+        calculateTotalCost();
+        });
         // Calculate total cost at the end
         calculateTotalCost();
     }
