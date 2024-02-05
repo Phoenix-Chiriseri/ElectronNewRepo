@@ -34,6 +34,7 @@
          }
         });
 
+        //clear cart using the down 118
         $(document).keydown(function(e) {
         if (e.which === 118) { // Check if the pressed key is F7
         $("#clearCart").trigger("click"); // Trigger the click event on #newSale
