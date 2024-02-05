@@ -22,7 +22,18 @@
         }
         });
 
-        
+        $(document).keydown(function(e) {
+         if (e.which === 115) { // Check if the pressed key is F4
+        $("#newSale").trigger("click"); // Trigger the click event on #newSale
+         }
+        });
+
+        $(document).keydown(function(e) {
+         if (e.which === 114) { // Check if the pressed key is F3
+        $("#sellItems").trigger("click"); // Trigger the click event on #newSale
+        }
+        });
+
 
         //perform a new sale....
         $("#newSale").on("click",function(){
