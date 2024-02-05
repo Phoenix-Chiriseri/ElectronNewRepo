@@ -125,7 +125,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{$customers->links()}}
+                                <div class="d-flex justify-content-center mt-3">
+                                    {{ $customers->links('vendor.pagination.bootstrap-4') }}
+                                </div>
                             </div>
                         </div>
                     </div>

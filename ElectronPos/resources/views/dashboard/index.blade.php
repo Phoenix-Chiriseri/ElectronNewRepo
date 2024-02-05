@@ -177,30 +177,29 @@
                   </li>
               @endforeach
           </ul>
-          {{ $topSellingProducts->links() }}
+          <div class="d-flex justify-content-center mt-3">
+            {{ $topSellingProducts->links('vendor.pagination.bootstrap-4') }}
+        </div>
       </div>
-
       <div>
         <h4>Top Customers</h4>
-        <ul class = "list-group">
+        <ul class="list-group">
             @foreach ($topCustomers as $customer)
-                <li class = "list-group-item">
+                <li class="list-group-item">
                     {{ $customer->customer_name }} - $ {{ $customer->total_purchase }} 
                 </li>
             @endforeach
         </ul>
-        {{ $topSellingProducts->links() }}
+        <div class="d-flex justify-content-center mt-3">
+            {{ $topCustomers->links('vendor.pagination.bootstrap-4') }}
+        </div>
       </div>
-
         <div class="col-md-12 mb-lg-0 mb-4">
         <div class="card mt-4">
         <div class="card-header pb-0 p-3">
         <div class="row">
         <div class="col-6 d-flex align-items-center">
-        <h6 class="mb-0">Add New Product</h6>
-        </div>
-        <div class="col-6 text-end">
-        <a class="btn bg-gradient-dark mb-0" href="{{ route('create-product') }}">Add New Product</a>
+        
         </div>
         </div>
         </div>

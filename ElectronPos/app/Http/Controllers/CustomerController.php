@@ -20,7 +20,7 @@ class CustomerController extends Controller
         $customers = Customer::leftJoin('users', 'customers.user_id', '=', 'users.id')
         ->select('users.name', 'customers.*')
         ->orderBy('customers.id', 'desc')
-        ->paginate(10);
+        ->paginate(5);
         $numberOfCustomers = Customer::all()->count();
         return view("pages.view-customers")->with("customers",$customers)->with("numberOfCustomers",$numberOfCustomers);
     }
