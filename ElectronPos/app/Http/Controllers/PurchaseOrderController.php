@@ -40,7 +40,16 @@ class PurchaseOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $purchaseOrder = new PurchaseOrder();
+        $purchaseOrder->supplier_id = $request->input("supplier_id");
+        $purchaseOrder->shop_id = $request->input("shop_id");
+        $purchaseOrder->payment_method = $request->input("paayment_method");
+        $purchaseOrder->expected_date = $request->input("expected_date");
+        $purchaseOrder->delivery_instructions = $request->input("delivery_instructions");
+        $purchaseOrder->supplier_invoicenumber = $request->input("supplier_invoicenumber");
+        $purchaseOrder->save();
+        // Additional logic to save the associated table data if needed
+        return redirect()->route('view-purchaseorders')->with('success', 'Purchase Order created successfully.');
     }
 
     /**
