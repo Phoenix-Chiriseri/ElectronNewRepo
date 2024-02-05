@@ -324,9 +324,9 @@ $(document).ready(function(){
                     <div class="card">
                         <table class="table">
                             <thead>
-                                <tr>
-                                    
-                                    <th>Product	Measurement	</th>
+                                <tr> 
+                                    <th>Product</th>
+                                    <th>Product Measurement</th>
                                     <th>In stock</th>
                                     <th>Quantity</th>
                                     <th>Unit Cost</th>
