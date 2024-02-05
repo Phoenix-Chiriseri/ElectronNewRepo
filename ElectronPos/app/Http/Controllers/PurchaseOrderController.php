@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchaseOrder;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use App\Models\Shop;
 
 class PurchaseOrderController extends Controller
 {
@@ -13,6 +15,9 @@ class PurchaseOrderController extends Controller
     public function index()
     {
         //
+        $suppliers = Supplier::all();
+        $shops = Shop::all();
+        return view("pages.create-purchaseorder")->with("suppliers",$suppliers)->with("shops",$shops);
     }
 
     /**
