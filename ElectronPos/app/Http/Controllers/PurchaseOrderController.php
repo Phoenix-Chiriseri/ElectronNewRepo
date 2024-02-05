@@ -43,6 +43,7 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = new PurchaseOrder();
         $purchaseOrder->supplier_id = $request->input("supplier_id");
         $purchaseOrder->shop_id = $request->input("shop_id");
+        $purchaseOrder->purchaseorder_date = $request->input("purchaseorder_date");
         $purchaseOrder->payment_method = $request->input("paayment_method");
         $purchaseOrder->expected_date = $request->input("expected_date");
         $purchaseOrder->delivery_instructions = $request->input("delivery_instructions");
