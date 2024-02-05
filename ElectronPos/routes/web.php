@@ -81,6 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 	//loop through the products and then add them to cart
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
 	Route::get('/create-purchaseorder', [PurchaseOrderController::class, 'index'])->name('create-purchaseorder');
+	Route::get('/view-purchaseorder', [PurchaseOrderController::class, 'viewPurchasesOrders'])->name('view-purchaseorders');
 	Route::post('/submit-suppliers', [SupplierController::class, 'store'])->name('submit-suppliers');
 	Route::post('/do-transaction', [SaleController::class, 'doTransaction'])->name('do-transaction');
 	Route::get('/create-sales', [SalesController::class, 'index'])->name('create-sales');

@@ -20,6 +20,13 @@ class PurchaseOrderController extends Controller
         return view("pages.create-purchaseorder")->with("suppliers",$suppliers)->with("shops",$shops);
     }
 
+
+    public function viewPurchasesOrders(){
+
+        //$purchasesOrders = PurchaseOrder::all();
+        return view("pages.view-purchaseorders");
+    }
+
     /**
      * Show the form for creating a new resource.
      */

@@ -211,7 +211,7 @@ $(document).ready(function(){
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('create-grn') }}"
+                                    <a class="btn btn-info" href="{{ route('view-purchaseorders') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">View Purchase Orders</span>
@@ -273,7 +273,7 @@ $(document).ready(function(){
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label">Purchase Order Date</label>
-                                <input type="date" name="grn_date" class="form-control border border-2 p-2" required>
+                                <input type="date" name="purchaseorder_date" class="form-control border border-2 p-2" required>
                                 <label class="form-label mt-3">Payment Method</label>
                                 <select name="payment_method" class="form-control border border-2 p-2" required>
                                     <option value="cash">Cash</option>
@@ -286,7 +286,7 @@ $(document).ready(function(){
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label">Expected Date</label>
-                                <input type="date" name="grn_date" class="form-control border border-2 p-2" required>
+                                <input type="date" name="expected_date" class="form-control border border-2 p-2" required>
                                 <label class="form-label mt-3">Payment Method</label>
                                 <select name="payment_method" class="form-control border border-2 p-2" required>
                                     <option value="cash">Cash</option>
@@ -299,7 +299,7 @@ $(document).ready(function(){
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Delivery Instructions</label>
-                                <textarea type="text" rows="8" name="additional_information" class="form-control border border-2 p-2" required>
+                                <textarea type="text" rows="8" name="delivery_instructions" class="form-control border border-2 p-2" required>
                                 @error('description')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                 @enderror
@@ -327,7 +327,7 @@ $(document).ready(function(){
                                 <tr> 
                                     <th>Product</th>
                                     <th>Product Measurement</th>
-                                    <th>In stock</th>
+                                    
                                     <th>Quantity</th>
                                     <th>Unit Cost</th>
                                     <th>Total Cost</th>
