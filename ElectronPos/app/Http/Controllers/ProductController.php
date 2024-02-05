@@ -16,12 +16,7 @@ class ProductController extends Controller
     //view all the products
     public function viewProducts()
     {
-        /*$products = DB::table('cattegories')
-        ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
-        ->select('products.*','cattegories.cattegory_name')
-        ->get();*/
-        $productCount = DB::table('cattegories')
-        ->leftJoin('products', 'products.category_id', '=', 'cattegories.id')
+        $productCount = Cattegory::leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('*')
         ->count();
         $products = Product::orderBy("id", "desc")->paginate(10);
@@ -70,10 +65,13 @@ class ProductController extends Controller
 
     
     public function getProductById($id){
+        
+        //get the prduct by the id
         $product = Product::find($id);
         if ($product) {
             return response()->json($product);
         }
+        
         return response()->json(['error' => 'Product not found'], 404);
     }
 
@@ -94,45 +92,6 @@ class ProductController extends Controller
         $user = Auth::user();
         return view("pages.add-product")->with("cattegories",$cattegories)->with("user",$user);
     }
-
-
-    public function addToCart(Request $request,$productId){
-    
-        $product = Product::find($productId);
-    
-        if (!$product) {
-        return redirect()->route('pages.sales.index')->with('error', 'Product not found.');
-    }
-
-    // Create or update the cart for the user (assuming user authentication)
-    $userCart = Cart::firstOrNew(['user_id' => auth()->user()->id]);
-    $cartItems = $userCart->items ?? [];
-
-    // Check if the product is already in the cart
-    $found = false;
-    foreach ($cartItems as &$item) {
-        if ($item['product_id'] == $product->id) {
-            $item['quantity'] += 1; // Increment quantity
-            $found = true;
-        }
-    }
-
-    if (!$found) {
-        // Add the product to the cart
-        $cartItems[] = [
-            'product_id' => $product->id,
-            'quantity' => 1,
-            'product' => $product,
-        ];
-    }
-
-    $userCart->items = $cartItems;
-    $userCart->save();
-
-    return redirect()->route('pages.sales.create')->with('success', 'Product added to cart.');
-
-    }
-
 
     /**
      * Store a newly created resource in storage.

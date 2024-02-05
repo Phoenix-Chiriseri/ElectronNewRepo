@@ -15,38 +15,51 @@ class EmployeeController extends Controller
      */
     public function viewEmployees()
     {
-        //
-
-        return view("pages.view-employees");
+        //return the employees to the front end
+        $employees = Employee::orderBy("id","desc")->paginate(5);
+        $employeesCount = Employee::all()->count();
+        return view("pages.view-employees")->with("employees",$employees)->with("employeesCount",$employeesCount);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    //return the employee to the view, find the employee by the id
+    public function editEmployee($id){
+
+        $employee = Employee::find($id);
+        
+        if(!$employee){
+
+            echo "employee does not exist";
+        }
+
+        return view("pages.edit-employee")->with("employee",$employee);
+    }
+
     public function create()
     {
-        //
+        //blade that will create the employees
         return view("pages.create-employee");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $userId = Auth::user()->id;
         $employee = Employee::create([
             'name' => $request->input('name'),
             'role' => $request->input('role'),
-            'access_level' => $request->input('acces_level'),
+            'access_level' => $request->input('access_level'),
             'user_id'=>$userId,
             'password' => Hash::make($request->input('password')),
             'confirm_password' => Hash::make($request->input('confirm_password')),
         ]);
+        
+        if($employee->save()){
 
+            return redirect()->back()->with('success', 'Employee Saved Successfully');
+        }
         // Redirect back with a success message
-        return redirect()->route('dashboard')->with('status', 'User created successfully.');
+        return redirect()->back()->with('error', 'Employee Not Saved');
     } 
+
     /**
      * Display the specified resource.
      */
@@ -71,11 +84,10 @@ class EmployeeController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Employee $employee)
+    public function deleteEmployee($id)
     {
-        //
+        $employee = Employee::find($id);
+        $employee->delete();
+        return redirect('/view-employees');
     }
 }

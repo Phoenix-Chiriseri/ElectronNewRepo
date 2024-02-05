@@ -156,7 +156,7 @@
         </div>
         </div>
         <div class="card-body pt-0 p-3 text-center">
-        <h6 class="text-center mb-0">Total Sales</h6>
+        <h6 class="text-center mb-0">Total Amount Of  Sales</h6>
         <hr class="horizontal dark my-3">
         <h5 class="mb-0">{{$totalSales}}</h5>
         </div>
@@ -169,7 +169,7 @@
         <i class="material-icons opacity-10">account_balance_wallet</i>
         </div>
         </div>
-        <p class = "text-center">Hello There</p>
+        <p class = "text-center" style="color:black;">Number Of Sales {{$numberOfSales}}</p>
         </div>
         </div>
         </div>
@@ -191,7 +191,7 @@
         <ul class = "list-group">
             @foreach ($topCustomers as $customer)
                 <li class = "list-group-item">
-                    {{ $customer->customer_name }} - {{ $customer->total_purchase }} units sold
+                    {{ $customer->customer_name }} - $ {{ $customer->total_purchase }} 
                 </li>
             @endforeach
         </ul>

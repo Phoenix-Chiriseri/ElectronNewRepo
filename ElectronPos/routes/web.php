@@ -23,7 +23,6 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\GrvController;
 
-
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -51,9 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/grn/{id}', [GRVController::class, 'viewById'])->name('grn.show');
 	Route::get('/create-grn-view', [StockController::class, 'createGRNView'])->name('create-grn-view');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
-	//Route::get('/products-json/{productName}', [ProductController::class, 'searchProducts']);
 	Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
-	//Route::post('/addcart/{id}',[CartController::class],'addToCart')->name('add-to-cart');
 	Route::get('/search/products', [ProductController::class, 'searchProducts'])->name('/search/products');
 	Route::get('/view-sales', [SalesController::class, 'index'])->name('sales.index');
 	Route::get('/create-stock', [StockController::class, 'create'])->name('create-stock');
@@ -66,6 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/update/customer/{customer}', [CustomerController::class, 'updateCustomer'])->name('update-customer');
 	Route::put('/update/cattegory/{cattegory}', [CattegoryController::class, 'updateCattegory'])->name('update-cattegory');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
+	Route::get('/delete-employee/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete-employee');
 	Route::get('/create-cattegory', [CattegoryController::class, 'create'])->name('create-cattegory');
 	Route::put('/update-product/{product}',[ProductController::class, 'updateProduct'])->name('products.update');
 	Route::put('/supplier-update/{supplier}',[SupplierController::class, 'updateSupplier'])->name('supplier.update');
@@ -112,15 +110,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('view-orders');
 	Route::get('/view-reports', [ReportController::class, 'create'])->name('view-reports');
 	Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
+	Route::get('/edit-employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit-employee');
 	Route::get('/delete-group/{id}', [CattegoryController::class, 'deleteCattegory'])->name('delete-group');
 	Route::get('/delete-supplier/{id}', [SupplierController::class, 'deleteSupplier'])->name('delete-supplier');
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
 	Route::post('/search-cart-product',[CartController::class, 'searchCartProduct'])->name('search-cart-product');
 	Route::post('/submit-grv', [GrvController::class, 'submitGrv'])->name('submit-grv');
-	//Route::get('/get-product/{id}',[PosController::class, 'create']);
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
-	//Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
-	//sales controller (route to get the controller for sales)
 	Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
     Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
@@ -132,22 +128,4 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
-	Route::get('virtual-reality', function () {
-		return view('pages.virtual-reality');
-	})->name('virtual-reality');
-	Route::get('notifications', function () {
-		return view('pages.notifications');
-	})->name('notifications');
-	Route::get('static-sign-in', function () {
-		return view('pages.static-sign-in');
-	})->name('static-sign-in');
-	Route::get('static-sign-up', function () {
-		return view('pages.static-sign-up');
-	})->name('static-sign-up');
-	Route::get('user-management', function () {
-		return view('pages.laravel-examples.user-management');
-	})->name('user-management');
-	Route::get('user-profile', function () {
-		return view('pages.laravel-examples.user-profile');
-	})->name('user-profile');
 });

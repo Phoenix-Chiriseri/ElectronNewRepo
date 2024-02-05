@@ -1,5 +1,6 @@
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
@@ -10,6 +11,18 @@
                 style="background-image: url('https://images.unsplash.com/photo-1592488874899-35c8ed86d2e3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
                
             </div>
+            @if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    position: "top-end",
+    title: 'Success!',
+    text: '{{ session('success') }}',
+    showConfirmButton: false,
+    timer: 1000 // Adjust the timer as needed
+});
+</script>
+@endif
             <div class="card card-body mx-3 mx-md-4 mt-n6">
                 <div class="row gx-4 mb-2">
                     <div class="col-auto">
@@ -90,7 +103,7 @@
                                     <label for="unit">Select Role</label>
                                     <select name="role" class="form-control border border-2 p-2" required>
                                         <option value="manager">Manager</option>
-                                        <option value="g">Cashier</option>
+                                        <option value="cashier">Cashier</option>
                                     </select>
                                 </div>
                             </div>

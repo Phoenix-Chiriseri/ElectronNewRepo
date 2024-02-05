@@ -18,6 +18,7 @@ class DashboardController extends Controller
     public function welcome(){
         return view("welcome");
     }
+
     //return the numbefoproducts, number of customers and number of cattegories and all the users
     public function index()
     { 
@@ -28,14 +29,16 @@ class DashboardController extends Controller
         ->orderByDesc('total_quantity_sold')
         ->paginate(2);
 
-        $topCustomers = DB::table('sales')
+         $topCustomers = DB::table('sales')
        ->select('customers.customer_name as customer_name', DB::raw('SUM(sales.total) as total_purchase'))
        ->join('customers', 'sales.customer_id', '=', 'customers.id')
         ->groupBy('sales.customer_id', 'customers.customer_name')
         ->orderByDesc('total_purchase')
         ->paginate(3); // You can adjust the number of items per page as needed
-
-
+       
+        //number of sales that have been done
+        $numberOfSales = Sale::all()->count();
+        //total sales in the database
         $totalSales = Sale::sum('total');
         $numberOfProducts = Product::all()->count();
         $numberOfCustomers = Customer::all()->count();
@@ -43,7 +46,10 @@ class DashboardController extends Controller
         $numberOfSuppliers = Supplier::all()->count(); 
         $users = User::all()->count();
         $user = Auth::user();
+        //return all the items to the blade view
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
-        ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)->with("user",$user)->with("topSellingProducts",$topSellingProducts)->with("totalSales",$totalSales)->with("topCustomers",$topCustomers);
+        ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
+        ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
+        ->with("totalSales",$totalSales)->with("topCustomers",$topCustomers)->with("numberOfSales",$numberOfSales);
     }
 }

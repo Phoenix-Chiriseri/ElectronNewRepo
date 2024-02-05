@@ -31,6 +31,19 @@
         </script>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
+            @if(session('success'))
+            <script>
+            
+            Swal.fire({
+                icon: 'success',
+                position: "top-end",
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 1000 // Adjust the timer as needed
+            });
+            </script>
+            @endif
             <div class="row">
                 <div class="col-12">
                     <div class="card my-4">

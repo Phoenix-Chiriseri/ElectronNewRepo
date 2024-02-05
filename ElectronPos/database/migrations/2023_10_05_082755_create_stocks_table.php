@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    
     public function up(): void
     {
         Schema::create('stocks', function (Blueprint $table) {
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->decimal('unit_cost', 10, 2);
             $table->decimal('total_cost', 10, 2);
             $table->timestamps();
-            // Foreign keys
+            //Foreign keys
             $table->foreign('grv_id')->references('id')->on('g_r_v_s')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
         });

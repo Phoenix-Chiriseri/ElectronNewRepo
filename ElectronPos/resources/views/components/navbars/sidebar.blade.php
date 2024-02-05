@@ -170,14 +170,13 @@
                 </div>
             </li>
          </div>
-        <div class="sidenav-footer position-absolute w-100 bottom-0 ">
         <div class="mx-3">
             <div class="mx-3">
-                <a href="javascript:;" class="btn bg-gradient-primary w-100">
                     <i class="fa fa-user me-sm-1"></i>
-                    <span class="d-sm-inline d-none" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</span>
-                </a>
-            </div>
-        </div>  
-    </div>
-</aside>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <input type="submit" value="Logout." class = "btn btn-danger btn btn-block">
+                    </form>
+            </div>  
+        </div>
+    </aside>

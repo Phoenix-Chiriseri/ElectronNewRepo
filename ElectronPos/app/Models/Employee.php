@@ -15,5 +15,6 @@ class Employee extends Model
         'password',
         'confirm_password',
         'access_level',
+        'user_id'
     ];
 }

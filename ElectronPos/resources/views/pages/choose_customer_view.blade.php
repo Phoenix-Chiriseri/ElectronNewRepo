@@ -11,7 +11,7 @@
             <div class="card card-body mx-3 mx-md-4 mt-n6" style="margin-top: 50px;">
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 class="text-center">Welcome {{$name}}</h4>
+                        <h4 class="text-center">Select A Customer {{$name}}</h4>
                         <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
                         <div id="searchResults"></div>
                         <div class="form-group">

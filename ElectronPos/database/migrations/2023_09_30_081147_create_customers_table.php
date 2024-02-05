@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+   
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
@@ -16,10 +14,10 @@ return new class extends Migration
             $table->string('customer_name');
             $table->string('code');
             $table->unsignedBigInteger('user_id');
-            $table->string('customer_taxnumber')->unique();
-            $table->string('customer_city')->unique();
-            $table->string('customer_address')->unique();
-            $table->string('customer_phonenumber')->unique();
+            $table->string('customer_taxnumber');
+            $table->string('customer_city');
+            $table->string('customer_address');
+            $table->string('customer_phonenumber');
             $table->string('customer_status');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

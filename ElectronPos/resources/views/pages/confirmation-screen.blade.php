@@ -90,7 +90,7 @@
                             <input type="hidden" name="total" id="hiddenTotal" value="{{ $total }}">
                             <input type="hidden" name="change" id="hiddenChange" value="">
                             <input type="hidden" name="customerId" id="customerId" value="{{ $customerId}}">
-                            <input type="hidden" name="receivedAmount" id="customerId" value="{{ $receivedAmount}}">
+                            <input type="hidden" name="receivedAmount" id="customerId" value="{{$receivedAmount}}">
                             <input type="hidden" name="tableData" id="hiddenTableData" value="">
                             <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class = "fa fa-money"></i> Pay</button>  
                         </form>

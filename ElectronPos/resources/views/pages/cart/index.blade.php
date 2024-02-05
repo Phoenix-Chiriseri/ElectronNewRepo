@@ -4,7 +4,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
     $(document).ready(function () {
-
         $("#prodResult").hide();
         const state = {
             products: {!! json_encode($products) !!},
@@ -13,6 +12,20 @@
 
         //function to clear the cart
         $("#clearCart").on("click", function () {
+            state.cart = [];
+            updateCartUI();
+        });
+
+        $(document).keydown(function(e) {
+         if (e.which === 115) { // Check if the pressed key is F4
+        $("#newSale").trigger("click"); // Trigger the click event on #newSale
+        }
+        });
+
+        
+
+        //perform a new sale....
+        $("#newSale").on("click",function(){
             state.cart = [];
             updateCartUI();
         });
@@ -137,8 +150,12 @@
         //function that will sell the product and then deduct the products from stokc
       
     $("#sellItems").on("click", function (event) {
-    event.preventDefault();
-    
+        event.preventDefault();
+        if(state.cart === []){
+        //showAlert("Cart Cannot Be Empty","error");
+        alert("no boss");
+          
+        }
     // Calculate totalValue before showing the SweetAlert
     const totalValue = state.cart.reduce((total, item) => {
         return total + item.price * (item.quantity || 1);
@@ -262,7 +279,7 @@
             @endif
         <div class="container-fluid px-2 px-md-4">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <div class="row mb-2">
                         <div id = "prodResult"></div>
                         <input
@@ -305,21 +322,28 @@
                         
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-2">
                     <!-- Add your content for the second column here -->
-                    <div className="mb-2">
-                        <div class="col">
                             <form method="POST" action="/sell" id="sellForm">
                                 @csrf
                                 <!-- Add other form fields here if needed -->
-                                <button type="submit" class="btn btn-success btn-block" id="sellItems"><i class = "fa fa-money"></i> Cash</button>
+                                <button type="submit" class="btn btn-success btn-block" id="sellItems"><i class = "fa fa-money"></i>f3 Cash</button>
                             </form>
-                            
+                            <div class="avatar avatar-xl position-relative">
+                                <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
+                                class="w-100 border-radius-lg shadow-sm">
+                            </div>
+                            <br>
+                            <hr>
+                            <button type="submit" class="btn btn-secondary btn-block" id="newSale"><i class = "fa fa-money"></i>F4 New Sale</button>
+                            <button type="submit" class="btn btn-secondary btn-block" id="newSale"><i class = "fa fa-trash"></i> Void Order</button>
                             <div id = "showCustomerMessage" hidden></div>
-                        </div>
-                    </div>
+                       
+                            
+                       </div>
                     
                     <hr>
+                    
                   
                 </div>
                  @if(session('error'))

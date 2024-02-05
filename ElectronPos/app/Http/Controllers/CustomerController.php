@@ -20,20 +20,21 @@ class CustomerController extends Controller
         $customers = Customer::leftJoin('users', 'customers.user_id', '=', 'users.id')
         ->select('users.name', 'customers.*')
         ->orderBy('customers.id', 'desc')
-        ->paginate(8);
+        ->paginate(10);
         $numberOfCustomers = Customer::all()->count();
         return view("pages.view-customers")->with("customers",$customers)->with("numberOfCustomers",$numberOfCustomers);
     }
 
    public function searchCustomers(Request $request)
-{
+    {
     // Your search logic here
     $searchQuery = $request->input('search');
     $customers = Customer::where('customer_name', 'like', '%' . $searchQuery . '%')->get();
 
     // Return the search results as JSON
     return response()->json(['customers' => $customers]);
-}
+    }
+    
     /**
      * Show the form for creating a new resource.
      */

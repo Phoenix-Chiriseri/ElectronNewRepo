@@ -23,7 +23,7 @@ class SupplierController extends Controller
         $suppliers = Supplier::leftJoin('users', 'suppliers.user_id', '=', 'users.id')
         ->select('users.name', 'suppliers.*')
         ->orderBy('suppliers.id', 'desc')
-        ->get();
+        ->paginate(10);
         $numberOfSuppliers = Supplier::all()->count();
         return view('pages.view-suppliers')->with("suppliers",$suppliers)->with("numberOfSuppliers",$numberOfSuppliers);
     }
@@ -66,8 +66,8 @@ class SupplierController extends Controller
         'supplier_status'=>$request->supplier_status
     ]);
     
-    if (!$supplier) {
-        return redirect()->back()->with('error', 'Sorry, there a problem while creating a supplier.');
+    if ($supplier) {
+        return redirect()->back()->with('success', 'Supplier created successfully');
     }
     return redirect()->route('view-suppliers')->with('success', 'Success, your supplier have been created.');
     }

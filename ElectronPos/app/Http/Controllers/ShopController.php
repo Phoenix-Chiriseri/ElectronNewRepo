@@ -26,7 +26,7 @@ class ShopController extends Controller
         $shops = Shop::leftJoin('users', 'shops.user_id', '=', 'users.id')
         ->select('users.*', 'shops.*')
         ->orderBy('shops.id', 'desc')
-        ->get();
+        ->paginate(10);
         $numberOfShops = Shop::all()->count();
         return view("pages.shop-list")->with("shops",$shops)->with("numberOfShops",$numberOfShops);
     }

@@ -48,10 +48,6 @@ class GRVController extends Controller
         return view("pages.view-grv")->with("grv",$grv)->with("email",$email);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    
      public function downloadPdf($id)
      {
         $grv = Grv::find($id);
@@ -80,8 +76,7 @@ class GRVController extends Controller
         $grv->payment_method = $request->input('payment_method');
         $grv->additional_information = $request->input('additional_information');
         $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');        
-        $grv->save();
-        
+        $grv->save(); 
         // Save the table data
         $tableData = $request->input('table_data');
         foreach ($tableData as $rowData) {
@@ -97,8 +92,7 @@ class GRVController extends Controller
             $tableRow->grv_id = $grv->id;
             $tableRow->save();
         }
-        //Redirect or respond with success message
-        return redirect()->route('create-grn');
+        return redirect()->route('create-grn')->with("success","GRV Saved Successfully");
     }
 
     public function generateGRNNumber()

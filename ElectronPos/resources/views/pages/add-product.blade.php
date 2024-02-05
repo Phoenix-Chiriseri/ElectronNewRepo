@@ -19,6 +19,7 @@ $(document).ready(function(){
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         @if(session('success'))
 <script>
+
 Swal.fire({
     icon: 'success',
     position: "top-end",

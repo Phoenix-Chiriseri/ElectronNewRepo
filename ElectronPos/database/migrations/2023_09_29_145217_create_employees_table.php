@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('confirm_password')->unique();
-            $table->integer('access_level');
-            $table->integer('role');
+            $table->string('access_level');
+            $table->string('role');
             $table->foreign('user_id')->references('id')->on('users');
             $table->rememberToken();
             $table->timestamps();
