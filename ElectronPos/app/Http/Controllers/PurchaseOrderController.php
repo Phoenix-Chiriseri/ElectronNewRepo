@@ -48,8 +48,16 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->delivery_instructions = $request->input("delivery_instructions");
         $purchaseOrder->supplier_invoicenumber = $request->input("supplier_invoicenumber");
         $purchaseOrder->save();
-        // Additional logic to save the associated table data if needed
+        
+        // Save the purchases order items
+        $tableData = $request->input('table_data');
+        foreach ($tableData as $rowData) {
+            $purchaseOrderItem = new PurchaseOrderItem($rowData);
+            $purchaseOrderItem->purchase_order_id = $purchaseOrder->id;
+            $purchaseOrderItem->save();
+        }
         return redirect()->route('view-purchaseorders')->with('success', 'Purchase Order created successfully.');
+  
     }
 
     /**
