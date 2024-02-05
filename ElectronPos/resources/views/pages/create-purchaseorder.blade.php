@@ -287,12 +287,6 @@ $(document).ready(function(){
                             <div class="mb-3 col-md-6">
                                 <label class="form-label">Expected Date</label>
                                 <input type="date" name="expected_date" class="form-control border border-2 p-2" required>
-                                <label class="form-label mt-3">Payment Method</label>
-                                <select name="payment_method" class="form-control border border-2 p-2" required>
-                                    <option value="cash">Cash</option>
-                                    <option value="card">Card</option>
-                                    <option value="credit">Credit</option>
-                                </select>                            
                                 @error('barcode')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                 @enderror
