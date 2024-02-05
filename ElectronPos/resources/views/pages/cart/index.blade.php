@@ -29,6 +29,18 @@
         });
 
         $(document).keydown(function(e) {
+         if (e.which === 115) { // Check if the pressed key is F4
+        $("#newSale").trigger("click"); // Trigger the click event on #newSale
+         }
+        });
+
+        $(document).keydown(function(e) {
+        if (e.which === 118) { // Check if the pressed key is F7
+        $("#clearCart").trigger("click"); // Trigger the click event on #newSale
+        }
+        });
+
+        $(document).keydown(function(e) {
          if (e.which === 114) { // Check if the pressed key is F3
         $("#sellItems").trigger("click"); // Trigger the click event on #newSale
         }
@@ -328,9 +340,8 @@
                     <hr>
                     <div class="row">
                         <div class="col">
-                        
+                            <button class = "btn btn-danger" id = "clearCart"> F7 Clear Cart</button>
                         </div>
-                        
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -346,8 +357,8 @@
                             </div>
                             <br>
                             <hr>
-                            <button type="submit" class="btn btn-secondary btn-block" id="newSale"><i class = "fa fa-money"></i>F4 New Sale</button>
-                            <button type="submit" class="btn btn-secondary btn-block" id="newSale"><i class = "fa fa-trash"></i> Void Order</button>
+                            <button type="submit" class="btn btn-secondary btn-block" id="newSale"></i>F4 New Sale</button>
+                            <button type="submit" class="btn btn-secondary btn-block" id="newSale"> Void Order</button>
                             <div id = "showCustomerMessage" hidden></div>
                        
                             
