@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-cattegory', [CattegoryController::class, 'store'])->name('submit-cattegory');
 	Route::post('/submit-employee', [ShopController::class, 'store'])->name('submit-shop');
 	Route::post('/submit-employee', [EmployeeController::class, 'store'])->name('submit-employee');
+	Route::post('/submit-purchaseorder', [PurchaseOrderController::class, 'store'])->name('submit-purchaseorder');
 	Route::post('/submit-shop', [ShopController::class, 'store'])->name('submit-shop');
 	Route::get('/sell-product', [SalesController::class, 'create'])->name('sell-product');
 	Route::get('/select-customer-view', [SaleController::class, 'viewCustomerView'])->name('select-customer-view');

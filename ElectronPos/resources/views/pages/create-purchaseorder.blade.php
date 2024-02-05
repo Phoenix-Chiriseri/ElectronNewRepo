@@ -71,7 +71,7 @@ $(document).ready(function(){
         // Create a hidden form and submit it
         //var hiddenForm = $('<form action="' + $(this).attr('action') + '" method="POST"></form>');
         // Append form data to the hidden form
-        var hiddenForm = $('<form action="/submit-grv" method="POST"></form>');
+        var hiddenForm = $('<form action="/submit-purchaseorder" method="POST"></form>');
         formData.forEach(function (field) {
             hiddenForm.append('<input type="hidden" name="' + field.name + '" value="' + field.value + '">');
         });
@@ -147,9 +147,6 @@ $(document).ready(function(){
         // Calculate total cost at the end
         calculateTotalCost();
     }
-
-
-    
     
     // Function to calculate total cost
     function calculateTotalCost() {
@@ -185,7 +182,7 @@ $(document).ready(function(){
     </script>
     @endif
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='Create GRN'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Create Purchase Order'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid pxsae-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
@@ -217,7 +214,7 @@ $(document).ready(function(){
                                     <a class="btn btn-info" href="{{ route('create-grn') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">View GRNS</span>
+                                        <span class="ms-1">View Purchase Orders</span>
                                     </a>
                                 </li>
                             </ul>
@@ -228,7 +225,7 @@ $(document).ready(function(){
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Goods Received Note</h6>
+                                <h6 class="mb-3">Purchase Order</h6>
                             </div>
                         </div>
                     </div>
@@ -255,7 +252,7 @@ $(document).ready(function(){
                                     </div>
                                 </div>
                         @endif
-                        <form method="POST" id="submitForm" action="{{ route('submit-grv') }}">
+                        <form method="POST" id="submitForm" action="{{ route('submit-purchaseorder') }}">
                           @csrf
                         <div class="row">
                             <div class="form-group">
@@ -275,7 +272,20 @@ $(document).ready(function(){
                                 </select>
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label class="form-label">Grn Date</label>
+                                <label class="form-label">Purchase Order Date</label>
+                                <input type="date" name="grn_date" class="form-control border border-2 p-2" required>
+                                <label class="form-label mt-3">Payment Method</label>
+                                <select name="payment_method" class="form-control border border-2 p-2" required>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Card</option>
+                                    <option value="credit">Credit</option>
+                                </select>                            
+                                @error('barcode')
+                                    <p class="text-danger inputerror">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Expected Date</label>
                                 <input type="date" name="grn_date" class="form-control border border-2 p-2" required>
                                 <label class="form-label mt-3">Payment Method</label>
                                 <select name="payment_method" class="form-control border border-2 p-2" required>
@@ -288,7 +298,7 @@ $(document).ready(function(){
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Additional Information</label>
+                                <label class="form-label">Delivery Instructions</label>
                                 <textarea type="text" rows="8" name="additional_information" class="form-control border border-2 p-2" required>
                                 @error('description')
                                     <p class="text-danger inputerror">{{ $message }}</p>
@@ -315,9 +325,10 @@ $(document).ready(function(){
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Product Name</th>
-                                    <th>Measurement</th>
-                                    <th>Grn Quantity</th>
+                                    
+                                    <th>Product	Measurement	</th>
+                                    <th>In stock</th>
+                                    <th>Quantity</th>
                                     <th>Unit Cost</th>
                                     <th>Total Cost</th>
                                     
