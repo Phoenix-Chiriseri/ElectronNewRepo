@@ -49,7 +49,8 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Purchases Orders</h6>
+                                <h6 class="text-white text-capitalize ps-3">Purchase Orders</h6>
+                                <h6 class="text-white text-capitalize ps-3">Number Of Purchases Orders {{$numberOfPurchaseOrders}}</h6>
                             </div>
                             <br>
                             <button class = "btn btn-info" id="exportGrn"><i class = "fa fa-print"></i>Generate PDF</button>
@@ -66,37 +67,68 @@
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                Purchase Order Number</th>
+                                               <th
+                                               class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                               Supplier Name</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                Date</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Supplier Name</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Shop</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Total Cost</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Shop</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Status</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Received</th>
-                                              
-                                            <th class="text-secondary opacity-7"></th>
+                                                
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
-                                      
+
+                                        @foreach($purchaseOrders as $order)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$order->po_number}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>     
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$order->supplier_name}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>     
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$order->purchaseorder_date}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td> <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$order->shop_name}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>   
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$order->total}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>   
+                                            
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
-                               
+                                <div class="d-flex justify-content-center mt-3">
+                                    {{ $purchaseOrders->links('vendor.pagination.bootstrap-4') }}
+                                </div>
+                                    
                             </div>
                         </div>
                     </div>

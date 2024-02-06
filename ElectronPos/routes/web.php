@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/create-grn', [GRVController::class, 'createGRN'])->name('create-grn');
 	Route::get('/grn/{id}', [GRVController::class, 'viewById'])->name('grn.show');
+	Route::get('/view-purchaseorder/{id}', [PurchaseOrderController::class, 'viewById'])->name('purchaseorder.show');
 	Route::get('/create-grn-view', [StockController::class, 'createGRNView'])->name('create-grn-view');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
 	Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');

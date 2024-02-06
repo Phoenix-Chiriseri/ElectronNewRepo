@@ -7,6 +7,7 @@ use App\Models\PurchaseOrderItem;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\Shop;
+use Illuminate\Support\Facades\Session;
 
 class PurchaseOrderController extends Controller
 {
@@ -15,7 +16,7 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
-        //
+        
         $suppliers = Supplier::all();
         $shops = Shop::all();
         return view("pages.create-purchaseorder")->with("suppliers",$suppliers)->with("shops",$shops);
@@ -24,9 +25,25 @@ class PurchaseOrderController extends Controller
 
     public function viewPurchasesOrders(){
 
-        //$purchasesOrders = PurchaseOrder::all();
-        return view("pages.view-purchaseorders");
+        $purchaseOrders = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
+        ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name')
+        ->distinct("purchase_orders.id")
+        ->orderBy("purchase_orders.id", "desc")
+        ->paginate(3);
+
+        $numberOfPurchaseOrders = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
+        ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name')
+        ->distinct("purchase_orders.id")
+        ->orderBy("purchase_orders.id", "asc")
+        ->count();
+
+      //dd($purchaseOrders);
+        return view("pages.view-purchaseorders")->with("purchaseOrders",$purchaseOrders)->with("numberOfPurchaseOrders",$numberOfPurchaseOrders);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -39,10 +56,25 @@ class PurchaseOrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+
+     public function viewById($id){
+
+        $email = auth()->user()->email;
+        $purchaseOrder = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
+        ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name')
+        ->find($id);  
+        dd($purchaseOrder);
+        return view("pages.view-purchasesorder")->with("purchaseOrder",$purchaseOrder);
+        // Use find directly to fetch a single record by ID
+    }
+
     public function store(Request $request)
     {
 
         $purchaseOrder = new PurchaseOrder();
+        $purchaseOrder->po_number = $this->generatePONumber();
         $purchaseOrder->supplier_id = $request->input("supplier_id");
         $purchaseOrder->shop_id = $request->input("shop_id");
         $purchaseOrder->purchaseorder_date = $request->input("purchaseorder_date");
@@ -64,6 +96,25 @@ class PurchaseOrderController extends Controller
         }
         return redirect()->route('view-purchaseorders')->with('success', 'Purchase Order created successfully.');
   
+    }
+
+
+    public function generatePONumber()
+    
+    {
+    // Check if the counter is already set in the session, if not, initialize it
+    if (!Session::has('po_counter')) {
+        Session::put('po_counter', 1);
+    } else {
+        // Increment the counter
+        Session::put('po_counter', Session::get('po_counter') + 1);
+    }
+    // Format the counter with leading zeros
+    $formattedCounter = str_pad(Session::get('po_number'), 4, '0', STR_PAD_LEFT);
+    // Concatenate the parts to create the GRN number
+    $poNumber = 'PO -' . $formattedCounter;
+    return $poNumber;
+
     }
 
     /**
