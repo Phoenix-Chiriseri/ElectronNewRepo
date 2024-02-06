@@ -80,7 +80,6 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->delivery_instructions = $request->input("delivery_instructions");
         $purchaseOrder->supplier_invoicenumber = $request->input("supplier_invoicenumber");
         $purchaseOrder->payment_method = $request->input("payment_method");
-
         $purchaseOrder->total = $request->input("total");
         $purchaseOrder->save();
         
@@ -109,7 +108,7 @@ class PurchaseOrderController extends Controller
         ->leftJoin('purchase_order_item', 'purchase_order_item.purchase_order_id', '=', 'purchase_orders.id')
         ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name','purchase_order_item.*')
         ->find($id);
-        dd($purchaseOrder);
+        
         //dd($purchaseOrder);
         //data dump the results to the front end        
        //seOrder);
