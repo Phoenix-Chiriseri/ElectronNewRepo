@@ -121,7 +121,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('viewall-stock') }}">Available Inventory</a>
-                    <a class="dropdown-item" href="{{ route('create-purchaseorder') }}">Purchase Orders</a>
+                    <a class="dropdown-item" href="{{ route('view-purchaseorders') }}">Purchase Orders</a>
                     <a class="dropdown-item" href="{{ route('create-grn') }}">Good Received Notes</a>
                 </div>
             </li>
