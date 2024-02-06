@@ -103,7 +103,8 @@ class PurchaseOrderController extends Controller
         ->leftJoin('purchase_order_item', 'purchase_order_item.purchase_order_id', '=', 'purchase_orders.id')
         ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name','purchase_order_item.*')
         ->find($id);
-        dd($purchaseOrder);
+        //dd($purchaseOrder);
+        //data dump the results to the front end        
        //seOrder);
         // Assuming you have a blade file to display the purchase order document
         return view('pages.single-purchaseorder', compact('purchaseOrder'))->with("email",$email);
