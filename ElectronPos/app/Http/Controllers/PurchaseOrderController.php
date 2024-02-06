@@ -94,8 +94,18 @@ class PurchaseOrderController extends Controller
             $purchaseOrderItem->purchase_order_id = $purchaseOrder->id;
             $purchaseOrderItem->save();
         }
-        return redirect()->route('view-purchaseorders')->with('success', 'Purchase Order created successfully.');
-  
+        //return redirect()->route('view-purchaseorders')->with('success', 'Purchase Order created successfully.');
+        return redirect()->route('purchase-order.show', $purchaseOrder->id);
+    }
+
+    public function showSinglePurchaseOrder($id){
+        //$purchaseOrder = PurchaseOrder::findOrFail($id);
+        $purchaseOrder = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
+        ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name')
+        ->find($id);  
+        // Assuming you have a blade file to display the purchase order document
+        return view('pages.single-purchaseorder', compact('purchaseOrder'));
     }
 
 
