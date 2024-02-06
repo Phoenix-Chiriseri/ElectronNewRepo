@@ -194,21 +194,13 @@ body{
             <div class="invoice-price">
                <div class="invoice-price-left">
                   <div class="invoice-price-row">
-                     <div class="sub-price">
-                        <small>SUBTOTAL</small>
-                        <span class="text-inverse">$4,500.00</span>
-                     </div>
-                     <div class="sub-price">
-                        <i class="fa fa-plus text-muted"></i>
-                     </div>
-                     <div class="sub-price">
-                        <small>PAYPAL FEE (5.4%)</small>
-                        <span class="text-inverse">$108.00</span>
-                     </div>
+                     
+                    
+                     
                   </div>
                </div>
                <div class="invoice-price-right">
-                  <small>TOTAL</small> <span class="f-w-600">$4508.00</span>
+                  <small>TOTAL</small> <span class="f-w-600">{{$purchaseOrder->total}}</span>
                </div>
             </div>
             <!-- end invoice-price -->
