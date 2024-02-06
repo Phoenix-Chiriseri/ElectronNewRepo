@@ -20,4 +20,9 @@ class PurchaseOrder extends Model
         'supplier_invoicenumber',
         'total',
     ];
+
+    public function purchaseOrderItems()
+    {
+        return $this->hasMany(PurchaseOrderItem::class);
+    }
 }

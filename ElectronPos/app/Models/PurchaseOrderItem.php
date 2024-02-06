@@ -18,4 +18,9 @@ class PurchaseOrderItem extends Model
         'total_cost',
         // Add other attributes as needed
     ];
+
+    public function purchaseOrder()
+    {
+        return $this->belongsTo(PurchaseOrder::class);
+    }
 }
