@@ -21,5 +21,10 @@ class Supplier extends Model
         'user_id',
         'supplier_status'
     ];
+
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'supplier_id');
+    }
 }
 

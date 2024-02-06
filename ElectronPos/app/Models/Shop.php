@@ -17,4 +17,9 @@ class Shop extends Model
         'shop_city',
         'user_id'
     ];
+
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'shop_id');
+    }
 }

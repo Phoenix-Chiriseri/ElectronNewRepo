@@ -181,11 +181,15 @@ body{
                      </tr>
                   </thead>
                   <tbody>
-                    @foreach($purchaseOrder->purchaseOrderItems as $item)
-                    <tr>
-                        <td>{{$item->product_name}}</td>
-                    </tr>
-                @endforeach  
+                    @foreach ($purchaseOrder->purchaseOrderItems as $item)
+        <tr>
+            <td>{{ $item->product_name }}</td>
+            <td>{{ $item->measurement }}</td>
+            <td>{{ $item->quantity }}</td>
+            <td>{{ $item->unit_cost }}</td>
+            <td>{{ $item->total_cost }}</td>
+        </tr>
+        @endforeach
                   </tbody>
                </table>
             </div>

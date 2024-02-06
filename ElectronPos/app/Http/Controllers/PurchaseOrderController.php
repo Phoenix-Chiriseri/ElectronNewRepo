@@ -86,9 +86,15 @@ class PurchaseOrderController extends Controller
         
         // Save the purchases order items
         $tableData = $request->input('table_data');
+        //dd($tableData);
         foreach ($tableData as $rowData) {
-            $purchaseOrderItem = new PurchaseOrderItem($rowData);
+            $purchaseOrderItem = new PurchaseOrderItem();
             $purchaseOrderItem->purchase_order_id = $purchaseOrder->id;
+            $purchaseOrderItem->product_name = $rowData['product_name'];
+            $purchaseOrderItem->measurement = $rowData['measurement'];
+            $purchaseOrderItem->quantity = $rowData['quantity'];
+            $purchaseOrderItem->unit_cost = $rowData['unit_cost'];
+            $purchaseOrderItem->total_cost = $rowData['total_cost'];
             $purchaseOrderItem->save();
         }
         //return redirect()->route('view-purchaseorders')->with('success', 'Purchase Order created successfully.');
@@ -103,6 +109,7 @@ class PurchaseOrderController extends Controller
         ->leftJoin('purchase_order_item', 'purchase_order_item.purchase_order_id', '=', 'purchase_orders.id')
         ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name','purchase_order_item.*')
         ->find($id);
+        dd($purchaseOrder);
         //dd($purchaseOrder);
         //data dump the results to the front end        
        //seOrder);
