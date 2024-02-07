@@ -104,22 +104,14 @@ class PurchaseOrderController extends Controller
     public function showSinglePurchaseOrder($id){
         //$purchaseOrder = PurchaseOrder::findOrFail($id);
         $email = auth()->user()->email;
-        /*$purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier', 'shop'])
-        ->leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
-        ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
-        ->find($id);*/
         $purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier', 'shop'])
         ->find($id);
         $supplierName = Supplier::find($purchaseOrder->supplier_id)->supplier_name;
-        //$shopName = Shop::find($purchaseOrder->supplier_id)->shop_name;
-        //dd($shopName);
-        //dd($shopName);
         return view("pages.single-purchaseorder")->with("purchaseOrder",$purchaseOrder)->with("email",$email)->with("supplier_name",$supplierName);
     }
 
     public function generatePONumber()
-    
-    {
+{
     // Check if the counter is already set in the session, if not, initialize it
     if (!Session::has('po_counter')) {
         Session::put('po_counter', 1);
@@ -128,12 +120,11 @@ class PurchaseOrderController extends Controller
         Session::put('po_counter', Session::get('po_counter') + 1);
     }
     // Format the counter with leading zeros
-    $formattedCounter = str_pad(Session::get('po_number'), 4, '0', STR_PAD_LEFT);
-    // Concatenate the parts to create the GRN number
-    $poNumber = 'PO -' . $formattedCounter;
+    $formattedCounter = str_pad(Session::get('po_counter'), 4, '0', STR_PAD_LEFT);
+    // Concatenate the parts to create the PO number
+    $poNumber = 'PO-' . $formattedCounter;
     return $poNumber;
-
-    }
+}
 
     /**
      * Display the specified resource.
