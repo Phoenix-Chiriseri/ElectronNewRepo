@@ -52,7 +52,7 @@ class StockController extends Controller
 $flashMessages = [];
 
 if ($lowestStockProduct) {
-    $flashMessages[] = "Product {$lowestStockProduct->product_name} is low in stock with {$lowestStockProduct->total_quantity} items.";
+    $flashMessages[] = "Product {$lowestStockProduct->product_name} is the lowest in stock with {$lowestStockProduct->total_quantity} items.";
 }
         return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages);
         //return view("pages.viewall-stock")->with("stocks", $stocks);
