@@ -207,7 +207,7 @@
       </div>
       <div>
       <div class="alert alert-warning blink" role="alert">
-          <h6>Alert. These 5 Products That Almost Out Of Stock</h6>
+          <h6>Alert. These 5 Products Are Almost Out Of Stock</h6>
       </div>
         <ul class="list-group">
             @foreach ($lowestStockProducts as $product)
