@@ -2,6 +2,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -31,6 +32,18 @@
             });
         </script>
         <div class="container-fluid py-4">
+            @if(session('success'))
+            <script>
+            Swal.fire({
+                icon: 'success',
+                position: "top-end",
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 1000 // Adjust the timer as needed
+            });
+            </script>
+            @endif
             <div class="row">
                 <div class="col-12">
                     <div class="card my-4">
@@ -66,6 +79,9 @@
                                             <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                             Created By</th>
+                                            <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                            Delete Shop</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -87,6 +103,10 @@
                                             <td><div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm">{{$shop->name}}</h6>
                                             </div></td>
+                                            
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('delete-shop',$shop->id) }}">Delete Shop</a>
+                                            </td>    
                                         </tr>
                                         @endforeach
                                     </tbody>

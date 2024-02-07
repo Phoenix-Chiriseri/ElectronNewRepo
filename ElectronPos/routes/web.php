@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/update/customer/{customer}', [CustomerController::class, 'updateCustomer'])->name('update-customer');
 	Route::put('/update/cattegory/{cattegory}', [CattegoryController::class, 'updateCattegory'])->name('update-cattegory');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
+	Route::get('/delete-shop/{id}', [ShopController::class, 'deleteShop'])->name('delete-shop');
 	Route::get('/delete-employee/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete-employee');
 	Route::get('/create-cattegory', [CattegoryController::class, 'create'])->name('create-cattegory');
 	Route::put('/update-product/{product}',[ProductController::class, 'updateProduct'])->name('products.update');

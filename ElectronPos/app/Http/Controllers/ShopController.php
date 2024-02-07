@@ -19,6 +19,31 @@ class ShopController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+     public function deleteShop(Request $request, $id)
+     {
+     // Validate and sanitize the product ID
+     $id = intval($id); // Ensure $id is an integer
+     // Check if the product exists
+     $shop = Shop::find($id);
+ 
+     if (!$shop) {
+         // Product not found, return a 404 response or handle the error appropriately
+         return response()->json(['error' => 'Shop not found'], 404);
+     }
+ 
+     // Check if the user is authorized to delete the product (implement your authorization logic here)
+ 
+     try {
+         // Attempt to delete the product
+         $shop->delete();
+         return redirect()->back()->with('success', 'Shop Deleted Successfully');
+     } catch (\Exception $e) {
+         // Error occurred during deletion, handle the error gracefully
+         return redirect()->back()->with('error', 'Shop Not Deleted');
+     }
+ }
+
     public function viewShopList()
     {
         //return all the shops to the front end
