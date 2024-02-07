@@ -101,8 +101,9 @@ class PurchaseOrderController extends Controller
     public function showSinglePurchaseOrder($id){
         //$purchaseOrder = PurchaseOrder::findOrFail($id);
         $email = auth()->user()->email;
-        $email = auth()->user()->email;
-        $purchaseOrder = PurchaseOrder::with('purchaseOrderItems')
+        $purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier', 'shop'])
+        ->leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
+        ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
         ->find($id);
         return view("pages.single-purchaseorder")->with("purchaseOrder",$purchaseOrder)->with("email",$email);
     }
