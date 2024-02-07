@@ -43,6 +43,7 @@ class SupplierController extends Controller
 
     //delete the supplier from the database
     public function deleteSupplier($id){
+        //dd($id);
         $supplier = Supplier::find($id);
         $supplier->delete();
         return redirect('/view-suppliers');

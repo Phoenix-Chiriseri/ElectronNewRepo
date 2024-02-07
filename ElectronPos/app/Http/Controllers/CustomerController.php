@@ -71,9 +71,26 @@ class CustomerController extends Controller
 
     public function deleteCustomer($id){
 
-        $customer = Customer::find($id);
+        // Validate and sanitize the product ID
+    $id = intval($id); // Ensure $id is an integer
+    // Check if the product exists
+    $customer = Customer::find($id);
+
+    if (!$customer) {
+        // Product not found, return a 404 response or handle the error appropriately
+        return response()->json(['error' => 'Customer not found'], 404);
+    }
+
+    // Check if the user is authorized to delete the product (implement your authorization logic here)
+
+    try {
+        // Attempt to delete the product
         $customer->delete();
-        return redirect('view-customers');
+        return redirect()->back()->with('success', 'Customer Deleted Successfully');
+    } catch (\Exception $e) {
+        // Error occurred during deletion, handle the error gracefully
+        return redirect()->back()->with('error', 'Customer Not Deleted');
+    }
     
     }
 

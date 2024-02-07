@@ -1,5 +1,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -29,6 +30,18 @@
             });
         </script> 
         <div class="container-fluid py-4">
+            @if(session('success'))
+            <script>
+            Swal.fire({
+                icon: 'success',
+                position: "top-end",
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 1000 // Adjust the timer as needed
+            });
+            </script>
+            @endif
             <div class="row">
                 <div class="col-12">
                     <div class="card my-4">

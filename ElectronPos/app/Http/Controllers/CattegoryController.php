@@ -30,9 +30,25 @@ class CattegoryController extends Controller
 
      public function deleteCattegory($id){
 
-        $cattegory = Cattegory::find($id);
+        $id = intval($id); // Ensure $id is an integer
+    // Check if the product exists
+    $cattegory = Cattegory::find($id);
+
+    if (!$cattegory) {
+        // Product not found, return a 404 response or handle the error appropriately
+        return response()->json(['error' => 'Cattegory'], 404);
+    }
+
+    // Check if the user is authorized to delete the product (implement your authorization logic here)
+
+    try {
+        // Attempt to delete the product
         $cattegory->delete();
-        return redirect('/view-cattegories');
+        return redirect()->back()->with('success', 'Cattegory Deleted Successfully');
+    } catch (\Exception $e) {
+        // Error occurred during deletion, handle the error gracefully
+        return redirect()->back()->with('error', 'Cattegory Not Deleted');
+    }
     }
 
     public function create()

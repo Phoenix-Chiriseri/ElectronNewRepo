@@ -76,17 +76,43 @@ class ProductController extends Controller
         if ($product) {
             return response()->json($product);
         }
-        
         return response()->json(['error' => 'Product not found'], 404);
     }
 
-    public function deleteProduct($id){
+    public function deleteProduct(Request $request, $id)
+    {
+    // Validate and sanitize the product ID
+    $id = intval($id); // Ensure $id is an integer
+    // Check if the product exists
+    $product = Product::find($id);
+
+    if (!$product) {
+        // Product not found, return a 404 response or handle the error appropriately
+        return response()->json(['error' => 'Product not found'], 404);
+    }
+
+    // Check if the user is authorized to delete the product (implement your authorization logic here)
+
+    try {
+        // Attempt to delete the product
+        $product->delete();
+        return redirect()->back()->with('success', 'Product Deleted Successfully');
+    } catch (\Exception $e) {
+        // Error occurred during deletion, handle the error gracefully
+        return redirect()->back()->with('error', 'Product Not Deleted');
+    }
+}
+
+    /*public function deleteProduct($id){
 
         $product = Product::find($id);
         $product->delete();
         return redirect('/view-products');
 
-    }
+    }*/
+
+
+
     /**
      * Show the form for creating a new resource.
      */
