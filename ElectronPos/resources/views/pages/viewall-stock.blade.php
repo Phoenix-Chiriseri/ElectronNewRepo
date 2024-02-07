@@ -2,39 +2,38 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+<!-- Include Noty.js JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-@if(count($flashMessages) > 0)
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var messages = {!! json_encode($flashMessages) !!};
-            var index = 0;
-
-            function displayMessage() {
-                if (index < messages.length) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Low Stock',
-                        text: messages[index],
-                        timer: 5000,
-                        timerProgressBar: true,
-                        position: 'top-end', // Set position to top-end for top right corner
-                        showConfirmButton: false,
-                        onClose: function() {
-                            index++;
-                            displayMessage();
+        @if(count($flashMessages) > 0)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var messages = {!! json_encode($flashMessages) !!};
+    
+                // Display each flash message as a Noty notification
+                messages.forEach(function(message) {
+                    new Noty({
+                        type: 'error', // Set notification type
+                        text: message, // Set notification message
+                        layout: 'topRight', // Set notification position
+                        timeout: 5000, // Adjust the timeout as needed
+                        animation: {
+                            open: 'animated bounceInRight', // Set open animation
+                            close: 'animated bounceOutRight' // Set close animation
+                        },
+                        // Custom CSS style for the text color
+                        css: {
+                            textAlign: 'center',
+                            color: 'black', // Set text color to black
                         }
-                    });
-                }
-            }
-
-            displayMessage();
-        });
-    </script>
-@endif
-        <!-- Navbar -->
+                    }).show();
+                });
+            });
+        </script>
+    @endif  <!-- Navbar -->
         <x-navbars.navs.auth titlePage="All Stock Items"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <script>
