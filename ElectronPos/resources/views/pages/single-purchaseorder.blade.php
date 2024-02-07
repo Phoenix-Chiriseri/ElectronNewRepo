@@ -1,5 +1,33 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+$("document").ready(function(){
+
+    $("#exportPurchaseOrder").on("click", function () {
+                    // Clone the printable content
+                    var purchTable = $("#purchTable").clone();
+        
+                    // Remove any unwanted elements (e.g., buttons, input fields)
+                    purchTable.find("button, input").remove();
+        
+                    // Remove specific columns (6th and 7th) from the cloned table
+                    purchTable.find('th:nth-child(n+6), td:nth-child(n+6)').remove();
+        
+                    // Convert the content to PDF with landscape orientation
+                    html2pdf(purchTable[0], {
+                        margin: 10,
+                        filename: 'PurchaseOrder.pdf',
+                        jsPDF: { 
+                            orientation: 'landscape' 
+                        }
+                    });
+                });
+            });
+
+</script>
 <style>
 body{
     margin-top:20px;
@@ -126,14 +154,14 @@ body{
          <!-- begin invoice-company -->
          <div class="invoice-company text-inverse f-w-600">
             <span class="pull-right hidden-print">
-            <a href="javascript:;" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>
+            <a href="javascript:;" id = "exportPurchaseOrder" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>
             <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-envelope t-plus-1 fa-fw fa-lg"></i>Email</a>
             </span>
             {{$purchaseOrder->po_number}}
          </div>
          <!-- end invoice-company -->
          <!-- begin invoice-header -->
-         <div class="invoice-header">
+         <div class="invoice-header" id="purchTable">
             <div class="invoice-from">
                <small>Supplier Name</small>
                <address class="m-t-5 m-b-5">
