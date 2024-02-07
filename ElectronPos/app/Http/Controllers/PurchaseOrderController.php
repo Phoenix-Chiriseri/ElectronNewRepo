@@ -110,8 +110,11 @@ class PurchaseOrderController extends Controller
         ->find($id);*/
         $purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier', 'shop'])
         ->find($id);
-        //dd($purchaseOrder);
-        return view("pages.single-purchaseorder")->with("purchaseOrder",$purchaseOrder)->with("email",$email);
+        $supplierName = Supplier::find($purchaseOrder->supplier_id)->supplier_name;
+        //$shopName = Shop::find($purchaseOrder->supplier_id)->shop_name;
+        //dd($shopName);
+        //dd($shopName);
+        return view("pages.single-purchaseorder")->with("purchaseOrder",$purchaseOrder)->with("email",$email)->with("supplier_name",$supplierName);
     }
 
     public function generatePONumber()
