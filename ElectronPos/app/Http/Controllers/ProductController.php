@@ -16,18 +16,15 @@ class ProductController extends Controller
     //view all the products
     public function viewProducts()
     {
+        //get the count or the number of products from the database
         $productCount = Cattegory::leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('*')
         ->count();
 
+        //get all the products from the database along with the stock
         $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
         ->select('products.*', 'stocks.quantity as stock_quantity')
         ->get();
-        
-        //$products = Product::orderBy("id", "desc")->paginate(2);
-        /*$productCount = Cattegory::leftJoin('products', 'products.category_id', '=', 'cattegories.id')
-        ->select('*')
-        ->count();*/
         //$productCount = Product::all()->count();  
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
