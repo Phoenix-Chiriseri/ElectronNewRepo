@@ -5,14 +5,11 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 $("document").ready(function(){
-
     $("#exportPurchaseOrder").on("click", function () {
                     // Clone the printable content
                     var purchTable = $("#purchTable").clone();
-        
                     // Remove any unwanted elements (e.g., buttons, input fields)
                     purchTable.find("button, input").remove();
-        
                     // Remove specific columns (6th and 7th) from the cloned table
                     purchTable.find('th:nth-child(n+6), td:nth-child(n+6)').remove();
         
@@ -26,7 +23,6 @@ $("document").ready(function(){
                     });
                 });
             });
-
 </script>
 <style>
 body{
@@ -155,7 +151,6 @@ body{
          <div class="invoice-company text-inverse f-w-600">
             <span class="pull-right hidden-print">
             <a href="javascript:;" id = "exportPurchaseOrder" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>
-            <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-envelope t-plus-1 fa-fw fa-lg"></i>Email</a>
             </span>
             {{$purchaseOrder->po_number}}
          </div>
