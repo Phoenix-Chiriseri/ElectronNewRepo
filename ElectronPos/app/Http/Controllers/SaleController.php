@@ -82,7 +82,7 @@ class SaleController extends Controller
         'change' => $change,
     ]);
     
-    // Iterate through each item in the sale and associate it with the sale record
+    //Iterate through each item in the sale and associate it with the sale record
     foreach ($tableData as $item) {
         $productId = $item['product_id'];
         $quantitySold = $item['quantity'];

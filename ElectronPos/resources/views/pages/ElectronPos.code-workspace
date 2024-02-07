@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../laravel projects/WtctJobBoard"
+		},
+		{
+			"path": "../../../../laravel projects/laravel-pos"
+		},
+		{
+			"path": "../../../../QrCode"
+		}
+	],
+	"settings": {}
+}

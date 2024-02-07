@@ -2,9 +2,38 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+@if(count($flashMessages) > 0)
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var messages = {!! json_encode($flashMessages) !!};
+            var index = 0;
+
+            function displayMessage() {
+                if (index < messages.length) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Low Stock',
+                        text: messages[index],
+                        timer: 5000,
+                        timerProgressBar: true,
+                        position: 'top-end', // Set position to top-end for top right corner
+                        showConfirmButton: false,
+                        onClose: function() {
+                            index++;
+                            displayMessage();
+                        }
+                    });
+                }
+            }
+
+            displayMessage();
+        });
+    </script>
+@endif
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="All Stock Items"></x-navbars.navs.auth>
         <!-- End Navbar -->
