@@ -194,6 +194,19 @@
             {{ $topCustomers->links('vendor.pagination.bootstrap-4') }}
         </div>
       </div>
+      <div>
+        <h4>Alert. These Products Are Almost Out Of Stock</h4>
+        <ul class="list-group">
+            @foreach ($lowestStockProducts as $product)
+                <li class="list-group-item">
+                    {{$product->product_name}} -  {{ $product->total_quantity }} 
+                </li>
+            @endforeach
+        </ul>
+        <div class="d-flex justify-content-center mt-3">
+            {{ $topCustomers->links('vendor.pagination.bootstrap-4') }}
+        </div>
+      </div>
         <div class="col-md-12 mb-lg-0 mb-4">
         <div class="card mt-4">
         <div class="card-header pb-0 p-3">

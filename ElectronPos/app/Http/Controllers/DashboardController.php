@@ -35,7 +35,18 @@ class DashboardController extends Controller
         ->groupBy('sales.customer_id', 'customers.customer_name')
         ->orderByDesc('total_purchase')
         ->paginate(3); // You can adjust the number of items per page as needed
-       
+
+        //lowest products in stock
+        $lowestStockProducts = DB::table('stocks')
+        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+        ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
+        ->select('products.name as product_name', 'cattegories.cattegory_name', 'products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
+        ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
+        ->havingRaw('total_quantity <= 5')
+        ->orderBy('total_quantity')
+        ->limit(5)
+        ->get();
+
         //number of sales that have been done
         $numberOfSales = Sale::all()->count();
         //total sales in the database
@@ -50,6 +61,6 @@ class DashboardController extends Controller
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
-        ->with("totalSales",$totalSales)->with("topCustomers",$topCustomers)->with("numberOfSales",$numberOfSales);
+        ->with("totalSales",$totalSales)->with("topCustomers",$topCustomers)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts);
     }
 }
