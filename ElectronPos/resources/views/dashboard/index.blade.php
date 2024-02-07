@@ -1,6 +1,17 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage='dashboard'></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+      <style>
+        @keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blink {
+  animation: blink 1s linear infinite;
+}
+      </style>
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
         <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
@@ -195,7 +206,9 @@
         </div>
       </div>
       <div>
-        <h6>Alert. These Products The 5 Products That Almost Out Of Stock</h6>
+      <div class="alert alert-warning blink" role="alert">
+          <h6>Alert. These 5 Products That Almost Out Of Stock</h6>
+      </div>
         <ul class="list-group">
             @foreach ($lowestStockProducts as $product)
                 <li class="list-group-item">
