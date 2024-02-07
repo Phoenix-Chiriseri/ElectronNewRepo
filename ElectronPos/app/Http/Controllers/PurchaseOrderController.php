@@ -86,6 +86,7 @@ class PurchaseOrderController extends Controller
         $tableData = $request->input('table_data');
         //dd($tableData);
         foreach ($tableData as $rowData) {
+            
             $purchaseOrderItem = new PurchaseOrderItem();
             $purchaseOrderItem->purchase_order_id = $purchaseOrder->id;
             $purchaseOrderItem->product_name = $rowData['product_name'];
@@ -95,16 +96,21 @@ class PurchaseOrderController extends Controller
             $purchaseOrderItem->total_cost = $rowData['total_cost'];
             $purchaseOrderItem->save();
         }
+
+    
         return redirect()->route('purchase-order.show', $purchaseOrder->id);
     }
 
     public function showSinglePurchaseOrder($id){
         //$purchaseOrder = PurchaseOrder::findOrFail($id);
         $email = auth()->user()->email;
-        $purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier', 'shop'])
+        /*$purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier', 'shop'])
         ->leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
         ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
+        ->find($id);*/
+        $purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier', 'shop'])
         ->find($id);
+        //dd($purchaseOrder);
         return view("pages.single-purchaseorder")->with("purchaseOrder",$purchaseOrder)->with("email",$email);
     }
 
