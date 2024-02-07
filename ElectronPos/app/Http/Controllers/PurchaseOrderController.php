@@ -62,7 +62,7 @@ class PurchaseOrderController extends Controller
         ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
         ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name')
         ->find($id);  
-        dd($purchaseOrder);
+        //dd($purchaseOrder);
         return view("pages.view-purchasesorder")->with("purchaseOrder",$purchaseOrder);
         // Use find directly to fetch a single record by ID
     }
@@ -101,19 +101,11 @@ class PurchaseOrderController extends Controller
     public function showSinglePurchaseOrder($id){
         //$purchaseOrder = PurchaseOrder::findOrFail($id);
         $email = auth()->user()->email;
-        $purchaseOrder = PurchaseOrder::
-        leftJoin('purchase_order_item', 'purchase_order_item.purchase_order_id', '=', 'purchase_orders.id')
-        ->select('purchase_orders.*', 'purchase_order_item.product_name')
+        $email = auth()->user()->email;
+        $purchaseOrder = PurchaseOrder::with('purchaseOrderItems')
         ->find($id);
-        if ($purchaseOrder) {
-        dd($purchaseOrder);
-         } else {
-        // Handle case where no purchase order with the given ID was found
-         dd("No purchase order found with ID: $id");
-        }
-        return view('pages.single-purchaseorder', compact('purchaseOrder'))->with("email",$email);
+        return view("pages.single-purchaseorder")->with("purchaseOrder",$purchaseOrder)->with("email",$email);
     }
-
 
     public function generatePONumber()
     
