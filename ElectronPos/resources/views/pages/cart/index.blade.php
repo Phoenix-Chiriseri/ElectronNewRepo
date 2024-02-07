@@ -175,11 +175,6 @@
       
     $("#sellItems").on("click", function (event) {
         event.preventDefault();
-        if(state.cart === []){
-        //showAlert("Cart Cannot Be Empty","error");
-        alert("no boss");
-          
-        }
     // Calculate totalValue before showing the SweetAlert
     const totalValue = state.cart.reduce((total, item) => {
         return total + item.price * (item.quantity || 1);

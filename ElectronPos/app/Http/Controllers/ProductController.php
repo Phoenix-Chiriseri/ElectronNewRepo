@@ -19,8 +19,16 @@ class ProductController extends Controller
         $productCount = Cattegory::leftJoin('products', 'products.category_id', '=', 'cattegories.id')
         ->select('*')
         ->count();
-        $products = Product::orderBy("id", "desc")->paginate(2);
-        $productCount = Product::all()->count();  
+
+        $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
+        ->select('products.*', 'stocks.quantity as stock_quantity')
+        ->get();
+        
+        //$products = Product::orderBy("id", "desc")->paginate(2);
+        /*$productCount = Cattegory::leftJoin('products', 'products.category_id', '=', 'cattegories.id')
+        ->select('*')
+        ->count();*/
+        //$productCount = Product::all()->count();  
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 

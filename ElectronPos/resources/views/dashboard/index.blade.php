@@ -198,7 +198,7 @@ animation: blink 1s linear infinite;
         <div class="card z-index-2 ">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
         <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1 alert alert-warning blink" style="color:white;">
-          Alert. These 5 Products Are Almost Out Of Stock
+          Alert. These Products Are Almost / Out Of Stock
         <div class="chart">
         </div>
         </div>

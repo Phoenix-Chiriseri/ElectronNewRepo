@@ -76,10 +76,11 @@
                                                 Unit Of Measurement</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Created At</th>
+                                                In Stock</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Updated At</th>
+                                                Created At</th>
+                                            
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Edit Product</th> 
@@ -119,25 +120,24 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{$product->created_at}}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{$product->stock_quantity}}</span>
                                             </td>
+                                          
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{$product->updated_at}}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{$product->created_at}}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('edit-product',$product->id) }}">Edit Product</a>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('delete-product',$product->id) }}">Delete Product</a>
-                                            </td>             
+                                            </td>      
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center mt-3">
-                                    {{ $products->links('vendor.pagination.bootstrap-4') }}
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
