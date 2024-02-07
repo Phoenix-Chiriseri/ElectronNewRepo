@@ -169,7 +169,7 @@
         </div>
         </div>
         <div>
-          <h4>Top Selling Products</h4>
+          <h6>Top Selling Products</h6>
           <ul class = "list-group">
               @foreach ($topSellingProducts as $product)
                   <li class = "list-group-item" style="color:black;">
@@ -182,7 +182,7 @@
         </div>
       </div>
       <div>
-        <h4>Top Customers</h4>
+        <h6>Top Customers</h6>
         <ul class="list-group">
             @foreach ($topCustomers as $customer)
                 <li class="list-group-item">
@@ -195,7 +195,7 @@
         </div>
       </div>
       <div>
-        <h4>Alert. These Products Are Almost Out Of Stock</h4>
+        <h6>Alert. These Products The 5 Products That Almost Out Of Stock</h6>
         <ul class="list-group">
             @foreach ($lowestStockProducts as $product)
                 <li class="list-group-item">
