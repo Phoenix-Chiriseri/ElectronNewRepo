@@ -75,7 +75,6 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->supplier_id = $request->input("supplier_id");
         $purchaseOrder->shop_id = $request->input("shop_id");
         $purchaseOrder->purchaseorder_date = $request->input("purchaseorder_date");
-        $purchaseOrder->payment_method = $request->input("paayment_method");
         $purchaseOrder->expected_date = $request->input("expected_date");
         $purchaseOrder->delivery_instructions = $request->input("delivery_instructions");
         $purchaseOrder->supplier_invoicenumber = $request->input("supplier_invoicenumber");
@@ -96,23 +95,22 @@ class PurchaseOrderController extends Controller
             $purchaseOrderItem->total_cost = $rowData['total_cost'];
             $purchaseOrderItem->save();
         }
-        //return redirect()->route('view-purchaseorders')->with('success', 'Purchase Order created successfully.');
         return redirect()->route('purchase-order.show', $purchaseOrder->id);
     }
 
     public function showSinglePurchaseOrder($id){
         //$purchaseOrder = PurchaseOrder::findOrFail($id);
         $email = auth()->user()->email;
-        $purchaseOrder = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
-        ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
-        ->leftJoin('purchase_order_item', 'purchase_order_item.purchase_order_id', '=', 'purchase_orders.id')
-        ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name','purchase_order_item.*')
+        $purchaseOrder = PurchaseOrder::
+        leftJoin('purchase_order_item', 'purchase_order_item.purchase_order_id', '=', 'purchase_orders.id')
+        ->select('purchase_orders.*', 'purchase_order_item.product_name')
         ->find($id);
-        
-        //dd($purchaseOrder);
-        //data dump the results to the front end        
-       //seOrder);
-        // Assuming you have a blade file to display the purchase order document
+        if ($purchaseOrder) {
+        dd($purchaseOrder);
+         } else {
+        // Handle case where no purchase order with the given ID was found
+         dd("No purchase order found with ID: $id");
+        }
         return view('pages.single-purchaseorder', compact('purchaseOrder'))->with("email",$email);
     }
 

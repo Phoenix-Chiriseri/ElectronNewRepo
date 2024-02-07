@@ -19,11 +19,6 @@ class PurchaseOrderItem extends Model
         // Add other attributes as needed
     ];
 
-    public function purchaseOrderItems()
-    {
-        return $this->hasMany(PurchaseOrderItem::class, 'purchase_order_id');
-    }
-
     public function purchaseOrder()
     {
         return $this->belongsTo(PurchaseOrder::class, 'purchase_order_id');

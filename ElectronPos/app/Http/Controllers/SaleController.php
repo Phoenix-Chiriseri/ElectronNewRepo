@@ -52,7 +52,7 @@ class SaleController extends Controller
     public function confirmationScreen()
     {
        //Retrieve data from the session
-         $customerId = session('customerId');
+        $customerId = session('customerId');
         $saleItems = session('saleItems');
         $customerName = session("customerName");
         $total = session("total");
