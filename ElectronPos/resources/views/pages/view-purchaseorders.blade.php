@@ -79,6 +79,9 @@
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Total Cost</th>
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                View</th>
                                                 
                                         </tr>
                                     </thead>
@@ -120,7 +123,9 @@
                                                     </div>
                                                 </div>
                                             </td>   
-                                            
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('purchase-order.show',$order->id) }}">View</a>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
