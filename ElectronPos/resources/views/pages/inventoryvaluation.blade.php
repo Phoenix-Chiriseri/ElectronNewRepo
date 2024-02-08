@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customers Report</title>
+    <title>Inventory Valuation Report</title>
     <!-- Include necessary CSS files here -->
 </head>
 <body>
@@ -99,7 +99,7 @@
                 // Convert the content to PDF with landscape orientation
                 html2pdf(customersTable[0], {
                     margin: 10,
-                    filename: 'CustomerList.pdf',
+                    filename: 'InventoryValuationReport.pdf',
                     jsPDF: {
                         orientation: 'landscape'
                     }
