@@ -33,31 +33,31 @@ $inventoryValuationReport = [];
 $totalInventoryValue = 0;
 
 foreach ($stocks as $stock) {
-    $inventoryValue = $stock->selling_price * $stock->total_quantity;
-    $totalInventoryValue += $inventoryValue;
+    $inventoryValue = round($stock->selling_price * $stock->total_quantity, 3);
+$totalInventoryValue += $inventoryValue;
 
-    // Additional calculations
-    $inHandStock = $stock->total_quantity;
-    $averageCost = $stock->average_cost;
-    $retailPrice = $stock->selling_price;
-    $retailValue = $retailPrice * $inHandStock;
-    $potentialProfit = ($retailPrice - $averageCost) * $inHandStock;
-    $margin = ($potentialProfit / $retailValue) * 100; // Margin as a percentage
+// Additional calculations
+$inHandStock = $stock->total_quantity;
+$averageCost = round($stock->average_cost, 3); // Rounded to 3 decimal places
+$retailPrice = round($stock->selling_price, 3); // Rounded to 3 decimal places
+$retailValue = round($retailPrice * $inHandStock, 3); // Rounded to 3 decimal places
+$potentialProfit = round(($retailPrice - $averageCost) * $inHandStock, 3); // Rounded to 3 decimal places
+$margin = round(($potentialProfit / $retailValue) * 100, 3); // Rounded to 3 decimal places
 
-    $inventoryValuationReport[] = [
-        'Product Name' => $stock->product_name,
-        'Category' => $stock->category_name,
-        'Barcode' => $stock->barcode,
-        'Selling Price' => $retailPrice, // Using retail price instead of selling price
-        'In Hand Stock' => $inHandStock,
-        'Average Cost' => $averageCost,
-        'Retail Price' => $retailPrice,
-        'Inventory Value' => $inventoryValue,
-        'Retail Value' => $retailValue,
-        'Potential Profit' => $potentialProfit,
-        'Margin' => $margin,
-        ];
-        }
+$inventoryValuationReport[] = [
+    'Product Name' => $stock->product_name,
+    'Category' => $stock->category_name,
+    'Barcode' => $stock->barcode,
+    'Selling Price' => $retailPrice, // Using retail price instead of selling price
+    'In Hand Stock' => $inHandStock,
+    'Average Cost' => $averageCost,
+    'Retail Price' => $retailPrice,
+    'Inventory Value' => $inventoryValue,
+    'Retail Value' => $retailValue,
+    'Potential Profit' => $potentialProfit,
+    'Margin' => $margin,
+];
+}
         return view("pages.inventoryvaluation")->with("inventoryValuationReport",$inventoryValuationReport);
         }
 
