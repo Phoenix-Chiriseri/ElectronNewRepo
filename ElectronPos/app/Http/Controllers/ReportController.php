@@ -11,6 +11,12 @@ class ReportController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function viewInventoryValuationReport(){
+
+        return view("pages.inventoryvaluation");
+     }
+
     public function index()
     {
         //

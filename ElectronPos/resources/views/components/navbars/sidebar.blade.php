@@ -70,49 +70,14 @@
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Select Option</h6>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                    href="{{ route('dashboard') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fa fa-dashboard ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Dashboard</span>
+            <li class="nav-item dropdown">
+                <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i style="font-size: 1.2rem;" class="fas fa-book me-2 ps-2 pe-2 text-center"></i>
+                    <span class="text-capitalize">reports</span>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                href="{{ route('create-customers') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Customers</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                href="{{ route('create-suppliers') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Suppliers</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                    href="{{ route('create-cattegory') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fa fa-folder ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Cattegories</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('create-product') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fa fa-box ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Products</span>
-                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
+                    <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a>
+                </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -123,7 +88,18 @@
                     <a class="dropdown-item" href="{{ route('viewall-stock') }}">Available Inventory</a>
                     <a class="dropdown-item" href="{{ route('view-purchaseorders') }}">Purchase Orders</a>
                     <a class="dropdown-item" href="{{ route('create-grn') }}">Good Received Notes</a>
+                    <a class="dropdown-item" href="{{ route('view-suppliers') }}">Suppliers</a>
+                    <a class="dropdown-item" href="{{ route('view-inventoryvaluation') }}">Inventory Valuation Report</a>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                href="{{ route('create-customers') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Customers</span>
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white"

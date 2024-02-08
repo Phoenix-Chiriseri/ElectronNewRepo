@@ -21,7 +21,8 @@ class Supplier extends Model
         'user_id',
         'supplier_status',
         'supplier_contactperson',
-        'supplier_contactpersonnumber'
+        'supplier_contactpersonnumber',
+        'type'
     ];
 
     public function purchaseOrders()

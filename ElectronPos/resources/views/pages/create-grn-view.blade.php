@@ -5,6 +5,8 @@
 <script>
 $(document).ready(function(){
     // Form submission
+
+    //alert("hello world");
     $("#submitForm").submit(function (event) {
         event.preventDefault();
         var total=0;
@@ -352,6 +354,7 @@ $(document).ready(function(){
                      onKeyDown=""
                      id = "searchSelectedProd"
                  />
+                 <select id="productDropdown" class="form-control"></select>
                  <div id = "noProductFound" hidden></div>
              </div>
              @if(session('error'))

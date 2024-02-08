@@ -54,6 +54,9 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         //dump the data and see if it sending to the controller
+
+        //dd($request->input("type"));
+
         $user = Auth::user()->id;
         $supplier = Supplier::create([
         'code' => $request->code,
@@ -67,6 +70,7 @@ class SupplierController extends Controller
         'supplier_status'=>$request->supplier_status,
         'supplier_contactperson'=>$request->supplier_contactperson,
         'supplier_contactpersonnumber'=>$request->supplier_contactpersonnumber,
+        'type'=>$request->supplier_type,
         
         ]);
     

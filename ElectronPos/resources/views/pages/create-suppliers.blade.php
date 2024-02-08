@@ -110,7 +110,13 @@
                             <label for="customer_address">Suppliers Address</label>
                             <input type="text" name="supplier_address" id="customer_address" class="form-control border border-2 p-2" required>
                         </div>
-
+                        <div class="form-group">
+                            <label for="supplier_status">Type</label>
+                            <select name="supplier_type" class="form-control border border-2 p-2" required>
+                            <option value="cash">Cash</option>
+                            <option value="credit">Credit</option>
+                            </select>
+                        <hr>
                         <div class="form-group">
                             <label for="customer_phonenumber">Suppliers Phone Number</label>
                             <input type="text" name="supplier_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>

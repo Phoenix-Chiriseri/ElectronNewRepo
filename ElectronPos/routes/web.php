@@ -117,6 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-customers', [CustomerController::class, 'viewAllCustomers'])->name('view-customers');
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('view-orders');
 	Route::get('/view-reports', [ReportController::class, 'create'])->name('view-reports');
+	Route::get('/view-inventoryvaluation', [ReportController::class, 'viewInventoryValuationReport'])->name('view-inventoryvaluation');
 	Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
 	Route::get('/edit-employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit-employee');
 	Route::get('/delete-group/{id}', [CattegoryController::class, 'deleteCattegory'])->name('delete-group');
