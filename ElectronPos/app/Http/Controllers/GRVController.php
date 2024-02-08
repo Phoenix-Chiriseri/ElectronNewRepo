@@ -64,7 +64,7 @@ class GRVController extends Controller
         return $pdf->download($fileName);
      
      }
-     //function that will submit the grv
+     //function that will submit the grv(added the additional information to the grv)
     public function submitGrv(Request $request)
     {
         $grv = new GRV(); // Use the GRV model
