@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Report;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -14,8 +15,51 @@ class ReportController extends Controller
 
      public function viewInventoryValuationReport(){
 
-        return view("pages.inventoryvaluation");
-     }
+    $stocks = DB::table('stocks')
+    ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+    ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
+    ->select(
+        'products.name as product_name',
+        'cattegories.cattegory_name as category_name',
+        'products.barcode',
+        'products.selling_price',
+        DB::raw('SUM(stocks.quantity) as total_quantity'),
+        DB::raw('AVG(stocks.total_cost) as average_cost')
+    )
+    ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
+    ->get();
+
+$inventoryValuationReport = [];
+$totalInventoryValue = 0;
+
+foreach ($stocks as $stock) {
+    $inventoryValue = $stock->selling_price * $stock->total_quantity;
+    $totalInventoryValue += $inventoryValue;
+
+    // Additional calculations
+    $inHandStock = $stock->total_quantity;
+    $averageCost = $stock->average_cost;
+    $retailPrice = $stock->selling_price;
+    $retailValue = $retailPrice * $inHandStock;
+    $potentialProfit = ($retailPrice - $averageCost) * $inHandStock;
+    $margin = ($potentialProfit / $retailValue) * 100; // Margin as a percentage
+
+    $inventoryValuationReport[] = [
+        'Product Name' => $stock->product_name,
+        'Category' => $stock->category_name,
+        'Barcode' => $stock->barcode,
+        'Selling Price' => $retailPrice, // Using retail price instead of selling price
+        'In Hand Stock' => $inHandStock,
+        'Average Cost' => $averageCost,
+        'Retail Price' => $retailPrice,
+        'Inventory Value' => $inventoryValue,
+        'Retail Value' => $retailValue,
+        'Potential Profit' => $potentialProfit,
+        'Margin' => $margin,
+        ];
+        }
+        return view("pages.inventoryvaluation")->with("inventoryValuationReport",$inventoryValuationReport);
+        }
 
     public function index()
     {
