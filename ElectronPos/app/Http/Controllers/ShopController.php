@@ -31,9 +31,6 @@ class ShopController extends Controller
          // Product not found, return a 404 response or handle the error appropriately
          return response()->json(['error' => 'Shop not found'], 404);
      }
- 
-     // Check if the user is authorized to delete the product (implement your authorization logic here)
- 
      try {
          // Attempt to delete the product
          $shop->delete();

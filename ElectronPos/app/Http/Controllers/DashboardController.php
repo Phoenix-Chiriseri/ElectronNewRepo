@@ -22,6 +22,7 @@ class DashboardController extends Controller
     //return the numbefoproducts, number of customers and number of cattegories and all the users
     public function index()
     { 
+        
         $topSellingProducts = DB::table('product_sale')
         ->select('products.name as product_name', 'product_sale.product_id', DB::raw('SUM(product_sale.quantity) as total_quantity_sold'))
         ->join('products', 'products.id', '=', 'product_sale.product_id')
@@ -57,6 +58,7 @@ class DashboardController extends Controller
         $numberOfSuppliers = Supplier::all()->count(); 
         $users = User::all()->count();
         $user = Auth::user();
+       
         //return all the items to the blade view
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)

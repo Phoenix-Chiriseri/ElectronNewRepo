@@ -64,15 +64,19 @@ class SupplierController extends Controller
         'supplier_city' => $request->supplier_city,
         'customer_address' => $request->supplier_address,
         'user_id' => $user,
-        'supplier_status'=>$request->supplier_status
-    ]);
+        'supplier_status'=>$request->supplier_status,
+        'supplier_contactperson'=>$request->supplier_contactperson,
+        'supplier_contactpersonnumber'=>$request->supplier_contactpersonnumber,
+        
+        ]);
     
-    if ($supplier) {
-        return redirect()->back()->with('success', 'Supplier created successfully');
+         if ($supplier) {
+          return redirect()->back()->with('success', 'Supplier created successfully');
+        }
+        
+        return redirect()->route('view-suppliers')->with('success', 'Success, your supplier have been created.');
+        
     }
-    return redirect()->route('view-suppliers')->with('success', 'Success, your supplier have been created.');
-    }
-
     /**
      * Display the specified resource.
      */

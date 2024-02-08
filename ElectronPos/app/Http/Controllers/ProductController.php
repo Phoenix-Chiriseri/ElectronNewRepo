@@ -103,19 +103,7 @@ class ProductController extends Controller
     }
 }
 
-    /*public function deleteProduct($id){
 
-        $product = Product::find($id);
-        $product->delete();
-        return redirect('/view-products');
-
-    }*/
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //return the cattegories for the product to the view

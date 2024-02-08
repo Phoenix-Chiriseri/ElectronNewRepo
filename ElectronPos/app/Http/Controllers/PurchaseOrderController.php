@@ -42,12 +42,7 @@ class PurchaseOrderController extends Controller
       //dd($purchaseOrders);
         return view("pages.view-purchaseorders")->with("purchaseOrders",$purchaseOrders)->with("numberOfPurchaseOrders",$numberOfPurchaseOrders);
     }
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         //

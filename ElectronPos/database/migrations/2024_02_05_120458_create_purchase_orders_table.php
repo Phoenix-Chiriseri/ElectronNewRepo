@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
 
-            $table->id();
+    $table->id();
     $table->string('po_number');
     $table->unsignedBigInteger('supplier_id');
     $table->unsignedBigInteger('shop_id');

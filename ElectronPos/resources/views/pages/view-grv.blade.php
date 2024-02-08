@@ -145,6 +145,10 @@ margin-top:20px;
                        <div class="col-xs-8 col-sm-8 col-md-8 text-left">
                            <div class="receipt-right">
                                <h5>Supplier Name : {{ $grv->supplier_name }}</h5>
+                               <p>Supplier Address : {{ $grv->supplier_address }}</p>
+                               <p>Supplier Phone Number : {{ $grv->supplier_phonenumber }}</p>
+                               <p>Contact Person : {{ $grv->supplier_contactperson }}</p>
+                               <p>Contact Person Phone Number : {{ $grv->supplier_contactpersonnumber }}</p>
                                <p><b>Location: </b> {{ $grv->shop_name }}</p>
                                <p><b> GRN Date </b> {{ $grv->grn_date }}</p>
                                <p><strong>Print Date:</strong> {{ $grv->created_at }}</p>

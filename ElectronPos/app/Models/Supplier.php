@@ -19,7 +19,9 @@ class Supplier extends Model
         'supplier_address',
         'supplier_phonenumber',
         'user_id',
-        'supplier_status'
+        'supplier_status',
+        'supplier_contactperson',
+        'supplier_contactpersonnumber'
     ];
 
     public function purchaseOrders()
