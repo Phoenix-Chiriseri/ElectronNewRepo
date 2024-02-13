@@ -36,7 +36,6 @@ class SupplierController extends Controller
     public function create()
     {
         //
-
         return view('pages.create-suppliers');
     }
 
@@ -57,7 +56,7 @@ class SupplierController extends Controller
 
         //dd($request->input("type"));
 
-        $user = Auth::user()->id;
+        $userId = Auth::user()->id;
         $supplier = Supplier::create([
         'code' => $request->code,
         'supplier_name' => $request->supplier_name,
@@ -66,7 +65,7 @@ class SupplierController extends Controller
         'supplier_taxnumber' => $request->supplier_taxnumber,
         'supplier_city' => $request->supplier_city,
         'customer_address' => $request->supplier_address,
-        'user_id' => $user,
+        'user_id' => $userId,
         'supplier_status'=>$request->supplier_status,
         'supplier_contactperson'=>$request->supplier_contactperson,
         'supplier_contactpersonnumber'=>$request->supplier_contactpersonnumber,

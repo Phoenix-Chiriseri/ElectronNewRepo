@@ -6,6 +6,21 @@ https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
 "></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
+$('#searchSelectedProd').typeahead({
+    source: function(query, result) {
+        $.ajax({
+            url: '', // Specify the URL to fetch product suggestions from the server
+            method: 'POST',
+            data: { query: query },
+            dataType: 'json',
+            success: function(data) {
+                result(data); // Pass the retrieved data to Typeahead
+            }
+        });
+    }
+});
+</script>
+<script>
 $(document).ready(function(){
     // Form submission
 
@@ -85,6 +100,8 @@ $(document).ready(function(){
         $('body').append(hiddenForm);
         hiddenForm.submit();
     });
+
+
     // Handle the search input
     $("#searchSelectedProd").on("keydown", function (event) {
         if (event.which == 13) {
@@ -103,6 +120,47 @@ $(document).ready(function(){
                 error: function (error) {
                     //showAlert("Product Not Found","error");
                     console.log("error dude");
+                }
+            });
+        }
+    });
+
+    $('#searchSelectedProd').typeahead({
+        source: function(query, result) {
+            // Here, you can make an AJAX request to fetch suggestions from the server
+            // This function will be called whenever the user types in the input
+            // Implement your logic to fetch suggestions based on the query
+            // Then pass the suggestions to the result callback
+            // For example:
+            $.ajax({
+                url: '/search-product/' + query,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    result(data.products); // Pass the retrieved data to Typeahead
+                },
+                error: function(error) {
+                    console.error('Error fetching product suggestions:', error);
+                }
+            });
+        },
+        afterSelect: function(item) {
+            // This function will be called when the user selects an item from the autocomplete dropdown
+            // You can handle what happens after the user selects an item here
+            console.log('Selected Product:', item);
+            // Perform any additional actions you need, such as fetching more details about the selected product
+            // or navigating to a product page.
+            // For example, you can make an AJAX request to fetch more details about the selected product.
+            // Replace '/get-product-details/' with the actual URL to fetch product details from the server.
+            $.ajax({
+                type: 'GET',
+                url: '/get-product-details/' + item,
+                success: function(response) {
+                    // Handle the response here, such as updating UI with product details
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.error('Error fetching product details:', error);
                 }
             });
         }

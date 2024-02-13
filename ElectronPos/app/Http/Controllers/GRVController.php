@@ -93,6 +93,7 @@ class GRVController extends Controller
             $tableRow->grv_id = $grv->id;
             $tableRow->save();
         }
+        
         return redirect()->route('create-grn')->with("success","GRV Saved Successfully");
     }
 
