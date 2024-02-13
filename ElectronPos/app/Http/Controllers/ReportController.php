@@ -31,10 +31,12 @@ class ReportController extends Controller
 
         $inventoryValuationReport = [];
         $totalInventoryValue = 0;
+        $totalRetailValue = 0;
 
         foreach ($stocks as $stock) {
             $inventoryValue = round($stock->selling_price * $stock->total_quantity, 3);
             $totalInventoryValue += $inventoryValue;
+            
             // Additional calculations
             $inHandStock = $stock->total_quantity;
             //$averageCost = round($stock->average_cost, 3); 
@@ -69,7 +71,7 @@ if ($retailValue != 0) {
             'totalInventoryValue' => $totalInventoryValue,
         ]);
     }
-       // return view("pages.inventoryvaluation")->with("inventoryValuationReport",$inventoryValuationReport);
+      
 
     public function index()
     {
