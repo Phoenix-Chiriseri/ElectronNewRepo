@@ -50,7 +50,7 @@
                                                 <th>Inventory Value</th>
                                                 <th>Retail Value</th>
                                                 <th>Potential Profit</th>
-                                                <th>Margin</th>
+                                                <th>Margin %</th>
                                             </tr>
                                         </thead>
                                         <tbody>

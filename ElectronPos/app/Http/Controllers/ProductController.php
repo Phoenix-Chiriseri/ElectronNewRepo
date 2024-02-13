@@ -17,10 +17,12 @@ class ProductController extends Controller
     public function viewProducts()
     {
         //get the count or the number of products from the database
-        $productCount = Cattegory::leftJoin('products', 'products.category_id', '=', 'cattegories.id')
-        ->select('*')
-        ->count();
+        //$productCount = Cattegory::leftJoin('products', 'products.category_id', '=', 'cattegories.id')
+        //->select('*')
+        //->count();
+        //dd($productCount);
 
+        $productCount = Product::all()->count();
         //get all the products from the database along with the stock
         $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
         ->select('products.*', 'stocks.quantity as stock_quantity')

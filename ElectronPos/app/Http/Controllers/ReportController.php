@@ -13,53 +13,64 @@ class ReportController extends Controller
      * Display a listing of the resource.
      */
 
-     public function viewInventoryValuationReport(){
+     public function viewInventoryValuationReport()
+    {
+        $stocks = DB::table('stocks')
+            ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+            ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
+            ->select(
+                'products.name as product_name',
+                'cattegories.cattegory_name as category_name',
+                'products.barcode',
+                'products.selling_price',
+                DB::raw('SUM(stocks.quantity) as total_quantity'),
+                DB::raw('AVG(stocks.total_cost) as average_cost')
+            )
+            ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
+            ->get();
 
-    $stocks = DB::table('stocks')
-    ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
-    ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
-    ->select(
-        'products.name as product_name',
-        'cattegories.cattegory_name as category_name',
-        'products.barcode',
-        'products.selling_price',
-        DB::raw('SUM(stocks.quantity) as total_quantity'),
-        DB::raw('AVG(stocks.total_cost) as average_cost')
-    )
-    ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
-    ->get();
+        $inventoryValuationReport = [];
+        $totalInventoryValue = 0;
 
-$inventoryValuationReport = [];
-$totalInventoryValue = 0;
+        foreach ($stocks as $stock) {
+            $inventoryValue = round($stock->selling_price * $stock->total_quantity, 3);
+            $totalInventoryValue += $inventoryValue;
 
-foreach ($stocks as $stock) {
-    $inventoryValue = round($stock->selling_price * $stock->total_quantity, 3);
-$totalInventoryValue += $inventoryValue;
+            // Additional calculations
+            $inHandStock = $stock->total_quantity;
+            $averageCost = round($stock->average_cost, 3); 
+            $retailPrice = round($stock->selling_price, 3); // Rounded to 3 decimal places
+            $retailValue = round($retailPrice * $inHandStock, 3); // Rounded to 3 decimal places
+            $potentialProfit = round(($retailPrice - $averageCost) * $inHandStock, 3); // Rounded to 3 decimal places
+            //$margin = round(($potentialProfit / $retailValue) * 100, 3); // Rounded to 3 decimal places
+            $margin = 0; // Default value
 
-// Additional calculations
-$inHandStock = $stock->total_quantity;
-$averageCost = round($stock->average_cost, 3); // Rounded to 3 decimal places
-$retailPrice = round($stock->selling_price, 3); // Rounded to 3 decimal places
-$retailValue = round($retailPrice * $inHandStock, 3); // Rounded to 3 decimal places
-$potentialProfit = round(($retailPrice - $averageCost) * $inHandStock, 3); // Rounded to 3 decimal places
-$margin = round(($potentialProfit / $retailValue) * 100, 3); // Rounded to 3 decimal places
-
-$inventoryValuationReport[] = [
-    'Product Name' => $stock->product_name,
-    'Category' => $stock->category_name,
-    'Barcode' => $stock->barcode,
-    'Selling Price' => $retailPrice, // Using retail price instead of selling price
-    'In Hand Stock' => $inHandStock,
-    'Average Cost' => $averageCost,
-    'Retail Price' => $retailPrice,
-    'Inventory Value' => $inventoryValue,
-    'Retail Value' => $retailValue,
-    'Potential Profit' => $potentialProfit,
-    'Margin' => $margin,
-];
+if ($retailValue != 0) {
+    //$margin = round(($potentialProfit / $retailValue) * 100, 3); // Calculate margin if retail value is non-zero
+    $margin = round(($potentialProfit / $retailValue) * 100, 3); // Calculate margin as a percentage if retail value is non-zero
 }
-        return view("pages.inventoryvaluation")->with("inventoryValuationReport",$inventoryValuationReport);
+
+            $inventoryValuationReport[] = [
+                'Product Name' => $stock->product_name,
+                'Category' => $stock->category_name,
+                'Barcode' => $stock->barcode,
+                'Selling Price' => $retailPrice, // Using retail price instead of selling price
+                'In Hand Stock' => $inHandStock,
+                'Average Cost' => $averageCost,
+                'Retail Price' => $retailPrice,
+                'Inventory Value' => $inventoryValue,
+                'Retail Value' => $retailValue,
+                'Potential Profit' => $potentialProfit,
+                'Margin' => $margin,
+            ];
         }
+
+        return view('pages.inventoryvaluation', [
+            'inventoryValuationReport' => $inventoryValuationReport,
+            'totalInventoryValue' => $totalInventoryValue,
+        ]);
+    }
+       // return view("pages.inventoryvaluation")->with("inventoryValuationReport",$inventoryValuationReport);
 
     public function index()
     {
