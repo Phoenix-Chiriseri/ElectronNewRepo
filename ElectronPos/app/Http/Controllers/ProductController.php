@@ -23,12 +23,10 @@ class ProductController extends Controller
         //dd($productCount);
 
         $productCount = Product::all()->count();
-        //get all the products from the database along with the stock
         $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
-        ->select('products.*', 'stocks.quantity as stock_quantity')
+        ->select('products.id', 'products.name','products.barcode','products.description','products.price','products.selling_price','products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity','products.created_at'))
+        ->groupBy('products.id', 'products.name','products.barcode','products.description','products.price','products.selling_price','products.unit_of_measurement','products.created_at')
         ->get();
-       // dd($products);
-        //$productCount = Product::all()->count();  
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 

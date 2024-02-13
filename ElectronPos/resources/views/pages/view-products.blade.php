@@ -133,7 +133,7 @@ Swal.fire({
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{$product->stock_quantity}}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{$product->total_stock_quantity}}</span>
                                             </td>
                                           
                                             <td class="align-middle text-center">
