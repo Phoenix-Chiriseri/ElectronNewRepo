@@ -27,6 +27,7 @@ class ProductController extends Controller
         $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
         ->select('products.*', 'stocks.quantity as stock_quantity')
         ->get();
+       // dd($products);
         //$productCount = Product::all()->count();  
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }

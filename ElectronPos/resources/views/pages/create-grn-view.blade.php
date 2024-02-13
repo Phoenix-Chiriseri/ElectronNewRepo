@@ -8,6 +8,9 @@ https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.2/awesomplete.min.js" defer></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 $(document).ready(function(){
     // Form submission
@@ -113,19 +116,6 @@ $(document).ready(function(){
         }
     });
 
-    var input = document.getElementById("searchSelectedProd");
-    new Awesomplete(input, {
-        minChars: 2, // Minimum characters before triggering autocomplete
-        list: [],
-        filter: function(text, input) {
-            return Awesomplete.FILTER_CONTAINS(text, input.match(/[^,]*$/)[0]);
-        },
-        replace: function(text) {
-            var before = this.input.value.match(/^.+,\s*|/)[0];
-            this.input.value = before + text + ", ";
-        }
-    });
-
   
     function showAlert(message,errorIconMessage){
         Swal.fire({
@@ -195,14 +185,14 @@ $(document).ready(function(){
         function fetchProducts(input) {
             // Clear previous suggestions
             $('#productSuggestions').empty();
-
             // Make AJAX request to fetch products
             $.ajax({
                 type: 'GET',
-                url: '/search-product/' + input,
+                url: '/search-product/'+input,
                 success: function(response) {
                     $.each(response.products, function(index, product) {
-                        $('#productSuggestions').append('<option value="' + product + '">');
+                        $('#productSuggestions').append('<option value="'+product+'">');
+                           console.log('im searching'+product);
                     });
                 },
                 error: function(error) {
@@ -361,15 +351,14 @@ $(document).ready(function(){
                 </div>
                 <div class="user-cart">
                     <div class="card">
-                        <table class="table">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
                                     <th>Measurement</th>
                                     <th>Grn Quantity</th>
                                     <th>Unit Cost</th>
-                                    <th>Total Cost</th>
-                                    
+                                    <th>Total Cost</th>    
                                 </tr>
                             </thead>
                             <tbody>
