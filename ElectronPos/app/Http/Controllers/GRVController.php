@@ -17,6 +17,8 @@ class GRVController extends Controller
      */
     public function createGRN(){
         //retrieve the grvs
+
+       // $product = Product::all();
         $grvs = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')

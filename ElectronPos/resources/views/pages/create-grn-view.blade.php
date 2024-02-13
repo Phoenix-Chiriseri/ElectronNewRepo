@@ -127,8 +127,6 @@ $(document).ready(function(){
     });
 
   
-  
-
     function showAlert(message,errorIconMessage){
         Swal.fire({
                 position: "top-end",
@@ -159,7 +157,8 @@ $(document).ready(function(){
             newRow.append("<td>" + product.name + "</td>");
             newRow.append("<td>" + product.unit_of_measurement + "</td>");
             newRow.append("<td contenteditable='true' class='quantity'></td>");
-            newRow.append("<td contenteditable='true' class='unit-cost'></td>");
+            newRow.append("<td class='unit-cost'>" + product.price + "</td>");
+            //newRow.append("<td contenteditable='true' class='unit-cost'></td>");
             newRow.append("<td class='total-cost'></td>");
             newRow.append('<td><button type="button" class="btn btn-danger btn-sm remove-product"><i class = "fa fa-trash"></i></button></td>');
             newRow.append("</tr>");
@@ -173,10 +172,6 @@ $(document).ready(function(){
         // Calculate total cost at the end
         calculateTotalCost();
     }
-
-
-    
-    
     // Function to calculate total cost
     function calculateTotalCost() {
         total = 0;
