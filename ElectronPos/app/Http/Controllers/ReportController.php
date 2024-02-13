@@ -16,18 +16,18 @@ class ReportController extends Controller
      public function viewInventoryValuationReport()
     {
         $stocks = DB::table('stocks')
-            ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
-            ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
-            ->select(
-                'products.name as product_name',
-                'cattegories.cattegory_name as category_name',
-                'products.barcode',
-                'products.selling_price',
-                DB::raw('SUM(stocks.quantity) as total_quantity'),
-                DB::raw('AVG(stocks.total_cost) as average_cost')
-            )
-            ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
-            ->get();
+        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+        ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
+        ->select(
+            'products.name as product_name',
+            'cattegories.cattegory_name as category_name',
+            'products.barcode',
+            'products.selling_price',
+            DB::raw('SUM(stocks.quantity) as total_quantity'),
+            DB::raw('SUM(stocks.total_cost) as total_cost') // Ensure total_cost is selected
+        )
+        ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
+        ->get();
 
         $inventoryValuationReport = [];
         $totalInventoryValue = 0;
@@ -35,10 +35,10 @@ class ReportController extends Controller
         foreach ($stocks as $stock) {
             $inventoryValue = round($stock->selling_price * $stock->total_quantity, 3);
             $totalInventoryValue += $inventoryValue;
-
             // Additional calculations
             $inHandStock = $stock->total_quantity;
-            $averageCost = round($stock->average_cost, 3); 
+            //$averageCost = round($stock->average_cost, 3); 
+            $averageCost = round($stock->total_cost/$stock->total_quantity, 2);
             $retailPrice = round($stock->selling_price, 3); // Rounded to 3 decimal places
             $retailValue = round($retailPrice * $inHandStock, 3); // Rounded to 3 decimal places
             $potentialProfit = round(($retailPrice - $averageCost) * $inHandStock, 3); // Rounded to 3 decimal places
@@ -46,8 +46,7 @@ class ReportController extends Controller
             $margin = 0; // Default value
 
 if ($retailValue != 0) {
-    //$margin = round(($potentialProfit / $retailValue) * 100, 3); // Calculate margin if retail value is non-zero
-    $margin = round(($potentialProfit / $retailValue) * 100, 3); // Calculate margin as a percentage if retail value is non-zero
+    $margin = round(($potentialProfit / $retailValue) * 100, 3); // Calculate margin if retail value is non-zero
 }
 
             $inventoryValuationReport[] = [
