@@ -66,7 +66,6 @@ class PurchaseOrderController extends Controller
     {
 
         $purchaseOrder = new PurchaseOrder();
-        $purchaseOrder->po_number = $this->generatePONumber();
         $purchaseOrder->supplier_id = $request->input("supplier_id");
         $purchaseOrder->shop_id = $request->input("shop_id");
         $purchaseOrder->purchaseorder_date = $request->input("purchaseorder_date");
@@ -104,23 +103,6 @@ class PurchaseOrderController extends Controller
         $supplierName = Supplier::find($purchaseOrder->supplier_id)->supplier_name;
         return view("pages.single-purchaseorder")->with("purchaseOrder",$purchaseOrder)->with("email",$email)->with("supplier_name",$supplierName);
     }
-
-    public function generatePONumber()
-{
-    // Check if the counter is already set in the session, if not, initialize it
-    if (!Session::has('po_counter')) {
-        Session::put('po_counter', 1);
-    } else {
-        // Increment the counter
-        Session::put('po_counter', Session::get('po_counter') + 1);
-    }
-    // Format the counter with leading zeros
-    $formattedCounter = str_pad(Session::get('po_counter'), 4, '0', STR_PAD_LEFT);
-    // Concatenate the parts to create the PO number
-    $poNumber = 'PO-' . $formattedCounter;
-    return $poNumber;
-}
-
     /**
      * Display the specified resource.
      */
