@@ -28,13 +28,12 @@ class StockController extends Controller
     //getting
     public function viewAllStockItems(){ 
         
-        $stocks = DB::table('stocks')
-        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+        $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
         ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
         ->select('products.name as product_name', 'cattegories.cattegory_name','products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
         ->groupBy('products.name', 'products.barcode', 'products.selling_price','cattegories.cattegory_name')
         ->get();
-
+        
         $lowestStockProduct = null;
         foreach ($stocks as $stock) {
         if ($stock->total_quantity <= 5) {

@@ -71,7 +71,7 @@ class GRVController extends Controller
     public function submitGrv(Request $request)
     {
         $grv = new GRV(); // Use the GRV model
-        $grv->grvNumber = $this->generateGRNNumber();
+        //$grv->grvNumber = $this->generateGRNNumber();
         $grv->total = $request->input("total");
         $grv->supplier_id = $request->input('supplier_id');
         $grv->shop_id = $request->input('shop_id');
@@ -97,24 +97,6 @@ class GRVController extends Controller
         }
         
         return redirect()->route('create-grn')->with("success","GRV Saved Successfully");
-    }
-
-    public function generateGRNNumber()
-    
-    {
-    // Check if the counter is already set in the session, if not, initialize it
-    if (!Session::has('grn_counter')) {
-        Session::put('grn_counter', 1);
-    } else {
-        // Increment the counter
-        Session::put('grn_counter', Session::get('grn_counter') + 1);
-    }
-    // Format the counter with leading zeros
-    $formattedCounter = str_pad(Session::get('grn_counter'), 4, '0', STR_PAD_LEFT);
-    // Concatenate the parts to create the GRN number
-    $grvNumber = 'GRN -' . $formattedCounter;
-    return $grvNumber;
-
     }
 
     /**

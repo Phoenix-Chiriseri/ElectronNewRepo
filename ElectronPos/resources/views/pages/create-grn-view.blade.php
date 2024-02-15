@@ -116,6 +116,27 @@ $(document).ready(function(){
         }
     });
 
+    $('#searchSelectedProd').keyup(function(){
+            var query = $(this).val();
+            if(query != '')
+            {
+                $.ajax({
+                    url:"/search-product/",
+                    method:"GET",
+                    data:{query:query},
+                    success:function(data){
+                        $('#productList').fadeIn();
+                        $('#productList').html('');
+                        data.forEach(function(product){
+                            $('#productList').append('<div>'+product.name+'</div>');
+                        });
+                    }
+                });
+            }
+        });
+
+        
+
   
     function showAlert(message,errorIconMessage){
         Swal.fire({
@@ -351,7 +372,7 @@ $(document).ready(function(){
                 </div>
                 <div class="user-cart">
                     <div class="card">
-                        <table class="table table-hover">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Product Name</th>

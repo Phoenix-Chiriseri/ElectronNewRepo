@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('shop_id'); 
             $table->date('grn_date');
             $table->string('payment_method');
-            $table->string('grvNumber');
             $table->string('total');
             $table->text('additional_information');
             $table->string('supplier_invoicenumber');

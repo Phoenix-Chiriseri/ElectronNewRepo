@@ -47,9 +47,9 @@ class ReportController extends Controller
             //$margin = round(($potentialProfit / $retailValue) * 100, 3); // Rounded to 3 decimal places
             $margin = 0; // Default value
 
-if ($retailValue != 0) {
-    $margin = round(($potentialProfit / $retailValue) * 100, 3); // Calculate margin if retail value is non-zero
-}
+            if ($retailValue != 0) {
+            $margin = round(($potentialProfit / $retailValue) * 100, 3); // Calculate margin if retail value is non-zero
+            }
 
             $inventoryValuationReport[] = [
                 'Product Name' => $stock->product_name,
@@ -70,6 +70,7 @@ if ($retailValue != 0) {
             'inventoryValuationReport' => $inventoryValuationReport,
             'totalInventoryValue' => $totalInventoryValue,
         ]);
+        
     }
       
 
