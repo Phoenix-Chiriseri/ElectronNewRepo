@@ -24,6 +24,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\GrvController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SetStockLevelsController;
+use App\Http\Controllers\CompanyDataController;
 
 Route::get('/', [DashboardController::class, 'welcome']);
 
@@ -80,6 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-purchaseorder', [PurchaseOrderController::class, 'store'])->name('submit-purchaseorder');
 	Route::post('/submit-shop', [ShopController::class, 'store'])->name('submit-shop');
 	Route::get('/sell-product', [SalesController::class, 'create'])->name('sell-product');
+	Route::get('/view-companydata', [CompanyDataController::class, 'index'])->name('view-companydata');
 	Route::get('/select-customer-view', [SaleController::class, 'viewCustomerView'])->name('select-customer-view');
 	Route::get('/access-rights', [EmployeeController::class, 'accessRights'])->name('access-rights');
 	Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByName'])->name('products.searchByName');
@@ -135,6 +137,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
     Route::delete('/cart/delete', [CartController::class, 'delete']);
     Route::delete('/cart/empty', [CartController::class, 'empty']);
+	Route::post('/submit-company-details', [CompanyDataController::class, 'store'])->name('submit-company-details');
 	//api routes
 	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');

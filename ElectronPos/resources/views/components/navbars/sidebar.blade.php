@@ -150,6 +150,16 @@
                     <a class="dropdown-item" href="{{ route('shop-list') }}">Shops</a>
                 </div>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                href="{{ route('view-companydata') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i style="font-size: 1.2rem;" class="fas fa-building ps-2 pe-2 text-center"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">My Company</span>
+                </a>
+            </li>
+           
          </div>
          <br>
         <div class="mx-3">
