@@ -44,7 +44,7 @@ class DashboardController extends Controller
         ->orderByDesc('total_purchase')
         ->paginate(3); // You can adjust the number of items per page as needed
 
-        //lowest products in stock
+        //set the stock levels 
         $lowestStockLevel = SetStockLevels::latest()->first();
         $intLevel=$lowestStockLevel['stock_levels'];
         $lowestStockProducts = DB::table('stocks')
