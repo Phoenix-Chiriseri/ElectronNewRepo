@@ -133,6 +133,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-grv', [GrvController::class, 'submitGrv'])->name('submit-grv');
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
 	Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+	Route::get('/view-companydetails', [CompanyDataController::class, 'viewDetails'])->name('company-details');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
     Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
     Route::delete('/cart/delete', [CartController::class, 'delete']);

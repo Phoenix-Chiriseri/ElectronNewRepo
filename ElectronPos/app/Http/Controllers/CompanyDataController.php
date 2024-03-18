@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CompanyData;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -14,16 +15,25 @@ class CompanyDataController extends Controller
     public function index()
     {
         //
-
         return view("pages.add-company");
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function viewDetails()
     {
         //
+        
+        $companyDetails = CompanyData::latest()->first();
+        // Assuming you have a relationship between CompanyData and User
+        // For example, if CompanyData belongs to User
+        $user = $companyDetails->user;
+        // Alternatively, if User has created multiple CompanyData records and you want to fetch the user who created the latest record:
+        $user = User::find($companyDetails->user_id);
+        return view("pages.view-companydetails")->with("details",$companyDetails)->with("user",$user);
+
+
     }
 
     /**
