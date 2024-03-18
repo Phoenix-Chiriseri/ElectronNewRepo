@@ -10,6 +10,7 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 
 class CattegoryController extends Controller
+
 {
     /**
      * Display a listing of the resource.

@@ -9,8 +9,10 @@ use App\Models\Cattegory;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\Supplier;
+use App\Models\SetStockLevels;
 use App\Models\Sale;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -23,12 +25,17 @@ class DashboardController extends Controller
     public function index()
     { 
         
-        $topSellingProducts = DB::table('product_sale')
-        ->select('products.name as product_name', 'product_sale.product_id', DB::raw('SUM(product_sale.quantity) as total_quantity_sold'))
-        ->join('products', 'products.id', '=', 'product_sale.product_id')
-        ->groupBy('product_sale.product_id', 'products.name')
-        ->orderByDesc('total_quantity_sold')
-        ->paginate(2);
+     // Get the current month
+    $currentMonth = Carbon::now()->format('Y-m');
+    $topSellingProducts = DB::table('sales')
+    ->join('product_sale', 'sales.id', '=', 'product_sale.sales_id')
+    ->join('products', 'product_sale.product_id', '=', 'products.id')
+    ->select('products.name as product_name', 'product_sale.product_id', DB::raw('SUM(product_sale.quantity) as total_quantity_sold'))
+    ->whereYear('sales.created_at', '=', Carbon::now()->year)
+    ->whereMonth('sales.created_at', '=', Carbon::now()->month)
+    ->groupBy('product_sale.product_id', 'products.name')
+    ->orderByDesc('total_quantity_sold')
+    ->paginate(10); // Set the number of records per page
 
          $topCustomers = DB::table('sales')
        ->select('customers.customer_name as customer_name', DB::raw('SUM(sales.total) as total_purchase'))
@@ -38,12 +45,14 @@ class DashboardController extends Controller
         ->paginate(3); // You can adjust the number of items per page as needed
 
         //lowest products in stock
+        $lowestStockLevel = SetStockLevels::latest()->first();
+        $intLevel=$lowestStockLevel['stock_levels'];
         $lowestStockProducts = DB::table('stocks')
         ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
         ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
         ->select('products.name as product_name', 'cattegories.cattegory_name', 'products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
         ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
-        ->havingRaw('total_quantity <= 5')
+        ->havingRaw("total_quantity <= $intLevel")
         ->orderBy('total_quantity')
         ->limit(5)
         ->get();
@@ -57,12 +66,12 @@ class DashboardController extends Controller
         $numberOfCattegories = Cattegory::all()->count();
         $numberOfSuppliers = Supplier::all()->count(); 
         $users = User::all()->count();
+        //get the authenticated user and return the user to the front end
         $user = Auth::user();
-       
         //return all the items to the blade view
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
-        ->with("totalSales",$totalSales)->with("topCustomers",$topCustomers)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts);
+        ->with("totalSales",$totalSales)->with("topCustomers",$topCustomers)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel);
     }
 }

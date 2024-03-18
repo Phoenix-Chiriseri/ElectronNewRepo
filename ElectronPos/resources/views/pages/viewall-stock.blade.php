@@ -75,19 +75,19 @@
                                 <table class="table align-items-center mb-0" id="stockTable">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                 Product Name
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                 Product Code
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                Cattegory Name
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                Selling Price
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                 Stock Count
                                             </th>
                                         </tr>

@@ -43,8 +43,7 @@ class ShopController extends Controller
 
     public function viewShopList()
     {
-        //return all the shops to the front end
-        //$shops = Shop::orderBy("id", "desc")->paginate(10);
+
         $shops = Shop::leftJoin('users', 'shops.user_id', '=', 'users.id')
         ->select('users.*', 'shops.*')
         ->orderBy('shops.id', 'desc')

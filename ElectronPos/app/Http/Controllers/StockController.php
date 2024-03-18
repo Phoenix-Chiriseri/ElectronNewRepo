@@ -7,6 +7,7 @@ use App\Models\Grv;
 use App\Models\Shop;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\SetStockLevels;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,9 +26,11 @@ class StockController extends Controller
         ->with("shops",$shops)->with("products",$products);
     }
 
-    //getting
+
     public function viewAllStockItems(){ 
-        
+
+        //set the stock levels to the latest value that has been inserted into the database
+        $stockLevels = SetStockLevels::latest()->first();
         $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
         ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
         ->select('products.name as product_name', 'cattegories.cattegory_name','products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
@@ -36,12 +39,12 @@ class StockController extends Controller
         
         $lowestStockProduct = null;
         foreach ($stocks as $stock) {
-        if ($stock->total_quantity <= 5) {
+        if ($stock->total_quantity <= $stockLevels) {
         if (!$lowestStockProduct || $stock->total_quantity < $lowestStockProduct->total_quantity) {
             $lowestStockProduct = $stock;
         }
-        }
-    }
+       }
+     } 
 
         $flashMessages = [];
 

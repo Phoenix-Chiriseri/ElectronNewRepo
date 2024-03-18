@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\GRV;
 use App\Models\Stock;
 use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use PDF;
@@ -16,17 +17,15 @@ class GRVController extends Controller
      * Display a listing of the resource.
      */
     public function createGRN(){
-        //retrieve the grvs
-
-       // $product = Product::all();
+        
+        //extract the grvs and the populate the view in a table
         $grvs = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
         ->distinct("g_r_v_s.id")
         ->orderBy("g_r_v_s.id", "desc")
-        ->paginate(3);
-        //dd($grvs);
+        ->paginate(5);
         return view("pages.create-grn")->with("grvs",$grvs);
 
     }
@@ -46,8 +45,8 @@ class GRVController extends Controller
         $grv = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
-        ->select('g_r_v_s.*', 'suppliers.supplier_name','suppliers.supplier_address','suppliers.supplier_phonenumber', 'suppliers.supplier_contactperson','suppliers.supplier_contactpersonnumber', 'stocks.product_name', 'shops.shop_name')
-        ->find($id);  // Use find directly to fetch a single record by ID
+        ->select('g_r_v_s.*', 'suppliers.*')
+        ->find($id);
         return view("pages.view-grv")->with("grv",$grv)->with("email",$email);
     }
 
@@ -67,7 +66,8 @@ class GRVController extends Controller
         return $pdf->download($fileName);
      
      }
-     //function that will submit the grv(added the additional information to the grv)
+     
+     //create the grv and all the details along with it
     public function submitGrv(Request $request)
     {
         $grv = new GRV(); // Use the GRV model
@@ -93,7 +93,7 @@ class GRVController extends Controller
             $product = Product::firstOrCreate(['name' => $rowData['product_name']]);
             $tableRow->product_id = $product->id;
             $tableRow->grv_id = $grv->id;
-            $tableRow->save();
+            $tableRow->save(); 
         }
         
         return redirect()->route('create-grn')->with("success","GRV Saved Successfully");

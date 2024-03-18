@@ -22,7 +22,6 @@ class ProductController extends Controller
         ->select('products.id', 'products.name','products.barcode','products.created_at','products.description','products.price','products.selling_price','products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
         ->groupBy('products.id', 'products.name','products.barcode','products.description','products.price','products.selling_price','products.unit_of_measurement','products.created_at')
         ->get();
-        //dd($products);
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
@@ -41,7 +40,6 @@ class ProductController extends Controller
     }
 
     public function getProductsJson(){
-        //$products = Product::orderBy("id","desc")->get();
        $products = DB::table('products')
         ->leftJoin('stocks', 'stocks.product_id', '=', 'products.id')
         ->select('products.id', 'products.name', 'products.price', DB::raw('SUM(stocks.quantity) as stock'))
@@ -130,9 +128,9 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
 
+     //create a new product and save it to the database
      public function store(Request $request)
      {
- 
          $product = new Product();
          $product->name = $request->input("name");
          $product->barcode = $request->input("barcode");

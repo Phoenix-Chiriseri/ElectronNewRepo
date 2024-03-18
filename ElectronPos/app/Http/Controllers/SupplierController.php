@@ -28,7 +28,6 @@ class SupplierController extends Controller
         return view('pages.view-suppliers')->with("suppliers",$suppliers)->with("numberOfSuppliers",$numberOfSuppliers);
     }
 
-    
 
     /**
      * Show the form for creating a new resource.
@@ -52,9 +51,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //dump the data and see if it sending to the controller
-
-        //dd($request->input("type"));
+        
 
         $userId = Auth::user()->id;
         $supplier = Supplier::create([
@@ -75,9 +72,10 @@ class SupplierController extends Controller
     
          if ($supplier) {
           return redirect()->back()->with('success', 'Supplier created successfully');
+        }else{
+
+            return redirect()->back()->with('error', 'Supplier could not be created');
         }
-        
-        return redirect()->route('view-suppliers')->with('success', 'Success, your supplier have been created.');
         
     }
     /**

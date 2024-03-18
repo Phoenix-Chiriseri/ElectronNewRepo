@@ -38,8 +38,6 @@ class PurchaseOrderController extends Controller
         ->distinct("purchase_orders.id")
         ->orderBy("purchase_orders.id", "asc")
         ->count();
-
-      //dd($purchaseOrders);
         return view("pages.view-purchaseorders")->with("purchaseOrders",$purchaseOrders)->with("numberOfPurchaseOrders",$numberOfPurchaseOrders);
     }
     

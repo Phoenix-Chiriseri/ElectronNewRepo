@@ -23,9 +23,10 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\GrvController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\SetStockLevelsController;
 
 Route::get('/', [DashboardController::class, 'welcome']);
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
@@ -44,6 +45,7 @@ Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')-
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('orders-index');
+	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/search-product/{productName}', [ProductController::class, 'searchProduct']);
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
@@ -105,6 +107,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-all-stock-items', [StockController::class, 'viewAllStockItems'])->name('viewall-stock');
 	Route::get('/stock/add/{product}', [StockController::class, 'addToStock'])->name('stock.add');
 	Route::get('/generate-grv', [GrvController::class, 'generateGrv'])->name("generate-grv");
+	Route::get('/set-stock-levels', [SetStockLevelsController::class, 'index'])->name("set-stocklevels");
+	Route::post('/submit-stock-levels', [SetStockLevelsController::class, 'store'])->name("submit-stocklevels");
 	Route::get('/stock/edit/{product}', [StockController::class, 'editStock'])->name('stock.edit');
 	Route::post('/submit-stock', [StockController::class, 'submitProductToStock'])->name('submit.stock');
 	Route::post('/submit-customers', [CustomerController::class, 'store'])->name('submit-customers');

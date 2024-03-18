@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('shop_address');
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
-            $table->string('shop_city')->unique();
+            $table->string('shop_city');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
