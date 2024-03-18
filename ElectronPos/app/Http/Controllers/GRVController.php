@@ -45,7 +45,7 @@ class GRVController extends Controller
         $grv = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
-        ->select('g_r_v_s.*', 'suppliers.*')
+        ->select('g_r_v_s.*', 'suppliers.supplier_name','suppliers.supplier_address','suppliers.supplier_phonenumber','suppliers.supplier_contactperson','suppliers.supplier_contactpersonnumber','suppliers.supplier_address')
         ->find($id);
         return view("pages.view-grv")->with("grv",$grv)->with("email",$email);
     }
