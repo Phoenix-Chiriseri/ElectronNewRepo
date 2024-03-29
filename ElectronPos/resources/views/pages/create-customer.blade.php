@@ -1,8 +1,8 @@
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
-        <x-navbars.navs.auth titlePage='Customers'></x-navbars.navs.auth>
         @if(session('success'))
         <script>
         Swal.fire({
@@ -13,8 +13,10 @@
             showConfirmButton: false,
             timer: 1000 // Adjust the timer as needed
         });
-    </script>
-    @endif
+        </script>
+        @endif
+        <!-- Navbar -->
+        <x-navbars.navs.auth titlePage='Suppliers'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
@@ -22,9 +24,11 @@
             </div>
             <div class="card card-body mx-3 mx-md-4 mt-n6">
                 <div class="row gx-4 mb-2">
-                    <div class="avatar avatar-xl position-relative">
-                        <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
-                        class="w-100 border-radius-lg shadow-sm">
+                    <div class="col-auto">
+                        <div class="avatar avatar-xl position-relative">
+                            <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
+                            class="w-100 border-radius-lg shadow-sm">
+                        </div>
                     </div>
                     <div class="col-auto my-auto">
                         <div class="h-100">
@@ -32,7 +36,7 @@
                                 {{ auth()->user()->name }}
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                               Electron Point Of Sale
+                              Electron Point Of Sale
                             </p>
                         </div>
                     </div>
@@ -40,12 +44,11 @@
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('view-customers') }}"
+                                    <a class="btn btn-info" href="{{ route('view-suppliers') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">View Customers</span>
+                                        <span class="ms-1">View Suppliers</span>
                                     </a>
-                                    
                                 </li>
                             </ul>
                         </div>
@@ -55,7 +58,7 @@
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Create A Customer</h6>
+                                <h6 class="mb-3">Create A Supplier</h6>
                             </div>
                         </div>
                     </div>
@@ -82,46 +85,58 @@
                                     </div>
                                 </div>
                         @endif
-                        <form method="POST" action="{{ route('submit-customers') }}">
-                            @csrf
-                            <div class="form-group">
-                                <label for="customer_name">Customer Name</label>
-                                <input type="text" name="customer_name" id="customer_name" class="form-control border border-2 p-2" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="code">Code</label>
-                                <input type="text" name="code" id="code" class="form-control border border-2 p-2" required>
-                            </div>
-        
-                            <div class="form-group">
-                                <label for="customer_taxnumber">Customer Tax Number</label>
-                                <input type="text" name="customer_taxnumber" id="customer_taxnumber" class="form-control border border-2 p-2" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="customer_city">Customer City</label>
-                                <input type="text" name="customer_city" id="customer_city" class="form-control border border-2 p-2" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="customer_address">Customer Address</label>
-                                <input type="text" name="customer_address" id="customer_address" class="form-control border border-2 p-2" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="customer_phonenumber">Customer Phone Number</label>
-                                <input type="text" name="customer_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>
-                            </div>
-                            <div class="form-group">
-                            <label for="personal_care">Status</label>
-                            <select name="customer_status" id="personal_care" class="form-control border border-2 p-2" required>
+                        <form method="POST" action="{{ route('submit-suppliers') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="customer_name">Customer Name</label>
+                            <input type="text" name="supplier_name" id="suppluer_name" class="form-control border border-2 p-2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="code">Customer Code</label>
+                            <input type="text" name="code" id="code" class="form-control border border-2 p-2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_taxnumber">Customer TIN Number</label>
+                            <input type="text" name="supplier_taxnumber" maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_taxnumber">Customer VAT Number</label>
+                            <input type="text" name="supplier_taxnumber" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_address">Customer Address</label>
+                            <input type="text" name="supplier_address" id="customer_address" class="form-control border border-2 p-2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier_status">Type</label>
+                            <select name="supplier_type" class="form-control border border-2 p-2" required>
+                            <option value="cash">Cash</option>
+                            <option value="credit">Credit</option>
+                            </select>
+                        <hr>
+                        <div class="form-group">
+                            <label for="customer_phonenumber">Customer Phone Number</label>
+                            <input type="text" name="supplier_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_phonenumber">Contact Person</label>
+                            <input type="text" name="supplier_contactperson" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_phonenumber">Contact Person Number</label>
+                            <input type="text" name="supplier_contactpersonnumber" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier_status">Status</label>
+                            <select name="supplier_status" class="form-control border border-2 p-2" required>
                             <option value="active">Active</option>
                             <option value="not_active">Not Active</option>
-                             </select>
-                            <hr>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Create Customer</button>
-                            </div>
-                        </form>
+                            </select>
+                        <hr>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Create Customer</button>
+                        </div>
+                    </form>
                     </div>
                 </div>
             </div>

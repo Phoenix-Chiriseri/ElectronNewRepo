@@ -78,7 +78,13 @@
                                             City</th>
                                             <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                            Manager Name</th>
+                                            <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                             Created By</th>
+                                            <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                            Update Shop</th>
                                             <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                             Delete Shop</th>
@@ -101,9 +107,14 @@
                                                 <h6 class="mb-0 text-sm">{{$shop->shop_city}}</h6>
                                             </div></td>
                                             <td><div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{$shop->manager_name}}</h6>
+                                            </div></td>
+                                            <td><div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm">{{$shop->name}}</h6>
                                             </div></td>
-                                            
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-warning" href="{{ route('edit-shop',$shop->id) }}">Update Shop</a>
+                                            </td>     
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('delete-shop',$shop->id) }}">Delete Shop</a>
                                             </td>    

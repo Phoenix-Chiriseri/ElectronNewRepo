@@ -14,6 +14,10 @@ class SetStockLevelsController extends Controller
     {
         $lowestStockLevel = SetStockLevels::latest()->first();
         $intLevel=$lowestStockLevel['stock_levels'];
+        if(!$intLevel){
+            $message = "No Value Set In The System";
+            return view("pages.set-stock-levels")->with("message",$message);
+        }
         return view("pages.set-stock-levels")->with("stockLevel",$intLevel);
     }
 

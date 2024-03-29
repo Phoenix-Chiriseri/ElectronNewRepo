@@ -133,7 +133,7 @@ margin-top:20px;
                        </div>
                        <div class="col-xs-6 col-sm-6 col-md-6 text-right">
                            <div class="receipt-right">
-                               <h5>GRN - {{ $grv->id }}</h5>
+                               <h5>GRV - {{ $grv->id }}</h5>
                                <p>Created At {{ $grv->created_at }} <i class="fa fa-phone"></i></p> 
                            </div>
                        </div>

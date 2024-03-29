@@ -117,6 +117,13 @@
                                 @enderror
                                 </div>
                                 <div class="mb-3 col-md-12">
+                                    <label class="form-label">Manager Name</label>
+                                    <input type="text" name="manager_name" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
                                     <label class="form-label">City</label>
                                     <input type="text" name="shop_city" class="form-control border border-2 p-2" required>
                                     @error('name')

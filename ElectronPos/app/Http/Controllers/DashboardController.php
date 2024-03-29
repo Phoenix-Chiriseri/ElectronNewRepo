@@ -46,7 +46,14 @@ class DashboardController extends Controller
 
         //set the stock levels 
         $lowestStockLevel = SetStockLevels::latest()->first();
-        $intLevel=$lowestStockLevel['stock_levels'];
+        // Validate $lowestStockLevel
+        if (!$lowestStockLevel || !isset($lowestStockLevel['stock_levels']) || !is_numeric($lowestStockLevel['stock_levels'])) {
+        //Handle invalid or missing lowest stock level
+        return response()->json(['error' => 'Invalid or missing lowest stock level'], 400);
+        //return view('dashboard.index')->with("message","the lowest stock level has not been set");
+        }
+        //this will test the levels of the stock and check what is the lowest value that is in the stock
+        $intLevel = (int)$lowestStockLevel['stock_levels'];
         $lowestStockProducts = DB::table('stocks')
         ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
         ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
@@ -66,9 +73,8 @@ class DashboardController extends Controller
         $numberOfCattegories = Cattegory::all()->count();
         $numberOfSuppliers = Supplier::all()->count(); 
         $users = User::all()->count();
-        //get the authenticated user and return the user to the front end
+        //this is the authenticated user
         $user = Auth::user();
-        //return all the items to the blade view
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)

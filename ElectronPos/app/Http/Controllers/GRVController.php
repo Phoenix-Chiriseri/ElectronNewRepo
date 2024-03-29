@@ -18,16 +18,16 @@ class GRVController extends Controller
      */
     public function createGRN(){
         
-        //extract the grvs and the populate the view in a table
+        //fetch the grvs and then return the data to the front end
         $grvs = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
         ->distinct("g_r_v_s.id")
         ->orderBy("g_r_v_s.id", "desc")
-        ->paginate(5);
+        ->paginate(5);   
+        //return the grvs to the front end and populate a table
         return view("pages.create-grn")->with("grvs",$grvs);
-
     }
 
     public function generateGrv(){
@@ -45,7 +45,7 @@ class GRVController extends Controller
         $grv = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
         ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
-        ->select('g_r_v_s.*', 'suppliers.supplier_name','suppliers.supplier_address','suppliers.supplier_phonenumber','suppliers.supplier_contactperson','suppliers.supplier_contactpersonnumber','suppliers.supplier_address')
+        ->select('g_r_v_s.*', 'suppliers.supplier_name','suppliers.supplier_address','suppliers.supplier_phonenumber','suppliers.supplier_contactperson','suppliers.supplier_contactpersonnumber','suppliers.supplier_address','shops.shop_name')
         ->find($id);
         return view("pages.view-grv")->with("grv",$grv)->with("email",$email);
     }

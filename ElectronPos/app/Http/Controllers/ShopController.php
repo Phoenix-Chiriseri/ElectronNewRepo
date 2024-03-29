@@ -52,6 +52,13 @@ class ShopController extends Controller
         return view("pages.shop-list")->with("shops",$shops)->with("numberOfShops",$numberOfShops);
     }
 
+    //function that will view the single shop
+    public function editShop($id){
+
+        $shop = Shop::findOrFail($id);
+        return view("pages.update-shop")->with("shop",$shop);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -67,6 +74,7 @@ class ShopController extends Controller
             'shop_address' => $request->shop_address,
             'phone_number' => $request->phonenumber,
             'shop_city' => $request->shop_city,
+            'manager_name'=>$request->manager_name
         ]);
 
         if(!$shop){
@@ -101,9 +109,25 @@ class ShopController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shop $shop)
+    public function updateShop(Request $request, Shop $shop)
     {
         //
+        //dd($request->all());
+        
+          
+        $userId = Auth::user()->id;
+        $shop->shop_name = $request->shop_name;
+        $shop->email = $request->shop_email;
+        $shop->shop_address = $request->shop_address;
+        $shop->phone_number = $request->phonenumber;
+        $shop->shop_city = $request->shop_city;
+        $shop->user_id = $userId;
+      
+        if (!$shop->save()) {
+            return redirect()->back()->with('error', 'Sorry error whilst updating this shop');
+        }
+        return redirect()->route('shop-list')->with('success', 'Success, your shop has been updated.');
+        // Redirect to the 'view-products' route after successful update
     }
 
     /**

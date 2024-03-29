@@ -2,7 +2,6 @@
 
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
@@ -27,7 +26,6 @@ use App\Http\Controllers\SetStockLevelsController;
 use App\Http\Controllers\CompanyDataController;
 
 Route::get('/', [DashboardController::class, 'welcome']);
-
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
@@ -70,6 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/update/cattegory/{cattegory}', [CattegoryController::class, 'updateCattegory'])->name('update-cattegory');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
 	Route::get('/delete-shop/{id}', [ShopController::class, 'deleteShop'])->name('delete-shop');
+	Route::get('/edit-shop/{id}', [ShopController::class, 'editShop'])->name('edit-shop');
+	Route::put('/update/shop/shop}', [ShopController::class, 'updateShop'])->name('update-shop');
 	Route::get('/delete-employee/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete-employee');
 	Route::get('/create-cattegory', [CattegoryController::class, 'create'])->name('create-cattegory');
 	Route::put('/update-product/{product}',[ProductController::class, 'updateProduct'])->name('products.update');
@@ -85,6 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/select-customer-view', [SaleController::class, 'viewCustomerView'])->name('select-customer-view');
 	Route::get('/access-rights', [EmployeeController::class, 'accessRights'])->name('access-rights');
 	Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByName'])->name('products.searchByName');
+	Route::get('/products/searchByCode/{productCode}', [ProductController::class, 'searchByCode'])->name('products.searchByCode');
 	//loop through the products and then add them to cart
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
 	Route::get('/create-purchaseorder', [PurchaseOrderController::class, 'index'])->name('create-purchaseorder');

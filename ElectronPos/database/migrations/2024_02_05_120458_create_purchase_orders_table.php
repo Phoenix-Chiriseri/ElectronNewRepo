@@ -23,11 +23,11 @@ return new class extends Migration
     $table->string('supplier_invoicenumber')->nullable();
     $table->decimal('total', 10, 2);
     $table->timestamps();
-
     $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
     $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
-           
-        });
+    
+    });
+    
     }
 
     /**

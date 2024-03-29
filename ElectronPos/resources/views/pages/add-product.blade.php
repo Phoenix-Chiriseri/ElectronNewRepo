@@ -19,7 +19,6 @@ $(document).ready(function(){
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         @if(session('success'))
 <script>
-
 Swal.fire({
     icon: 'success',
     position: "top-end",
@@ -152,13 +151,30 @@ Swal.fire({
                 <label for="unit">Select Unit</label>
                 <select name="unit_of_measurement" class="form-control border border-2 p-2" required>
                     <option value="each">Each</option>
-                    <option value="g">Grams (g)</option>
                     <option value="kg">Kilograms (kg)</option>
                     <option value="l">Liters (l)</option>
-                    <option value="lb">Pounds (lb)</option>
                     <option value="m">Meters (m)</option>
                 </select>
             </div>
+        </div>
+        <div class="mb-3 col-md-12">
+            <label class="form-label">Tax Group</label>
+            <div class="form-group">
+                <label for="unit">Select Option</label>
+                <select name="tax-group" class="form-control border border-2 p-2" required>
+                    <option value="g">15%</option>
+                    <option value="kg">0%</option>
+                    <option value="l">Exempt</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="category_id">Select Supplier</label>
+            <select name="category_id" class="form-control border border-2 p-2" required>
+                @foreach ($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="form-group">
             <label for="category_id">Select Category</label>
@@ -169,6 +185,19 @@ Swal.fire({
             </select>
         </div>
         </div>
+        <div class="form-group">
+            <fieldset>
+                <legend class="form-label">Price Incudes Tax</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tax_price" value="Active" id="independently_mobile">
+                    <label class="form-check-label">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tax_price" value="Active" id="independently_mobile">
+                    <label class="form-check-label">No</label>
+                </div>
+            </fieldset>
+        </div> 
         <div class="form-group">
             <fieldset>
                 <legend class="form-label">Product Status</legend>

@@ -161,7 +161,13 @@ mark {
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Dashboard</span>
-                            </a>
+                        </a>
+                        <hr>
+                        <a class="btn btn-danger btn-sm" href="{{ route('dashboard') }}"
+                        role="tab" aria-selected="true">
+                        <i class="material-icons text-lg position-relative"></i>
+                        <span class="ms-1">Update Company Details</span>
+                       </a>
                     </div>
                 </div>
             </div>

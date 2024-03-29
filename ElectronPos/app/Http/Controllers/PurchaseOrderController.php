@@ -16,7 +16,7 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
-        
+        //get the suppliers and the shops and then return it to the front end
         $suppliers = Supplier::all();
         $shops = Shop::all();
         return view("pages.create-purchaseorder")->with("suppliers",$suppliers)->with("shops",$shops);
@@ -25,6 +25,7 @@ class PurchaseOrderController extends Controller
 
     public function viewPurchasesOrders(){
 
+        //get the purchase orders and the count of the purchase orders and return it to the front end
         $purchaseOrders = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
         ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
         ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name')
@@ -55,7 +56,6 @@ class PurchaseOrderController extends Controller
         ->leftJoin('shops', 'purchase_orders.shop_id', '=', 'shops.id')
         ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name')
         ->find($id);  
-        //dd($purchaseOrder);
         return view("pages.view-purchasesorder")->with("purchaseOrder",$purchaseOrder);
         // Use find directly to fetch a single record by ID
     }
@@ -94,7 +94,6 @@ class PurchaseOrderController extends Controller
     }
 
     public function showSinglePurchaseOrder($id){
-        //$purchaseOrder = PurchaseOrder::findOrFail($id);
         $email = auth()->user()->email;
         $purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier', 'shop'])
         ->find($id);

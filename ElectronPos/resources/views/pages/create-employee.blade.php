@@ -37,7 +37,7 @@ Swal.fire({
                                 {{ auth()->user()->name }}
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                                CEO / Co-Founder
+                               Electron Point Of Sale
                             </p>
                         </div>
                     </div>

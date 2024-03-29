@@ -3,19 +3,19 @@
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         @if(session('success'))
-<script>
-Swal.fire({
-    icon: 'success',
-    position: "top-end",
-    title: 'Success!',
-    text: '{{ session('success') }}',
-    showConfirmButton: false,
-    timer: 1000 // Adjust the timer as needed
-});
-</script>
-@endif
+        <script>
+        Swal.fire({
+            icon: 'success',
+            position: "top-end",
+            title: 'Success!',
+            text: '{{ session('success') }}',
+            showConfirmButton: false,
+            timer: 1000 // Adjust the timer as needed
+        });
+        </script>
+        @endif
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='Set Stock Levels'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Create Cattegory'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
@@ -26,7 +26,7 @@ Swal.fire({
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
                             <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm">
+                            class="w-100 border-radius-lg shadow-sm">
                         </div>
                     </div>
                     <div class="col-auto my-auto">
@@ -34,27 +34,19 @@ Swal.fire({
                             <h5 class="mb-1">
                                 {{ auth()->user()->name }}
                             </h5>
-                            <p class="mb-0 font-weight-normal text-sm" style="color:black;">
-                               All products if they are less than or equal to this set value will be count as the lowest in stock
+                            <p class="mb-0 font-weight-normal text-sm">
+                               Electron Point Of Sale
                             </p>
-                            <hr>
-                            @if (!$stockLevel)
-                            <small>{{$message}}</small>                
-                            @else
-                            <p class="mb-0 font-weight-normal text-sm" style="color:black;">
-                                <small>Low Stock Currently Set To {{$stockLevel}} and below</small>
-                             </p>
-                             @endif
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('dashboard') }}"
+                                    <a class="btn btn-info" href="{{ route('shop-list') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">Dashboard</span>
+                                        <span class="ms-1"></span>View Shops
                                     </a>
                                 </li>
                             </ul>
@@ -93,12 +85,41 @@ Swal.fire({
                                     </div>
                                 </div>
                         @endif
-                        <form method='POST' action="{{ route('submit-stocklevels') }}">
+                        <form action="{{ route('update-shop', $shop) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="row">       
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Enter Value</label>
-                                    <input type="text" name="stock_level" class="form-control border border-2 p-2" required>
+                                    <label class="form-label">Shop Name</label>
+                                    <input type="text" name="shop_name" id="supplier_name" value="{{$shop->shop_name}}" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Email</label>
+                                    <input type="text" name="shop_email" value="{{$shop->email}}" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Address</label>
+                                    <input type="text" name="shop_address" value="{{$shop->shop_address}}" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="text" name="phonenumber"  value="{{$shop->phone_number}}" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">City</label>
+                                    <input type="text" name="shop_city"  value="{{$shop->shop_city}}" class="form-control border border-2 p-2" required>
                                     @error('name')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                                 @enderror

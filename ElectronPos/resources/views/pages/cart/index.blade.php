@@ -67,6 +67,53 @@
         }
     });
 
+     //search for a product by the name
+     $("#searchSelectedProdByCode").on("keydown", function (event) {
+        if (event.which == 13) {
+        event.preventDefault();
+        var productCode = $(this).val();
+        if(productCode==''){
+            showAlert("Product Name Cannot Be Empty",'error');
+        }
+        //load the products with the productName
+        loadProductsByCode(productCode);
+        }
+    });
+
+    function loadProductsByCode(productCode) {
+    axios.get(`/products/searchByCode/${productCode}`)
+        .then((response) => {
+            $("#prodResult").hide();
+            const products = response.data.products;  // Accessing products array in the response
+            const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
+            if (product) {
+                // Check if the product is already in the cart
+                const existingCartItem = state.cart.find(item => item.id === product.id);
+                if (existingCartItem) {
+                    // If the product is already in the cart, increase the quantity
+                    existingCartItem.quantity += 1;
+                } else {
+                    // If the product is not in the cart, add it with quantity 1
+                    state.cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: parseFloat(product.price), // Assuming price is a string, convert it to a number
+                        quantity: 1,
+                    });
+                }
+                // Update the user interface with the product information
+                updateCartUI();
+            } else {    
+
+                showAlert('Product Not Found',"error");
+            }
+        })
+        .catch((error) => {
+            // Handle errors here
+            console.error('Error loading products:', error);
+        });
+    }
+
     // Load the products by name.
     function loadProductsByName(productName) {
     axios.get(`/products/searchByName/${productName}`)
@@ -308,6 +355,17 @@
                         onChange=""
                         onKeyDown=""
                         id="searchSelectedProd"
+                        /> 
+                    </div>
+                    <div class="row mb-2">
+                        <div id = "prodResult"></div>
+                        <input
+                        type="text"
+                        class="form-control border border-2 p-2"
+                        placeholder="Barcode"
+                        onChange=""
+                        onKeyDown=""
+                        id="searchSelectedProdByCode"
                         /> 
                     </div>
                     <hr>

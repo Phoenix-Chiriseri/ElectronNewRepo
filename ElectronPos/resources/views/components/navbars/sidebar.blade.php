@@ -98,7 +98,7 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('viewall-stock') }}">Available Inventory</a>
                     <a class="dropdown-item" href="{{ route('view-purchaseorders') }}">Purchase Orders</a>
-                    <a class="dropdown-item" href="{{ route('create-grn') }}">Good Received Notes</a>
+                    <a class="dropdown-item" href="{{ route('create-grn') }}">Good Received Voucher
                     <a class="dropdown-item" href="{{ route('view-suppliers') }}">Suppliers</a>
                     <a class="dropdown-item" href="{{ route('view-inventoryvaluation') }}">Inventory Valuation Report</a>
                 </div>
@@ -114,7 +114,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white"
-                href="{{ route('create-customers') }}">
+                href="{{ route('view-shop') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i style="font-size: 1.2rem;" class="fas fa-store ps-2 pe-2 text-center"></i>
                     </div>

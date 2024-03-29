@@ -274,10 +274,10 @@ $(document).ready(function(){
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('create-grn') }}"
+                                    <a class="btn btn-danger" href="{{ route('create-grn') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">View GRNS</span>
+                                        <span class="ms-1">View GRVS</span>
                                     </a>
                                 </li>
                             </ul>
@@ -288,7 +288,7 @@ $(document).ready(function(){
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Goods Received Note</h6>
+                                <h6 class="mb-3">Goods Received Voucher</h6>
                             </div>
                         </div>
                     </div>

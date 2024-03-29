@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('shop_name');
             $table->string('shop_address');
             $table->string('email')->unique();
+            $table->string("manager_name");
             $table->string('phone_number')->unique();
             $table->string('shop_city');
             $table->foreign('user_id')->references('id')->on('users');

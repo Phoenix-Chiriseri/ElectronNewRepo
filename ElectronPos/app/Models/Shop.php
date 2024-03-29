@@ -15,7 +15,8 @@ class Shop extends Model
         'shop_address',
         'phone_number',
         'shop_city',
-        'user_id'
+        'user_id',
+        'manager_name'
     ];
 
     public function purchaseOrders()

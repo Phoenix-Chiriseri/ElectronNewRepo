@@ -5,7 +5,7 @@
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Create GRN"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Create GRV"></x-navbars.navs.auth>
         <script>
             $(document).ready(function () {
                 $("#exportGrn").on("click", function () {
@@ -49,12 +49,12 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Goods Received Notes</h6>
+                                <h6 class="text-white text-capitalize ps-3">Goods Received Vouchers<s></s></h6>
                             </div>
                             <br>
                             <button class = "btn btn-info" id="exportGrn"><i class = "fa fa-print"></i>Generate PDF</button>
                             <a class="btn btn-danger brn-lg" href="{{ route('create-grn-view') }}"
-                            role="tab" aria-selected="true">Create GRN</a>
+                            role="tab" aria-selected="true">Create GRV</a>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">      
@@ -64,29 +64,29 @@
                                     <thead>
                                         <tr>
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Grn Number</th>
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
+                                                Grv Number</th>
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Grn Date</th>
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2" style="color:black;">
+                                                Grv Date</th>
                                             <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Grn Type</th>
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
+                                                Grv Type</th>
                                                 <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
                                                 Created At</th>
                                                 <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color: black;">
                                                 Supplier Name</th>
                                                 <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
                                                 Shop</th>
                                                 <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
                                                 Total Cost</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                View GRN</th>
+                                                View GRV</th>
                                               
                                             <th class="text-secondary opacity-7"></th>
                                         </tr>
@@ -154,7 +154,7 @@
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="mb-0 text-sm">
-                                                            <a href="{{ route('grn.show', $grv->id) }}" class ="btn btn-danger">Download GRN</a>
+                                                            <a href="{{ route('grn.show', $grv->id) }}" class ="btn btn-danger">Download GRV</a>
                                                         </h6>
                                                     </div>
                                                 </div>

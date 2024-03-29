@@ -30,7 +30,6 @@ class CustomerController extends Controller
     // Your search logic here
     $searchQuery = $request->input('search');
     $customers = Customer::where('customer_name', 'like', '%' . $searchQuery . '%')->get();
-
     // Return the search results as JSON
     return response()->json(['customers' => $customers]);
     }
@@ -60,7 +59,7 @@ class CustomerController extends Controller
             'customer_address' => $request->customer_address,
             'user_id' => $user,
             'customer_status' =>$request->customer_status
-        ]);
+          ]);
         
         if (!$customer) {
             return redirect()->back()->with('error', 'Sorry, there a problem while creating a customer.');

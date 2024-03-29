@@ -7,6 +7,7 @@ use App\Models\Stock;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cattegory;
+use App\Models\Supplier;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -56,6 +57,15 @@ class ProductController extends Controller
         return response()->json(["products" => $products]);
     }
 
+    public function searchByCode($code)
+    {
+        // Perform the product search based on the $productName
+        $products = Product::where('barcode', 'like', '%' . $code . '%')->get();
+        // Return the products as JSON response
+        return response()->json(["products" => $products]);
+    }
+
+
     //function that will search the products    
     public function editProduct($id){ 
         $product = Product::find($id);
@@ -103,8 +113,9 @@ class ProductController extends Controller
     {
         //return the cattegories for the product to the view
         $cattegories = Cattegory::orderBy("id","desc")->get();
+        $suppliers = Supplier::orderBy("id","desc")->get();
         $user = Auth::user();
-        return view("pages.add-product")->with("cattegories",$cattegories)->with("user",$user);
+        return view("pages.add-product")->with("cattegories",$cattegories)->with("user",$user)->with("suppliers",$suppliers);
     }
 
     /**
