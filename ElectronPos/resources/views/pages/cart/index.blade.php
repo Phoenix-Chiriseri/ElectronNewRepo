@@ -160,9 +160,11 @@
                     tax=total-unitPrice;
                     
                 if(taxGroup=='ex'){
+                    unitPrice=product.price;
                     tax='-';
                 }
                 }else{
+                    unitPrice=product.price;
                     tax=0;
                     total=product.price;
                 }
