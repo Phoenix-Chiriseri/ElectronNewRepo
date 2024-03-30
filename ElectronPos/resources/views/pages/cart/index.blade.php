@@ -215,12 +215,18 @@
         });
      
         function updateTotal() {
-            const totalValue = state.cart.reduce((total, item) => {
-                return total + item.price * item.quantity;
-            }, 0).toFixed(2);
+    const totalValue = state.cart.reduce((total, item) => {
+        return total + (item.quantity * item.total); // Multiply quantity by unit price for each item
+    }, 0).toFixed(2);
+    $("#total-value").text("Total Value: " + totalValue);
+}
 
-            $("#total-value").text("Total Value is: " + totalValue);
-        }
+       /* function updateTotal() {
+        const totalValue = state.cart.reduce((total, item) => {
+        return total + item.total; // Assuming each item in the cart has a 'total' property representing the total price
+        }, 0).toFixed(2);
+         $("#total-value").text("Total Value: " + totalValue);
+        }*/
 
         let selectedCustomerName = "";
 
@@ -318,11 +324,11 @@
         }
 
         function updateTotal() {
+            
             const totalValue = state.cart.reduce((total, item) => {
                 return total + item.price * item.quantity;
             }, 0).toFixed(2);
-
-            $("#total-value").text("Total Value is: " + totalValue);
+            $("#total-value").text("Total Value: " + totalValue);
         }
 
         function clearCart() {
@@ -449,7 +455,17 @@
                             <br>
                             <hr>
                             <button type="submit" class="btn btn-secondary btn-block" id="newSale"></i>F4 New Sale</button>
-                            <button type="submit" class="btn btn-secondary btn-block" id="newSale"> Void Order</button>
+                           
+                            <form id="transactionForm" action="/do-transaction" method="POST">
+                                @csrf
+                                <input type="text" readonly name="total" id="hiddenTotal" placeholder="Total" class="form-control border border-2 p-2">
+                                <hr>
+                                <input type="text" name="change"  id="hiddenChange" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
+                                <hr>
+                                <input type="text" readonly name="customerId" id="customerId" placeholder="Change" class="form-control border border-2 p-2">
+                                <hr>
+                                <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class = "fa fa-money"></i> Pay</button>  
+                            </form>
                             <div id = "showCustomerMessage" hidden></div>
                        
                             
