@@ -19,13 +19,19 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->decimal('selling_price', 10, 2); // New column for selling price
             $table->string('unit_of_measurement');
+            $table->string('tax');
             //Correct the foreign key definition
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('supplier_id');
             $table->foreign('category_id')
                   ->references('id')
                   ->on('cattegories') // Use the correct table name "categories"
                   ->onDelete('cascade'); // You can set onDelete as needed
-            $table->enum('product_status', ['Active', 'Inactive']);
+            $table->foreign('supplier_id')
+                  ->references('id')
+                  ->on('suppliers') // Use the correct table name "categories"
+                  ->onDelete('cascade'); // You can set onDelete as needed
+            $table->enum('price_inc_tax', ['Yes', 'No']);
             $table->timestamps();
         });
     }    

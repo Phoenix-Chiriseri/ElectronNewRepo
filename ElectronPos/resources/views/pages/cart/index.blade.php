@@ -77,6 +77,8 @@
         }
         //load the products with the productName
         loadProductsByCode(productCode);
+        $("#searchSelectedProdByCode").val("");
+
         }
     });
 
@@ -97,6 +99,7 @@
                     state.cart.push({
                         id: product.id,
                         name: product.name,
+                        barcode:product.barcode,
                         price: parseFloat(product.price), // Assuming price is a string, convert it to a number
                         quantity: 1,
                     });
@@ -122,7 +125,20 @@
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
             if (product) {
-                // Check if the product is already in the cart
+                var taxGroup = product.tax;
+                var tax;
+                var total;
+                var unitPrice;
+                if(taxGroup==0.15){
+                    tax=product.price*taxGroup;
+                    total=product.price*1.15;
+                if(taxGroup=='ex'){
+                    tax='-';
+                }
+                }else{
+                    tax=0;
+                    total=product.price;
+                }
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
                     // If the product is already in the cart, increase the quantity
@@ -132,7 +148,10 @@
                     state.cart.push({
                         id: product.id,
                         name: product.name,
-                        price: parseFloat(product.price), // Assuming price is a string, convert it to a number
+                        barcode:product.barcode,
+                        tax:tax,
+                        unitPrice:product.price,
+                        total:parseFloat(total), // Assuming price is a string, convert it to a number
                         quantity: 1,
                     });
                 }
@@ -166,16 +185,18 @@
     state.cart.forEach((item) => {
         const rowHtml = `
             <tr>
-                <td>${item.name}</td>
-                
+                <td>${item.name}</td>   
                 <td>
                     <div class="input-group">
                         <input
                             type="number"
                             class="form-control border border-2 py-1 px-2 quantity-input"
-                            value="${item.quantity}"
+                            value="${item.quantity}" id="quantityField" 
                             data-product-id="${item.id}"
-                        />
+                        />    
+                        <td>${item.barcode}</td>    
+                        <td>${(item.tax * item.quantity).toFixed(2)}</td>  
+                        <td>${item.unitPrice}</td> 
                         <div class="input-group-append">
                             <button
                                 class="btn btn-danger btn-lg py-1 px-2 remove-item"
@@ -186,12 +207,12 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-right">${(item.price * item.quantity).toFixed(2)}</td>
+                <td class="text-right">${(item.total * item.quantity).toFixed(2)}</td>
             </tr>
         `;
-        cartTableBody.append(rowHtml);
+        cartTableBody.append(rowHtml);  
         
-     });
+        });
      
         function updateTotal() {
             const totalValue = state.cart.reduce((total, item) => {
@@ -247,7 +268,7 @@
     queryParams.forEach((value, key) => {
         $("#sellForm").append('<input type="hidden" name="' + key + '" value="' + value + '">');
     });
-    // Submit the form
+    // Submit the formerc
     $("#sellForm").submit();
     });
 
@@ -368,6 +389,19 @@
                         id="searchSelectedProdByCode"
                         /> 
                     </div>
+                    <div class="row mb-2">
+                        <div class="form-group">
+                            <label for="category_id">Select Customer</label>
+                            <select name="category_id" class="form-control border border-2 p-2" required>
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                                @endforeach
+                            </select>
+                            <hr>
+                            <button class = "btn btn-info" id = "clearCart">Create Customer</button>
+                        </div>
+                       
+                    </div>
                     <hr>
                     <hr>
                     <div class="user-cart">
@@ -377,7 +411,10 @@
                                     <tr>
                                         <th style="color:black;">Product Name</th>
                                         <th style="color:black;">Quantity</th>
-                                        <th style="color:black;">Price</th>
+                                        <th style="color:black;">Code</th>
+                                        <th style="color:black;">Tax</th>
+                                        <th style="color:black;">Unit Price</th>
+                                        <th style="color:black;">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('g_r_v_s', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supplier_id');
-            $table->unsignedBigInteger('shop_id'); 
             $table->date('grn_date');
             $table->string('payment_method');
             $table->string('total');
@@ -23,7 +22,6 @@ return new class extends Migration
             $table->timestamps();
             // Foreign keys
             $table->foreign('supplier_id')->references('id')->on('suppliers');
-            $table->foreign('shop_id')->references('id')->on('shops');
         });
     }
 

@@ -80,9 +80,6 @@
                                                 Supplier Name</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
-                                                Shop</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
                                                 Total Cost</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -134,14 +131,6 @@
                                                     </div>
                                                 </div>
                                             </td>  
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                   
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$grv->shop_name}}</h6>
-                                                    </div>
-                                                </div>
-                                            </td>    
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                    

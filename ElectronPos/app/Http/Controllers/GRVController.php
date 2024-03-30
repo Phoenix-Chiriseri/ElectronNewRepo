@@ -21,8 +21,7 @@ class GRVController extends Controller
         //fetch the grvs and then return the data to the front end
         $grvs = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
-        ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
-        ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name', 'shops.shop_name')
+        ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name')
         ->distinct("g_r_v_s.id")
         ->orderBy("g_r_v_s.id", "desc")
         ->paginate(5);   
@@ -44,8 +43,7 @@ class GRVController extends Controller
         $email = auth()->user()->email;
         $grv = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
-        ->leftJoin('shops', 'g_r_v_s.shop_id', '=', 'shops.id')
-        ->select('g_r_v_s.*', 'suppliers.supplier_name','suppliers.supplier_address','suppliers.supplier_phonenumber','suppliers.supplier_contactperson','suppliers.supplier_contactpersonnumber','suppliers.supplier_address','shops.shop_name')
+        ->select('g_r_v_s.*', 'suppliers.supplier_name','suppliers.supplier_address','suppliers.supplier_phonenumber','suppliers.supplier_contactperson','suppliers.supplier_contactpersonnumber','suppliers.supplier_address')
         ->find($id);
         return view("pages.view-grv")->with("grv",$grv)->with("email",$email);
     }
@@ -74,7 +72,6 @@ class GRVController extends Controller
         //$grv->grvNumber = $this->generateGRNNumber();
         $grv->total = $request->input("total");
         $grv->supplier_id = $request->input('supplier_id');
-        $grv->shop_id = $request->input('shop_id');
         $grv->grn_date = $request->input('grn_date');
         $grv->payment_method = $request->input('payment_method');
         $grv->additional_information = $request->input('additional_information');

@@ -17,9 +17,10 @@ class Product extends Model
         'unit_of_measurement',
         'quantity',
         'category_id',
-        'product_status',
         'selling_price',
-        'markup'
+        'markup',
+        'price_inc_tax',
+        'tax'
     ];
     
 

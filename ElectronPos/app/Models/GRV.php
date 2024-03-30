@@ -11,7 +11,6 @@ class GRV extends Model
 
     protected $fillable = [
         'supplier_id',
-        'shop_id',
         'grn_date',
         'payment_method',
         'additional_information',

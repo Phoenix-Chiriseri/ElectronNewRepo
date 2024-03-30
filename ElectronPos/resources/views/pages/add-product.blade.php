@@ -161,16 +161,16 @@ Swal.fire({
             <label class="form-label">Tax Group</label>
             <div class="form-group">
                 <label for="unit">Select Option</label>
-                <select name="tax-group" class="form-control border border-2 p-2" required>
-                    <option value="g">15%</option>
-                    <option value="kg">0%</option>
-                    <option value="l">Exempt</option>
+                <select name="tax" class="form-control border border-2 p-2" required>
+                    <option value="0.15">15%</option>
+                    <option value="0">0%</option>
+                    <option value="ex">Exempt</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <label for="category_id">Select Supplier</label>
-            <select name="category_id" class="form-control border border-2 p-2" required>
+            <label for="supplier_id">Select Supplier</label>
+            <select name="supplier_id" class="form-control border border-2 p-2" required>
                 @foreach ($suppliers as $supplier)
                     <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
                 @endforeach
@@ -195,19 +195,6 @@ Swal.fire({
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="tax_price" value="Active" id="independently_mobile">
                     <label class="form-check-label">No</label>
-                </div>
-            </fieldset>
-        </div> 
-        <div class="form-group">
-            <fieldset>
-                <legend class="form-label">Product Status</legend>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="product_status" value="Active" id="independently_mobile">
-                    <label class="form-check-label">Active</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="product_status" value="Inactive" id="mobility_with_support">
-                    <label class="form-check-label">Inactive</label>
                 </div>
             </fieldset>
         </div> 

@@ -19,11 +19,9 @@ class StockController extends Controller
     public function createGRNView(){
 
         //return the unit cost to the front end
-        $shops = Shop::orderBy("id","desc")->get();
         $products = Product::all();
         $suppliers = Supplier::orderBy("id","desc")->get();
-        return view("pages.create-grn-view")->with("suppliers",$suppliers)
-        ->with("shops",$shops)->with("products",$products);
+        return view("pages.create-grn-view")->with("suppliers",$suppliers)->with("products",$products);
     }
 
 

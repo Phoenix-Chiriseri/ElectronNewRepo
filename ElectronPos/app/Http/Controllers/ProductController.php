@@ -150,7 +150,8 @@ class ProductController extends Controller
          $product->selling_price = $request->input("selling_price");
          $product->unit_of_measurement = $request->input("unit_of_measurement");
          $product->category_id = $request->input("category_id");
-         $product->product_status = $request->input("product_status");
+         $product->supplier_id = $request->input("supplier_id");
+         $product->tax = $request->input("tax");
          $product->save();   
          
          if ($product->save()) {
