@@ -12,10 +12,9 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->string('supplier_name');
-            $table->string('code');
             $table->unsignedBigInteger('user_id');
-            $table->string('supplier_taxnumber');
-            $table->string('supplier_city');
+            $table->string('supplier_tinnumber');
+            $table->string('supplier_vatnumber');
             $table->string('supplier_address');
             $table->string('supplier_phonenumber');
             $table->string('supplier_contactperson');

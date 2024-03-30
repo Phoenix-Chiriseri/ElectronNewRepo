@@ -93,16 +93,12 @@
                             <input type="text" name="supplier_name" id="suppluer_name" class="form-control border border-2 p-2" required>
                         </div>
                         <div class="form-group">
-                            <label for="code">Suppliers Code</label>
-                            <input type="text" name="code" id="code" class="form-control border border-2 p-2" required>
-                        </div>
-                        <div class="form-group">
                             <label for="customer_taxnumber">Suppliers TIN Number</label>
-                            <input type="text" name="supplier_taxnumber" maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                            <input type="text" name="supplier_tinnumber" maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
                         </div>
                         <div class="form-group">
                             <label for="customer_taxnumber">Suppliers VAT Number</label>
-                            <input type="text" name="supplier_taxnumber" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                            <input type="text" name="supplier_vatnumber" maxlength="9" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
                         </div>
                        
                         <div class="form-group">

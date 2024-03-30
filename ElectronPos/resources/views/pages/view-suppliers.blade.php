@@ -58,16 +58,13 @@
                                                 Supplier Name</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
-                                               Supplier Code</th>
+                                               Supplier Tin Number</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                Created By</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Supplier Tax Number</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Supplier City</th>
+                                                Supplier Vat Number</th>  
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Supplier Address</th>
@@ -100,13 +97,13 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$supplier->code}}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{$supplier->supplier_vatnumber}}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <h6 class="mb-0 text-sm">{{$supplier->name}}</h6>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$supplier->supplier_taxnumber}}</h6>
+                                                <h6 class="mb-0 text-sm">{{$supplier->supplier_tinnumber}}</h6>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <h6 class="mb-0 text-sm">{{$supplier->supplier_city}}</h6>

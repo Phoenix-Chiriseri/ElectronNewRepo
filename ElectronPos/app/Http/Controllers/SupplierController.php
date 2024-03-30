@@ -51,16 +51,16 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        
 
+       
         $userId = Auth::user()->id;
         $supplier = Supplier::create([
         'code' => $request->code,
         'supplier_name' => $request->supplier_name,
+        'supplier_tinnumber'=>$request->supplier_tinnumber,
+        'supplier_vatnumber'=>$request->supplier_vatnumber,
         'supplier_address' => $request->supplier_address,
         'supplier_phonenumber' => $request->supplier_phonenumber,
-        'supplier_taxnumber' => $request->supplier_taxnumber,
-        'supplier_city' => $request->supplier_city,
         'customer_address' => $request->supplier_address,
         'user_id' => $userId,
         'supplier_status'=>$request->supplier_status,

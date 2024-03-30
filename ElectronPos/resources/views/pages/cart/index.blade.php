@@ -131,12 +131,17 @@
             $("#prodResult").hide();
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
+
             if (product) {
                 var taxGroup = product.tax;
                 var tax;
                 var total;
                 var unitPrice;
-                if(taxGroup==0.15){
+                
+                ////
+                if(product.price_inc_tax=='No'){
+                    unitPrice = product.price;
+                    if(taxGroup==0.15){
                     tax=product.price*taxGroup;
                     total=product.price*1.15;
                 if(taxGroup=='ex'){
@@ -146,6 +151,24 @@
                     tax=0;
                     total=product.price;
                 }
+
+                }else{
+
+                    if(taxGroup==0.15){
+                    unitPrice = product.price/1.15;
+                    total=product.price;
+                    tax=total-unitPrice;
+                    
+                if(taxGroup=='ex'){
+                    tax='-';
+                }
+                }else{
+                    tax=0;
+                    total=product.price;
+                }
+
+                }
+                ////////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
                     // If the product is already in the cart, increase the quantity
@@ -157,7 +180,7 @@
                         name: product.name,
                         barcode:product.barcode,
                         tax:tax,
-                        unitPrice:product.price,
+                        unitPrice:unitPrice,
                         total:parseFloat(total), // Assuming price is a string, convert it to a number
                         quantity: 1,
                     });
@@ -436,7 +459,7 @@
                     <hr>
                     <div class="row">
                         <div class="col"></div>
-                        <div class="col text-centre" id="total-value" style="color:black;">Total:</div>
+                       
                     </div>
                     <hr>
                     <div class="row">
@@ -462,7 +485,7 @@
                            
                             <form id="transactionForm" action="/do-transaction" method="POST">
                                 @csrf
-                                <input type="text" name="total" id="totalValue" class="form-control border border-2 p-2">
+                                <input type="text" readonly name="total" id="totalValue" class="form-control border border-2 p-2">
                                 <hr>
                                 <input type="text" name="amountPaid"  id="amountPaid" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
                                 <hr>
