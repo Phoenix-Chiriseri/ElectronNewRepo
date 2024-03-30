@@ -10,6 +10,13 @@
             cart: [],
         };
 
+        $("#amountPaid").on("input", function () {     
+            var amountPaid = $(this).val();
+            var totalValue = $("#totalValue").val();
+            var change = amountPaid-totalValue;
+            $("#change").val(change); 
+        });
+
         //function to clear the cart
         $("#clearCart").on("click", function () {
             state.cart = [];
@@ -290,6 +297,8 @@
             }
         });
 
+        
+
             $(".quantity-input").on("input", function () {
                 const productId = $(this).data("product-id");
                 const newQuantity = parseInt($(this).val(), 10);
@@ -455,9 +464,9 @@
                                 @csrf
                                 <input type="text" name="total" id="totalValue" class="form-control border border-2 p-2">
                                 <hr>
-                                <input type="text" name="change"  id="hiddenChange" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
+                                <input type="text" name="amountPaid"  id="amountPaid" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
                                 <hr>
-                                <input type="text" readonly name="customerId" id="customerId" placeholder="Change" class="form-control border border-2 p-2">
+                                <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
                                 <hr>
                                 <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class = "fa fa-money"></i> Pay</button>  
                             </form>
