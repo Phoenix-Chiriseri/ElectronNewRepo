@@ -218,15 +218,9 @@
     const totalValue = state.cart.reduce((total, item) => {
         return total + (item.quantity * item.total); // Multiply quantity by unit price for each item
     }, 0).toFixed(2);
-    $("#total-value").text("Total Value: " + totalValue);
+    $("#totalValue").val(totalValue);
 }
 
-       /* function updateTotal() {
-        const totalValue = state.cart.reduce((total, item) => {
-        return total + item.total; // Assuming each item in the cart has a 'total' property representing the total price
-        }, 0).toFixed(2);
-         $("#total-value").text("Total Value: " + totalValue);
-        }*/
 
         let selectedCustomerName = "";
 
@@ -328,7 +322,8 @@
             const totalValue = state.cart.reduce((total, item) => {
                 return total + item.price * item.quantity;
             }, 0).toFixed(2);
-            $("#total-value").text("Total Value: " + totalValue);
+            $("#totalValue").val(totalValue); // Set the total value in the input field
+            
         }
 
         function clearCart() {
@@ -458,7 +453,7 @@
                            
                             <form id="transactionForm" action="/do-transaction" method="POST">
                                 @csrf
-                                <input type="text" readonly name="total" id="hiddenTotal" placeholder="Total" class="form-control border border-2 p-2">
+                                <input type="text" name="total" id="totalValue" class="form-control border border-2 p-2">
                                 <hr>
                                 <input type="text" name="change"  id="hiddenChange" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
                                 <hr>
