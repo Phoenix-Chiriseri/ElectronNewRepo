@@ -45,31 +45,21 @@ class CompanyDataController extends Controller
         $id = Auth::user()->id;
 
         // Validate the form data
-        $validatedData = $request->validate([
-            'shop_name' => 'required|string|max:255',
-            'tax_number' => 'required|string|max:255',
-            'shop_address' => 'required|string|max:255',
-            'shop_city' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-        ]);
-
+    
         // Process the form submission, e.g., save to database
         // Assuming you have a CompanyDetails model
         $companyDetails = new CompanyData();
         $companyDetails->user_id = $id;
-        $companyDetails->shop_name = $validatedData['shop_name'];
-        $companyDetails->tax_number = $validatedData['tax_number'];
-        $companyDetails->shop_address = $validatedData['shop_address'];
-        $companyDetails->shop_city = $validatedData['shop_city'];
-        $companyDetails->phone_number = $validatedData['phone_number'];
-        $companyDetails->email = $validatedData['email'];
+        $companyDetails->name = $request->input("name");
+        $companyDetails->tinnumber = $request->input('tinnumber');
+        $companyDetails->vatnumber = $request->input('vatnumber');
+        $companyDetails->shop_address = $request->input('shop_address');
+        $companyDetails->phone_number = $request->input('phone_number');
+        $companyDetails->email = $request->input('email');
         $companyDetails->save();
-
         if ($companyDetails) {
             return redirect()->back()->with('success', 'Company Details Saved');
         }
-        
         return redirect()->back()->with('error', 'Error Saving Details');
     }
 

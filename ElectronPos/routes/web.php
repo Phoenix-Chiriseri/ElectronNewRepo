@@ -111,6 +111,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/stock/add/{product}', [StockController::class, 'addToStock'])->name('stock.add');
 	Route::get('/generate-grv', [GrvController::class, 'generateGrv'])->name("generate-grv");
 	Route::get('/set-stock-levels', [SetStockLevelsController::class, 'index'])->name("set-stocklevels");
+	Route::get('/salesInvoice', [ProductController::class, 'salesInvoice'])->name("sales-invoice");
 	Route::post('/submit-stock-levels', [SetStockLevelsController::class, 'store'])->name("submit-stocklevels");
 	Route::get('/stock/edit/{product}', [StockController::class, 'editStock'])->name('stock.edit');
 	Route::post('/submit-stock', [StockController::class, 'submitProductToStock'])->name('submit.stock');
@@ -140,6 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/cart/delete', [CartController::class, 'delete']);
     Route::delete('/cart/empty', [CartController::class, 'empty']);
 	Route::post('/submit-company-details', [CompanyDataController::class, 'store'])->name('submit-company-details');
+
 	//api routes
 	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');

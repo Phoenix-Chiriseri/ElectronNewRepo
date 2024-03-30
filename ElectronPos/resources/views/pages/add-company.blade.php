@@ -89,28 +89,22 @@
                             <div class="row">       
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">Company Name</label>
-                                    <input type="text" name="shop_name" class="form-control border border-2 p-2" required>
+                                    <input type="text" name="name" class="form-control border border-2 p-2" required>
                                     @error('name')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                                 @enderror
                                 </div>
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Tax Number</label>
-                                    <input type="text" name="tax number" class="form-control border border-2 p-2" required>
-                                    @error('name')
-                                <p class='text-danger inputerror'>{{ $message }} </p>
-                                @enderror
+                                <div class="form-group">
+                                    <label for="customer_taxnumber">TIN Number</label>
+                                    <input type="text" name="tinnumber" maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer_taxnumber">VAT Number</label>
+                                    <input type="text" name="vatnumber" maxlength="9" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
                                 </div>
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">Address</label>
                                     <input type="text" name="shop_address" class="form-control border border-2 p-2" required>
-                                    @error('name')
-                                <p class='text-danger inputerror'>{{ $message }} </p>
-                                @enderror
-                                </div>
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">City</label>
-                                    <input type="text" name="shop_city" class="form-control border border-2 p-2" required>
                                     @error('name')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                                 @enderror

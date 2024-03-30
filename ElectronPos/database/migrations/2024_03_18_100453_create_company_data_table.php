@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('company_data', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('shop_name');
-            $table->string('tax_number');
+            $table->string('name');
+            $table->string('tinnumber', 10);
+            $table->string('vatnumber', 9);
             $table->string('shop_address');
-            $table->string('shop_city');
-            $table->string('phone_number');
+            $table->string('phone_number', 20);
             $table->string('email');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

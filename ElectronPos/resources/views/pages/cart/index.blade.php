@@ -270,40 +270,6 @@
             loadProductsByName(product);
         });
 
- 
-        //function that will sell the product and then deduct the products from stokc
-      
-    $("#sellItems").on("click", function (event) {
-        event.preventDefault();
-    // Calculate totalValue before showing the SweetAlert
-    const totalValue = state.cart.reduce((total, item) => {
-        return total + item.price * (item.quantity || 1);
-    }, 0).toFixed(2);
-
-    // Collect other data
-    const saleItems = state.cart.map((item) => ({
-        product_id: item.id,
-        quantity: item.quantity || 1,
-    }));
-    
-    // Set URL parameters
-    const queryParams = new URLSearchParams();
-    
-    saleItems.forEach((item, index) => {
-        queryParams.append('saleItems[' + index + '][product_id]', item.product_id);
-        queryParams.append('saleItems[' + index + '][quantity]', item.quantity);
-    });
-
-    queryParams.append('total', totalValue);
-
-    // Append all data to the form
-    queryParams.forEach((value, key) => {
-        $("#sellForm").append('<input type="hidden" name="' + key + '" value="' + value + '">');
-    });
-    // Submit the formerc
-    $("#sellForm").submit();
-    });
-
         $(".addToCart").click(function (event) {
             event.preventDefault();
             var productId = $(this).data('product-id');
@@ -365,6 +331,224 @@
             updateCartUI();
         }
     });
+
+    //this is the code for the selecting a customer from the database
+    $(document).ready(function () {
+
+
+const searchInput = $("#search");
+const searchResultsContainer = $("#searchResults");
+const selectedCustomerDropdown = $("#selectedCustomer");
+    
+let selectedItem;  // Declare the variable here
+
+// Event listener for keyup on the search input
+searchInput.on("keyup", function () {
+    // Delay the search by a small interval to prevent too frequent requests
+    setTimeout(function () {
+        performSearch(searchInput.val());
+    }, 300);
+});
+
+
+// Event listener for the 'Create Customer' button
+$("#createCustomer").on("click", function () {
+    Swal.fire({
+        title: 'Create Customer',
+        icon: 'info',
+        html:
+            '<form id="createCustomerForm">' +
+            '<input type="text" id="customer_name" class="swal2-input form-control" placeholder="Customer Name" required name="customer_name">' +
+            '<input type="text" id="code" class="swal2-input" placeholder="Code" name="code" required>' +
+            '<input type="text" id="customer_taxnumber" class="swal2-input" placeholder="Customer Tax Number" name="customer_taxnumber" required>' +
+            '<input type="text" id="city" class="swal2-input" placeholder="Customer City" required name="customer_city">' +
+            '<input type="text" id="customer_address" class="swal2-input" placeholder="Customer Address" name="customer_address" required>' +
+            '<input type="text" id="customer_phonenumber" class="swal2-input" placeholder="Customer Phone Number" name="customer_phonenumber" required>' +
+            '<input type="text" id="customer_city" class="swal2-input" placeholder="Customer City" name="customer_city" required>'+
+            '<select id="customer_status" class="swal2-select" placeholder="Customer Status" required name="customer_status">' +
+            '<option value="active" class="form-control">Active</option>' +
+            '<option value="inactive" class="form-control">Inactive</option></select>' +
+            '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
+            '</form>',
+        showCancelButton: true,
+        confirmButtonText: 'Create',
+        cancelButtonText: 'Cancel',
+        focusConfirm: false,
+        preConfirm: () => {
+            // Collect form data
+            const formData = {
+                customer_name: document.getElementById('customer_name').value,
+                code: document.getElementById('code').value,
+                customer_taxnumber: document.getElementById('customer_taxnumber').value,
+                city: document.getElementById('city').value,
+                customer_address: document.getElementById('customer_address').value,
+                customer_phonenumber: document.getElementById('customer_phonenumber').value,
+                customer_status: document.getElementById('customer_status').value,
+                customer_city: document.getElementById('customer_city').value,
+            };
+
+            // Gather sale items (replace this with your actual implementation)
+            const saleItems = getSaleItems();
+
+            // Append sale items to form data
+            formData.sale_items = JSON.stringify(saleItems);
+
+            return formData;
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Create a form element dynamically
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/submit-customers';
+
+            // Append input fields to the form
+            Object.keys(result.value).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = result.value[key];
+                form.appendChild(input);
+            });
+
+            // Append the form to the body and submit
+            document.body.appendChild(form);
+            const csrfTokenInput = document.createElement('input'); 
+            csrfTokenInput.type = 'hidden';
+            csrfTokenInput.name = '_token';
+            csrfTokenInput.value = '{{ csrf_token() }}'; // Use Blade syntax to get the CSRF token
+            form.appendChild(csrfTokenInput);
+            form.submit();
+
+            // After creating the customer, update the customer dropdown
+            updateCustomerDropdown();
+        }
+    });
+});
+
+function performSearch(searchQuery) {
+    // Make an AJAX request to the search endpoint
+    $.ajax({
+        url: "{{ route('search-customers') }}",
+        method: "GET",
+        data: { search: searchQuery },
+        dataType: 'json', // Expect JSON response
+        success: function (data) {
+            // Update the search results container with the received JSON data
+            displaySearchResults(data.customers);
+        },
+        error: function (error) {
+            showAlert('Customer Not Found', 'error');
+        }
+    });
+}
+
+function showAlert(message, errorIconMessage) {
+    Swal.fire({
+        position: "top-end",
+        icon: errorIconMessage,
+        title: message,
+        showConfirmButton: false,
+        timer: 1000
+    });
+}
+
+
+function displaySearchResults(customers) {
+// Clear previous results
+searchResultsContainer.empty();
+
+// Create an unordered list
+const resultList = $('<ul class="list-group"></ul>');
+resultList.append("<br>");
+
+
+// Append list items for each customer
+customers.forEach(function (customer) {
+// Create a clickable list item
+const listItem = $('<li class="list-group-item clickable">' + customer.customer_name + '</li>');
+// Add a click event listener
+listItem.on("click", function () {
+    // Toggle the active class on click
+    $(".list-group-item").removeClass("active");
+    listItem.addClass("active");
+
+    // Set the selected customer in the dropdown
+    selectedItem = customer.id;
+    selectedCustomerDropdown.val(selectedItem).trigger('change');
+});
+
+// Append the list item to the list
+resultList.append(listItem);
+});
+
+// Append the list to the container
+searchResultsContainer.append(resultList);
+}
+
+
+function updateCustomerDropdown() {
+    // Clear previous options
+    selectedCustomerDropdown.empty();
+
+    // Refresh the customer dropdown options by performing a search
+    performSearch("");
+
+    // Optionally, you can add a default option or trigger a search here
+}
+
+function getSaleItems() {
+    // Implement a function to get sale items from your UI or data source
+    // For example, you can retrieve them from a form or any other input elements
+    // and return them as an array or object
+    // ...
+
+    // For demonstration purposes, return an empty array
+    return [];
+}
+});
+
+$("#sellItems").on("click", function (event) {
+
+    alert("clicked homie");
+    event.preventDefault();
+
+    // Check if there are items in the cart
+    if (state.cart.length === 0) {
+        showAlert('Cart is empty', 'error');
+        return;
+    }
+
+    // Collect total value
+    const totalValue = $("#totalValue").val();
+
+    // Collect amount paid
+    const amountPaid = $("#amountPaid").val();
+
+    // Calculate change
+    const change = amountPaid - totalValue;
+
+    // Create form element
+    const sellForm = document.createElement('form');
+    sellForm.method = 'POST';
+    sellForm.action = '/sell';
+
+    // Append total value, amount paid, and change as hidden fields
+    sellForm.innerHTML += '<input type="hidden" name="total" value="' + totalValue + '">';
+    sellForm.innerHTML += '<input type="hidden" name="amount_paid" value="' + amountPaid + '">';
+    sellForm.innerHTML += '<input type="hidden" name="change" value="' + change + '">';
+
+    // Append sale items as hidden fields
+    state.cart.forEach(item => {
+        sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + ']" value="' + item.quantity + '">';
+    });
+
+    // Append the form to the document body and submit
+    document.body.appendChild(sellForm);
+    sellForm.submit();
+});
+
+
 </script>
 @if(session('message'))
     <script>
@@ -424,24 +608,35 @@
                         id="searchSelectedProdByCode"
                         /> 
                     </div>
-                    <div class="row mb-2">
-                        <div class="form-group">
-                            <label for="category_id">Select Customer</label>
-                            <select name="category_id" class="form-control border border-2 p-2" required>
-                                @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
-                                @endforeach
-                            </select>
-                            <hr>
-                            <button class = "btn btn-info" id = "clearCart">Create Customer</button>
+                    <div class="container-fluid">
+                        <div class="card card-body mx-3 mx-md-4 mt-n6">
+                            <div class="row">
+                                <div class="col-md-8">
+                                 <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
+                                    <div id="searchResults"></div>
+                                    <div class="form-group">
+                                        <label for="selectedCustomer">Select Customer for Sale</label>
+                                        <select id="selectedCustomer" class="form-control">
+                                            <!-- Options will be dynamically populated when searching for customers -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="btn btn-danger" id="createCustomer" role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1"></span><i class="fa fa-user"></i>Create Customer
+                                    </a>
+                                   
+                                </div>
+                            </div>
                         </div>
-                       
                     </div>
+                  
                     <hr>
                     <hr>
                     <div class="user-cart">
                         <div class="card">
-                            <table class="table align-items-center">
+                            <table class="table align-items-center" id="sellForm">
                                 <thead>
                                     <tr>
                                         <th style="color:black;">Product Name</th>
@@ -472,11 +667,7 @@
                 </div>
                 <div class="col-md-2">
                     <!-- Add your content for the second column here -->
-                            <form method="POST" action="/sell" id="sellForm">
-                                @csrf
-                                <!-- Add other form fields here if needed -->
-                                <button type="submit" class="btn btn-success btn-block" id="sellItems"><i class = "fa fa-money"></i>f3 Cash</button>
-                            </form>
+                            
                             <div class="avatar avatar-xl position-relative">
                                 <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
                                 class="w-100 border-radius-lg shadow-sm">
@@ -484,7 +675,6 @@
                             <br>
                             <hr>
                             <button type="submit" class="btn btn-secondary btn-block" id="newSale"></i>F4 New Sale</button>
-                           
                             <form id="transactionForm" action="/do-transaction" method="POST">
                                 @csrf
                                 <input type="text" readonly name="total" id="totalValue" class="form-control border border-2 p-2">
@@ -493,7 +683,7 @@
                                 <hr>
                                 <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
                                 <hr>
-                                <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class = "fa fa-money"></i> Pay</button>  
+                                <button type="submit" class="btn btn-info mb-2"  id="sellItems"><i class = "fa fa-money"></i> Pay</button>  
                             </form>
                             <div id = "showCustomerMessage" hidden></div>
                        

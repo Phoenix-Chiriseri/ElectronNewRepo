@@ -69,6 +69,8 @@ class SaleController extends Controller
 
     public function doTransaction(Request $request){
     
+    dd($request->all());
+
     $total = $request->input('total');
     $change = $request->input('change');
     $customerId = $request->input('customerId');

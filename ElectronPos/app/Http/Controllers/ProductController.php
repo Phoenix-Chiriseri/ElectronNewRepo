@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cattegory;
 use App\Models\Supplier;
+use App\Models\CompanyData;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -138,6 +139,11 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+     public function salesInvoice(){
+        $companyDetails = CompanyData::latest()->first();
+        return view("pages.salesInvoice")->with("details",$companyDetails);
+     }
 
      //create a new product and save it to the database
      public function store(Request $request)

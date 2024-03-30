@@ -7,7 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompanyData extends Model
 {
-    use HasFactory;
+    use HasFactory;    
+    protected $fillable = [
+        'name',
+        'shop_name',
+        'tinnumber',
+        'vatnumber',
+        'shop_address',
+        'phone_number',
+        'email',
+       
+    ];
+
 
     public function user()
     {

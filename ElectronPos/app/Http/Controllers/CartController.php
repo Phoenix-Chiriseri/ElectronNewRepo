@@ -15,6 +15,7 @@ class CartController extends Controller
     {
         $customers = Customer::orderBy("id", "desc")->get(); // Retrieve customers
         $products = Product::all(); // Retrieve products
+        $name = Auth::user()->name;
         // Assuming you have some logic to prepare the $state variable
         // Pass the variables to the view
         return view('cart.index', compact('customers', 'products'));
