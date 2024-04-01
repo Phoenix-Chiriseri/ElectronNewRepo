@@ -6,6 +6,27 @@
     <title>Invoice</title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $("#exportInvoice").on("click", function () {
+                // Clone the entire HTML content of the page
+                var pageContent = document.documentElement.cloneNode(true);
+                
+                // Create a new instance of html2pdf
+                var opt = {
+                    margin: 1,
+                    filename: 'invoice.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                html2pdf().set(opt).from(pageContent).save();
+            });
+        });
+    </script>
     <style>
         body {
             margin: 0;
@@ -113,8 +134,8 @@
                                 <div class="row gutters">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <div class="custom-actions-btns mb-5">
-                                            <a href="#" class="btn btn-info">
-                                                <i class="fa fa-download"></i> Download
+                                            <a href="#" id="exportInvoice" class="btn btn-info">
+                                                <i class="fa fa-download" id="exportInvoice"></i> Download
                                             </a>
                                             <a href="#" class="btn btn-success">
                                                 <i class="fa fa-print"></i> Print
