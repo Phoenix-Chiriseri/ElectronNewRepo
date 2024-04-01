@@ -715,9 +715,11 @@ $("#sellForm").on("submit", function (event) {
                             
                                 <!-- Total, Amount Paid, and Change inputs -->
                                 <input type="text" readonly name="total" id="totalValue" class="form-control border border-2 p-2">
+                                <hr>
                                 <input type="text" name="amountPaid" id="amountPaid" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
+                                <hr>
                                 <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
-                            
+                                <hr>
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>
                             </form>

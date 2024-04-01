@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sales extends Model
 {
     use HasFactory;
-    protected $fillable = ['customer_id', 'total', 'change'];
+    protected $fillable = ['customer_id', 'total', 'change','amountPaid'];
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_sale')

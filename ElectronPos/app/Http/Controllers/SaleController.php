@@ -68,31 +68,32 @@ class SaleController extends Controller
     }
 
     public function doTransaction(Request $request){
-    
-    dd($request->all());
-
     $total = $request->input('total');
     $change = $request->input('change');
+    $amountPaid = $request->input("amountPaid");
     $customerId = $request->input('customerId');
-    $tableDataJson = $request->input('tableData');
+    $tableDataJson = $request->input('table_data');
+    
     // Decode the JSON string into a PHP array
     $tableData = json_decode($tableDataJson, true);
     // Create a new sale record
     $sale = Sales::create([
-        'customer_id' => $customerId, // Replace with the actual customer ID
+        'customer_id' => 1, // Replace with the actual customer ID
         'total' => $total,
         'change' => $change,
+        'amountPaid'=>$amountPaid
     ]);
-    
+
     //Iterate through each item in the sale and associate it with the sale record
     foreach ($tableData as $item) {
-        $productId = $item['product_id'];
+        $productId = $item['id'];
         $quantitySold = $item['quantity'];
         // Update the available quantity in the stocks table
         Stock::where('product_id', $productId)
             ->decrement('quantity', $quantitySold);
         // Associate the sold product with the sale
         $sale->products()->attach($productId, ['quantity' => $quantitySold]);
+   
     }
 
     if ($sale->save()) {
