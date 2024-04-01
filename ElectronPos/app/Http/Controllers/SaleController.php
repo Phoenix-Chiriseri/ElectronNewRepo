@@ -6,6 +6,7 @@ use App\Models\Sales;
 use App\Models\Customer;
 use App\Models\Sale;
 use App\Models\Product;
+use App\Models\CompanyData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -68,40 +69,51 @@ class SaleController extends Controller
     }
 
     public function doTransaction(Request $request){
-    $total = $request->input('total');
-    $change = $request->input('change');
-    $amountPaid = $request->input("amountPaid");
-    $customerId = $request->input('customerId');
-    $tableDataJson = $request->input('table_data');
-    
-    // Decode the JSON string into a PHP array
-    $tableData = json_decode($tableDataJson, true);
-    // Create a new sale record
-    $sale = Sales::create([
-        'customer_id' => 1, // Replace with the actual customer ID
-        'total' => $total,
-        'change' => $change,
-        'amountPaid'=>$amountPaid
-    ]);
 
-    //Iterate through each item in the sale and associate it with the sale record
-    foreach ($tableData as $item) {
-        $productId = $item['id'];
-        $quantitySold = $item['quantity'];
-        // Update the available quantity in the stocks table
-        Stock::where('product_id', $productId)
-            ->decrement('quantity', $quantitySold);
-        // Associate the sold product with the sale
-        $sale->products()->attach($productId, ['quantity' => $quantitySold]);
-   
-    }
-
-    if ($sale->save()) {
-        return redirect()->route('cart-index')->with('success', 'Sale Completed Successfully');
-     } else {
-         return redirect()->back()->with('error', 'Sorry, there was a problem doing the sale');
-      }   
+        //dd($request->all());
+        $total = $request->input('total');
+        $change = $request->input('change');
+        $amountPaid = $request->input("amountPaid");
+        $customerId = $request->input('customerId');
+        $tableDataJson = $request->input('table_data');
+        $companyDetails = CompanyData::latest()->first();
+       // return view("pages.salesInvoice")->with("details",$companyDetails);
+        
+        // Decode the JSON string into a PHP array
+        $tableData = json_decode($tableDataJson, true);
+        // Create a new sale record
+        $sale = Sales::create([
+            'customer_id' => 1, // Use the actual customer ID provided in the request
+            'total' => $total,
+            'change' => $change,
+            'amountPaid' => $amountPaid
+        ]);
     
+        //Iterate through each item in the sale and associate it with the sale record
+        foreach ($tableData as $item) {
+            $productId = $item['id'];
+            $quantitySold = $item['quantity'];
+            // Update the available quantity in the stocks table
+            Stock::where('product_id', $productId)
+                ->decrement('quantity', $quantitySold);
+            // Associate the sold product with the sale
+            $sale->products()->attach($productId, ['quantity' => $quantitySold]);
+        }
+    
+        if ($sale->save()) {
+            // Pass necessary data to the view
+            $data = [
+                'sale' => $sale,
+                'customer' => Customer::find($customerId), // Fetch the customer details
+                'items' => $tableData // Pass the sold items for the invoice
+            ];
+
+            //dd($data);
+            //return view('pages.salesInvoice')->with("data",$data)->with("details",$companyDetails);
+            return view('pages.salesInvoice', $data)->with("details",$companyDetails);;
+        } else {
+            return redirect()->back()->with('error', 'Sorry, there was a problem doing the sale');
+        }   
     }
 
     public function create()

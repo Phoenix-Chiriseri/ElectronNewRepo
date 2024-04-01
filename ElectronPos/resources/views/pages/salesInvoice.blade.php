@@ -198,7 +198,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                                                                        </tr>
+                                                    <tbody>
+                                                        @foreach($items as $item)
+                                                        <tr>
+                                                            <td>{{ $item['name'] }}</td>
+                                                            <td>{{ $item['quantity'] }}</td>
+                                                            <td>{{ $item['barcode'] }}</td>
+                                                            <td>{{ $item['tax'] }}</td>
+                                                            <td>{{ $item['total'] }}</td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
                                                 </tbody>
                                             </table>
                                         </div>
