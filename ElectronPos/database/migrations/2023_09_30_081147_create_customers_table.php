@@ -13,9 +13,9 @@ return new class extends Migration
             $table->id();
             $table->string('customer_name');
             $table->string('code');
+            $table->string('customer_tinnumber');
+            $table->string('customer_vatnumber');
             $table->unsignedBigInteger('user_id');
-            $table->string('customer_taxnumber');
-            $table->string('customer_city');
             $table->string('customer_address');
             $table->string('customer_phonenumber');
             $table->string('customer_status');

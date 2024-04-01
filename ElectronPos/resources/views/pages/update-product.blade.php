@@ -160,6 +160,25 @@ Swal.fire({
                 </select>
             </div>
         </div>
+        <div class="mb-3 col-md-12">
+            <label class="form-label">Tax Group</label>
+            <div class="form-group">
+                <label for="unit">Select Option</label>
+                <select name="tax" class="form-control border border-2 p-2" required>
+                    <option value="0.15">15%</option>
+                    <option value="0">0%</option>
+                    <option value="ex">Exempt</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="supplier_id">Select Supplier</label>
+            <select name="supplier_id" class="form-control border border-2 p-2" required>
+                @foreach ($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="form-group">
             <label for="category_id">Select Category</label>
             <select name="category_id" class="form-control border border-2 p-2" required>

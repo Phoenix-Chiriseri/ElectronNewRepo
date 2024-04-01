@@ -76,44 +76,56 @@
                         <form action="{{ route('update-customer', $customer) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                        <div class="form-group">
-                            <label for="customer_name">Customer Name</label>
-                            <input type="text" name="customer_name" value="{{$customer->customer_name}}" class="form-control border border-2 p-2" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="code">Customer Code</label>
-                            <input type="text" name="code"  class="form-control border border-2 p-2" required value="{{$customer->code}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_taxnumber">Customer Tax Number</label>
-                            <input type="text" name="customer_taxnumber"  class="form-control border border-2 p-2" required value="{{$customer->customer_taxnumber}}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_city">Customer City</label>
-                            <input type="text" name="customer_city" id="customer_city" class="form-control border border-2 p-2"  value="{{$customer->customer_city}}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_address">Customer Address</label>
-                            <input type="text" name="customer_address" id="customer_address" class="form-control border border-2 p-2"  value="{{$customer->customer_address}}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_phonenumber">Customer Phone Number</label>
-                            <input type="text" name="customer_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" value="{{$customer->customer_phonenumber}}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_status">Status</label>
-                            <select name="customer_status" class="form-control border border-2 p-2" required>
-                            <option value="active">Active</option>
-                            <option value="not_active">Not Active</option>
-                            </select>
-                        <hr>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Update Customer</button>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <label for="customer_name">Customer Name</label>
+                                <input type="text" name="customer_name" id="suppluer_name" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="code">Customer Code</label>
+                                <input type="text" name="code" id="code" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_taxnumber">Customer TIN Number</label>
+                                <input type="text" name="customer_tinnumber" maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_taxnumber">Customer VAT Number</label>
+                                <input type="text" name="customer_vatnumber" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_address">Customer Address</label>
+                                <input type="text" name="customer_address" id="customer_address" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="supplier_status">Type</label>
+                                <select name="supplier_type" class="form-control border border-2 p-2" required>
+                                <option value="cash">Cash</option>
+                                <option value="credit">Credit</option>
+                                </select>
+                            <hr>
+                            <div class="form-group">
+                                <label for="customer_phonenumber">Customer Phone Number</label>
+                                <input type="text" name="customer_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_phonenumber">Contact Person</label>
+                                <input type="text" name="customer_contactperson" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_phonenumber">Contact Person Number</label>
+                                <input type="text" name="customer_contactpersonnumber" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_status">Status</label>
+                                <select name="customer_status" class="form-control border border-2 p-2" required>
+                                <option value="active">Active</option>
+                                <option value="not_active">Not Active</option>
+                                </select>
+                            <hr>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Create Customer</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

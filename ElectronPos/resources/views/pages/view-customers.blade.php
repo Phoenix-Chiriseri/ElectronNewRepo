@@ -74,10 +74,10 @@
                                                 Created By
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
-                                                Customer Tax Number
+                                                Customer Vat Number
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
-                                                Customer City
+                                                Customer Tin Number
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 200px;">
                                                 Customer Address
@@ -114,10 +114,10 @@
                                                 <h6 class="mb-0 text-sm">{{$customer->name}}</h6>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$customer->customer_taxnumber}}</h6>
+                                                <h6 class="mb-0 text-sm">{{$customer->customer_vatnumber}}</h6>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <h6 class="mb-0 text-sm">{{$customer->customer_city}}</h6>
+                                                <h6 class="mb-0 text-sm">{{$customer->customer_tinnumber}}</h6>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <h6 class="mb-0 text-sm">{{$customer->customer_address}}</h6>

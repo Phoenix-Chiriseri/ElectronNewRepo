@@ -71,7 +71,8 @@ class ProductController extends Controller
     public function editProduct($id){ 
         $product = Product::find($id);
         $cattegories=Cattegory::all();
-        return view("pages.update-product")->with("product",$product)->with("cattegories",$cattegories);
+        $suppliers = Supplier::all();
+        return view("pages.update-product")->with("product",$product)->with("cattegories",$cattegories)->with("suppliers",$suppliers);
     }
 
     
@@ -176,11 +177,16 @@ class ProductController extends Controller
         $product->selling_price = $request->selling_price;
         $product->unit_of_measurement = $request->unit_of_measurement;
         $product->category_id = $request->category_id;
-        $product->product_status = $request->product_status;
+        $product->tax = $request->input("tax");
     
         if ($request->has('category_id')) {
             $category = Cattegory::findOrFail($request->category_id);
             $product->category()->associate($category);
+        }
+
+        if ($request->has('supplier_id')) {
+            $supplier = Supplier::findOrFail($request->supplier_id);
+            $product->supplier()->associate($supplier);
         }
     
         if (!$product->save()) {

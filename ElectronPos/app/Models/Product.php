@@ -44,6 +44,11 @@ public function category()
     return $this->belongsTo(Cattegory::class);
 }
 
+public function supplier()
+{
+    return $this->belongsTo(Supplier::class);
+}
+
     public function carts()
     {
         return $this->belongsToMany(Cart::class)->withPivot('quantity')->withTimestamps();

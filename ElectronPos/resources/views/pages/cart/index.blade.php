@@ -245,6 +245,17 @@
         cartTableBody.append(rowHtml);  
         
         });
+
+        // Update the total value
+        let totalValue = 0;
+            state.cart.forEach(item => {
+                totalValue += item.total * item.quantity;
+            });
+            $("#totalValue").val(totalValue.toFixed(2));
+
+            // Update the table data input
+            const tableDataInput = document.getElementById('tableDataInput');
+            tableDataInput.value = JSON.stringify(state.cart);
      
         function updateTotal() {
     const totalValue = state.cart.reduce((total, item) => {
@@ -508,11 +519,8 @@ function getSaleItems() {
 }
 });
 
-$("#sellItems").on("click", function (event) {
-
-    alert("clicked homie");
+$("#sellForm").on("submit", function (event) {
     event.preventDefault();
-
     // Check if there are items in the cart
     if (state.cart.length === 0) {
         showAlert('Cart is empty', 'error');
@@ -528,7 +536,7 @@ $("#sellItems").on("click", function (event) {
     // Calculate change
     const change = amountPaid - totalValue;
 
-    // Create form element
+    // Create a hidden form element
     const sellForm = document.createElement('form');
     sellForm.method = 'POST';
     sellForm.action = '/sell';
@@ -543,6 +551,7 @@ $("#sellItems").on("click", function (event) {
         sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + ']" value="' + item.quantity + '">';
     });
 
+    console.log(state.cart);
     // Append the form to the document body and submit
     document.body.appendChild(sellForm);
     sellForm.submit();
@@ -583,30 +592,54 @@ $("#sellItems").on("click", function (event) {
             });
             </script>
             @endif
-        <div class="container-fluid px-2 px-md-4">
+
+            <div class="container-fluid px-2 px-md-4">
+
+                <div class = "row">
+
+                <div class="col-md-6">
+
+                    <div id = "prodResult"></div>   
+                    <input
+                    type="text"
+                    class="form-control border border-2 p-2"
+                    placeholder="Search Product By Name"
+                    onChange=""
+                    onKeyDown=""
+                    id="searchSelectedProd"
+                    /> 
+                              
+
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div id = "prodResult"></div>
+                    <input
+                    type="text"
+                    class="form-control border border-2 p-2"
+                    placeholder="Barcode"
+                    onChange=""
+                    onKeyDown=""
+                    id="searchSelectedProdByCode"
+                    />     
+                           
+
+                </div>
+                
+
+            </div>
+
+        <div class="container-fluid px-2 px-md-4" style="margin-top:66px;">
             <div class="row">
                 <div class="col-md-10">
                     <div class="row mb-2">
-                        <div id = "prodResult"></div>
-                        <input
-                        type="text"
-                        class="form-control border border-2 p-2"
-                        placeholder="Search Product By Name"
-                        onChange=""
-                        onKeyDown=""
-                        id="searchSelectedProd"
-                        /> 
+                       
                     </div>
                     <div class="row mb-2">
-                        <div id = "prodResult"></div>
-                        <input
-                        type="text"
-                        class="form-control border border-2 p-2"
-                        placeholder="Barcode"
-                        onChange=""
-                        onKeyDown=""
-                        id="searchSelectedProdByCode"
-                        /> 
+                       
                     </div>
                     <div class="container-fluid">
                         <div class="card card-body mx-3 mx-md-4 mt-n6">
@@ -615,7 +648,6 @@ $("#sellItems").on("click", function (event) {
                                  <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
                                     <div id="searchResults"></div>
                                     <div class="form-group">
-                                        <label for="selectedCustomer">Select Customer for Sale</label>
                                         <select id="selectedCustomer" class="form-control">
                                             <!-- Options will be dynamically populated when searching for customers -->
                                         </select>
@@ -632,11 +664,10 @@ $("#sellItems").on("click", function (event) {
                         </div>
                     </div>
                   
-                    <hr>
-                    <hr>
+                
                     <div class="user-cart">
                         <div class="card">
-                            <table class="table align-items-center" id="sellForm">
+                            <table class="table align-items-center" id="myTable">
                                 <thead>
                                     <tr>
                                         <th style="color:black;">Product Name</th>
@@ -675,24 +706,24 @@ $("#sellItems").on("click", function (event) {
                             <br>
                             <hr>
                             <button type="submit" class="btn btn-secondary btn-block" id="newSale"></i>F4 New Sale</button>
-                            <form id="transactionForm" action="/do-transaction" method="POST">
+                            <form id="sellForm" action="/do-transaction" method="POST">
                                 @csrf
+                                <!-- Other form inputs here -->
+                            
+                                <!-- Hidden input fields for table data -->
+                                <input type="hidden" name="table_data" id="tableDataInput">
+                            
+                                <!-- Total, Amount Paid, and Change inputs -->
                                 <input type="text" readonly name="total" id="totalValue" class="form-control border border-2 p-2">
-                                <hr>
-                                <input type="text" name="amountPaid"  id="amountPaid" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
-                                <hr>
+                                <input type="text" name="amountPaid" id="amountPaid" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
                                 <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
-                                <hr>
-                                <button type="submit" class="btn btn-info mb-2"  id="sellItems"><i class = "fa fa-money"></i> Pay</button>  
+                            
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>
                             </form>
                             <div id = "showCustomerMessage" hidden></div>
-                       
-                            
                        </div>
-                    
                     <hr>
-                    
-                  
                 </div>
                  @if(session('error'))
                  <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="color: white;">

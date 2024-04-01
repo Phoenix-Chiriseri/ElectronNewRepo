@@ -76,44 +76,53 @@
                         <form action="{{ route('supplier.update', $supplier) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                        <div class="form-group">
-                            <label for="customer_name">Suppliers Name</label>
-                            <input type="text" name="supplier_name" id="supplier_name" value="{{$supplier->supplier_name}}" class="form-control border border-2 p-2" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="code">Suppliers Code</label>
-                            <input type="text" name="code" id="code" class="form-control border border-2 p-2" required value="{{$supplier->code}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_taxnumber">Suppliers Tax Number</label>
-                            <input type="text" name="supplier_taxnumber" id="supplier_taxnumber" class="form-control border border-2 p-2" required value="{{$supplier->supplier_taxnumber}}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_city">Suppliers City</label>
-                            <input type="text" name="supplier_city" id="customer_city" class="form-control border border-2 p-2"  value="{{$supplier->supplier_city}}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_address">Suppliers Address</label>
-                            <input type="text" name="supplier_address" id="customer_address" class="form-control border border-2 p-2"  value="{{$supplier->supplier_address}}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_phonenumber">Suppliers Phone Number</label>
-                            <input type="text" name="supplier_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" value="{{$supplier->supplier_phonenumber}}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="supplier_status">Status</label>
-                            <select name="supplier_status" class="form-control border border-2 p-2" required>
-                            <option value="active">Active</option>
-                            <option value="not_active">Not Active</option>
-                            </select>
-                        <hr>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Update Supplier</button>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <label for="customer_name">Suppliers Name</label>
+                                <input type="text" name="supplier_name" id="suppluer_name" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_taxnumber">Suppliers TIN Number</label>
+                                <input type="text" name="supplier_tinnumber" maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_taxnumber">Suppliers VAT Number</label>
+                                <input type="text" name="supplier_vatnumber" maxlength="9" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                            </div>
+                           
+                            <div class="form-group">
+                                <label for="customer_address">Suppliers Address</label>
+                                <input type="text" name="supplier_address" id="customer_address" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="supplier_status">Type</label>
+                                <select name="supplier_type" class="form-control border border-2 p-2" required>
+                                <option value="cash">Cash</option>
+                                <option value="credit">Credit</option>
+                                </select>
+                            <hr>
+                            <div class="form-group">
+                                <label for="customer_phonenumber">Suppliers Phone Number</label>
+                                <input type="text" name="supplier_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_phonenumber">Contact Person</label>
+                                <input type="text" name="supplier_contactperson" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_phonenumber">Contact Person Number</label>
+                                <input type="text" name="supplier_contactpersonnumber" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="supplier_status">Status</label>
+                                <select name="supplier_status" class="form-control border border-2 p-2" required>
+                                <option value="active">Active</option>
+                                <option value="not_active">Not Active</option>
+                                </select>
+                            <hr>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Create Supplier</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
