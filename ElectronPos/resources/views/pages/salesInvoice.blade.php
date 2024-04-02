@@ -33,17 +33,22 @@
         });
 
         function calculateInvoiceTotal() {
-            var subtotalElements = document.querySelectorAll('.subtotal');
-            var invoiceTotal = 0;
+        var subtotalElements = document.querySelectorAll('.subtotal');
+        var invoiceTotal = 0;
 
-            // Loop through each subtotal and calculate the total
-            subtotalElements.forEach(function(element) {
-                invoiceTotal += parseFloat(element.textContent);
-            });
+        // Loop through each subtotal and calculate the total
+        subtotalElements.forEach(function(element) {
+            invoiceTotal += parseFloat(element.textContent);
+        });
 
-            // Update the invoice total in the document
-            document.getElementById('invoiceTotal').textContent = invoiceTotal.toFixed(2);
-        }
+        // Update the invoice total in the document
+        document.getElementById('invoiceTotal').textContent = invoiceTotal.toFixed(2);
+
+        // Calculate and display the total excluding VAT
+        var vatTotal = parseFloat(document.getElementById('vatTotal').textContent);
+        var totalExcludingVAT = invoiceTotal - vatTotal;
+        document.getElementById('totalExcludingVAT').textContent = totalExcludingVAT.toFixed(2);
+    }
 
         function calculateVatTotal() {
         var taxElements = document.querySelectorAll('.tax');
@@ -246,6 +251,9 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row">
+                                                <div class="col-lg-12 text-end">
+                                                    <h5>Total Excluding VAT: <span id="totalExcludingVAT"></span></h5>
+                                                </div>
                                                 <div class="col-lg-12 text-end">
                                                     <h5>VAT Total: <span id="vatTotal"></span></h5>
                                                 </div>
