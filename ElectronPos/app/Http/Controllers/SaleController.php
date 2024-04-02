@@ -71,6 +71,7 @@ class SaleController extends Controller
     public function doTransaction(Request $request){
 
         //dd($request->all());
+        //dd($request->all());
         $total = $request->input('total');
         $change = $request->input('change');
         $amountPaid = $request->input("amountPaid");
@@ -110,7 +111,7 @@ class SaleController extends Controller
 
             //dd($data);
             //return view('pages.salesInvoice')->with("data",$data)->with("details",$companyDetails);
-            return view('pages.salesInvoice', $data)->with("details",$companyDetails);;
+            return view('pages.salesInvoice', $data)->with("details",$companyDetails)->with("sale",$sale)->with("amountPaid",$amountPaid);
         } else {
             return redirect()->back()->with('error', 'Sorry, there was a problem doing the sale');
         }   
