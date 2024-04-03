@@ -218,36 +218,46 @@
     cartTableBody.empty();
     state.cart.forEach((item) => {
         const rowHtml = `
-            <tr>
-                <td>${item.name}</td>   
-                <td>
-                    <div class="input-group">
-                        <input
-                            type="number"
-                            class="form-control border border-2 py-1 px-2 quantity-input"
-                            value="${item.quantity}" id="quantityField" 
-                            data-product-id="${item.id}"
-                        />    
-                        <td>${item.barcode}</td>    
-                        <td>${(item.tax * item.quantity).toFixed(2)}</td>  
-                        <td>${item.unitPrice.toFixed(2)}</td>
-                        <div class="input-group-append">
-                            <button
-                                class="btn btn-danger btn-lg py-1 px-2 remove-item"
-                                data-product-id="${item.id}"
-                            >
-                                <i class="fas fa-trash fa-2x"></i>
-                            </button>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-right">${(item.total * item.quantity).toFixed(2)}</td>
-            </tr>
+        <tr>
+    <td>${item.name}</td>   
+    <td>
+        <div class="input-group">
+            <input
+                type="number"
+                class="form-control border border-2 py-1 px-2 quantity-input"
+                value="${item.quantity}"
+                id="quantityField"
+                data-product-id="${item.id}"
+            />    
+        </div>
+    </td>
+    <td>${item.barcode}</td>    
+    <td class="tax-input">${(item.tax * item.quantity).toFixed(2)}</td>  
+    <td>${item.unitPrice.toFixed(2)}</td>
+    <td>
+        <div class="input-group-append">
+            <button class="btn btn-danger btn-lg py-1 px-2 remove-item" data-product-id="${item.id}">
+                <i class="fas fa-trash fa-2x"></i>
+            </button>
+        </div>
+    </td>
+    <td class="text-right" >${(item.total * item.quantity).toFixed(2)}</td>
+</tr>
         `;
         cartTableBody.append(rowHtml);  
         
         });
 
+        $(".remove-item").on("click", function () {
+    const productId = $(this).data("product-id");
+    removeCartItem(productId);
+});
+
+
+function removeCartItem(productId) {
+    state.cart = state.cart.filter((item) => item.id !== productId);
+    updateCartUI();
+}
         // Update the total value
         let totalValue = 0;
             state.cart.forEach(item => {
@@ -523,6 +533,7 @@ function getSaleItems() {
 
 $("#sellForm").on("submit", function (event) {
     event.preventDefault();
+
     // Check if there are items in the cart
     if (state.cart.length === 0) {
         showAlert('Cart is empty', 'error');
@@ -548,18 +559,21 @@ $("#sellForm").on("submit", function (event) {
     sellForm.innerHTML += '<input type="hidden" name="amount_paid" value="' + amountPaid + '">';
     sellForm.innerHTML += '<input type="hidden" name="change" value="' + change + '">';
 
-    // Append sale items as hidden fields
+    // Append sale items including quantity and tax as hidden fields
     state.cart.forEach(item => {
-        sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + ']" value="' + item.quantity + '">';
-    });
+    const row = $(".user-cart").find("[data-product-id='" + item.id + "']").closest("tr");
+    const updatedQuantity = row.find(".quantity-input").val(); // Get the updated quantity
+    const updatedTax = row.find(".tax-input").text(); // Get the updated tax
+    const updatedTotal = row.find(".text-right").text(); // Get the updated total
+    sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][quantity]" value="' + updatedQuantity + '">';
+    sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][tax]" value="' + updatedTax + '">';
+    sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][total]" value="' + updatedTotal + '">';
+});
 
-    console.log(state.cart);
     // Append the form to the document body and submit
     document.body.appendChild(sellForm);
     sellForm.submit();
 });
-
-
 </script>
 @if(session('message'))
     <script>
@@ -664,12 +678,10 @@ $("#sellForm").on("submit", function (event) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                  
-                
+                    </div>  
                     <div class="user-cart">
                         <div class="card">
-                            <table class="table align-items-center" id="myTable">
+                            <table class="user-cart table align-items-center">
                                 <thead>
                                     <tr>
                                         <th style="color:black;">Product Name</th>
@@ -677,6 +689,7 @@ $("#sellForm").on("submit", function (event) {
                                         <th style="color:black;">Code</th>
                                         <th style="color:black;">Tax</th>
                                         <th style="color:black;">Unit Price</th>
+                                        <th style="color:black;">Remove</th>
                                         <th style="color:black;">Total</th>
                                     </tr>
                                 </thead>

@@ -82,6 +82,7 @@ class SaleController extends Controller
         
         // Decode the JSON string into a PHP array
         $tableData = json_decode($tableDataJson, true);
+        dd($tableData);
         // Create a new sale record
         $sale = Sales::create([
             'customer_id' => 1, // Use the actual customer ID provided in the request
