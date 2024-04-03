@@ -169,14 +169,6 @@ Swal.fire({
             </div>
         </div>
         <div class="form-group">
-            <label for="supplier_id">Select Supplier</label>
-            <select name="supplier_id" class="form-control border border-2 p-2" required>
-                @foreach ($suppliers as $supplier)
-                    <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
             <label for="category_id">Select Category</label>
             <select name="category_id" class="form-control border border-2 p-2" required>
                 @foreach ($cattegories as $category)

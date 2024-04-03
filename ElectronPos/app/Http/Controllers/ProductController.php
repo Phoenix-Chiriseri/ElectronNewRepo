@@ -157,7 +157,6 @@ class ProductController extends Controller
          $product->selling_price = $request->input("selling_price");
          $product->unit_of_measurement = $request->input("unit_of_measurement");
          $product->category_id = $request->input("category_id");
-         $product->supplier_id = $request->input("supplier_id");
          $product->tax = $request->input("tax");
          $product->save();   
          
@@ -182,11 +181,6 @@ class ProductController extends Controller
         if ($request->has('category_id')) {
             $category = Cattegory::findOrFail($request->category_id);
             $product->category()->associate($category);
-        }
-
-        if ($request->has('supplier_id')) {
-            $supplier = Supplier::findOrFail($request->supplier_id);
-            $product->supplier()->associate($supplier);
         }
     
         if (!$product->save()) {

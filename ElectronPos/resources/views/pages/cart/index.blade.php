@@ -170,6 +170,8 @@
                 }
 
                 }
+
+                
                 ////////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
@@ -228,7 +230,7 @@
                         />    
                         <td>${item.barcode}</td>    
                         <td>${(item.tax * item.quantity).toFixed(2)}</td>  
-                        <td>${item.unitPrice}</td> 
+                        <td>${item.unitPrice.toFixed(2)}</td>
                         <div class="input-group-append">
                             <button
                                 class="btn btn-danger btn-lg py-1 px-2 remove-item"
