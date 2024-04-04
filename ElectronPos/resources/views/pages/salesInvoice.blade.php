@@ -223,7 +223,7 @@
                                                 <tr>
                                                     <th>Product Code</th>
                                                     <th>Product Name</th>
-                                                    
+                                                    <th>Unit Cost</th>
                                                     <th>Quantity</th>
                                                     <th>Tax</th>
                                                     
@@ -235,6 +235,7 @@
                                                 <tr>
                                                     <td>{{ $item['barcode'] }}</td>
                                                     <td>{{ $item['name'] }}</td>
+                                                    <td>{{ $item['unitPrice'] }}</td>
                                                     <td>{{ $item['quantity'] }}</td>
                                                     <td class="tax">{{ $item['tax'] }}</td> <!-- Ensure that each tax element has the "tax" class -->
                                                     <td class="subtotal">{{ $item['total'] }}</td>

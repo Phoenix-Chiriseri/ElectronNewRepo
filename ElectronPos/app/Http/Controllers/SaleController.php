@@ -72,6 +72,7 @@ class SaleController extends Controller
 
         //dd($request->all());
         //dd($request->all());
+    // dd($request->all());
         $total = $request->input('total');
         $change = $request->input('change');
         $amountPaid = $request->input("amountPaid");
@@ -82,7 +83,7 @@ class SaleController extends Controller
         
         // Decode the JSON string into a PHP array
         $tableData = json_decode($tableDataJson, true);
-        dd($tableData);
+        //dd($tableData);
         // Create a new sale record
         $sale = Sales::create([
             'customer_id' => 1, // Use the actual customer ID provided in the request
