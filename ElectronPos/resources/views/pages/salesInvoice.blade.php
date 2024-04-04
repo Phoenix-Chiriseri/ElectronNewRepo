@@ -10,23 +10,38 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Add your custom styles here */
+        .invoice-container {
+            overflow-x: auto; /* Enable horizontal scrolling for the container */
+        }
+
+        .custom-table {
+            min-width: 100%; /* Ensure that the table occupies the full width of the container */
+        }
+
+        .custom-table th,
+        .custom-table td {
+            white-space: nowrap; /* Prevent text wrapping within table cells */
+            text-overflow: ellipsis; /* Add ellipsis (...) for text that overflows the cell */
+            overflow: hidden; /* Hide overflow text beyond the cell boundaries */
+        }
+    </style>
     <script>
         $(document).ready(function () {
             $("#exportInvoice").on("click", function () {
                 // Clone the entire HTML content of the page
-                var pageContent = document.documentElement.cloneNode(true);
-                
+                var pageContent = document.documentElement.cloneNode(true);       
                 // Create a new instance of html2pdf
                 var opt = {
                     margin: 1,
                     filename: 'invoice.pdf',
                     image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    html2canvas: { scale: 3 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
                 };
                 html2pdf().set(opt).from(pageContent).save();
             });
-
             // Calculate and display the invoice total
             calculateVatTotal();
             calculateInvoiceTotal();
@@ -156,7 +171,6 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="row gutters">
         <div class="col-xl-12">
@@ -226,7 +240,6 @@
                                                     <th>Unit Cost</th>
                                                     <th>Quantity</th>
                                                     <th>Tax</th>
-                                                    
                                                     <th>SubTotal</th>
                                                 </tr>
                                             </thead>
@@ -235,9 +248,9 @@
                                                 <tr>
                                                     <td>{{ $item['barcode'] }}</td>
                                                     <td>{{ $item['name'] }}</td>
-                                                    <td>{{ $item['unitPrice'] }}</td>
+                                                    <td>{{ number_format($item['unitPrice'], 2) }}</td>
                                                     <td>{{ $item['quantity'] }}</td>
-                                                    <td class="tax">{{ $item['tax'] }}</td> <!-- Ensure that each tax element has the "tax" class -->
+                                                    <td class="tax">{{ number_format($item['tax'], 2) }}</td> <!-- Ensure that each tax element has the "tax" class -->
                                                     <td class="subtotal">{{ $item['total'] }}</td>
                                                 </tr>
                                                 @endforeach
