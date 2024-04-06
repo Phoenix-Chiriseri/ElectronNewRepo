@@ -169,14 +169,33 @@ class ProductController extends Controller
 
     public function updateProduct(Request $request, Product $product)
     {
+
+
         $product->name = $request->name;
+        $product->barcode = $request->barcode;
+        $product->description = $request->description;
+        // Convert price to "zig"
+        $priceInLocalCurrency = $request->price;
+        $priceInZig = $priceInLocalCurrency * 13.46;
+        $product->price = $priceInZig;
+        // Similarly, convert selling price to "zig"
+        $sellingPriceInLocalCurrency = $request->selling_price;
+        $sellingPriceInZig = $sellingPriceInLocalCurrency * 13.46;
+        $product->selling_price = $sellingPriceInZig;
+        $product->unit_of_measurement = $request->unit_of_measurement;
+        $product->category_id = $request->category_id;
+        // Tax calculation remains unchanged
+        $product->tax = $request->input("tax"); 
+
+        
+       /* $product->name = $request->name;
         $product->barcode = $request->barcode;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->selling_price = $request->selling_price;
         $product->unit_of_measurement = $request->unit_of_measurement;
         $product->category_id = $request->category_id;
-        $product->tax = $request->input("tax");
+        $product->tax = $request->input("tax");*/
     
         if ($request->has('category_id')) {
             $category = Cattegory::findOrFail($request->category_id);
