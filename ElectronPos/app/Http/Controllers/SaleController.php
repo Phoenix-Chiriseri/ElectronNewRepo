@@ -70,22 +70,12 @@ class SaleController extends Controller
 
     public function doTransaction(Request $request){
 
-        //dd($request->all());
-        //dd($request->all());
-        // dd($request->all());
-
-        //$tableData = $request->input("table_data");
-        //dd($tableData);
-        //dd($request->all());
-        //dd($request->all());
         $total = $request->input('total');
         $change = $request->input('change');
         $amountPaid = $request->input("amountPaid");
         $customerId = $request->input('customerId');
         $tableDataJson = $request->input('table_data');
-        $companyDetails = CompanyData::latest()->first();
-       // return view("pages.salesInvoice")->with("details",$companyDetails);
-        
+        $companyDetails = CompanyData::latest()->first();        
         // Decode the JSON string into a PHP array
         $tableData = json_decode($tableDataJson, true);
         //dd($tableData);
@@ -96,7 +86,7 @@ class SaleController extends Controller
             'change' => $change,
             'amountPaid' => $amountPaid
         ]);
-    
+
         //Iterate through each item in the sale and associate it with the sale record
         foreach ($tableData as $item) {
             $productId = $item['id'];
@@ -116,8 +106,6 @@ class SaleController extends Controller
                 'items' => $tableData // Pass the sold items for the invoice
             ];
 
-            //dd($data);
-            //return view('pages.salesInvoice')->with("data",$data)->with("details",$companyDetails);
             return view('pages.salesInvoice', $data)->with("details",$companyDetails)->with("sale",$sale)->with("amountPaid",$amountPaid);
         } else {
             return redirect()->back()->with('error', 'Sorry, there was a problem doing the sale');
