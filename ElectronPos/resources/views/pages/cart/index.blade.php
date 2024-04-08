@@ -217,9 +217,10 @@
     function updateCartUI() {
     const cartTableBody = $(".user-cart table tbody");
     cartTableBody.empty();
-   
     //const latestProductData = {};
+    //const tableRows = []; // Array to hold HTML rows
     const tableRows = []; // Array to hold HTML rows
+    const dataRows = []; // 
     state.cart.forEach((item) => {
         const rowHtml = `
             <tr>
@@ -250,7 +251,8 @@
         `;
         cartTableBody.append(rowHtml); 
         tableRows.push(rowHtml); // Add HTML row to the array
-        tableRows.push([
+        dataRows.push([
+            item.id,
             item.name,
             item.quantity,
             item.barcode,
@@ -259,23 +261,29 @@
             (item.total * item.quantity).toFixed(2)
         ]); 
         
-        //var results = JSON.stringify(tableRows);
+        var results = JSON.stringify(tableRows);
+        alert(results);
         //tableDataInput.value = results;
 
         var rowsToSend = [];
-
-    for (var i = 0; i < tableRows.length; i++) {
-    var row = tableRows[i];
-    var rowData = {
-        name: row[0],
-        quantity: row[1],
-        barcode: row[2],
-        tax: row[3],
-        unitPrice: row[4],
-        total: row[5]
-    };
-    rowsToSend.push(rowData);
+    // Prepare data rows to send to backend
+    var rowsToSend = [];
+    for (var i = 0; i < dataRows.length; i++) {
+        var row = dataRows[i];
+        var rowData = {
+            name: row[0],
+            name: row[1],
+            quantity: row[2],
+            barcode: row[3],
+            tax: row[4],
+            unitPrice: row[5],
+            total: row[6]
+        };
+        rowsToSend.push(rowData);
     }
+
+
+   
 
     var jsonDataToSend = JSON.stringify(rowsToSend);
     const tableDataInput = document.getElementById('tableDataInput');
