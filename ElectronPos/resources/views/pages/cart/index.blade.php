@@ -271,7 +271,7 @@
     for (var i = 0; i < dataRows.length; i++) {
         var row = dataRows[i];
         var rowData = {
-            name: row[0],
+            id: row[0],
             name: row[1],
             quantity: row[2],
             barcode: row[3],

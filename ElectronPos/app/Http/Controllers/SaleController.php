@@ -77,7 +77,7 @@ class SaleController extends Controller
         //$tableData = $request->input("table_data");
         //dd($tableData);
         //dd($request->all());
-        dd($request->all());
+        //dd($request->all());
         $total = $request->input('total');
         $change = $request->input('change');
         $amountPaid = $request->input("amountPaid");
@@ -99,11 +99,11 @@ class SaleController extends Controller
     
         //Iterate through each item in the sale and associate it with the sale record
         foreach ($tableData as $item) {
-            (int)$productId = $item['id'];
+            $productId = $item['id'];
             $quantitySold = $item['quantity'];
             // Update the available quantity in the stocks table
             Stock::where('product_id', $productId)
-                ->decrement('quantity',(int)$quantitySold);
+                ->decrement('quantity',$quantitySold);
             // Associate the sold product with the sale
             $sale->products()->attach($productId, ['quantity' => $quantitySold]);
         }
