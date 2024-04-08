@@ -72,7 +72,11 @@ class SaleController extends Controller
 
         //dd($request->all());
         //dd($request->all());
-    // dd($request->all());
+        // dd($request->all());
+
+        $tableData = $request->input("table_data");
+        dd($tableData);
+       
         $total = $request->input('total');
         $change = $request->input('change');
         $amountPaid = $request->input("amountPaid");

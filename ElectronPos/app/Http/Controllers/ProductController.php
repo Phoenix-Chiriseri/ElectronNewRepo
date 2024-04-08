@@ -20,10 +20,15 @@ class ProductController extends Controller
     {
         
         $productCount = Product::all()->count();
-        $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
+        /*$products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
         ->select('products.id', 'products.name','products.barcode','products.created_at','products.description','products.price','products.selling_price','products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
         ->groupBy('products.id', 'products.name','products.barcode','products.description','products.price','products.selling_price','products.unit_of_measurement','products.created_at')
-        ->get();
+        ->get();*/
+        $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
+    ->select('products.id', 'products.name','products.barcode','products.created_at','products.description','products.price','products.selling_price','products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
+    ->groupBy('products.id', 'products.name','products.barcode','products.description','products.price','products.selling_price','products.unit_of_measurement','products.created_at')
+    ->orderByDesc('products.created_at')
+    ->get();
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
@@ -149,7 +154,7 @@ class ProductController extends Controller
      //create a new product and save it to the database
      public function store(Request $request)
      {
-         $product = new Product();
+         /*$product = new Product();
          $product->name = $request->input("name");
          $product->barcode = $request->input("barcode");
          $product->description = $request->input("description");
@@ -157,7 +162,22 @@ class ProductController extends Controller
          $product->selling_price = $request->input("selling_price");
          $product->unit_of_measurement = $request->input("unit_of_measurement");
          $product->category_id = $request->input("category_id");
-         $product->tax = $request->input("tax");
+         $product->tax = $request->input("tax");*/
+
+        $product = new Product(); 
+        $product->name = $request->input("name");
+        $product->barcode = $request->input("barcode");
+        $product->description = $request->input("description");
+        $product->price = $request->input("price");
+        $sellingPriceInLocalCurrency = $request->input("selling_price");
+        $sellingPriceInZig = $sellingPriceInLocalCurrency * 13.46;
+        //dd($sellingPriceInZig);
+        $product->selling_price = $sellingPriceInZig;
+        $product->unit_of_measurement = $request->input("unit_of_measurement");
+        $product->category_id = $request->input("category_id");
+        // Tax calculation remains unchanged
+        $product->tax = $request->input("tax");        
+         
          $product->save();   
          
          if ($product->save()) {
@@ -174,21 +194,16 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->barcode = $request->barcode;
         $product->description = $request->description;
-        // Convert price to "zig"
-        $priceInLocalCurrency = $request->price;
-        $priceInZig = $priceInLocalCurrency * 13.46;
-        $product->price = $priceInZig;
-        // Similarly, convert selling price to "zig"
+        $product_price = $request->price;
         $sellingPriceInLocalCurrency = $request->selling_price;
         $sellingPriceInZig = $sellingPriceInLocalCurrency * 13.46;
+        //dd($sellingPriceInZig);
         $product->selling_price = $sellingPriceInZig;
         $product->unit_of_measurement = $request->unit_of_measurement;
         $product->category_id = $request->category_id;
         // Tax calculation remains unchanged
-        $product->tax = $request->input("tax"); 
-
-        
-       /* $product->name = $request->name;
+        $product->tax = $request->input("tax");         
+        /*$product->name = $request->name;
         $product->barcode = $request->barcode;
         $product->description = $request->description;
         $product->price = $request->price;

@@ -152,6 +152,7 @@
                     total=product.price;
                 }
 
+
                 }else{
 
                     if(taxGroup==0.15){
@@ -216,37 +217,77 @@
     function updateCartUI() {
     const cartTableBody = $(".user-cart table tbody");
     cartTableBody.empty();
+   
+    //const latestProductData = {};
+    const tableRows = []; // Array to hold HTML rows
     state.cart.forEach((item) => {
         const rowHtml = `
-        <tr>
-    <td>${item.name}</td>   
-    <td>
-        <div class="input-group">
-            <input
-                type="number"
-                class="form-control border border-2 py-1 px-2 quantity-input"
-                value="${item.quantity}"
-                id="quantityField"
-                data-product-id="${item.id}"
-            />    
-        </div>
-    </td>
-    <td>${item.barcode}</td>    
-    <td class="tax-input">${(item.tax * item.quantity).toFixed(2)}</td>  
-    <td>${item.unitPrice.toFixed(2)}</td>
-    <td>
-        <div class="input-group-append">
-            <button class="btn btn-danger btn-lg py-1 px-2 remove-item" data-product-id="${item.id}">
-                <i class="fas fa-trash fa-2x"></i>
-            </button>
-        </div>
-    </td>
-    <td class="text-right" >${(item.total * item.quantity).toFixed(2)}</td>
-</tr>
+            <tr>
+                <td>${item.name}</td>   
+                <td>
+                    <div class="input-group">
+                        <input
+                            type="number"
+                            class="form-control border border-2 py-1 px-2 quantity-input"
+                            value="${item.quantity}"
+                            id="quantityField"
+                            data-product-id="${item.id}"
+                        />    
+                    </div>
+                </td>
+                <td>${item.barcode}</td>    
+                <td id="tax-input">${(item.tax * item.quantity).toFixed(2)}</td>  
+                <td>${item.unitPrice.toFixed(2)}</td>
+                <td>
+                    <div class="input-group-append">
+                        <button class="btn btn-danger btn-lg py-1 px-2 remove-item" data-product-id="${item.id}">
+                            <i class="fas fa-trash fa-2x"></i>
+                        </button>
+                    </div>
+                </td>
+                <td class="text-right" id="total">${(item.total * item.quantity).toFixed(2)}</td>
+            </tr>
         `;
-        cartTableBody.append(rowHtml);  
+        cartTableBody.append(rowHtml); 
+        tableRows.push(rowHtml); // Add HTML row to the array
+        tableRows.push([
+            item.name,
+            item.quantity,
+            item.barcode,
+            (item.tax * item.quantity).toFixed(2),
+            item.unitPrice.toFixed(2),
+            (item.total * item.quantity).toFixed(2)
+        ]); 
         
-        });
+        //var results = JSON.stringify(tableRows);
+        //tableDataInput.value = results;
+
+        var rowsToSend = [];
+
+    for (var i = 0; i < tableRows.length; i++) {
+    var row = tableRows[i];
+    var rowData = {
+        name: row[0],
+        quantity: row[1],
+        barcode: row[2],
+        tax: row[3],
+        unitPrice: row[4],
+        total: row[5]
+    };
+    rowsToSend.push(rowData);
+    }
+
+    var jsonDataToSend = JSON.stringify(rowsToSend);
+    const tableDataInput = document.getElementById('tableDataInput');
+    tableDataInput.value = jsonDataToSend;
+    
+        // Add item data as an array to the tableRows array
+        //updateCartUI();
+        //const tableDataInput = document.getElementById('tableDataInput');
+        //tableDataInput.value = JSON.stringify(tableRows);
+        //issue is here
+       // tableDataInput.value = JSON.stringify(state.cart);
+    });
 
         $(".remove-item").on("click", function () {
     const productId = $(this).data("product-id");
@@ -259,15 +300,15 @@ function removeCartItem(productId) {
     updateCartUI();
 }
         // Update the total value
-        let totalValue = 0;
-            state.cart.forEach(item => {
-                totalValue += item.total * item.quantity;
-            });
-            $("#totalValue").val(totalValue.toFixed(2));
+        let totalValue = 0
+    state.cart.forEach(item => {
+        totalValue += item.total * item.quantity;
+    });
+    $("#totalValue").val(totalValue.toFixed(2));
 
-            // Update the table data input
-            const tableDataInput = document.getElementById('tableDataInput');
-            tableDataInput.value = JSON.stringify(state.cart);
+    // Update the table data input
+    //const tableDataInput = document.getElementById('tableDataInput');
+    //tableDataInput.value = JSON.stringify(state.cart);
      
         function updateTotal() {
     const totalValue = state.cart.reduce((total, item) => {
@@ -312,7 +353,6 @@ function removeCartItem(productId) {
         });
 
         
-
             $(".quantity-input").on("input", function () {
                 const productId = $(this).data("product-id");
                 const newQuantity = parseInt($(this).val(), 10);
@@ -354,6 +394,7 @@ function removeCartItem(productId) {
             updateCartUI();
         }
     });
+
 
     //this is the code for the selecting a customer from the database
     $(document).ready(function () {
@@ -531,9 +572,22 @@ function getSaleItems() {
 }
 });
 
+$(document).on("input", ".quantity-input", function () {
+        const productId = $(this).data("product-id");
+        const newQuantity = parseInt($(this).val(), 10);
+        updateCartQuantity(productId, newQuantity);
+    });
+
+     function updateCartQuantity(productId, newQuantity) {
+        const cartItem = state.cart.find((item) => item.id === productId);
+        if (cartItem) {
+            cartItem.quantity = newQuantity;
+        }
+        updateCartUI();
+    }
+
 $("#sellForm").on("submit", function (event) {
     event.preventDefault();
-
     // Check if there are items in the cart
     if (state.cart.length === 0) {
         showAlert('Cart is empty', 'error');
@@ -568,7 +622,8 @@ $("#sellForm").on("submit", function (event) {
     sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][quantity]" value="' + updatedQuantity + '">';
     sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][tax]" value="' + updatedTax + '">';
     sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][total]" value="' + updatedTotal + '">';
-});
+    
+    });
 
     // Append the form to the document body and submit
     document.body.appendChild(sellForm);
@@ -700,6 +755,7 @@ $("#sellForm").on("submit", function (event) {
                         </div>
                     </div>
                     <hr>
+                    <div id = "finalCartResults"></div>
                     <div class="row">
                         <div class="col"></div>
                        
