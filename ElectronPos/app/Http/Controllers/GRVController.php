@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use PDF;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class GRVController extends Controller
 {
@@ -17,15 +18,16 @@ class GRVController extends Controller
      * Display a listing of the resource.
      */
     public function createGRN(){
-        
-        //fetch the grvs and then return the data to the front end
+        //managed to fix error for the grvs where it was pulling double records
         $grvs = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
-        ->leftJoin('stocks', 'g_r_v_s.id', '=', 'stocks.grv_id')
-        ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name')
-        ->distinct("g_r_v_s.id")
-        ->orderBy("g_r_v_s.id", "desc")
+        ->leftJoin('stocks', function ($join) {
+        $join->on('g_r_v_s.id', '=', 'stocks.grv_id')
+             ->where('stocks.id', '=', DB::raw('(SELECT MAX(id) FROM stocks WHERE stocks.grv_id = g_r_v_s.id)'));
+         })
+         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name')
+        ->distinct('g_r_v_s.id')
+        ->orderBy('g_r_v_s.id', 'desc')
         ->paginate(5);
-        //dd($grvs);
         $numberOfGrvs = GRV::all()->count();
         //return the grvs to the front end and populate a table
         return view("pages.create-grn")->with("grvs",$grvs)->with("numberOfGrvs",$numberOfGrvs);
