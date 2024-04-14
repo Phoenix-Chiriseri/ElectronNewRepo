@@ -26,8 +26,9 @@ class SaleController extends Controller
         )
         ->orderBy('sales.id', 'desc')
         ->paginate(3);
-        
-        return view("pages.view-sales")->with("sales",$sales);
+        //return the number of sales
+        $numberOfSales = Sales::all()->count();
+        return view("pages.view-sales")->with("sales",$sales)->with("numberOfSales",$numberOfSales);
     }
 
     public function finaliseSale(Request $request)

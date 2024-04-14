@@ -34,7 +34,8 @@ class StockController extends Controller
         ->select('products.name as product_name', 'cattegories.cattegory_name','products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
         ->groupBy('products.name', 'products.barcode', 'products.selling_price','cattegories.cattegory_name')
         ->get();
-        
+        $totalValueOfStock = Stock::sum('total_cost');
+        //dd($totalValueOfProducts);
         $lowestStockProduct = null;
         foreach ($stocks as $stock) {
         if ($stock->total_quantity <= $stockLevels) {
@@ -49,7 +50,7 @@ class StockController extends Controller
     if ($lowestStockProduct) {
     $flashMessages[] = "Product {$lowestStockProduct->product_name} is the lowest in stock with {$lowestStockProduct->total_quantity} items.";
     }
-        return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages);
+        return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages)->with("totalValueOfStock",$totalValueOfStock);
     }
         
     public function addToStock($id){

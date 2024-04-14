@@ -20,16 +20,14 @@ class ProductController extends Controller
     {
         
         $productCount = Product::all()->count();
-        /*$products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
+        //get the products from the database and get the stocvk count as well
+        $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
         ->select('products.id', 'products.name','products.barcode','products.created_at','products.description','products.price','products.selling_price','products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
         ->groupBy('products.id', 'products.name','products.barcode','products.description','products.price','products.selling_price','products.unit_of_measurement','products.created_at')
-        ->get();*/
-        $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
-    ->select('products.id', 'products.name','products.barcode','products.created_at','products.description','products.price','products.selling_price','products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
-    ->groupBy('products.id', 'products.name','products.barcode','products.description','products.price','products.selling_price','products.unit_of_measurement','products.created_at')
-    ->orderByDesc('products.created_at')
-    ->get();
-        return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
+        ->orderByDesc('products.created_at')
+        ->get();
+        $totalValueOfProducts = Product::sum('selling_price');
+        return view('pages.view-products')->with("products",$products)->with("productCount",$productCount)->with("totalValueOfProducts",$totalValueOfProducts);
     }
 
     //search by name on the cart
@@ -121,14 +119,12 @@ class ProductController extends Controller
         //return the cattegories for the product to the view
         $cattegories = Cattegory::orderBy("id","desc")->get();
         $suppliers = Supplier::orderBy("id","desc")->get();
+        //get the authenticated user from the database
         $user = Auth::user();
         return view("pages.add-product")->with("cattegories",$cattegories)->with("user",$user)->with("suppliers",$suppliers);
     }
+    
 
-    /**
-     * Store a newly created resource in storage.
-     */
-   
     public function show(Product $product)
     {
         //
@@ -142,16 +138,11 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-
      public function salesInvoice(){
         $companyDetails = CompanyData::latest()->first();
         return view("pages.salesInvoice")->with("details",$companyDetails);
      }
 
-     //create a new product and save it to the database
      public function store(Request $request)
      {
          /*$product = new Product();
@@ -171,15 +162,12 @@ class ProductController extends Controller
         $product->price = $request->input("price");
         $sellingPriceInLocalCurrency = $request->input("selling_price");
         $sellingPriceInZig = $sellingPriceInLocalCurrency * 13.46;
-        //dd($sellingPriceInZig);
         $product->selling_price = $sellingPriceInZig;
         $product->unit_of_measurement = $request->input("unit_of_measurement");
         $product->category_id = $request->input("category_id");
         // Tax calculation remains unchanged
         $product->tax = $request->input("tax");        
-         
-         $product->save();   
-         
+        $product->save();   
          if ($product->save()) {
             return redirect()->back()->with('success', 'Product Added Successfully');
          } else {

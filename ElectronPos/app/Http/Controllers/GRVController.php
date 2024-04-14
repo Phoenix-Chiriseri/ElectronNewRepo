@@ -24,9 +24,11 @@ class GRVController extends Controller
         ->select('g_r_v_s.*', 'suppliers.supplier_name', 'stocks.product_name')
         ->distinct("g_r_v_s.id")
         ->orderBy("g_r_v_s.id", "desc")
-        ->paginate(5);   
+        ->paginate(5);
+        //dd($grvs);
+        $numberOfGrvs = GRV::all()->count();
         //return the grvs to the front end and populate a table
-        return view("pages.create-grn")->with("grvs",$grvs);
+        return view("pages.create-grn")->with("grvs",$grvs)->with("numberOfGrvs",$numberOfGrvs);
     }
 
     public function generateGrv(){

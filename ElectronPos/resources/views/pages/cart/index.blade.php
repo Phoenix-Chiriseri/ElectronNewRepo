@@ -17,6 +17,12 @@
             $("#change").val(change); 
         });
 
+        $("#clearCalculations").on("click",function(){
+            $("#amountPaid").val(""); 
+            $("#totalValue").val(""); 
+            $("#change").val(""); 
+        });
+
         //function to clear the cart
         $("#clearCart").on("click", function () {
             state.cart = [];
@@ -95,8 +101,49 @@
             $("#prodResult").hide();
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
+
             if (product) {
-                // Check if the product is already in the cart
+                var taxGroup = product.tax;
+                var tax;
+                var total;
+                var unitPrice;
+                
+                ////
+                if(product.price_inc_tax=='No'){
+                    unitPrice = product.price;
+                    if(taxGroup==0.15){
+                    tax=product.price*taxGroup;
+                    total=product.price*1.15;
+                if(taxGroup=='ex'){
+                    tax='-';
+                }
+                }else{
+                    tax=0;
+                    total=product.price;
+                }
+
+
+                }else{
+
+                    if(taxGroup==0.15){
+                    unitPrice = product.price/1.15;
+                    total=product.price;
+                    tax=total-unitPrice;
+                    
+                if(taxGroup=='ex'){
+                    unitPrice=product.price;
+                    tax='-';
+                }
+                }else{
+                    unitPrice=product.price;
+                    tax=0;
+                    total=product.price;
+                }
+
+                }
+
+                
+                ////////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
                     // If the product is already in the cart, increase the quantity
@@ -107,7 +154,9 @@
                         id: product.id,
                         name: product.name,
                         barcode:product.barcode,
-                        price: parseFloat(product.price), // Assuming price is a string, convert it to a number
+                        tax:tax,
+                        unitPrice:unitPrice,
+                        total:parseFloat(total), // Assuming price is a string, convert it to a number
                         quantity: 1,
                     });
                 }
@@ -262,7 +311,7 @@
         ]); 
         
         var results = JSON.stringify(tableRows);
-        alert(results);
+        //alert(results);
         //tableDataInput.value = results;
 
         var rowsToSend = [];
@@ -288,13 +337,8 @@
     var jsonDataToSend = JSON.stringify(rowsToSend);
     const tableDataInput = document.getElementById('tableDataInput');
     tableDataInput.value = jsonDataToSend;
-    
-        // Add item data as an array to the tableRows array
-        //updateCartUI();
-        //const tableDataInput = document.getElementById('tableDataInput');
-        //tableDataInput.value = JSON.stringify(tableRows);
-        //issue is here
-       // tableDataInput.value = JSON.stringify(state.cart);
+
+       
     });
 
         $(".remove-item").on("click", function () {
@@ -355,7 +399,7 @@ function removeCartItem(productId) {
                     quantity: 1,
                 });
 
-                console.log("Product added to cart:", product);
+               // console.log("Product added to cart:", product);
                 updateCartUI();
             }
         });
@@ -723,22 +767,21 @@ $("#sellForm").on("submit", function (event) {
                     <div class="container-fluid">
                         <div class="card card-body mx-3 mx-md-4 mt-n6">
                             <div class="row">
-                                <div class="col-md-8">
-                                 <input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
-                                    <div id="searchResults"></div>
-                                    <div class="form-group">
+                                <!--<div class="col-md-8">
+                                 <<input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
+                                    <div id="searchResults"></div>!-->
+                                    <!--<div class="form-group">
                                         <select id="selectedCustomer" class="form-control">
-                                            <!-- Options will be dynamically populated when searching for customers -->
-                                        </select>
-                                    </div>
-                                </div>
+                                            < Options will be dynamically populated when searching for customers -->
+                                        <!--</select>
+                                    </div>!-->
+                                <!--</div>
                                 <div class="col-md-4">
                                     <a class="btn btn-danger" id="createCustomer" role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1"></span><i class="fa fa-user"></i>Create Customer
-                                    </a>
-                                   
-                                </div>
+                                    </a>            
+                                </div>!-->
                             </div>
                         </div>
                     </div>  
@@ -801,7 +844,9 @@ $("#sellForm").on("submit", function (event) {
                                 <hr>
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>
+                                <button type="button" class="btn btn-danger mb-2" id="clearCalculations"><i class="fa fa-cl"></i> Clear</button>
                             </form>
+                           
                             <div id = "showCustomerMessage" hidden></div>
                        </div>
                     <hr>

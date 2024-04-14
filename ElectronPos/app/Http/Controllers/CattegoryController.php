@@ -70,9 +70,7 @@ class CattegoryController extends Controller
         if (!$cattegory) {
             return redirect()->back()->with('error', 'Sorry, there a problem while creating product.');
         }
-        return redirect()->back()->with('success', 'Cattegory Successfully Created');
-      
-        
+        return redirect()->back()->with('success', 'Cattegory Successfully Created');  
     }
 
 
