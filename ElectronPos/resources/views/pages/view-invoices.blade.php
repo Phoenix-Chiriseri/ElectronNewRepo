@@ -47,24 +47,23 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
-                                               Total
+                                               Invoice Number
                                             </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Change
-                                             </th>
                                              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Created At
                                              </th>
-                                        
+                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                View Invoice
+                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($sales as $sale)
+                                        @foreach($invoices as $invoice)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$sale->total}}</h6>
+                                                        <h6 class="mb-0 text-sm">{{$invoice->id}}</h6>
                                                     </div>
                                                 </div>
                                             </td>  
@@ -72,23 +71,23 @@
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$sale->change}}</h6>
+                                                        <h6 class="mb-0 text-sm">{{$invoice->created_at}}</h6>
                                                     </div>
                                                 </div>
-                                            </td>  
+                                            </td> 
                                             <td>
-                                                <div class="d-flex px-2 py-1">
+                                                <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$sale->created_at}}</h6>
+                                                        <a href="{{ route('invoice.show', ['id' => $invoice->id]) }}" class="btn btn-danger">View Invoice</a>
                                                     </div>
                                                 </div>
-                                            </td>  
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-center mt-3">
-                                   {{$sales->links()}}
+                                   {{$invoices->links()}}
                                 </div>
                             </div>
                         </div>

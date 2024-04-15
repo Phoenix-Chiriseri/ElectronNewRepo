@@ -9,5 +9,11 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['html'];
+    protected $fillable = ['total', 'change', 'amountPaid', 'invoice_id','html'];
+
+    public function sale()
+    {
+        return $this->belongsTo(Sale::class, 'invoice_id');
+    }
+   
 }

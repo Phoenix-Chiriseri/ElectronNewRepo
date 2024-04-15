@@ -148,7 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/import-products', 'ProductController@import')->name('import-products');
 	//view the invoices in a table
 	Route::get('/view-invoices', [InvoiceController::class, 'viewInvoices'])->name('view-invoices');
-
+	Route::get('/view-invoice/{id}', [InvoiceController::class, 'viewInvoiceById'])->name('invoice.show');
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');

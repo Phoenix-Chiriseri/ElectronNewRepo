@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\CompanyData;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -13,11 +14,19 @@ class InvoiceController extends Controller
     public function viewInvoices()
     {
         //
-        $invoices = Invoice::orderBy("id",'desc');
-        $numberOfInvoices = Invoice::all()->count();
+        $invoices = Invoice::whereNotNull('id')->orderBy('id', 'desc')->paginate(5);
+        $numberOfInvoices = Invoice::count();
         return view('pages.view-invoices', ['invoices' => $invoices])->with("numberOfInvoices",$numberOfInvoices);
     }
 
+    public function viewinvoiceById($id){
+
+        $details = CompanyData::latest()->first();
+        //$invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::with('sale')->findOrFail($id);
+        return view('pages.single-invoice')->with("invoice",$invoice)->with("details",$details);
+    
+    }
     /**
      * Show the form for creating a new resource.
      */
