@@ -19,14 +19,15 @@ class SaleController extends Controller
      public function index()
     {
         //return the akes to the front end
-        $sales = Sales::leftJoin('customers', 'sales.customer_id', '=', 'customers.id')
-        ->select(
-        'sales.*',
-        'customers.*',
-        )
-        ->orderBy('sales.id', 'desc')
-        ->paginate(3);
+        //$sales = Sales::leftJoin('customers', 'sales.customer_id', '=', 'customers.id')
+        //->select(
+        //'sales.*',
+        //'customers.*',
+        //)
+      //  ->orderBy('sales.id', 'desc')
+        //->paginate(3);
         //return the number of sales
+        $sales = Sale::orderBy("id", "desc")->paginate(5);
         $numberOfSales = Sales::all()->count();
         return view("pages.view-sales")->with("sales",$sales)->with("numberOfSales",$numberOfSales);
     }
@@ -106,7 +107,6 @@ class SaleController extends Controller
                 'customer' => Customer::find($customerId), // Fetch the customer details
                 'items' => $tableData // Pass the sold items for the invoice
             ];
-
             return view('pages.salesInvoice', $data)->with("details",$companyDetails)->with("sale",$sale)->with("amountPaid",$amountPaid);
         } else {
             return redirect()->back()->with('error', 'Sorry, there was a problem doing the sale');

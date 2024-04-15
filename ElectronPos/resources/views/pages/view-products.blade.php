@@ -64,6 +64,11 @@ Swal.fire({
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Product</span>
                             </a>
+                            <a class="btn btn-success" href="{{ route('create-product') }}"
+                            role="tab" aria-selected="true">
+                            <i class="material-icons text-lg position-relative"></i>
+                            <span class="ms-1">Import Products</span>
+                           </a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive p-0">

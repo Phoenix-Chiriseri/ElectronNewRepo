@@ -143,6 +143,9 @@ Route::group(['middleware' => 'auth'], function () {
 	//api routes
 	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');
+	Route::get('/import-products', 'ProductController@showImportForm')->name('import-products');
+	Route::post('/import-products', 'ProductController@import')->name('import-products');
+
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');

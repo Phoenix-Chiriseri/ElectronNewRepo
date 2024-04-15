@@ -47,9 +47,6 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
-                                               Customer Name
-                                            </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                Total
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
@@ -64,13 +61,6 @@
                                     <tbody>
                                         @foreach($sales as $sale)
                                         <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$sale->customer_name}}</h6>
-                                                    </div>
-                                                </div>
-                                            </td>  
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
@@ -98,7 +88,7 @@
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-center mt-3">
-                                    {{ $sales->links('vendor.pagination.bootstrap-4') }}
+                                   {{$sales->links()}}
                                 </div>
                             </div>
                         </div>
