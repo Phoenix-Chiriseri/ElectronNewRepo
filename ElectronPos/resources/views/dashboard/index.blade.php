@@ -223,20 +223,10 @@ animation: blink 1s linear infinite;
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
         <div class="card z-index-2  ">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-        <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1 text-center" style="color:white;">
-          Top Selling Customers
-        </div>
         </div>
         <div class="card-body">
-          <ul class="list-group">
-            @foreach ($topCustomers as $customer)
-                <li class="list-group-item">
-                    {{ $customer->customer_name }} - $ {{ $customer->total_purchase }} 
-                </li>
-            @endforeach
-        </ul>
+          
         <div class="d-flex justify-content-center mt-3">
-            {{ $topCustomers->links('vendor.pagination.bootstrap-4') }}
         </div>
         <hr class="dark horizontal">
         <div class="d-flex ">

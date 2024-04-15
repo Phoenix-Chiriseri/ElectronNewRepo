@@ -37,12 +37,12 @@ class DashboardController extends Controller
     ->orderByDesc('total_quantity_sold')
     ->paginate(10); // Set the number of records per page
 
-        $topCustomers = DB::table('sales')
+        /*$topCustomers = DB::table('sales')
        ->select('customers.customer_name as customer_name', DB::raw('SUM(sales.total) as total_purchase'))
        ->join('customers', 'sales.customer_id', '=', 'customers.id')
         ->groupBy('sales.customer_id', 'customers.customer_name')
         ->orderByDesc('total_purchase')
-        ->paginate(3); // You can adjust the number of items per page as needed
+        ->paginate(3); // You can adjust the number of items per page as needed*/
 
         //set the stock levels 
         $lowestStockLevel = SetStockLevels::latest()->first();
@@ -78,6 +78,6 @@ class DashboardController extends Controller
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
-        ->with("totalSales",$totalSales)->with("topCustomers",$topCustomers)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel);
+        ->with("totalSales",$totalSales)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel);
     }
 }

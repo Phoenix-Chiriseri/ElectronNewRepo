@@ -24,6 +24,7 @@ use App\Http\Controllers\GrvController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SetStockLevelsController;
 use App\Http\Controllers\CompanyDataController;
+use App\Http\Controllers\InvoiceController;
 
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -145,6 +146,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');
 	Route::get('/import-products', 'ProductController@showImportForm')->name('import-products');
 	Route::post('/import-products', 'ProductController@import')->name('import-products');
+	//view the invoices in a table
+	Route::get('/view-invoices', [InvoiceController::class, 'viewInvoices'])->name('view-invoices');
 
 	Route::get('rtl', function () {
 		return view('pages.rtl');

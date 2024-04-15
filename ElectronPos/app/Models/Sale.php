@@ -11,6 +11,11 @@ class Sale extends Model
 
     protected $fillable = ['customer_id', 'total', 'change'];
 
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'sale_product')
