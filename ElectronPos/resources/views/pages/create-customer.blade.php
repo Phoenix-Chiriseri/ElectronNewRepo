@@ -119,14 +119,6 @@
                             <input type="text" name="customer_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>
                         </div>
                         <div class="form-group">
-                            <label for="customer_phonenumber">Contact Person</label>
-                            <input type="text" name="customer_contactperson" id="supplier_contactperson" class="form-control border border-2 p-2" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_phonenumber">Contact Person Number</label>
-                            <input type="text" name="customer_contactpersonnumber" id="supplier_contactperson" class="form-control border border-2 p-2" required>
-                        </div>
-                        <div class="form-group">
                             <label for="customer_status">Status</label>
                             <select name="customer_status" class="form-control border border-2 p-2" required>
                             <option value="active">Active</option>

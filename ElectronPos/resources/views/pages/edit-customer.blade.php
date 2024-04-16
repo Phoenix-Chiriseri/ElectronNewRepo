@@ -78,23 +78,23 @@
                             @method('PUT')
                             <div class="form-group">
                                 <label for="customer_name">Customer Name</label>
-                                <input type="text" name="customer_name" id="suppluer_name" class="form-control border border-2 p-2" required>
+                                <input type="text" name="customer_name" id="customer_name" value="{{$customer->customer_name}}" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="code">Customer Code</label>
-                                <input type="text" name="code" id="code" class="form-control border border-2 p-2" required>
+                                <input type="text" name="code" id="code" value="{{$customer->code}}" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="customer_taxnumber">Customer TIN Number</label>
-                                <input type="text" name="customer_tinnumber" maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                                <input type="text" name="customer_tinnumber" value="{{$customer->customer_tinnumber}}"  maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="customer_taxnumber">Customer VAT Number</label>
-                                <input type="text" name="customer_vatnumber" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                                <input type="text" name="customer_vatnumber" value="{{$customer->customer_vatnumber}}" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="customer_address">Customer Address</label>
-                                <input type="text" name="customer_address" id="customer_address" class="form-control border border-2 p-2" required>
+                                <input type="text" name="customer_address" value="{{$customer->customer_address}}" id="customer_address" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="supplier_status">Type</label>
@@ -105,15 +105,7 @@
                             <hr>
                             <div class="form-group">
                                 <label for="customer_phonenumber">Customer Phone Number</label>
-                                <input type="text" name="customer_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="customer_phonenumber">Contact Person</label>
-                                <input type="text" name="customer_contactperson" id="supplier_contactperson" class="form-control border border-2 p-2" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="customer_phonenumber">Contact Person Number</label>
-                                <input type="text" name="customer_contactpersonnumber" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                                <input type="text" name="customer_phonenumber" value="{{$customer->customer_phonenumber}}" id="customer_phonenumber" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="customer_status">Status</label>

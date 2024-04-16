@@ -81,7 +81,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <a href="{{ route('invoice.show', ['id' => $invoice->id]) }}" class="btn btn-danger">View Invoice</a>
+                                                        <a href="{{ route('invoice.show', ['id' => $invoice->invoice_id]) }}" class="btn btn-danger">View Invoice</a>
                                                     </div>
                                                 </div>
                                             </td>

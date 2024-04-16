@@ -15,7 +15,19 @@ class InvoiceController extends Controller
     public function viewInvoices()
     {
         //return the invoices to the front end
-        $invoices = Invoice::whereNotNull('id')->orderBy('id', 'desc')->paginate(5);
+        //$invoices = Invoice::whereNotNull('id')->orderBy('id', 'desc')->paginate(5);
+        //dd($invoices);
+        /*$invoices = Invoice::leftJoin('sales', 'sales.invoice_id', '=', 'invoices.id')
+                    ->select('invoices.*', 'sales.*') // Select all columns from both tables
+                    ->whereNotNull('invoices.id')
+                    ->orderBy('invoices.id', 'desc')
+                    ->paginate(5);
+        dd($invoices);*/
+        $invoices = Invoice::leftJoin('sales', 'sales.invoice_id', '=', 'invoices.id')
+                    ->select('invoices.id as invoice_id', 'invoices.*', 'sales.*') // Select all columns from both tables
+                    ->whereNotNull('invoices.id')
+                    ->orderBy('invoices.id', 'desc')
+                    ->paginate(5);
         $numberOfInvoices = Invoice::count();
         return view('pages.view-invoices', ['invoices' => $invoices])->with("numberOfInvoices",$numberOfInvoices);
     }
