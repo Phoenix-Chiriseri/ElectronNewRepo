@@ -20,7 +20,7 @@
                     // Convert the content to PDF with landscape orientation
                     html2pdf(salesTable[0], {
                         margin: 10,
-                        filename: 'SalesList.pdf',
+                        filename: 'InvoiceList.pdf',
                         jsPDF: { 
                             orientation: 'landscape' 
                         }
@@ -35,7 +35,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Sales</h6>
+                                <h6 class="text-white text-capitalize ps-3">Invoices</h6>
                                 <h6 class="text-white text-capitalize ps-3">Number Of Invoices {{$numberOfInvoices}}</h6>
                             </div>
                             <hr>
@@ -55,6 +55,9 @@
                                              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 View Invoice
                                              </th>
+                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Delete Invoice
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -79,6 +82,13 @@
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <a href="{{ route('invoice.show', ['id' => $invoice->id]) }}" class="btn btn-danger">View Invoice</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-0">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <a href="{{ route('invoice.delete', ['id' => $invoice->id]) }}" class="btn btn-danger">Delete Invoice</a>
                                                     </div>
                                                 </div>
                                             </td>
