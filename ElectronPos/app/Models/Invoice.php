@@ -15,5 +15,10 @@ class Invoice extends Model
     {
         return $this->belongsTo(Sale::class, 'invoice_id');
     }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
    
 }

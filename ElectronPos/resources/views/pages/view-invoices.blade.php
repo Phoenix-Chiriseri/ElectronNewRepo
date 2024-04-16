@@ -47,9 +47,7 @@
                             <hr>
                             <button class = "btn btn-info" id="exportSales"><i class = "fa fa-print"></i>Generate PDF</button>
                         </div>
-                        <div>
-                            <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Invoice...">
-                        </div>
+                        
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="invoicesTable">
@@ -58,15 +56,13 @@
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                Invoice Number
                                             </th>
-                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Created At
                                              </th>
-                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 View Invoice
                                              </th>
-                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Delete Invoice
-                                            </th>
+                                             
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,13 +90,13 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <!--<td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <a href="{{ route('invoice.delete', ['id' => $invoice->id]) }}" class="btn btn-danger">Delete Invoice</a>
+                                                        <a href="{{ route('invoice.delete', ['id' => $invoice->invoice_id]) }}" class="btn btn-danger">Delete Invoice</a>
                                                     </div>
                                                 </div>
-                                            </td>
+                                            </td>!-->
                                         </tr>
                                         @endforeach
                                     </tbody>
