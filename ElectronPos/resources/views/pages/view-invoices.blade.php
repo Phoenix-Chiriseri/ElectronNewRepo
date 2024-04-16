@@ -47,7 +47,7 @@
                             <hr>
                             <button class = "btn btn-info" id="exportSales"><i class = "fa fa-print"></i>Generate PDF</button>
                         </div>
-                        
+                        <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Invoice...">
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="invoicesTable">
