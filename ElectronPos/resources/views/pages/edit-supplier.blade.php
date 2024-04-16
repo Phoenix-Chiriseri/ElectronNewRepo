@@ -78,20 +78,20 @@
                             @method('PUT')
                             <div class="form-group">
                                 <label for="customer_name">Suppliers Name</label>
-                                <input type="text" name="supplier_name" id="suppluer_name" class="form-control border border-2 p-2" required>
+                                <input type="text" name="supplier_name" id="suppluer_name" value="{{$supplier->supplier_name}}" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="customer_taxnumber">Suppliers TIN Number</label>
-                                <input type="text" name="supplier_tinnumber" maxlength="10" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                                <input type="text" name="supplier_tinnumber" maxlength="10" id="supplier_taxnumber" value="{{$supplier->supplier_tinnumber}}" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="customer_taxnumber">Suppliers VAT Number</label>
-                                <input type="text" name="supplier_vatnumber" maxlength="9" id="supplier_taxnumber" class="form-control border border-2 p-2" required>
+                                <input type="text" name="supplier_vatnumber" maxlength="9" id="supplier_taxnumber" value="{{$supplier->supplier_vatnumber}}" class="form-control border border-2 p-2" required>
                             </div>
                            
                             <div class="form-group">
                                 <label for="customer_address">Suppliers Address</label>
-                                <input type="text" name="supplier_address" id="customer_address" class="form-control border border-2 p-2" required>
+                                <input type="text" name="supplier_address" id="customer_address" value="{{$supplier->supplier_vatnumber}}" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="supplier_status">Type</label>
@@ -102,15 +102,15 @@
                             <hr>
                             <div class="form-group">
                                 <label for="customer_phonenumber">Suppliers Phone Number</label>
-                                <input type="text" name="supplier_phonenumber" id="customer_phonenumber" class="form-control border border-2 p-2" required>
+                                <input type="text" name="supplier_phonenumber" value="{{$supplier->supplier_phonenumber}}" id="customer_phonenumber" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="customer_phonenumber">Contact Person</label>
-                                <input type="text" name="supplier_contactperson" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                                <input type="text" name="supplier_contactperson" value="{{$supplier->supplier_contactperson}}"  id="supplier_contactperson" class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="customer_phonenumber">Contact Person Number</label>
-                                <input type="text" name="supplier_contactpersonnumber" id="supplier_contactperson" class="form-control border border-2 p-2" required>
+                                <input type="text" name="supplier_contactpersonnumber" id="supplier_contactperson"  value="{{$supplier->supplier_contactpersonnumber}}"  class="form-control border border-2 p-2" required>
                             </div>
                             <div class="form-group">
                                 <label for="supplier_status">Status</label>
@@ -120,7 +120,7 @@
                                 </select>
                             <hr>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Create Supplier</button>
+                                <button type="submit" class="btn btn-primary">Update Supplier</button>
                             </div>
                         </form>
                     </div>

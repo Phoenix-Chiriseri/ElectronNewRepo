@@ -105,7 +105,6 @@ class CustomerController extends Controller
     {
         $customer->customer_name = $request->customer_name;
         $customer->code = $request->code;
-        $customer->customer_city = $request->customer_city;
         $customer->customer_address = $request->customer_address;
         $customer->customer_phonenumber = $request->customer_phonenumber;
         $customer->customer_vatnumber = $request->customer_vatnumber;
