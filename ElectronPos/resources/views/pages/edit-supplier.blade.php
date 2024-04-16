@@ -24,7 +24,7 @@
                                 {{ auth()->user()->name }}
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                                CEO / Co-Founder
+                               Electron Point Of Sale
                             </p>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Create A Supplier</h6>
+                                <h6 class="mb-3">Update A Supplier</h6>
                             </div>
                         </div>
                     </div>

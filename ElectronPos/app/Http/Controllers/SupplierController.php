@@ -101,26 +101,9 @@ class SupplierController extends Controller
     public function updateSupplier(Request $request, Supplier $supplier)
     {
 
-        $supplier = Supplier::create([
-            'code' => $request->code,
-            'supplier_name' => $request->supplier_name,
-            'supplier_tinnumber'=>$request->supplier_tinnumber,
-            'supplier_vatnumber'=>$request->supplier_vatnumber,
-            'supplier_address' => $request->supplier_address,
-            'supplier_phonenumber' => $request->supplier_phonenumber,
-            'customer_address' => $request->supplier_address,
-            'user_id' => $userId,
-            'supplier_status'=>$request->supplier_status,
-            'supplier_contactperson'=>$request->supplier_contactperson,
-            'supplier_contactpersonnumber'=>$request->supplier_contactpersonnumber,
-            'type'=>$request->supplier_type,
-            
-            ]);
-
         $supplier->supplier_name = $request->supplier_name;
         //$supplier->code = $request->code;
         $supplier->supplier_tinnumber= $request->supplier_tinnumber;
-        $supplier->supplier_taxnumber= $request->supplier_vatnumber;
         $supplier->supplier_address = $request->supplier_address;
         $supplier->supplier_phonenumber = $request->supplier_phonenumber;
         $supplier->supplier_status = $request->supplier_status;
