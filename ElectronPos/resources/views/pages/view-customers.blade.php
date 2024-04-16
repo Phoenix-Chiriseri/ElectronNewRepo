@@ -9,6 +9,16 @@
         <!-- End Navbar -->
         <script>
             $(document).ready(function () {
+
+                //search the customers
+                $("#searchInput").on("keyup", function () {
+                 var value = $(this).val().toLowerCase();   
+                 console.log(value);     
+                $("#customersTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+                });
+
                 $("#exportCustomers").on("click", function () {
                     // Clone the printable content
                     var customersTable = $("#customersTable").clone();
@@ -58,6 +68,9 @@
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Customer</span>
                             </a>
+                            <div>
+                                <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Customer...">
+                            </div>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">

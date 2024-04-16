@@ -115,7 +115,7 @@
                                 </select>
                             <hr>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Create Customer</button>
+                                <button type="submit" class="btn btn-primary">Update Customer</button>
                             </div>
                         </form>
                     </div>

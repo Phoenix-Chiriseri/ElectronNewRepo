@@ -10,6 +10,14 @@
         <!-- End Navbar -->
          <script>
             $(document).ready(function () {
+
+                $("#searchInput").on("keyup", function () {
+                 var value = $(this).val().toLowerCase();        
+                $("#suppliersTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+                });
+                
                 $("#exportSuppliers").on("click", function () {
                     // Clone the printable content
                     var suppliersTable = $("#suppliersTable").clone();
@@ -47,6 +55,9 @@
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Supplier</span>
                             </a>
+                            <div>
+                                <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Supplier...">
+                            </div>
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0" id="suppliersTable">

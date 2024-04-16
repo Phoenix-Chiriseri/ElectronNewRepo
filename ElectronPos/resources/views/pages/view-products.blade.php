@@ -14,6 +14,14 @@
         @endif
         <script>
             $(document).ready(function () {
+
+                $("#searchInput").on("keyup", function () {
+                 var value = $(this).val().toLowerCase();        
+                $("#productsTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+                });
+
                 $("#exportProducts").on("click", function () {
                     // Clone the printable content
                     var productTable = $("#productsTable").clone();
@@ -33,7 +41,10 @@
                         }
                     });
                 });
+
+                
             });
+            
         </script>
         <div class="container-fluid py-4">
             @if(session('success'))
@@ -64,6 +75,9 @@ Swal.fire({
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Product</span>
                             </a>
+                            <div>
+                                <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search products...">
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive p-0">

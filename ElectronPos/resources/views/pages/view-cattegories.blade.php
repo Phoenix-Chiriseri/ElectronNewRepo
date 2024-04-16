@@ -8,6 +8,15 @@
         <!-- End Navbar -->
         <script>
             $(document).ready(function () {
+
+                $("#searchInput").on("keyup", function () {
+                 var value = $(this).val().toLowerCase();        
+                $("#cattegoriesTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+                });
+
+                
                 $("#exportCattegories").on("click", function () {
                     // Clone the printable content
                     var cattegoryTable = $("#catteggoryTable").clone();
@@ -58,10 +67,13 @@
                                         <span class="ms-1">Add New Cattegory</span>
                             </a>
                         </div>
+                        <div>
+                            <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Cattegories...">
+                        </div>
                         <hr>   
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0" id="catteggoryTable">
+                                <table class="table align-items-center mb-0" id="cattegoriesTable">
                                     <thead>
                                         <tr>
                                             <th
