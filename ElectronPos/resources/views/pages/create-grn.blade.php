@@ -8,6 +8,12 @@
         <x-navbars.navs.auth titlePage="Create GRV"></x-navbars.navs.auth>
         <script>
             $(document).ready(function () {
+                $("#searchInput").on("keyup", function () {
+                 var value = $(this).val().toLowerCase();        
+                $("#grnTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+                });
                 $("#exportGrn").on("click", function () {
                     // Clone the printable content
                     var grnTable = $("#grnTable").clone();
@@ -56,6 +62,9 @@
                             <button class = "btn btn-info" id="exportGrn"><i class = "fa fa-print"></i>Generate PDF</button>
                             <a class="btn btn-danger brn-lg" href="{{ route('create-grn-view') }}"
                             role="tab" aria-selected="true">Create GRV</a>
+                        </div>
+                        <div>
+                            <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search GRV...">
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">      
