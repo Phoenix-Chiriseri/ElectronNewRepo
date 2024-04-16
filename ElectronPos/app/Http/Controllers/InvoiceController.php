@@ -23,10 +23,23 @@ class InvoiceController extends Controller
 
         $details = CompanyData::latest()->first();
         //$invoice = Invoice::findOrFail($id);
+        //$invoice = Invoice::with('sale')->findOrFail($id);
         $invoice = Invoice::with('sale')->findOrFail($id);
-        return view('pages.single-invoice')->with("invoice",$invoice)->with("details",$details);
-    
+        //dd($invoice);
+        // Check if the invoice exists  
+         if ($invoice) {
+            echo $invoice->html;
+         //$invoiceHtml = view('pages.invoice-view', [
+         //'invoice' => $invoice,
+         //'details' => $details,
+        //])->render();
+       // Render the view with the invoice and sale data
+       //$invoiceHtml = View::make('pages.invoice_template', ['invoice' => $invoice])->render();
+       //$invoiceHtml = view('pages.single-invoice', ['invoice' => $invoice])->render();
+       // Now $invoiceHtml contains the rendered HTML for the invoice
+       // You can then save the HTML to a file, return it as a response, or use it as needed    
     }
+}
     /**
      * Show the form for creating a new resource.
      */
