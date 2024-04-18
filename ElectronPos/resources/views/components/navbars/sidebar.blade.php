@@ -99,7 +99,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('viewall-stock') }}">Available Inventory</a>
-                    <a class="dropdown-item" href="{{ route('create-grn') }}">Good Received Voucher</a>
+                    <a class="dropdown-item" href="{{ route('create-grn') }}">Good Received Vouchers</a>
                     <a class="dropdown-item" href="{{ route('view-suppliers') }}">Suppliers</a>
                     <a class="dropdown-item" href="{{ route('view-inventoryvaluation') }}">Inventory Valuation Report</a>
                 </div>
