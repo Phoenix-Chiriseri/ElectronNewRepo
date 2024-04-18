@@ -80,6 +80,12 @@ Swal.fire({
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Export Products</span>
                             </a>
+                            <!-- import.blade.php -->
+                            <form action="{{ route('import-products') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input type="file" name="file" class="btn btn-danger btn-sm">
+                            <button type="submit" class="btn btn-info">Import Products</button>
+                            </form>
                             <div>
                                 <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search products...">
                             </div>

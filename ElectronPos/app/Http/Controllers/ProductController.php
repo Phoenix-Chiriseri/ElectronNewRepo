@@ -12,6 +12,7 @@ use App\Models\CompanyData;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Response;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -23,10 +24,10 @@ class ProductController extends Controller
         $productCount = Product::all()->count();
         //get the products from the database and get the stocvk count as well
         $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
-        ->select('products.id', 'products.name','products.barcode','products.created_at','products.description','products.price','products.selling_price','products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
-        ->groupBy('products.id', 'products.name','products.barcode','products.description','products.price','products.selling_price','products.unit_of_measurement','products.created_at')
-        ->orderByDesc('products.created_at')
-        ->get();
+    ->select('products.id', 'products.name', 'products.barcode', 'products.created_at', 'products.description', 'products.price', 'products.selling_price', 'products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
+    ->groupBy('products.id', 'products.name', 'products.barcode', 'products.description', 'products.price', 'products.selling_price', 'products.unit_of_measurement', 'products.created_at')
+    ->orderByDesc('products.id') // Order by id in descending order
+    ->get();
         $totalValueOfProducts = Product::sum('selling_price');
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount)->with("totalValueOfProducts",$totalValueOfProducts);
     }
@@ -204,6 +205,54 @@ class ProductController extends Controller
         return Response::stream($callback, 200, $headers);
     }
 
+
+    public function importProducts(Request $request)
+    {
+        // Validate the uploaded file
+       /* $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:csv,txt'
+        ]);*/
+    
+        /*if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }*/
+    
+        // Get the uploaded file
+        $file = $request->file('file');
+    
+        // Parse the CSV file and create products
+        $handle = fopen($file->getPathName(), 'r');
+        $firstRow = true; // Flag to skip the first row
+        while (($row = fgetcsv($handle, 1000, ',')) !== false) {
+            if ($firstRow) {
+                $firstRow = false;
+                continue; // Skip the first row
+            }
+    
+            $product = new Product();
+            // Assuming the first column is product name, second column is barcode, and so on...
+            $product->name = $row[0];
+            $product->barcode = $row[1];
+            $product->description = $row[2];
+            if (!is_numeric($row[3])) {
+                // Log or handle the error (e.g., skip the row, set default value)
+                continue; // Skip this row
+            }
+            $product->price = $row[3];
+            $product->selling_price = $row[4];
+            $product->unit_of_measurement = $row[5];
+            $product->tax = $row[6];
+            $product->category_id = $row[7];      
+            // Handling price_inc_tax as boolean
+            $product->price_inc_tax = strtolower($row[8]) === 'yes' ? true : false;
+            $product->created_at = now();
+            $product->updated_at = now();
+            $product->save();
+        }
+
+        fclose($handle);
+        return redirect()->back()->with('success', 'Products imported successfully!');
+    }
 
     public function updateProduct(Request $request, Product $product)
     {
