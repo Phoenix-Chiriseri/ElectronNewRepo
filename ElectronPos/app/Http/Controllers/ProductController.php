@@ -11,6 +11,7 @@ use App\Models\Supplier;
 use App\Models\CompanyData;
 use Auth;
 use Illuminate\Support\Facades\DB;
+use Response;
 
 class ProductController extends Controller
 {
@@ -174,6 +175,35 @@ class ProductController extends Controller
              return redirect()->back()->with('error', 'Sorry, there was a problem while saving your product');
           }    
     }
+
+    public function exportProducts(){
+
+        $products = Product::all();
+        // Define CSV header
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=products.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+
+        // Generate CSV content
+        $callback = function () use ($products) {
+            $file = fopen('php://output', 'w');
+            // CSV header row
+            fputcsv($file, array('Name', 'Barcode','Description','Price','Selling Price','Unit Of Measurement','Tax','Price Including Tax'));
+
+            // CSV data rows
+            foreach ($products as $product) {
+                fputcsv($file, array($product->name, $product->barcode,$product->description,$product->price,$product->selling_price,$product->unit_of_measurement,$product->tax,$product->price_inc_tax));
+            }
+            fclose($file);
+        };
+        // Return CSV response
+        return Response::stream($callback, 200, $headers);
+    }
+
 
     public function updateProduct(Request $request, Product $product)
     {

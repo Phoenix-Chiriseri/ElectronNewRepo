@@ -23,7 +23,7 @@ class EmployeeController extends Controller
 
     public function accessRights(){
 
-
+        //this is the part that will show the access rights for eah and every member
         return view("pages.access-rights");
 
     }

@@ -144,8 +144,9 @@ Route::group(['middleware' => 'auth'], function () {
 	//api routes
 	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');
-	Route::get('/import-products', 'ProductController@showImportForm')->name('import-products');
-	Route::post('/import-products', 'ProductController@import')->name('import-products');
+	Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');
+	//Route::get('/import-products', 'ProductController@showImportForm')->name('import-products');
+	//Route::post('/import-products', 'ProductController@import')->name('import-products');
 	//view the invoices in a table
 	Route::get('/view-invoices', [InvoiceController::class, 'viewInvoices'])->name('view-invoices');
 	Route::get('/view-invoice/{id}', [InvoiceController::class, 'viewInvoiceById'])->name('invoice.show');

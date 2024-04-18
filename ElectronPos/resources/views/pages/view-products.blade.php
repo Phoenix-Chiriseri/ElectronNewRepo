@@ -75,6 +75,11 @@ Swal.fire({
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Product</span>
                             </a>
+                            <a class="btn btn-success" href="{{ route('export-products') }}"
+                                        role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Export Products</span>
+                            </a>
                             <div>
                                 <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search products...">
                             </div>

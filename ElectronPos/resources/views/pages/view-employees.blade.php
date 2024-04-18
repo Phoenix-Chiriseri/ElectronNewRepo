@@ -1,8 +1,56 @@
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Tables"></x-navbars.navs.auth>
+        <script>
+            $(document).ready(function () {
+
+                //search the customers
+                $("#searchInput").on("keyup", function () {
+                 var value = $(this).val().toLowerCase();   
+                 console.log(value);     
+                $("#employeesTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+                });
+
+                $("#exportCustomers").on("click", function () {
+                    // Clone the printable content
+                    var customersTable = $("#customersTable").clone();
+        
+                    // Remove any unwanted elements (e.g., buttons, input fields)
+                    customersTable.find("button, input").remove();
+        
+                    // Remove specific columns (edit and delete) from the cloned table
+                    customersTable.find('th:nth-child(n+6), td:nth-child(n+6)').remove();
+        
+                    // Convert the content to PDF with landscape orientation
+                    html2pdf(customersTable[0], {
+                        margin: 10,
+                        filename: 'EmployeesList.pdf',
+                        jsPDF: { 
+                            orientation: 'landscape' 
+                        }
+                    });
+                });
+            });
+        </script>
+        <div class="container-fluid py-4">
+            @if(session('success'))
+            <script>
+            Swal.fire({
+                icon: 'success',
+                position: "top-end",
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 1000 // Adjust the timer as needed
+            });
+            </script>
+            @endif
+            
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
@@ -22,9 +70,12 @@
                                 </a>
                             </div>
                         </div>
+                        <div>
+                            <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Employee...">
+                        </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">
-                                <table class="table align-items-center" id="customersTable">
+                                <table class="table align-items-center" id="employeesTable">
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
