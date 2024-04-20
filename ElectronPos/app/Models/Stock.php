@@ -28,5 +28,7 @@ class Stock extends Model
     {
         return $this->belongsTo(GRV::class, 'grv_id');
     }
+
+    
     
 }

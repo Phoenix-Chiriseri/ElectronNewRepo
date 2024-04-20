@@ -68,6 +68,7 @@ class GRVController extends Controller
         return $pdf->download($fileName);
      
      }
+
      
      //create the grv and all the details along with it
     public function submitGrv(Request $request)
@@ -98,6 +99,67 @@ class GRVController extends Controller
         }
         
         return redirect()->route('create-grn')->with("success","GRV Saved Successfully");
+    }
+
+
+    
+
+    public function updateById($id)
+    {
+    
+        //$grv = GRV::find($id);
+        $suppliers = Supplier::orderBy("id","desc")->get();
+        $grv = GRV::with('stocks')->findOrFail($id);
+        $stocks = $grv->stocks;
+        
+        return view("pages.update-grv")->with("grv",$grv)->with("suppliers",$suppliers)->with("stocks",$stocks);
+
+    }
+
+    public function sendUpdate(Request $request, $id)
+    {
+
+        dd($request->all());
+
+        // Validate the form data
+        $validatedData = $request->validate([
+            'supplier_id' => 'required|exists:suppliers,id',
+            'grn_date' => 'required|date',
+            'payment_method' => 'required|in:cash,card,credit',
+            'additional_information' => 'required|string',
+            'supplier_invoicenumber' => 'required|string',
+            // Add validation rules for table_data if necessary
+        ]);
+
+        // Find the GRV by ID
+        $grv = GRV::findOrFail($id);
+
+        // Update the GRV with the validated data
+        $grv->update([
+            'supplier_id' => $validatedData['supplier_id'],
+            'grn_date' => $validatedData['grn_date'],
+            'payment_method' => $validatedData['payment_method'],
+            'additional_information' => $validatedData['additional_information'],
+            'supplier_invoicenumber' => $validatedData['supplier_invoicenumber'],
+        ]);
+
+        // You can also update the table data if needed
+        // For example, you can delete existing product records associated with the GRV
+        $grv->products()->delete();
+
+        // Then insert the new table data
+        foreach ($request->input('table_data') as $data) {
+            $grv->products()->create([
+                'product_name' => $data['product_name'],
+                'measurement' => $data['measurement'],
+                'quantity' => $data['quantity'],
+                'unit_cost' => $data['unit_cost'],
+                'total_cost' => $data['total_cost'],
+            ]);
+        }
+
+        // Redirect the user or return a response
+        return redirect()->route('grv.index')->with('status', 'GRV updated successfully');
     }
 
     /**

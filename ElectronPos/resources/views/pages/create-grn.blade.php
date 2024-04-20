@@ -94,6 +94,9 @@
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 View GRV</th>
+                                                <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Update GRV</th>
                                               
                                             <th class="text-secondary opacity-7"></th>
                                         </tr>
@@ -158,7 +161,15 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">
+                                                            <a href="{{ route('update-grv', $grv->id) }}" class ="btn btn-warning">Update GRV</a>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
