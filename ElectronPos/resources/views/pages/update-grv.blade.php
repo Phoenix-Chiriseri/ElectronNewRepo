@@ -13,49 +13,51 @@ https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 $(document).ready(function(){
-    // Form submission
+
+    $("#submitForm").submit(function(event) {
+    event.preventDefault();
     
-    //alert("hello world");
-  
-// Append the hidden form to the body and submit
-
-$("#submitForm").submit(function(event) {
-        event.preventDefault();
-
-        // Serialize the form data
-        var formData = $(this).serializeArray();
-        // Get table data
-        var tableData = [];
-        $(".table tbody tr").each(function() {
-            var row = {};
-            row.product_name = $(this).find("td:nth-child(1)").text();
-            row.measurement = $(this).find("td:nth-child(2)").text();
-            row.quantity = $(this).find(".quantity").text();
-            row.unit_cost = $(this).find(".unit-cost").text();
-            row.total_cost = $(this).find(".total-cost").text();
-            tableData.push(row);
-        });
-
-        // Include table data in the form data
-        if (tableData.length > 0) {
-            formData.push({
-                name: "table_data",
-                value: JSON.stringify(tableData)
-            });
-        }
-
-        // Create a hidden form and submit it
-        var hiddenForm = $('<form action="{{ route('grv.send-update', $grv->id) }}" method="POST"></form>');
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        hiddenForm.append('<input type="hidden" name="_token" value="' + csrfToken + '">');
-        hiddenForm.append('<input type="hidden" name="_method" value="PUT">');
-        formData.forEach(function(data) {
-            hiddenForm.append('<input type="hidden" name="' + data.name + '" value="' + data.value + '">');
-        });
-        $('body').append(hiddenForm);
-        hiddenForm.submit();
+    // Serialize the form data
+    var formData = $(this).serializeArray();
+    
+    // Get table data
+    var tableData = [];
+    $(".table tbody tr").each(function() {
+        var row = {};
+        row.product_name = $(this).find("td:nth-child(1)").text();
+        row.measurement = $(this).find("td:nth-child(2)").text();
+        row.quantity = $(this).find(".quantity").text();
+        row.unit_cost = $(this).find(".unit-cost").text();
+        row.total_cost = $(this).find(".total-cost").text();
+        tableData.push(row);
     });
 
+    // Include table data in the form data
+    if (tableData.length > 0) {
+        formData.push({
+            name: "table_data",
+            value: JSON.stringify(tableData)
+        });
+    }
+
+    // Create a hidden form and submit it
+    var hiddenForm = $('<form action="{{ route('grv.send-update', $grv->id) }}" method="POST"></form>');
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    hiddenForm.append('<input type="hidden" name="_token" value="' + csrfToken + '">');
+    hiddenForm.append('<input type="hidden" name="_method" value="PUT">');
+    
+    // Append form data
+    formData.forEach(function(data) {
+        hiddenForm.append('<input type="hidden" name="' + data.name + '" value="' + data.value + '">');
+    });
+
+    // Append table data
+    hiddenForm.append('<input type="hidden" name="table_data" value=\'' + JSON.stringify(tableData) + '\'>');
+
+    // Append the hidden form to the body and submit it
+    $('body').append(hiddenForm);
+    hiddenForm.submit();
+});
     // Update total cost when quantity or unit cost is changed
     $(document).on("input", ".quantity, .unit-cost", function() {
         var row = $(this).closest("tr");
@@ -292,6 +294,7 @@ $("#submitForm").submit(function(event) {
                           @if(isset($grv))
                             @method('PUT')
                           @endif
+                          <input type="hidden" name = "table-data" class="form-control">
                         <div class="row">
                             <div class="form-group">
                                 <label for="supplier_id">Select Supplier</label>

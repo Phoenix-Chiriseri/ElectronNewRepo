@@ -120,7 +120,6 @@ class GRVController extends Controller
     {
 
         dd($request->all());
-
         // Validate the form data
         $validatedData = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
@@ -133,7 +132,6 @@ class GRVController extends Controller
 
         // Find the GRV by ID
         $grv = GRV::findOrFail($id);
-
         // Update the GRV with the validated data
         $grv->update([
             'supplier_id' => $validatedData['supplier_id'],
@@ -142,11 +140,9 @@ class GRVController extends Controller
             'additional_information' => $validatedData['additional_information'],
             'supplier_invoicenumber' => $validatedData['supplier_invoicenumber'],
         ]);
-
-        // You can also update the table data if needed
+       // You can also update the table data if needed
         // For example, you can delete existing product records associated with the GRV
         $grv->products()->delete();
-
         // Then insert the new table data
         foreach ($request->input('table_data') as $data) {
             $grv->products()->create([
