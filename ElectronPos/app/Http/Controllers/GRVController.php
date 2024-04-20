@@ -111,7 +111,6 @@ class GRVController extends Controller
         $suppliers = Supplier::orderBy("id","desc")->get();
         $grv = GRV::with('stocks')->findOrFail($id);
         $stocks = $grv->stocks;
-        
         return view("pages.update-grv")->with("grv",$grv)->with("suppliers",$suppliers)->with("stocks",$stocks);
 
     }
@@ -119,7 +118,7 @@ class GRVController extends Controller
     public function sendUpdate(Request $request, $id)
     {
 
-        dd($request->all());
+        //dd($request->all());
         // Validate the form data
         $validatedData = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
@@ -129,9 +128,9 @@ class GRVController extends Controller
             'supplier_invoicenumber' => 'required|string',
             // Add validation rules for table_data if necessary
         ]);
-
         // Find the GRV by ID
         $grv = GRV::findOrFail($id);
+        $tableData = json_decode($request->input('table_data'), true);
         // Update the GRV with the validated data
         $grv->update([
             'supplier_id' => $validatedData['supplier_id'],
@@ -140,22 +139,34 @@ class GRVController extends Controller
             'additional_information' => $validatedData['additional_information'],
             'supplier_invoicenumber' => $validatedData['supplier_invoicenumber'],
         ]);
-       // You can also update the table data if needed
-        // For example, you can delete existing product records associated with the GRV
-        $grv->products()->delete();
-        // Then insert the new table data
-        foreach ($request->input('table_data') as $data) {
-            $grv->products()->create([
-                'product_name' => $data['product_name'],
-                'measurement' => $data['measurement'],
-                'quantity' => $data['quantity'],
-                'unit_cost' => $data['unit_cost'],
-                'total_cost' => $data['total_cost'],
-            ]);
-        }
 
-        // Redirect the user or return a response
-        return redirect()->route('grv.index')->with('status', 'GRV updated successfully');
+        foreach ($tableData as $data) {
+            // Retrieve the associated stock record based on the product name and the GRV ID
+            $stock = Stock::where('product_name', $data['product_name'])
+                          ->where('grv_id', $grv->id)
+                          ->first();
+
+            dd($stock);
+        
+            if ($stock) {
+                // Update existing stock
+                $stock->quantity += $data['quantity'];
+                $stock->unit_cost = $data['unit_cost'];
+                $stock->total_cost += $data['total_cost'];
+                $stock->save();
+            } else {
+                // Create new stock if it doesn't exist
+                Stock::create([
+                    'grv_id' => $grv->id, // Assuming 'grv_id' is the foreign key linking Stock to GRV
+                    'product_name' => $data['product_name'],
+                    'measurement' => $data['measurement'],
+                    'quantity' => $data['quantity'],
+                    'unit_cost' => $data['unit_cost'],
+                    'total_cost' => $data['total_cost'],
+                ]);
+            }
+        }    
+        return redirect()->route('create-grn')->with("success","GRV Updated Successfully");
     }
 
     /**

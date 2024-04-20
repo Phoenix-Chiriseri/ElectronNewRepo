@@ -21,4 +21,9 @@ class GRV extends Model
     {
         return $this->hasMany(Stock::class, 'grv_id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

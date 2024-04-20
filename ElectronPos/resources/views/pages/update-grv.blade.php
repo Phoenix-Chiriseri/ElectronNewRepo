@@ -14,7 +14,7 @@ https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
 <script>
 $(document).ready(function(){
 
-    $("#submitForm").submit(function(event) {
+   $("#submitForm").submit(function(event) {
     event.preventDefault();
     
     // Serialize the form data
@@ -48,11 +48,11 @@ $(document).ready(function(){
     
     // Append form data
     formData.forEach(function(data) {
-        hiddenForm.append('<input type="hidden" name="' + data.name + '" value="' + data.value + '">');
+        hiddenForm.append($('<input>').attr('type', 'hidden').attr('name', data.name).val(data.value));
     });
 
     // Append table data
-    hiddenForm.append('<input type="hidden" name="table_data" value=\'' + JSON.stringify(tableData) + '\'>');
+    hiddenForm.append($('<input>').attr('type', 'hidden').attr('name', 'table_data').val(JSON.stringify(tableData)));
 
     // Append the hidden form to the body and submit it
     $('body').append(hiddenForm);
