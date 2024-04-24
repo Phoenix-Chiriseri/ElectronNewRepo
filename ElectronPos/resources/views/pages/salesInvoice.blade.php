@@ -29,6 +29,12 @@
     </style>
     <script>
         $(document).ready(function () {
+
+            //print the invoice 
+            $("#printInvoice").on("click",function(){
+                window.print();
+            });
+
             $("#exportInvoice").on("click", function () {
                 // Clone the entire HTML content of the page
                 var pageContent = document.documentElement.cloneNode(true);       
@@ -183,7 +189,7 @@
                                 <a href="#" id="exportInvoice" class="btn btn-info">
                                     <i class="fa fa-download"></i> Download
                                 </a>
-                                <a href="#" class="btn btn-success">
+                                <a href="#" class="btn btn-success" id="printInvoice">
                                     <i class="fa fa-print"></i> Print
                                 </a>
                             </div>
