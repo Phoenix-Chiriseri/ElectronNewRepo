@@ -107,20 +107,20 @@
                                         @foreach($stocks as $stock)
                                         <tr>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$stock->product_name}}</p>
+                                                <p class="text-xs font-weight-bold mb-0" style="color:black;">{{$stock->product_name}}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$stock->barcode}}</p>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->barcode}}</p>
                                             </td>
                                             
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$stock->cattegory_name}}</p>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->cattegory_name}}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$stock->selling_price}}</p>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->selling_price}}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$stock->total_quantity}}</p>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->total_quantity}}</p>
                                             </td>
                                             </tr>
                                         @endforeach

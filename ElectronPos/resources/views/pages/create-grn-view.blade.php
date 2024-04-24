@@ -367,11 +367,11 @@ $(document).ready(function(){
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Product Name</th>
-                                    <th>Measurement</th>
-                                    <th>Grn Quantity</th>
-                                    <th>Unit Cost</th>
-                                    <th>Total Cost</th>    
+                                    <th style="color:black;">Product Name</th>
+                                    <th style="color:black;">Measurement</th>
+                                    <th style="color:black;">Grn Quantity</th>
+                                    <th style="color:black;">Unit Cost</th>
+                                    <th style="color:black;">Total Cost</th>    
                                 </tr>
                             </thead>
                             <tbody>

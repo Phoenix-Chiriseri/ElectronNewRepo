@@ -34,7 +34,7 @@ class ProductController extends Controller
 
     public function fetchProductsToMobile(){
 
-        $products = PRoduct::all();
+        $products=Product::orderBy('id','desc')->get();
         return response()->json(['products' => $products]);
     }
 

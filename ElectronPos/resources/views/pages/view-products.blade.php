@@ -80,7 +80,7 @@ Swal.fire({
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Export Products</span>
                             </a>
-                            <a class="btn btn-success" href="{{ route('price-tags') }}"
+                            <a class="btn btn-primary" href="{{ route('price-tags') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Price Tags</span>
