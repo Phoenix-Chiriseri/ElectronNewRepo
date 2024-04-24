@@ -88,7 +88,7 @@ Swal.fire({
                             <!-- import.blade.php -->
                             <form action="{{ route('import-products') }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <input type="file" name="file" class="btn btn-danger btn-sm">
+                            <input type="file" name="file" class="btn btn-danger btn-sm" required>
                             <button type="submit" class="btn btn-info">Import Products</button>
                             </form>
                             <div>

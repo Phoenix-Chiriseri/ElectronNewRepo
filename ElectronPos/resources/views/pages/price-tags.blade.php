@@ -62,7 +62,7 @@
         <div class="general">
             <h1 style="margin-left: 20px;">{{ $product->name }}</h1>
             <div class="text-center">
-                {!! DNS1D::getBarcodeHTML($product->barcode, 'C128') !!}
+                ,<h1 style="margin-right;60px;">{!! DNS1D::getBarcodeHTML($product->barcode, 'C128') !!}</h1>
                 <h4 class="text-center">{{ $product->barcode }}</h4>
             </div>
             <h1 class="text-center">{{ $product->selling_price }}</h1>
