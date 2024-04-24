@@ -38,6 +38,13 @@ class ProductController extends Controller
         return response()->json(['products' => $products]);
     }
 
+    public function getPriceTags(){
+
+        $products = Product::orderBy("id","desc")->get();
+        //dd($products);
+        return view("pages.price-tags")->with("products",$products);
+    
+    }
 
     //search by name on the cart
     public function searchByName($productName)

@@ -147,6 +147,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');
 	Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');
+	Route::get('/price-tags', [ProductController::class, 'getPriceTags'])->name('price-tags');
 	Route::post('/import-products', [ProductController::class, 'importProducts'])->name('import-products');
 	//Route::get('/import-products', 'ProductController@showImportForm')->name('import-products');
 	//Route::post('/import-products', 'ProductController@import')->name('import-products');

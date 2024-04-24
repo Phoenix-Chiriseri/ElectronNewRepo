@@ -80,6 +80,11 @@ Swal.fire({
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Export Products</span>
                             </a>
+                            <a class="btn btn-success" href="{{ route('price-tags') }}"
+                                        role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Price Tags</span>
+                            </a>
                             <!-- import.blade.php -->
                             <form action="{{ route('import-products') }}" method="post" enctype="multipart/form-data">
                             @csrf
