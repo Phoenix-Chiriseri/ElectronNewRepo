@@ -11,6 +11,36 @@
     <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+         /* Add your custom styles here */
+
+    /* Styles for screen media type */
+    @media screen {
+        .custom-actions-btns {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .custom-actions-btns .btn {
+            margin-left: 10px;
+            font-size: 14px;
+        }
+    }
+
+    /* Styles for print media type */
+    @media print {
+        .custom-actions-btns {
+            display: none; /* Hide the buttons when printing */
+        }
+    }
+
+    .invoice-container {
+        overflow-x: auto; /* Enable horizontal scrolling for the container */
+    }
+
+    .custom-table {
+        min-width: 100%; /* Ensure that the table occupies the full width of the container */
+    }
         /* Add your custom styles here */
         .invoice-container {
             overflow-x: auto; /* Enable horizontal scrolling for the container */

@@ -7,6 +7,12 @@
         <x-navbars.navs.auth titlePage="All Sales"></x-navbars.navs.auth>
         <script>
             $(document).ready(function () {
+                
+                //button that will print the invoice
+                $("#printInvoice").on("click",function(){
+                    window.invoicesTable.print();
+                });
+                
                 $("#searchInput").on("keyup", function () {
                  var value = $(this).val().toLowerCase();        
                 $("#invoicesTable tbody tr").filter(function () {
@@ -46,6 +52,7 @@
                             </div>
                             <hr>
                             <button class = "btn btn-info" id="exportSales"><i class = "fa fa-print"></i>Generate PDF</button>
+                            <button class = "btn btn-secondary" id="printInvoice"><i class = "fa fa-print"></i>Print Invoice</button>
                         </div>
                         <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Invoice...">
                         <div class="card-body px-0 pb-2">

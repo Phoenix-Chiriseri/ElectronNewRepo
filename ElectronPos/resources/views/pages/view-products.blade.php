@@ -15,6 +15,11 @@
         <script>
             $(document).ready(function () {
 
+                //print the products when the button is clicked
+                $("#printProducts").on("click",function(){
+                    window.print();
+                });
+                
                 $("#searchInput").on("keyup", function () {
                  var value = $(this).val().toLowerCase();        
                 $("#productsTable tbody tr").filter(function () {
@@ -69,7 +74,7 @@ Swal.fire({
                                 <h6 class="text-white text-capitalize ps-3">Total Value of Products {{$totalValueOfProducts}}</h6>
                             </div>
                             <hr>
-                            <button class = "btn btn-info" id="exportProducts"><i class = "fa fa-print"></i>Generate PDF</button>
+                            <button class = "btn btn-secondary" id="exportProducts"><i class = "fa fa-print"></i>Generate PDF</button>
                             <a class="btn btn-danger" href="{{ route('create-product') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
@@ -80,10 +85,16 @@ Swal.fire({
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Export Products</span>
                             </a>
+                            
                             <a class="btn btn-primary" href="{{ route('price-tags') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Price Tags</span>
+                            </a>
+                            <a class="btn btn-warning" href="" id="printProducts"
+                                        role="tab" aria-selected="true" style="color:black;">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Print</span>
                             </a>
                             <!-- import.blade.php -->
                             <form action="{{ route('import-products') }}" method="post" enctype="multipart/form-data">
