@@ -40,8 +40,7 @@ class ProductController extends Controller
 
     public function getPriceTags(){
 
-        $products = Product::orderBy("id","desc")->get();
-        //dd($products);
+        $products = DB::select("select distinct name,barcode,selling_price from products");
         return view("pages.price-tags")->with("products",$products);
     
     }

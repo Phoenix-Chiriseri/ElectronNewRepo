@@ -197,37 +197,31 @@ html, body {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 <script>
-  $(document).ready(function () {
-      $("#exportToPdf").on("click", function () {
-          console.log('Export button clicked');
-          // Select the container element that holds all the cards
-          var container = document.getElementById('cardContainer');
-
-          // Use html2canvas to capture the container as an image
-          html2canvas(container, {
-              onrendered: function(canvas) {
-                  // Convert the canvas image to PDF using jspdf
-                  var imgData = canvas.toDataURL('image/png');
-                  var pdf = new jsPDF();
-                  pdf.addImage(imgData, 'PNG', 0, 0, 210, 297); // A4 size: 210mm × 297mm
-                  pdf.save("MyTags.pdf");
-              }
-          });
-      });
-  });
+    $(document).ready(function () {
+        $("#exportToPdf").on("click", function () {
+            console.log('Export button clicked');
+            // Select the container element that holds all the cards
+            var container = document.getElementById('cardContainer');
+            // Use html2pdf to generate PDF
+            html2pdf().from(container).save('MyTags.pdf');
+        });
+    });
 </script>
+
 <button class="btn btn-info text-center" id="exportToPdf">Export To Pdf</button>
-<div id="cardContainer" class="center">
+<div id="cardContainer" style="margin-top: 100px;" class="center">
     @foreach ($products as $product)
     <div class="card" style="border:1px dashed #000;margin-top:100px;">
         <div class="general">
             <h1 class="text-center">{{ $product->name }}</h1>
             <div class="">
                 {!! DNS1D::getBarcodeHTML($product->barcode, 'C128') !!}
+                <h4 class="text-center">{{ $product->barcode }}</h4>
             </div>
-            <h1 class="text-center">{{ $product->price }}</h1>
+            <h1 class="text-center">{{ $product->selling_price }}</h1>
         </div>
     </div>
-    @endforeach
+    @endforeach``
 </div>
