@@ -15,7 +15,7 @@ class InvoiceController extends Controller
     //view the list of invoices
     public function viewInvoices()
     {
-        //retrieve the invoices and parse them to the front end
+        //retrieve the invoices to the front end and the count for the invoices to the front end
         $invoices = Invoice::leftJoin('sales', 'sales.invoice_id', '=', 'invoices.id')
                     ->select('invoices.id as invoice_id', 'invoices.*', 'sales.*') // Select all columns from both tables
                     ->whereNotNull('invoices.id')
@@ -26,7 +26,7 @@ class InvoiceController extends Controller
     }
 
     public function viewinvoiceById($id){
-
+        //view inormttion
         $details = CompanyData::latest()->first();
         $invoice = Invoice::with('sale')->findOrFail($id);
         if ($invoice) {

@@ -95,7 +95,6 @@ class CustomerController extends Controller
     
     }
 
-
     public function editCustomer($id){
         $customer = Customer::find($id);
         return view("pages.edit-customer")->with("customer",$customer);

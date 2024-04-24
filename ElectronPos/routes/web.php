@@ -157,4 +157,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
+	//return the json data to the front end that will fetch all the products to the front end
+	Route::get('/electronmobile-allproducts', [ProductController::class, 'fetchProductsToMobile'])->name('electronmobile-allproducts');
 });

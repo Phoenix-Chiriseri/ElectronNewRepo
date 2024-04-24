@@ -32,6 +32,13 @@ class ProductController extends Controller
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount)->with("totalValueOfProducts",$totalValueOfProducts);
     }
 
+    public function fetchProductsToMobile(){
+
+        $products = PRoduct::all();
+        return response()->json(['products' => $products]);
+    }
+
+
     //search by name on the cart
     public function searchByName($productName)
     {
@@ -208,18 +215,8 @@ class ProductController extends Controller
 
     public function importProducts(Request $request)
     {
-        // Validate the uploaded file
-       /* $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:csv,txt'
-        ]);*/
-    
-        /*if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }*/
-    
         // Get the uploaded file
         $file = $request->file('file');
-    
         // Parse the CSV file and create products
         $handle = fopen($file->getPathName(), 'r');
         $firstRow = true; // Flag to skip the first row
@@ -229,27 +226,23 @@ class ProductController extends Controller
                 continue; // Skip the first row
             }
     
+            //loop through the products and import them into the database
             $product = new Product();
             // Assuming the first column is product name, second column is barcode, and so on...
             $product->name = $row[0];
             $product->barcode = $row[1];
             $product->description = $row[2];
-            if (!is_numeric($row[3])) {
-                // Log or handle the error (e.g., skip the row, set default value)
-                continue; // Skip this row
-            }
             $product->price = $row[3];
             $product->selling_price = $row[4];
             $product->unit_of_measurement = $row[5];
             $product->tax = $row[6];
             $product->category_id = $row[7];      
             // Handling price_inc_tax as boolean
-            $product->price_inc_tax = strtolower($row[8]) === 'yes' ? true : false;
+            $product->price_inc_tax = $row[8];
             $product->created_at = now();
             $product->updated_at = now();
             $product->save();
         }
-
         fclose($handle);
         return redirect()->back()->with('success', 'Products imported successfully!');
     }

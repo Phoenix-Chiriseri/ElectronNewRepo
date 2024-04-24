@@ -69,7 +69,8 @@ class SupplierController extends Controller
         'type'=>$request->supplier_type,
         
         ]);
-    
+        
+        //if the supplier is saved
          if ($supplier) {
           return redirect()->back()->with('success', 'Supplier created successfully');
         }else{

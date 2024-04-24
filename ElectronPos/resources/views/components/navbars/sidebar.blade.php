@@ -150,7 +150,6 @@
                     <span class="nav-link-text ms-1">My Company</span>
                 </a>
             </li>
-           
          </div>
          <br>
         <div class="mx-3">

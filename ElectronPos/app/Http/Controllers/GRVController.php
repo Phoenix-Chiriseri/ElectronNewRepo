@@ -18,7 +18,8 @@ class GRVController extends Controller
      * Display a listing of the resource.
      */
     public function createGRN(){
-        //managed to fix error for the grvs where it was pulling double records
+        
+        //return the grvs to the front end
         $grvs = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
         ->leftJoin('stocks', function ($join) {
         $join->on('g_r_v_s.id', '=', 'stocks.grv_id')
@@ -73,8 +74,8 @@ class GRVController extends Controller
      //create the grv and all the details along with it
     public function submitGrv(Request $request)
     {
+        //create a new grv along with the product information
         $grv = new GRV(); // Use the GRV model
-        //$grv->grvNumber = $this->generateGRNNumber();
         $grv->total = $request->input("total");
         $grv->supplier_id = $request->input('supplier_id');
         $grv->grn_date = $request->input('grn_date');
@@ -82,7 +83,7 @@ class GRVController extends Controller
         $grv->additional_information = $request->input('additional_information');
         $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');        
         $grv->save(); 
-        // Save the table data
+        // Save the table data into the database
         $tableData = $request->input('table_data');
         foreach ($tableData as $rowData) {
             $tableRow = new Stock(); // Use the Stock model
@@ -118,8 +119,6 @@ class GRVController extends Controller
     public function sendUpdate(Request $request, $id)
     {
 
-        //dd($request->all());
-        // Validate the form data
         $validatedData = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'grn_date' => 'required|date',
@@ -145,9 +144,6 @@ class GRVController extends Controller
             $stock = Stock::where('product_name', $data['product_name'])
                           ->where('grv_id', $grv->id)
                           ->first();
-
-            dd($stock);
-        
             if ($stock) {
                 // Update existing stock
                 $stock->quantity += $data['quantity'];

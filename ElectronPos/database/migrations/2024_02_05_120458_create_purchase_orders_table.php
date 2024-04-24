@@ -16,6 +16,7 @@ return new class extends Migration
     $table->id();
     $table->unsignedBigInteger('supplier_id');
     $table->unsignedBigInteger('shop_id');
+    $table->unsignedBigInteger('grv_id');
     $table->date('purchaseorder_date');
     $table->string('payment_method');
     $table->date('expected_date');
@@ -25,8 +26,9 @@ return new class extends Migration
     $table->timestamps();
     $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
     $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
-    
-    });
+    $table->foreign('grv_id')->references('id')->on('g_r_v_s')->onDelete('cascade');
+   
+        });
     
     }
 

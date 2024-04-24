@@ -15,6 +15,7 @@ class CattegoryController extends Controller
     /**
      * Display a listing of the resource.
      */
+    //function that will view the cattegories
     public function viewCattegories()
     {
         $cattegories = Cattegory::orderBy("id", "desc")->paginate(5);
@@ -22,6 +23,7 @@ class CattegoryController extends Controller
         return view("pages.view-cattegories")->with("cattegories",$cattegories)->with("numberOfCattegories",$numberOfCattegories);
     }
     
+    //edit the cattegory and pass the id into the function
      public function editGroup($id){
 
         $cattegory = Cattegory::find($id);
@@ -31,8 +33,8 @@ class CattegoryController extends Controller
 
      public function deleteCattegory($id){
 
-        $id = intval($id); // Ensure $id is an integer
-        //Check if the product exists
+         $id = intval($id); // Ensure $id is an integer
+         //Check if the product exists
          $cattegory = Cattegory::find($id);
 
          if (!$cattegory) {

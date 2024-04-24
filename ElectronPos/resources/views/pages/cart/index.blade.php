@@ -10,6 +10,7 @@
             cart: [],
         };
 
+    
         $("#amountPaid").on("input", function () {     
             var amountPaid = $(this).val();
             var totalValue = $("#totalValue").val();
@@ -141,8 +142,7 @@
                 }
 
                 }
-
-                
+  
                 ////////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
