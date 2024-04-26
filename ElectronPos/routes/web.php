@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/search-product/{productName}', [ProductController::class, 'searchProduct']);
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
+	Route::get('/zig-screen', [ElectronPOE::class, 'zigScreen'])->name('zig-screen');
 	Route::get('/create-grn', [GRVController::class, 'createGRN'])->name('create-grn');
 	Route::get('/grn/{id}', [GRVController::class, 'viewById'])->name('grn.show');
 	Route::get('/update-grv/{id}', [GRVController::class, 'updateById'])->name('update-grv');

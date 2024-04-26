@@ -198,81 +198,47 @@
         });
     }
 
-    // Load the products by name.
     function loadProductsByName(productName) {
     axios.get(`/products/searchByName/${productName}`)
         .then((response) => {
             $("#prodResult").hide();
-            const products = response.data.products;  // Accessing products array in the response
-            const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
-
+            const products = response.data.products;
+            const product = products.length > 0 ? products[0] : null;
             if (product) {
                 var taxGroup = product.tax;
                 var tax;
                 var total;
                 var unitPrice;
                 
-                ////
-                if(product.price_inc_tax=='No'){
-                    unitPrice = product.price;
-                    if(taxGroup==0.15){
-                    tax=product.price*taxGroup;
-                    total=product.price*1.15;
-                if(taxGroup=='ex'){
-                    tax='-';
-                }
-                }else{
-                    tax=0;
-                    total=product.price;
-                }
+                // Adjust prices based on the multiplication factor (13.46)
+                const multiplicationFactor = 13.46;
 
-
-                }else{
-
-                    if(taxGroup==0.15){
-                    unitPrice = product.price/1.15;
-                    total=product.price;
-                    tax=total-unitPrice;
-                    
-                if(taxGroup=='ex'){
-                    unitPrice=product.price;
-                    tax='-';
-                }
-                }else{
-                    unitPrice=product.price;
-                    tax=0;
-                    total=product.price;
-                }
-
-                }
-
+                // Adjust unit price, tax, and total
+                unitPrice = product.price * multiplicationFactor;
+                tax = product.tax * multiplicationFactor;
+                total = (product.price + product.tax) * multiplicationFactor;
                 
                 ////////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
-                    // If the product is already in the cart, increase the quantity
                     existingCartItem.quantity += 1;
                 } else {
-                    // If the product is not in the cart, add it with quantity 1
                     state.cart.push({
                         id: product.id,
                         name: product.name,
-                        barcode:product.barcode,
-                        tax:tax,
-                        unitPrice:unitPrice,
-                        total:parseFloat(total), // Assuming price is a string, convert it to a number
+                        barcode: product.barcode,
+                        tax: tax,
+                        unitPrice: unitPrice,
+                        total: parseFloat(total),
                         quantity: 1,
                     });
                 }
-                // Update the user interface with the product information
                 updateCartUI();
-            } else {    
-
-                showAlert('Product Not Found',"error");
+            } else {
+                showAlert('Product Not Found', "error");
             }
         })
         .catch((error) => {
-            // Handle errors here
             console.error('Error loading products:', error);
         });
     }
@@ -725,7 +691,7 @@ $("#sellForm").on("submit", function (event) {
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='USD Screen'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='ZIG Screen'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <body>
             @if(session('success'))
@@ -810,7 +776,7 @@ $("#sellForm").on("submit", function (event) {
                             </div>
                         </div>
                     </div>  
-                    <h5 class="text-center">USD Screen</h5>
+                    <h5 class="text-center">ZIG Screen</h5>
                   
                     <div class="user-cart">
                         <div class="card">

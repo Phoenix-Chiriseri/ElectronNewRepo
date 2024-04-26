@@ -71,7 +71,7 @@ class GRVController extends Controller
      }
 
      
-     //create the grv and all the details along with it
+     //function that will save the grv
     public function submitGrv(Request $request)
     {
         //create a new grv along with the product information
