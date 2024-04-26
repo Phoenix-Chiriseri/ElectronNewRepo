@@ -73,6 +73,8 @@ class SaleController extends Controller
 
   
     public function doTransaction(Request $request) {
+
+        $userId= Auth::user()->id;
         $total = $request->input('total');
         $change = $request->input('change');
         $amountPaid = $request->input("amountPaid");
@@ -112,7 +114,8 @@ class SaleController extends Controller
     
         // Save the invoice HTML
         $invoice = Invoice::create([
-            'html' => $invoiceHtml
+            'html' => $invoiceHtml,
+            'user_id'=>$userId
         ]);
     
         // Associate the invoice with the sale

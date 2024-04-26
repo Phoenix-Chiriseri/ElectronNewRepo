@@ -17,10 +17,11 @@ class InvoiceController extends Controller
     {
         //retrieve the invoices to the front end and the count for the invoices to the front end
         $invoices = Invoice::leftJoin('sales', 'sales.invoice_id', '=', 'invoices.id')
-                    ->select('invoices.id as invoice_id', 'invoices.*', 'sales.*') // Select all columns from both tables
-                    ->whereNotNull('invoices.id')
-                    ->orderBy('invoices.id', 'desc')
-                    ->paginate(5);
+        ->leftJoin('users', 'invoices.user_id', '=', 'users.id') // Assuming invoices.user_id corresponds to users.id
+        ->select('invoices.id as invoice_id', 'invoices.*', 'sales.*','users.name') // Select all columns from both tables
+        ->orderBy('invoices.id', 'desc')
+        ->paginate(5);
+        //dd($invoices);
         $numberOfInvoices = Invoice::all()->count();
         return view('pages.view-invoices', ['invoices' => $invoices])->with("numberOfInvoices",$numberOfInvoices);
     }

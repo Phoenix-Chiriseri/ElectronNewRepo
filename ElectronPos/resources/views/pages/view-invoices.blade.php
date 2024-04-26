@@ -67,6 +67,9 @@
                                                 Created At
                                              </th>
                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Created By
+                                             </th>
+                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 View Invoice
                                              </th>
                                              
@@ -93,17 +96,17 @@
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$invoice->name}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td> 
+                                            <td>
+                                                <div class="d-flex px-2 py-0">
+                                                    <div class="d-flex flex-column justify-content-center">
                                                         <a href="{{ route('invoice.show', ['id' => $invoice->invoice_id]) }}" class="btn btn-danger">View Invoice</a>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <!--<td>
-                                                <div class="d-flex px-2 py-0">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <a href="{{ route('invoice.delete', ['id' => $invoice->invoice_id]) }}" class="btn btn-danger">Delete Invoice</a>
-                                                    </div>
-                                                </div>
-                                            </td>!-->
                                         </tr>
                                         @endforeach
                                     </tbody>

@@ -198,6 +198,7 @@
         });
     }
 
+    // Load the products by name.
     function loadProductsByName(productName) {
     axios.get(`/products/searchByName/${productName}`)
         .then((response) => {
@@ -209,16 +210,23 @@
                 var tax;
                 var total;
                 var unitPrice;
-                
-                // Adjust prices based on the multiplication factor (13.46)
-                const multiplicationFactor = 13.46;
 
-                // Adjust unit price, tax, and total
-                unitPrice = product.price * multiplicationFactor;
-                tax = product.tax * multiplicationFactor;
-                total = (product.price + product.tax) * multiplicationFactor;
-                
-                ////////
+                // Multiplication factor for prices
+                const priceMultiplicationFactor = 13.46;
+
+                // Adjust prices based on the multiplication factor
+                unitPrice = product.price * priceMultiplicationFactor;
+
+                // Tax calculation based on tax group and multiplication factor
+                if (taxGroup == 0.15) {
+                    tax = product.price * taxGroup * priceMultiplicationFactor;
+                    total = product.price * (1 + taxGroup) * priceMultiplicationFactor;
+                } else {
+                    tax = 0;
+                    total = product.price * priceMultiplicationFactor;
+                }
+
+                //////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
                     existingCartItem.quantity += 1;

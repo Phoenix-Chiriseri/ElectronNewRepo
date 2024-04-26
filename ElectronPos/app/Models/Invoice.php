@@ -9,7 +9,7 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['total', 'change', 'amountPaid', 'invoice_id','html'];
+    protected $fillable = ['total', 'change', 'amountPaid', 'invoice_id','html','user_id'];
 
     public function sale()
     {
