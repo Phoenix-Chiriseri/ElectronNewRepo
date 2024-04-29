@@ -140,6 +140,7 @@ class ProductController extends Controller
     }
     
 
+    //qwqwqwqwqwrwrwrwrwt
     public function show(Product $product)
     {
         //
@@ -160,27 +161,16 @@ class ProductController extends Controller
 
      public function store(Request $request)
      {
-         /*$product = new Product();
-         $product->name = $request->input("name");
-         $product->barcode = $request->input("barcode");
-         $product->description = $request->input("description");
-         $product->price = $request->input("price");
-         $product->selling_price = $request->input("selling_price");
-         $product->unit_of_measurement = $request->input("unit_of_measurement");
-         $product->category_id = $request->input("category_id");
-         $product->tax = $request->input("tax");*/
 
         $product = new Product(); 
         $product->name = $request->input("name");
         $product->barcode = $request->input("barcode");
         $product->description = $request->input("description");
         $product->price = $request->input("price");
-        $sellingPriceInLocalCurrency = $request->input("selling_price");
-        $sellingPriceInZig = $sellingPriceInLocalCurrency * 13.46;
-        $product->selling_price = $sellingPriceInZig;
+        $product->selling_price = $request->input("selling_price");
         $product->unit_of_measurement = $request->input("unit_of_measurement");
         $product->category_id = $request->input("category_id");
-        // Tax calculation remains unchanged
+        //Tax calculation remains unchanged
         $product->tax = $request->input("tax");        
         $product->save();   
          if ($product->save()) {
@@ -263,21 +253,10 @@ class ProductController extends Controller
         $product_price = $request->price;
         $sellingPriceInLocalCurrency = $request->selling_price;
         $sellingPriceInZig = $sellingPriceInLocalCurrency * 13.46;
-        //dd($sellingPriceInZig);
         $product->selling_price = $sellingPriceInZig;
         $product->unit_of_measurement = $request->unit_of_measurement;
         $product->category_id = $request->category_id;
-        // Tax calculation remains unchanged
         $product->tax = $request->input("tax");         
-        /*$product->name = $request->name;
-        $product->barcode = $request->barcode;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->selling_price = $request->selling_price;
-        $product->unit_of_measurement = $request->unit_of_measurement;
-        $product->category_id = $request->category_id;
-        $product->tax = $request->input("tax");*/
-    
         if ($request->has('category_id')) {
             $category = Cattegory::findOrFail($request->category_id);
             $product->category()->associate($category);
@@ -286,6 +265,7 @@ class ProductController extends Controller
         if (!$product->save()) {
             return redirect()->back()->with('error', 'Sorry, there\'s a problem while updating the product.');
         }
+       
         // Redirect to the 'view-products' route after successful update
         return redirect()->route('view-products')->with('success', 'Success, your product has been updated.');
     }

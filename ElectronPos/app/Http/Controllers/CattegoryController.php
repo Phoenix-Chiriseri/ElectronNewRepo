@@ -31,6 +31,7 @@ class CattegoryController extends Controller
      }
 
 
+     //function that will delete the cattegory
      public function deleteCattegory($id){
 
          $id = intval($id); // Ensure $id is an integer
@@ -53,6 +54,7 @@ class CattegoryController extends Controller
         }
     }
 
+    //function that will show the page to create the cattegory
     public function create()
     {
         //

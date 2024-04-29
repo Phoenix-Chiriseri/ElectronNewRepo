@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Rate;
 use App\Models\Customer;
 use App\Http\Requests\SaleRequest;
 use App\Models\Product;
@@ -39,6 +40,8 @@ class ElectronPOE extends Controller
     public function zigScreen()
     {
         $customers = Customer::orderBy('id', 'DESC')->get();
+        $currentRate = Rate::latest()->first();
+        $rate = $currentRate["setRate"];
         //Get the products information
         //Get the products information
         $products = Product::orderBy('name', 'DESC')->get();
@@ -52,7 +55,7 @@ class ElectronPOE extends Controller
         }
         return view(
             'pages.cart.zig-screen',
-            compact('customers', 'products', 'totalSalesPerDay')
+            compact('customers', 'products', 'totalSalesPerDay','rate')
         );
     }  
     //return the total sales for the entire day

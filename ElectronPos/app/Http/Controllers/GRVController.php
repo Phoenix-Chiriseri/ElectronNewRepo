@@ -29,6 +29,7 @@ class GRVController extends Controller
         ->distinct('g_r_v_s.id')
         ->orderBy('g_r_v_s.id', 'desc')
         ->paginate(5);
+        //return the number of grvs to the front end
         $numberOfGrvs = GRV::all()->count();
         //return the grvs to the front end and populate a table
         return view("pages.create-grn")->with("grvs",$grvs)->with("numberOfGrvs",$numberOfGrvs);

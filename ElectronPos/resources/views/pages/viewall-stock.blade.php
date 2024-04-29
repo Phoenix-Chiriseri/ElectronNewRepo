@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
@@ -12,7 +12,6 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var messages = {!! json_encode($flashMessages) !!};
-    
                 // Display each flash message as a Noty notification
                 messages.forEach(function(message) {
                     new Noty({
@@ -31,14 +30,17 @@
                         }
                     }).show();
                 });
+                
             });
+            
+           
         </script>
     @endif  <!-- Navbar -->
         <x-navbars.navs.auth titlePage="All Stock Items"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <script>
             $(document).ready(function () {
-
+                //alert("hello world");
                 $("#searchInput").on("keyup", function () {
                  var value = $(this).val().toLowerCase();        
                 $("#stockTable tbody tr").filter(function () {
@@ -46,11 +48,37 @@
                 });
                 });
 
+                $("#toggleSwitch").on("change", function () {
+            if ($(this).is(":checked")) {
+                alert("hello world this is itai neil chiriseri");
+                console.log(":CHECKED");
+                // Show negative stock only
+                $("tbody tr").each(function () {
+                    var stockCount = parseInt($(this).find("td:last-child").text());
+                    console.log("this is the stock count"+stockCount);
+                    if (stockCount >= 0) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            } else {
+                // Show positive stock only
+                $("tbody tr").each(function () {
+                    var stockCount = parseInt($(this).find("td:last-child").text());
+                    if (stockCount < 0) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            }
+        });
 
                 $("#exportStock").on("click", function () {
                     // Clone the printable content
                     var stockTable = $("#stockTable").clone();
-                    
+                    console.log(stockTable);
                     // Remove any unwanted elements (e.g., buttons, input fields)
                     stockTable.find("button, input").remove();
         
@@ -67,6 +95,28 @@
                     });
                 });
             });
+            
+            $("#showNegativeStock").on("click",function(){
+                alert("hello world");
+            });
+
+            $("#toggleSwitch").on("change", function () {
+    if ($(this).is(":checked")) {
+        // Show negative stock only
+        $("tbody tr").each(function () {
+            var stockCount = parseInt($(this).find("td:last-child").text());
+            if (stockCount >= 0) {
+                $(this).hide();
+            } else {
+               // window.location.href = "/view-all-stockitems";
+                //$(this).show();
+            }   //window.href="/view-all-stockitems";
+        });
+    } else {
+        // Show all stock
+        $("tbody tr").show();
+    }
+});
         </script> 
         <div class="container-fluid py-4">
             <div class="row">
@@ -77,9 +127,20 @@
                                 <h6 class="text-white text-capitalize ps-3">Available Stock</h6>
                                 <h6 class="text-white text-capitalize ps-3">Total Value of Stock {{$totalValueOfStock}}</h6>
                             </div>
+                            
                             <hr>
                             <button class="btn btn-info" id="exportStock">Export To Pdf</button>
-                        </div>
+                            <a class="btn btn-success" href="{{ route('viewall-stock') }}"
+                            role="tab" aria-selected="true">
+                            <i class="material-icons text-lg position-relative"></i>
+                            <span class="ms-1">View All Stock</span>
+                        </a>
+                                                  
+                        </div>    
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="toggleSwitch">
+                            <label class="form-check-label" for="showNegativeStock">Show Negative Stock</label>
+                        </div>                        
                         <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Product...">
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">

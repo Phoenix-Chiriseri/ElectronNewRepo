@@ -9,7 +9,6 @@
             products: {!! json_encode($products) !!},
             cart: [],
         };
-
     
         $("#amountPaid").on("input", function () {     
             var amountPaid = $(this).val();
@@ -125,21 +124,23 @@
     axios.get(`/products/searchByCode/${productCode}`)
         .then((response) => {
             $("#prodResult").hide();
+            $("#prodResult").hide();
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
-
+            //maths dza scones dzashanda calculations are okay
             if (product) {
                 var taxGroup = product.tax;
                 var tax;
                 var total;
                 var unitPrice;
-                
+                //the current rate to be fetched from the database
+                var rate = 13.56;
                 ////
                 if(product.price_inc_tax=='No'){
-                    unitPrice = product.price;
+                    unitPrice = product.price*rate;
                     if(taxGroup==0.15){
-                    tax=product.price*taxGroup;
-                    total=product.price*1.15;
+                    tax=product.price*rate*taxGroup;
+                    total=product.price*rate*1.15;
                 if(taxGroup=='ex'){
                     tax='-';
                 }
@@ -152,8 +153,8 @@
                 }else{
 
                     if(taxGroup==0.15){
-                    unitPrice = product.price/1.15;
-                    total=product.price;
+                    unitPrice = product.price*rate/1.15;
+                    total=product.price*rate;
                     tax=total-unitPrice;
                     
                 if(taxGroup=='ex'){
@@ -163,11 +164,12 @@
                 }else{
                     unitPrice=product.price;
                     tax=0;
-                    total=product.price;
+                    total=product.price*rate;
                 }
 
                 }
-  
+
+                
                 ////////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
@@ -198,59 +200,102 @@
         });
     }
 
-    // Load the products by name.
+    //use axios to fetch the rate from the server and store the result
+    function fetchRate() {
+    return axios.get('/getRate')
+        .then((response) => {
+            return response.data.rate; // Assuming the response contains the rate
+        })
+        .catch((error) => {
+            console.error('Error loading rate:', error);
+            return null;
+        });
+    }
+
+
+    // Load the product` by name.
     function loadProductsByName(productName) {
     axios.get(`/products/searchByName/${productName}`)
         .then((response) => {
             $("#prodResult").hide();
-            const products = response.data.products;
-            const product = products.length > 0 ? products[0] : null;
+            const products = response.data.products;  // Accessing products array in the response
+            const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
+            //maths dza scones dzashanda calculations are okay
             if (product) {
                 var taxGroup = product.tax;
                 var tax;
                 var total;
                 var unitPrice;
-
-                // Multiplication factor for prices
-                const priceMultiplicationFactor = 13.46;
-
-                // Adjust prices based on the multiplication factor
-                unitPrice = product.price * priceMultiplicationFactor;
-
-                // Tax calculation based on tax group and multiplication factor
-                if (taxGroup == 0.15) {
-                    tax = product.price * taxGroup * priceMultiplicationFactor;
-                    total = product.price * (1 + taxGroup) * priceMultiplicationFactor;
-                } else {
-                    tax = 0;
-                    total = product.price * priceMultiplicationFactor;
+                //the current rate to be fetched from the database
+                var rate = 13.56;
+                //console.log("this is the fetched rate")
+                ////
+                if(product.price_inc_tax=='No'){
+                    unitPrice = product.price*rate;
+                    if(taxGroup==0.15){
+                    tax=product.price*rate*taxGroup;
+                    total=product.price*rate*1.15;
+                if(taxGroup=='ex'){
+                    tax='-';
+                }
+                }else{
+                    tax=0;
+                    total=product.price;
                 }
 
-                //////
+
+                }else{
+
+                    if(taxGroup==0.15){
+                    unitPrice = product.price*rate/1.15;
+                    total=product.price*rate;
+                    tax=total-unitPrice;
+                    
+                if(taxGroup=='ex'){
+                    unitPrice=product.price;
+                    tax='-';
+                }
+                }else{
+                    unitPrice=product.price;
+                    tax=0;
+                    total=product.price*rate;
+                }
+
+                }
+
+                
+                ////////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
+                    // If the product is already in the cart, increase the quantity
                     existingCartItem.quantity += 1;
                 } else {
+                    // If the product is not in the cart, add it with quantity 1
                     state.cart.push({
                         id: product.id,
                         name: product.name,
-                        barcode: product.barcode,
-                        tax: tax,
-                        unitPrice: unitPrice,
-                        total: parseFloat(total),
+                        barcode:product.barcode,
+                        tax:tax,
+                        unitPrice:unitPrice,
+                        total:parseFloat(total), // Assuming price is a string, convert it to a number
                         quantity: 1,
                     });
                 }
+                // Update the user interface with the product information
                 updateCartUI();
-            } else {
-                showAlert('Product Not Found', "error");
+            } else {    
+
+                showAlert('Product Not Found',"error");
             }
         })
         .catch((error) => {
+            // Handle errors here
             console.error('Error loading products:', error);
         });
     }
+    
 
+    
     function showAlert(message,errorIconMessage){
         Swal.fire({
                 position: "top-end",

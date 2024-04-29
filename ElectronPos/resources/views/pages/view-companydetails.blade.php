@@ -163,9 +163,7 @@ mark {
                                         <span class="ms-1">Dashboard</span>
                         </a>
                         <hr>
-                        <a class="btn btn-danger btn-sm" href="{{ route('dashboard') }}"
-                        role="tab" aria-selected="true">Update Company Details</span>
-                       </a>
+                       
                     </div>
                 </div>
             </div>

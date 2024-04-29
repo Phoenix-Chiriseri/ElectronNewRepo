@@ -25,6 +25,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SetStockLevelsController;
 use App\Http\Controllers\CompanyDataController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\RateController;
 
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -150,6 +151,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');
 	Route::get('/price-tags', [ProductController::class, 'getPriceTags'])->name('price-tags');
 	Route::post('/import-products', [ProductController::class, 'importProducts'])->name('import-products');
+	Route::get('/view-rates', [RateController::class, 'index'])->name('view-rates');
+	Route::post('/submit-rate', [RateController::class, 'store'])->name('submit-rate');
+	//route that will get the rate
+	Route::get('/getRate', [RateController::class, 'getRate'])->name('get-rate');
 	//Route::get('/import-products', 'ProductController@showImportForm')->name('import-products');
 	//Route::post('/import-products', 'ProductController@import')->name('import-products');
 	//view the invoices in a table

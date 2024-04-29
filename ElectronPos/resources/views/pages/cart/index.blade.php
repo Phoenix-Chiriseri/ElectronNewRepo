@@ -10,6 +10,7 @@
             cart: [],
         };
 
+        
     
         $("#amountPaid").on("input", function () {     
             var amountPaid = $(this).val();
