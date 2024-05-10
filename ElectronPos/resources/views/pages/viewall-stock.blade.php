@@ -50,8 +50,8 @@
 
                 $("#toggleSwitch").on("change", function () {
             if ($(this).is(":checked")) {
-                alert("hello world this is itai neil chiriseri");
-                console.log(":CHECKED");
+                //alert("hello world this is itai neil chiriseri");
+                //console.log(":CHECKED");
                 // Show negative stock only
                 $("tbody tr").each(function () {
                     var stockCount = parseInt($(this).find("td:last-child").text());

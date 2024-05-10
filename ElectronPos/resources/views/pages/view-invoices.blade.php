@@ -63,9 +63,7 @@
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                Invoice Number
                                             </th>
-                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
-                                                Created At
-                                             </th>
+                                            
                                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Created By
                                              </th>
@@ -93,13 +91,7 @@
                                                     </div>
                                                 </div>
                                             </td> 
-                                            <td>
-                                                <div class="d-flex px-2 py-0">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$invoice->name}}</h6>
-                                                    </div>
-                                                </div>
-                                            </td> 
+                                          
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">

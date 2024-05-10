@@ -180,6 +180,7 @@ class ProductController extends Controller
           }    
     }
 
+    //this is the function
     public function exportProducts(){
 
         $products = Product::all();

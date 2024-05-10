@@ -119,7 +119,6 @@ class GRVController extends Controller
 
     public function sendUpdate(Request $request, $id)
     {
-
         $validatedData = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'grn_date' => 'required|date',

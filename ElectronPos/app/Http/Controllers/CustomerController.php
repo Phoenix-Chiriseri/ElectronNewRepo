@@ -15,8 +15,7 @@ class CustomerController extends Controller
      */
     public function viewAllCustomers()
     {
-        //return the customers to the front end
-
+        //returnb the citomer to the ront en
         $customers = Customer::leftJoin('users', 'customers.user_id', '=', 'users.id')
         ->select('users.name', 'customers.*')
         ->orderBy('customers.id', 'desc')

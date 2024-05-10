@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/create-grn-view', [StockController::class, 'createGRNView'])->name('create-grn-view');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
 	Route::post('/add-to-cart/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
+	//search products
 	Route::get('/search/products', [ProductController::class, 'searchProducts'])->name('/search/products');
 	Route::get('/view-sales', [SalesController::class, 'index'])->name('sales.index');
 	Route::get('/create-stock', [StockController::class, 'create'])->name('create-stock');

@@ -47,7 +47,7 @@ class EmployeeController extends Controller
         return view("pages.create-employee");
     }
 
-    public function store(Request $request)
+       public function store(Request $request)
     {
         $userId = Auth::user()->id;
         $employee = Employee::create([

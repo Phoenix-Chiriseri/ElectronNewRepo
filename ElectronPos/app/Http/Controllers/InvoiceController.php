@@ -15,18 +15,17 @@ class InvoiceController extends Controller
     //view the list of invoices
     public function viewInvoices()
     {
-        
-        $invoices = Invoice::leftJoin('sales', 'sales.invoice_id', '=', 'invoices.id')
-        ->leftJoin('users', 'invoices.user_id', '=', 'users.id') // Assuming invoices.user_id corresponds to users.id=-
-        ->select('invoices.id as invoice_id', 'invoices.*', 'sales.*','users.name') // Select all columns from both tables
+        $invoices = Invoice::join('sales', 'sales.invoice_id', '=', 'invoices.id')
+        ->select('invoices.id as invoice_id', 'invoices.*', 'sales.*') // Select all columns from both tables
         ->orderBy('invoices.id', 'desc')
         ->paginate(5);
+        //dd($invoices);
         $numberOfInvoices = Invoice::all()->count();
         return view('pages.view-invoices', ['invoices' => $invoices])->with("numberOfInvoices",$numberOfInvoices);
     }
 
     public function viewinvoiceById($id){
-        //view inormttion
+        //view ithe company information
         $details = CompanyData::latest()->first();
         $invoice = Invoice::with('sale')->findOrFail($id);
         if ($invoice) {

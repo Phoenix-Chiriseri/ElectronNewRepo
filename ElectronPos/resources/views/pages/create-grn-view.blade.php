@@ -115,28 +115,6 @@ $(document).ready(function(){
             });
         }
     });
-
-    $('#searchSelectedProd').keyup(function(){
-            var query = $(this).val();
-            if(query != '')
-            {
-                $.ajax({
-                    url:"/search-product/",
-                    method:"GET",
-                    data:{query:query},
-                    success:function(data){
-                        $('#productList').fadeIn();
-                        $('#productList').html('');
-                        data.forEach(function(product){
-                            $('#productList').append('<div>'+product.name+'</div>');
-                        });
-                    }
-                });
-            }
-        });
-
-        
-
   
     function showAlert(message,errorIconMessage){
         Swal.fire({
@@ -199,34 +177,6 @@ $(document).ready(function(){
         return total;
     }
 });
-</script>
-<script>
-    $(document).ready(function() {
-        // Function to fetch and display products
-        function fetchProducts(input) {
-            // Clear previous suggestions
-            $('#productSuggestions').empty();
-            // Make AJAX request to fetch products
-            $.ajax({
-                type: 'GET',
-                url: '/search-product/'+input,
-                success: function(response) {
-                    $.each(response.products, function(index, product) {
-                        $('#productSuggestions').append('<option value="'+product+'">');
-                           console.log('im searching'+product);
-                    });
-                },
-                error: function(error) {
-                    console.log("Failed to fetch products:", error);
-                }
-            });
-        }
-
-        // Event listener for input changes
-        $('#searchSelectedProd').on('input', function() {
-            fetchProducts($(this).val());
-        });
-    });
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
