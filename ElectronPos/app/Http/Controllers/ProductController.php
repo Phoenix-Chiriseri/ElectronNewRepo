@@ -162,6 +162,7 @@ class ProductController extends Controller
      public function store(Request $request)
      {
 
+        //dd($request->all());
         $product = new Product(); 
         $product->name = $request->input("name");
         $product->barcode = $request->input("barcode");
@@ -171,7 +172,8 @@ class ProductController extends Controller
         $product->unit_of_measurement = $request->input("unit_of_measurement");
         $product->category_id = $request->input("category_id");
         //Tax calculation remains unchanged
-        $product->tax = $request->input("tax");        
+        $product->tax = $request->input("tax");   
+        //$product->price_inc_tax = $request->input("price_inc_tax");        
         $product->save();   
          if ($product->save()) {
             return redirect()->back()->with('success', 'Product Added Successfully');

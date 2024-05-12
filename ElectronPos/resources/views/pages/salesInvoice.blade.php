@@ -94,7 +94,6 @@
 
         // Update the invoice total in the document
         document.getElementById('invoiceTotal').textContent = invoiceTotal.toFixed(2);
-
         // Calculate and display the total excluding VAT
         var vatTotal = parseFloat(document.getElementById('vatTotal').textContent);
         var totalExcludingVAT = invoiceTotal - vatTotal;

@@ -5,21 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sale extends Model
+class SaleZig extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['customer_id', 'total', 'change'];
-
-    public function invoice()
-    {
-        return $this->belongsTo(Invoice::class);
-    }
-
+    protected $fillable = ['customer_id', 'total', 'change','amountPaid'];
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'sale_product')
+        return $this->belongsToMany(Product::class, 'product_sale')
             ->withPivot('quantity')
             ->withTimestamps();
     }
+
 }

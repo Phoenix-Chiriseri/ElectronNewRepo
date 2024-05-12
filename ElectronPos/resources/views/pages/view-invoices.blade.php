@@ -91,7 +91,6 @@
                                                     </div>
                                                 </div>
                                             </td> 
-                                          
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
@@ -99,6 +98,14 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-0">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <a href="{{ route('invoice.summarise', ['id' => $invoice->invoice_id]) }}" class="btn btn-danger">View Invoice</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                          
                                         </tr>
                                         @endforeach
                                     </tbody>

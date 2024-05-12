@@ -6,6 +6,10 @@ use App\Models\Invoice;
 use App\Models\CreditNote;
 use App\Models\CompanyData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -34,6 +38,63 @@ class InvoiceController extends Controller
             return view('pages.invoice-not-found');
         }
     }
+    
+    public function summariseInvoice($id)
+    {
+        $invoice = Invoice::with('sale')->findOrFail($id);
+        $htmlContent = $invoice->html;
+    
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($htmlContent);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+    
+        $pdfOutput = $dompdf->output();
+    
+        $filename = 'invoice_' . $invoice->id . '.pdf';
+        Storage::put('public/pdf/' . $filename, $pdfOutput);
+    
+        $pdfUrl = asset('storage/pdf/' . $filename);
+    
+        $apiKey = 'sec_CGaPUgYM5WTSQAaECiOPRF1VCRbIYUcd';
+        $fileContent = file_get_contents($pdfUrl);
+    
+    
+        $response = Http::withHeaders([
+            'x-api-key' => $apiKey,
+        ])->attach('file', $fileContent, basename($filename), ['Content-Type' => 'application/octet-stream'])
+            ->post('https://api.chatpdf.com/v1/sources/add-file');
+    
+        if ($response->successful()) {
+            $sourceId = $response->json()['sourceId'];
+            
+            $response = Http::withHeaders([
+                'x-api-key' => $apiKey,
+            ])->post('https://api.chatpdf.com/v1/chats/message', [
+                'sourceId' => $sourceId,
+                'messages' => [
+                    [
+                        'role' => 'user',
+                        'content' => 'summarise the pdf document',
+                    ],
+                ],
+            ]);
+    
+            if ($response->successful()) {
+                $out = $response->json()['content'];
+                $out = json_decode($out, true);
+                echo 'Result: ' . PHP_EOL;
+                print_r($out);
+            } else {
+                echo 'Status: ' . $response->status() . PHP_EOL;
+                echo 'Error: ' . $response->body() . PHP_EOL;
+            }
+        } else {
+            echo 'Status: ' . $response->status() . PHP_EOL;
+            echo 'Error: ' . $response->body() . PHP_EOL;
+        }
+    }
+    
 
     public function deleteInvoice($id){
         //dd($id);

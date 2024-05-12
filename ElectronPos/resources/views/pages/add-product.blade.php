@@ -179,19 +179,20 @@ Swal.fire({
             </select>
         </div>
         </div>
-        <div class="form-group">
+        <hr>
+       <!--<div class="form-group">
             <fieldset>
                 <legend class="form-label">Price Incudes Tax</legend>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tax_price" value="Active" id="independently_mobile">
+                    <input class="form-check-input" type="radio" name="price_inc_tax" value="Yes" id="independently_mobile">
                     <label class="form-check-label">Yes</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tax_price" value="Active" id="independently_mobile">
+                    <input class="form-check-input" type="radio" name="price_inc_tax" value="No" id="independently_mobile">
                     <label class="form-check-label">No</label>
                 </div>
             </fieldset>
-        </div> 
+        </div>!--> 
         <button type="submit" class="btn bg-gradient-dark">Submit</button> 
     </div>
     <hr>

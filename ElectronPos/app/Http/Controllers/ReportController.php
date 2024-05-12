@@ -73,6 +73,10 @@ class ReportController extends Controller
         
     }
       
+    public function viewProductRpt(){
+        
+        return view("pages.viewproduct-rpt");
+    }
 
     public function index()
     {

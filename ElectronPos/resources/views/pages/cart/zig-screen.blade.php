@@ -9,6 +9,8 @@
             products: {!! json_encode($products) !!},
             cart: [],
         };
+
+        
     
         $("#amountPaid").on("input", function () {     
             var amountPaid = $(this).val();
@@ -124,23 +126,21 @@
     axios.get(`/products/searchByCode/${productCode}`)
         .then((response) => {
             $("#prodResult").hide();
-            $("#prodResult").hide();
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
-            //maths dza scones dzashanda calculations are okay
+
             if (product) {
                 var taxGroup = product.tax;
                 var tax;
                 var total;
                 var unitPrice;
-                //the current rate to be fetched from the database
-                var rate = 13.56;
+                
                 ////
                 if(product.price_inc_tax=='No'){
-                    unitPrice = product.price*rate;
+                    unitPrice = product.price;
                     if(taxGroup==0.15){
-                    tax=product.price*rate*taxGroup;
-                    total=product.price*rate*1.15;
+                    tax=product.price*taxGroup;
+                    total=product.price*1.15;
                 if(taxGroup=='ex'){
                     tax='-';
                 }
@@ -153,8 +153,8 @@
                 }else{
 
                     if(taxGroup==0.15){
-                    unitPrice = product.price*rate/1.15;
-                    total=product.price*rate;
+                    unitPrice = product.price/1.15;
+                    total=product.price;
                     tax=total-unitPrice;
                     
                 if(taxGroup=='ex'){
@@ -164,12 +164,11 @@
                 }else{
                     unitPrice=product.price;
                     tax=0;
-                    total=product.price*rate;
+                    total=product.price;
                 }
 
                 }
-
-                
+  
                 ////////
                 const existingCartItem = state.cart.find(item => item.id === product.id);
                 if (existingCartItem) {
@@ -200,41 +199,25 @@
         });
     }
 
-    //use axios to fetch the rate from the server and store the result
-    function fetchRate() {
-    return axios.get('/getRate')
-        .then((response) => {
-            return response.data.rate; // Assuming the response contains the rate
-        })
-        .catch((error) => {
-            console.error('Error loading rate:', error);
-            return null;
-        });
-    }
-
-
-    // Load the product` by name.
+    // Load the products by name.
     function loadProductsByName(productName) {
     axios.get(`/products/searchByName/${productName}`)
         .then((response) => {
             $("#prodResult").hide();
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
-            //maths dza scones dzashanda calculations are okay
             if (product) {
                 var taxGroup = product.tax;
                 var tax;
                 var total;
                 var unitPrice;
-                //the current rate to be fetched from the database
-                var rate = 13.56;
-                //console.log("this is the fetched rate")
-                ////
-                if(product.price_inc_tax=='No'){
-                    unitPrice = product.price*rate;
-                    if(taxGroup==0.15){
-                    tax=product.price*rate*taxGroup;
-                    total=product.price*rate*1.15;
+                //console.log(product.price_inc_tax);
+                if(product.price_inc_tax==='No'){
+                unitPrice = product.price;
+                //console.log(unitPrice);
+                if(taxGroup==0.15){
+                tax=product.price*taxGroup;
+                total=product.price*1.15;
                 if(taxGroup=='ex'){
                     tax='-';
                 }
@@ -247,8 +230,8 @@
                 }else{
 
                     if(taxGroup==0.15){
-                    unitPrice = product.price*rate/1.15;
-                    total=product.price*rate;
+                    unitPrice = product.price/1.15;
+                    total=product.price;
                     tax=total-unitPrice;
                     
                 if(taxGroup=='ex'){
@@ -258,7 +241,7 @@
                 }else{
                     unitPrice=product.price;
                     tax=0;
-                    total=product.price*rate;
+                    total=product.price;
                 }
 
                 }
@@ -293,9 +276,7 @@
             console.error('Error loading products:', error);
         });
     }
-    
 
-    
     function showAlert(message,errorIconMessage){
         Swal.fire({
                 position: "top-end",
@@ -331,7 +312,7 @@
                 </td>
                 <td>${item.barcode}</td>    
                 <td id="tax-input">${(item.tax * item.quantity).toFixed(2)}</td>  
-                <td>${item.unitPrice.toFixed(2)}</td>
+                <td>${item.unitPrice}</td>
                 <td>
                     <div class="input-group-append">
                         <button class="btn btn-danger btn-lg py-1 px-2 remove-item" data-product-id="${item.id}">
@@ -744,7 +725,7 @@ $("#sellForm").on("submit", function (event) {
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='ZIG Screen'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='USD Screen'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <body>
             @if(session('success'))
@@ -829,7 +810,7 @@ $("#sellForm").on("submit", function (event) {
                             </div>
                         </div>
                     </div>  
-                    <h5 class="text-center">ZIG Screen</h5>
+                    <h5 class="text-center">USD Screen</h5>
                   
                     <div class="user-cart">
                         <div class="card">

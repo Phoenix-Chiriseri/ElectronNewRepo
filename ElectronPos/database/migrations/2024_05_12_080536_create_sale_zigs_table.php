@@ -11,20 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('sale_zigs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('invoice_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
             //$table->unsignedBigInteger('customer_id'); // Assuming you have a customers table
             $table->decimal('total', 10, 2);
             $table->decimal('change', 10, 2);
             $table->string('amountPaid');
-            $table->string("total_tax");
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('set null');
             $table->timestamps();
-            // Foreign key
-            //$table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('sale_zigs');
     }
 };

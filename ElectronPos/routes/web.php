@@ -26,6 +26,9 @@ use App\Http\Controllers\SetStockLevelsController;
 use App\Http\Controllers\CompanyDataController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\RateController;
+use App\Http\Controllers\SaleZigController;
+use App\Http\Controllers\ApiController;
+
 
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -48,6 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/search-product/{productName}', [ProductController::class, 'searchProduct']);
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
+	Route::post('/sellZig', [SaleZigController::class, 'store'])->name("submit.sale");
 	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/zig-screen', [ElectronPOE::class, 'zigScreen'])->name('zig-screen');
 	Route::get('/create-grn', [GRVController::class, 'createGRN'])->name('create-grn');
@@ -97,6 +101,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-purchaseorder', [PurchaseOrderController::class, 'viewPurchasesOrders'])->name('view-purchaseorders');
 	Route::post('/submit-suppliers', [SupplierController::class, 'store'])->name('submit-suppliers');
 	Route::post('/do-transaction', [SaleController::class, 'doTransaction'])->name('do-transaction');
+	Route::post('/sell-zig', [SaleZigController::class, 'doTransaction'])->name('do-transaction');
 	Route::get('/create-sales', [SalesController::class, 'index'])->name('create-sales');
 	Route::post('/submit-sale', [SalesController::class, 'store'])->name('submit-sale');
 	Route::get('/create-employee', [EmployeeController::class, 'create'])->name('create-employee');
@@ -160,11 +165,20 @@ Route::group(['middleware' => 'auth'], function () {
 	//Route::post('/import-products', 'ProductController@import')->name('import-products');
 	//view the invoices in a table
 	Route::get('/view-invoices', [InvoiceController::class, 'viewInvoices'])->name('view-invoices');
+	Route::get('/view-productRpt', [ReportController::class, 'viewProductRpt'])->name('view-productRpt');
 	Route::get('/view-invoice/{id}', [InvoiceController::class, 'viewInvoiceById'])->name('invoice.show');
+	Route::get('/summarise-invoice/{id}', [InvoiceController::class, 'summariseInvoice'])->name('invoice.summarise');
 	Route::get('/delete-invoice/{id}', [InvoiceController::class, 'deleteInvoice'])->name('invoice.delete');
+	//api routes
+	Route::get('/all-products', [ApiController::class, 'viewAllProducts'])->name('view.products');
+	Route::get('/top-selling-products', [ApiController::class, 'topSellingProducts'])->name('view.top-products');
+	Route::get('/get-statistics', [ApiController::class, 'getStatistics'])->name('view.get-statistics');
+	Route::get('/get-stockinfo', [ApiController::class, 'getStockInformation'])->name('get.stockinfo');
+	Route::get('/get-all-customers', [ApiController::class, 'getAllCustomers'])->name('get.allcustomers');
+	Route::get('/get-all-suppliers', [ApiController::class, 'getAllSuppliers'])->name('get.allsuppliers');
+	Route::get('/get-all-suppliers', [ApiController::class, 'getAllSuppliers'])->name('get.allsuppliers');
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
 	//return the json data to the front end that will fetch all the products to the front end
-	Route::get('/electronmobile-allproducts', [ProductController::class, 'fetchProductsToMobile'])->name('electronmobile-allproducts');
 });

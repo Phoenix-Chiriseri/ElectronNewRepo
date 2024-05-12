@@ -117,6 +117,7 @@ Swal.fire({
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                                 Product Name</th>
+                                              
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Description</th>

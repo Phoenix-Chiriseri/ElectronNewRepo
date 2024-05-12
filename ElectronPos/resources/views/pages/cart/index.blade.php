@@ -206,19 +206,18 @@
             $("#prodResult").hide();
             const products = response.data.products;  // Accessing products array in the response
             const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
-
             if (product) {
                 var taxGroup = product.tax;
                 var tax;
                 var total;
                 var unitPrice;
-                
-                ////
-                if(product.price_inc_tax=='No'){
-                    unitPrice = product.price;
-                    if(taxGroup==0.15){
-                    tax=product.price*taxGroup;
-                    total=product.price*1.15;
+                //console.log(product.price_inc_tax);
+                if(product.price_inc_tax==='No'){
+                unitPrice = product.price;
+                //console.log(unitPrice);
+                if(taxGroup==0.15){
+                tax=product.price*taxGroup;
+                total=product.price*1.15;
                 if(taxGroup=='ex'){
                     tax='-';
                 }
@@ -313,7 +312,7 @@
                 </td>
                 <td>${item.barcode}</td>    
                 <td id="tax-input">${(item.tax * item.quantity).toFixed(2)}</td>  
-                <td>${item.unitPrice.toFixed(2)}</td>
+                <td>${item.unitPrice}</td>
                 <td>
                     <div class="input-group-append">
                         <button class="btn btn-danger btn-lg py-1 px-2 remove-item" data-product-id="${item.id}">
@@ -681,6 +680,8 @@ $("#sellForm").on("submit", function (event) {
     // Calculate change
     const change = amountPaid - totalValue;
 
+   // const vatTotal = 
+
     // Create a hidden form element
     const sellForm = document.createElement('form');
     sellForm.method = 'POST';
@@ -868,6 +869,8 @@ $("#sellForm").on("submit", function (event) {
                             
                                 <!-- Hidden input fields for table data -->
                                 <input type="hidden" name="table_data" id="tableDataInput">
+                                <input type="hidden" name="vat_total" id="tableDataInput">
+
                             
                                 <!-- Total, Amount Paid, and Change inputs -->
                                 <input type="text" readonly name="total" id="totalValue" class="form-control border border-2 p-2">

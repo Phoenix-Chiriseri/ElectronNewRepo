@@ -27,7 +27,8 @@ class DashboardController extends Controller
         
      // Get the current month
     $currentMonth = Carbon::now()->format('Y-m');
-    $topSellingProducts = DB::table('sales')
+
+     $topSellingProducts = DB::table('sales')
     ->join('product_sale', 'sales.id', '=', 'product_sale.sales_id')
     ->join('products', 'product_sale.product_id', '=', 'products.id')
     ->select('products.name as product_name', 'product_sale.product_id', DB::raw('SUM(product_sale.quantity) as total_quantity_sold'))
