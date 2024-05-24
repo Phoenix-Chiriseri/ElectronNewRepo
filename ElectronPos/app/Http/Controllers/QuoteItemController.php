@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SaleSaleProduct;
+use App\Models\QuoteItem;
 use Illuminate\Http\Request;
 
-class SaleSaleProductController extends Controller
+class QuoteItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class SaleSaleProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SaleSaleProduct $saleSaleProduct)
+    public function show(QuoteItem $quoteItem)
     {
         //
     }
@@ -42,7 +42,7 @@ class SaleSaleProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SaleSaleProduct $saleSaleProduct)
+    public function edit(QuoteItem $quoteItem)
     {
         //
     }
@@ -50,7 +50,7 @@ class SaleSaleProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SaleSaleProduct $saleSaleProduct)
+    public function update(Request $request, QuoteItem $quoteItem)
     {
         //
     }
@@ -58,7 +58,7 @@ class SaleSaleProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SaleSaleProduct $saleSaleProduct)
+    public function destroy(QuoteItem $quoteItem)
     {
         //
     }

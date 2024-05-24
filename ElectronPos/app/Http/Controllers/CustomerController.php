@@ -24,6 +24,12 @@ class CustomerController extends Controller
         return view("pages.view-customers")->with("customers",$customers)->with("numberOfCustomers",$numberOfCustomers);
     }
 
+    public function quoteCustomers(){
+
+        $customers = Customer::all();
+        return view("pages.quote-customers")->with("customers",$customers);
+    }
+
    public function searchCustomers(Request $request)
     {
     // Your search logic here
@@ -45,9 +51,7 @@ class CustomerController extends Controller
     
     //save a customer to the database
     public function store(Request $request)
-    {    
-
- 
+    {     
             $user = Auth::user()->id;
             $customer = Customer::create([
             'code' => $request->code,

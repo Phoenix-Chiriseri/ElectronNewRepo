@@ -23,7 +23,6 @@ class InvoiceController extends Controller
         ->select('invoices.id as invoice_id', 'invoices.*', 'sales.*') // Select all columns from both tables
         ->orderBy('invoices.id', 'desc')
         ->paginate(5);
-        //dd($invoices);
         $numberOfInvoices = Invoice::all()->count();
         return view('pages.view-invoices', ['invoices' => $invoices])->with("numberOfInvoices",$numberOfInvoices);
     }

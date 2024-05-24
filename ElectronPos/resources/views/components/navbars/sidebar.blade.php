@@ -72,16 +72,14 @@
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Select Option</h6>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i style="font-size: 1.2rem;" class="fas fa-book me-2 ps-2 pe-2 text-center"></i>
-                    <span class="text-capitalize">reports</span>
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                href="{{ route('dashboard') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
-                    <a class="dropdown-item" href="{{ route('view-reports') }}">View Reports</a>
-                </div>
-              
-                
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,7 +89,6 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('view-products') }}">Product List</a>
                     <a class="dropdown-item" href="{{ route('view-cattegories') }}">Cattegories</a>
-
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -102,18 +99,21 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('viewall-stock') }}">Available Inventory</a>
                     <a class="dropdown-item" href="{{ route('create-grn') }}">Good Received Vouchers</a>
-                    <a class="dropdown-item" href="{{ route('view-suppliers') }}">Suppliers</a>
+                    <a class="dropdown-item" href="{{ route('grv-enquiry') }}">GRV Enquiry</a>
+                    <a class="dropdown-item" href="{{ route('create-purchaseorder') }}">Purchase Orders</a>
+                    <a class="dropdown-item" href="{{ route('stock-enquiry') }}">Stock Enquiry</a>
                     <a class="dropdown-item" href="{{ route('view-inventoryvaluation') }}">Inventory Valuation Report</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                href="{{ route('create-customers') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Customers</span>
+            <li class="nav-item dropdown">
+                <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i style="font-size: 1.2rem;" class="fas fa-warehouse me-2 ps-2 pe-2 text-center"></i>
+                    <span class="text-capitalize">customers</span>
                 </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
+                    <a class="dropdown-item" href="{{ route('create-customers') }}">Create Customers</a>
+                    <a class="dropdown-item" href="{{ route('quote-customers') }}">Quote Customers</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white"
@@ -133,15 +133,7 @@
                     <span class="nav-link-text ms-1">Invoices</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                    href="/view-rates">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class = "fa fa-money ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Rate</span>
-                </a>
-            </li>
+           
             <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i style="font-size: 1.2rem;" class="fas fa-warehouse me-2 ps-2 pe-2 text-center"></i>

@@ -91,6 +91,9 @@
                                                Created At
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
+                                                Created By
+                                             </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
                                                 Delete
                                              </th>
                                              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
@@ -117,6 +120,9 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <h6 class="mb-0 text-sm">{{$employee->created_at}}</h6>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <h6 class="mb-0 text-sm">{{$employee->user}}</h6>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('delete-employee',$employee->id) }}">Delete Employee</a>

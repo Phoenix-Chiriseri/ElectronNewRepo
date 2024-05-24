@@ -25,4 +25,9 @@ class Customer extends Model
     public function sales() {
         return $this->hasMany('App\Sale', 'sale_id');
     }
+
+    public function quotes()
+    {
+        return $this->hasMany(Quotes::class, 'customer_id');
+    }
 }

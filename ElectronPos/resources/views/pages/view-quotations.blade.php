@@ -55,17 +55,17 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Goods Received Vouchers<s></s></h6>
-                                <h6 class="text-white text-capitalize ps-3">Number Of GRVS {{$numberOfGrvs}}</h6>
-                                <h6 class="text-white text-capitalize ps-3">Total Stock Value {{$totalStockValue}}</h6>
+                                <h6 class="text-white text-capitalize ps-3">Quotations<s></s></h6>
+                                <h6 class="text-white text-capitalize ps-3">Number Of Quotations {{$numberOfQuotes}}</h6>
+                                <h6 class="text-white text-capitalize ps-3">Total Quote Value {{$totalQuotesValue}}</h6>
                             </div>
                             <br>
                             <button class = "btn btn-info" id="exportGrn"><i class = "fa fa-print"></i>Generate PDF</button>
-                            <a class="btn btn-danger brn-lg" href="{{ route('create-grn-view') }}"
-                            role="tab" aria-selected="true">Create GRV</a>
+                            <a class="btn btn-danger brn-lg" href="{{ route('quote-customers') }}"
+                            role="tab" aria-selected="true">Create Quotation</a>
                         </div>
                         <div>
-                            <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search GRV...">
+                            <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Quote...">
                         </div>
                         <div class="card-body px-0 pb-2">
                             <div class="table-responsive p-0">      
@@ -76,25 +76,25 @@
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
-                                                Grv Number</th>
+                                                Quote Number</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2" style="color:black;">
-                                                Grv Date</th>
+                                                Quote Date</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
-                                                Grv Type</th>
+                                                Total</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
                                                 Created At</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color: black;">
-                                                Supplier Name</th>
+                                                Customer Name</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="color:black;">
-                                                Total Cost</th>
+                                                Created By</th>
                                                 <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                View GRV</th>
+                                                View Quote</th>
                                                 <!--<th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Update GRV</th>!-->
@@ -103,13 +103,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($grvs as $grv)
+                                        @foreach($quotations as $quote)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                    
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">GRN -00{{$grv->id}}</h6>
+                                                        <h6 class="mb-0 text-sm">CQ-{{$quote->id}}</h6>
                                                     </div>
                                                 </div>
                                             </td> 
@@ -117,15 +117,7 @@
                                                 <div class="d-flex px-2 py-1">
                                                    
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$grv->created_at}}</h6>
-                                                    </div>
-                                                </div>
-                                            </td>   
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                   
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">Direct GRN</h6>
+                                                        <h6 class="mb-0 text-sm">{{$quote->quote_date}}</h6>
                                                     </div>
                                                 </div>
                                             </td> 
@@ -133,50 +125,43 @@
                                                 <div class="d-flex px-2 py-1">
                                                    
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$grv->created_at}}</h6>
+                                                        <h6 class="mb-0 text-sm">{{$quote->total}}</h6>
                                                     </div>
                                                 </div>
-                                            </td>   
+                                            </td> 
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                    
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$grv->supplier_name}}</h6>
+                                                        <h6 class="mb-0 text-sm">{{$quote->created_at}}</h6>
                                                     </div>
                                                 </div>
-                                            </td>  
+                                            </td> 
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                    
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$grv->total}}</h6>
+                                                        <h6 class="mb-0 text-sm">{{$quote->customer_name}}</h6>
                                                     </div>
                                                 </div>
-                                            </td>   
+                                            </td> 
                                             <td>
                                                 <div class="d-flex px-2 py-1">
+                                                   
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">
-                                                            <a href="{{ route('grn.show', $grv->id) }}" class ="btn btn-danger">Download GRV</a>
-                                                        </h6>
+                                                        <h6 class="mb-0 text-sm">{{$quote->username}}</h6>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <!--<div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">
-                                                            <a href="{{ route('update-grv', $grv->id) }}" class ="btn btn-warning">Update GRV</a>
-                                                        </h6>
-                                                    </div>
-                                                </div>!-->
+                                            </td> 
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('quote.show',$quote->id) }}">View Quote</a>
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-center mt-3">
-                                    {{ $grvs->links('vendor.pagination.bootstrap-4') }}
+                                    {{ $quotations->links('vendor.pagination.bootstrap-4') }}
                                 </div>
                             </div>
                         </div>

@@ -37,7 +37,7 @@
         window.location.href = screenUrl;
         }
 
-
+        //click event that will clear the calculations fields
         $("#clearCalculations").on("click",function(){
             $("#amountPaid").val(""); 
             $("#totalValue").val(""); 
@@ -355,9 +355,6 @@
         };
         rowsToSend.push(rowData);
     }
-
-
-   
 
     var jsonDataToSend = JSON.stringify(rowsToSend);
     const tableDataInput = document.getElementById('tableDataInput');

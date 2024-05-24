@@ -15,15 +15,17 @@ class EmployeeController extends Controller
      */
     public function viewEmployees()
     {
-        //return the employees to the front end
-        $employees = Employee::orderBy("id","desc")->paginate(5);
+        $employees = Employee::leftJoin('users', 'employees.user_id', '=', 'users.id')
+        ->select('users.name as user', 'employees.*')
+        ->orderBy('employees.id', 'desc')
+        ->paginate(10);
         $employeesCount = Employee::all()->count();
         return view("pages.view-employees")->with("employees",$employees)->with("employeesCount",$employeesCount);
     }
 
     public function accessRights(){
 
-        //this is the part that will show the access rights for eah and every member
+        //this is the part that will show the access rights for each and every member
         return view("pages.access-rights");
 
     }

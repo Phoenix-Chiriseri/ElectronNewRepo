@@ -31,8 +31,25 @@ class GRVController extends Controller
         ->paginate(5);
         //return the number of grvs to the front end
         $numberOfGrvs = GRV::all()->count();
+        $totalStockValue = GRV::sum('total');
         //return the grvs to the front end and populate a table
-        return view("pages.create-grn")->with("grvs",$grvs)->with("numberOfGrvs",$numberOfGrvs);
+        return view("pages.create-grn")->with("grvs",$grvs)->with("numberOfGrvs",$numberOfGrvs)->with("totalStockValue",$totalStockValue);
+    }
+
+    public function grvEnquiry(){
+
+        $suppliers = Supplier::orderBy("id","desc")->get();
+        return view("pages.grv-enquiry")->with("suppliers",$suppliers);
+    }
+
+    public function queryGRV(Request $request){
+
+        $supplierId = $request->input("supplier_id");
+        $grv = GRV::leftJoin('suppliers', 'g_r_v_s.supplier_id', '=', 'suppliers.id')
+        ->select('g_r_v_s.*', 'suppliers.supplier_name')
+        ->where("suppliers.id",$supplierId)
+        ->get();
+
     }
 
     public function generateGrv(){
@@ -109,7 +126,6 @@ class GRVController extends Controller
     public function updateById($id)
     {
     
-        //$grv = GRV::find($id);
         $suppliers = Supplier::orderBy("id","desc")->get();
         $grv = GRV::with('stocks')->findOrFail($id);
         $stocks = $grv->stocks;

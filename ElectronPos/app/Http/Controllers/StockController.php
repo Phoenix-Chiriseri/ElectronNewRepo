@@ -19,11 +19,33 @@ class StockController extends Controller
     public function createGRNView(){
 
         //return the unit cost to the front end
-        $products = Product::all();
+        $products = Product::orderBy("id","desc")->get();
         $suppliers = Supplier::orderBy("id","desc")->get();
         return view("pages.create-grn-view")->with("suppliers",$suppliers)->with("products",$products);
     }
 
+    public function enquire(){
+        
+        $products = Product::all();
+        return view("pages.stock-enquiry")->with("products",$products);
+    }
+
+    public function searchStock(Request $request){
+
+        $product_id = $request->input("product_id");
+        $from_date = $request->input("from_date");
+        $to_date = $request->input("to_date");
+        $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
+        ->select(DB::raw('SUM(stocks.quantity) as total_quantity'))
+        ->where('products.id',$product_id)
+        ->get();
+        $total_quantity = $stocks[0]->total_quantity;
+        if (!$total_quantity) {
+            return redirect()->back()->with('success', 'Stock Level Is'.$total_quantity);
+         } else {
+             return redirect()->back()->with('error', 'Sorry, there was a problem retrieving the stock count');
+        }     
+    }
 
     public function viewAllStockItems(){ 
 
@@ -56,7 +78,7 @@ class StockController extends Controller
     public function addToStock($id){
 
         $product = Product::find($id);
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::orderBy("id","desc")->get();
         return view("pages.add-product-stock")->with("product",$product)->with("suppliers",$suppliers);
     }
 

@@ -68,6 +68,11 @@
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Customer</span>
                             </a>
+                            <a class="btn btn-success" href="{{ route('quote-customers') }}"
+                                        role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Quote Customer</span>
+                            </a>
                             <div>
                                 <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Customer...">
                             </div>

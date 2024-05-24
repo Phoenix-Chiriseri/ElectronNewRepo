@@ -242,7 +242,7 @@ animation: blink 1s linear infinite;
           <div class="card z-index-2  ">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
           <div class="bg-gradient-info shadow-success border-radius-lg py-3 pe-1 text-center" style="color:white;">
-            Top Selling Products This Month
+            Products Sold This Month
           </div>
           </div>
           <div class="card-body">

@@ -73,7 +73,7 @@ Swal.fire({
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Add Product</h6>
+                                <h6 class="mb-3">Edit Product</h6>
                             </div>
                         </div>
                     </div>
@@ -172,14 +172,6 @@ Swal.fire({
             </div>
         </div>
         <div class="form-group">
-            <label for="supplier_id">Select Supplier</label>
-            <select name="supplier_id" class="form-control border border-2 p-2" required>
-                @foreach ($suppliers as $supplier)
-                    <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
             <label for="category_id">Select Category</label>
             <select name="category_id" class="form-control border border-2 p-2" required>
                 @foreach ($cattegories as $category)
@@ -188,22 +180,13 @@ Swal.fire({
             </select>
         </div>
         </div>
-        <div class="form-group">
-            <fieldset>
-                <legend class="form-label">Product Status</legend>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="product_status" value="Active" id="independently_mobile">
-                    <label class="form-check-label">Active</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="product_status" value="Inactive" id="mobility_with_support">
-                    <label class="form-check-label">Inactive</label>
-                </div>
-            </fieldset>
-        </div>  
+        <hr>
+        <button type="submit" class="btn bg-gradient-dark">Update Product</button> 
+       
     </div>
+   
     <hr>
-    <button type="submit" class="btn bg-gradient-dark">Submit</button>
+   
 </form>
                     </div>
                 </div>

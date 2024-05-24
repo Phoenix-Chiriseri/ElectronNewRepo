@@ -11,7 +11,6 @@ $(document).ready(function(){
         $('#viewMarkup').val(roundedMarkup);
     } else {
     }
-    
   });
 });
 </script>

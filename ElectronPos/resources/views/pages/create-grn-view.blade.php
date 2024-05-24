@@ -12,172 +12,171 @@ https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-$(document).ready(function(){
-    // Form submission
+    $(document).ready(function(){
+        // Form submission
+        
+        //alert("hello world");
+        $("#submitForm").submit(function (event) {
+            event.preventDefault();
+            var total=0;
+            var formData = [];  // Form data state
+            // Get form data
+            formData = $(this).serializeArray();
+            console.log(formData);
+            // Get table data
+            var tableData = [];
+            $(".table tbody tr").each(function () {
+            var row = {};
+            row.product_name = $(this).find("td:nth-child(1)").text();
+            row.measurement = $(this).find("td:nth-child(2)").text();
+            row.quantity = $(this).find(".quantity").text();
+            row.unit_cost = $(this).find(".unit-cost").text();
+            row.total_cost = $(this).find(".total-cost").text();
+            tableData.push(row);
+            });
+            // Include table data in the form data
+            if (tableData.length > 0) {
+            //Include table data in the form data
+            if (tableData.length > 0) {
+            tableData.forEach(function (row, index) {
+            formData.push({
+                name: "table_data[" + index + "][product_name]",
+                value: row.product_name
+            });
+            formData.push({
+                name: "table_data[" + index + "][measurement]",
+                value: row.measurement
+            });
+            formData.push({
+                name: "table_data[" + index + "][quantity]",
+                value: row.quantity
+            });
+            formData.push({
+                name: "table_data[" + index + "][unit_cost]",
+                value: row.unit_cost
+            });
+            formData.push({
+                name: "table_data[" + index + "][total_cost]",
+                value: row.total_cost
+            });
     
-    //alert("hello world");
-    $("#submitForm").submit(function (event) {
-        event.preventDefault();
-        var total=0;
-        var formData = [];  // Form data state
-        // Get form data
-        formData = $(this).serializeArray();
-        console.log(formData);
-        // Get table data
-        var tableData = [];
-        $(".table tbody tr").each(function () {
-        var row = {};
-        row.product_name = $(this).find("td:nth-child(1)").text();
-        row.measurement = $(this).find("td:nth-child(2)").text();
-        row.quantity = $(this).find(".quantity").text();
-        row.unit_cost = $(this).find(".unit-cost").text();
-        row.total_cost = $(this).find(".total-cost").text();
-        tableData.push(row);
+            formData.push({
+                name:"total",
+                value:total
+            });
+    
+            total = calculateTotalCost();
+            formData.push({
+                name: "total",
+                value: total
+            });
         });
-        // Include table data in the form data
-        if (tableData.length > 0) {
-        //Include table data in the form data
-        if (tableData.length > 0) {
-        tableData.forEach(function (row, index) {
-        formData.push({
-            name: "table_data[" + index + "][product_name]",
-            value: row.product_name
-        });
-        formData.push({
-            name: "table_data[" + index + "][measurement]",
-            value: row.measurement
-        });
-        formData.push({
-            name: "table_data[" + index + "][quantity]",
-            value: row.quantity
-        });
-        formData.push({
-            name: "table_data[" + index + "][unit_cost]",
-            value: row.unit_cost
-        });
-        formData.push({
-            name: "table_data[" + index + "][total_cost]",
-            value: row.total_cost
-        });
-
-        formData.push({
-            name:"total",
-            value:total
-        });
-
-        total = calculateTotalCost();
-        formData.push({
-            name: "total",
-            value: total
-        });
-    });
-} else {
-    console.error("Table data is empty");
-    return; // Stop form submission if table data is empty
-}
-        } else {
+    } else {
         console.error("Table data is empty");
         return; // Stop form submission if table data is empty
-        }
-        // Create a hidden form and submit it
-        //var hiddenForm = $('<form action="' + $(this).attr('action') + '" method="POST"></form>');
-        // Append form data to the hidden form
-        var hiddenForm = $('<form action="/submit-grv" method="POST"></form>');
-        formData.forEach(function (field) {
-            hiddenForm.append('<input type="hidden" name="' + field.name + '" value="' + field.value + '">');
-        });
-        // Append the hidden form to the body and submit
-        hiddenForm.append(tableData);
-        $('body').append(hiddenForm);
-        hiddenForm.submit();
-    });
-
-
-        // Handle the search input
-    $("#searchSelectedProd").on("keydown", function (event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            var productName = $(this).val();
-            console.log('Search Term:', productName);
-            // Make an AJAX request to fetch products
-            $.ajax({
-                type: 'GET',
-                url: '/search-product/' + productName,
-                success: function (response) {
-                    // Update the table with the fetched products
-                    console.log(response.products);
-                    updateProductTable(response.products);
-                },
-                error: function (error) {
-                    //showAlert("Product Not Found","error");
-                    console.log("error dude");
-                }
-            });
-        }
-    });
-  
-    function showAlert(message,errorIconMessage){
-        Swal.fire({
-                position: "top-end",
-                icon: errorIconMessage,
-                title: message,
-                showConfirmButton: false,
-                timer: 1000
-                });    
-    
-     }
-    
-
-    // Calculate total cost when quantity or unit cost is changed
-    $(document).on("input", ".quantity, .unit-cost", function () {
-        var row = $(this).closest("tr");
-        var quantity = parseFloat(row.find(".quantity").text()) || 0;
-        var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
-        var totalCost = quantity * unitCost;
-        row.find(".total-cost").text(totalCost.toFixed(2));
-        calculateTotalCost();
-    });
-
-    function updateProductTable(products) {
-        var tableBody = $("table tbody");
-        // Append new rows based on the fetched products
-        products.forEach(function (product) {
-            var newRow = $("<tr>");
-            newRow.append("<td>" + product.name + "</td>");
-            newRow.append("<td>" + product.unit_of_measurement + "</td>");
-            newRow.append("<td contenteditable='true' class='quantity'></td>");
-            newRow.append("<td class='unit-cost'>" + product.price + "</td>");
-            //newRow.append("<td contenteditable='true' class='unit-cost'></td>");
-            newRow.append("<td class='total-cost'></td>");
-            newRow.append('<td><button type="button" class="btn btn-danger btn-sm remove-product"><i class = "fa fa-trash"></i></button></td>');
-            newRow.append("</tr>");
-            tableBody.append(newRow);
-        });
-
-        $(document).on("click", ".remove-product", function () {
-        $(this).closest("tr").remove();
-        calculateTotalCost();
-        });
-        // Calculate total cost at the end
-        calculateTotalCost();
     }
-    // Function to calculate total cost
-    function calculateTotalCost() {
-        total = 0;
-        $("table tbody tr").each(function () {
-            var row = $(this);
+            } else {
+            console.error("Table data is empty");
+            return; // Stop form submission if table data is empty
+            }
+            // Create a hidden form and submit it
+            //var hiddenForm = $('<form action="' + $(this).attr('action') + '" method="POST"></form>');
+            // Append form data to the hidden form
+            var hiddenForm = $('<form action="/submit-grv" method="POST"></form>');
+            formData.forEach(function (field) {
+                hiddenForm.append('<input type="hidden" name="' + field.name + '" value="' + field.value + '">');
+            });
+            // Append the hidden form to the body and submit
+            hiddenForm.append(tableData);
+            $('body').append(hiddenForm);
+            hiddenForm.submit();
+        });
+    
+    
+            // Handle the search input
+        $("#searchSelectedProd").on("keydown", function (event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                var productName = $(this).val();
+                console.log('Search Term:', productName);
+                // Make an AJAX request to fetch products
+                $.ajax({
+                    type: 'GET',
+                    url: '/search-product/' + productName,
+                    success: function (response) {
+                        // Update the table with the fetched products
+                        console.log(response.products);
+                        updateProductTable(response.products);
+                    },
+                    error: function (error) {
+                        //showAlert("Product Not Found","error");
+                        console.log("error dude");
+                    }
+                });
+            }
+        });
+      
+        function showAlert(message,errorIconMessage){
+            Swal.fire({
+                    position: "top-end",
+                    icon: errorIconMessage,
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 1000
+                    });    
+        
+         }
+        
+    
+        // Calculate total cost when quantity or unit cost is changed
+        $(document).on("input", ".quantity, .unit-cost", function () {
+            var row = $(this).closest("tr");
             var quantity = parseFloat(row.find(".quantity").text()) || 0;
             var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
-            var rowTotal = quantity * unitCost;
-            total += isNaN(rowTotal) ? 0 : rowTotal;
+            var totalCost = quantity * unitCost;
+            row.find(".total-cost").text(totalCost.toFixed(2));
+            calculateTotalCost();
         });
-
-        // Display the total at the end
-        $("#total-value").text("Total: $" + total.toFixed(2));
-        return total;
-    }
-});
-</script>
+    
+        function updateProductTable(products) {
+            var tableBody = $("table tbody");
+            // Append new rows based on the fetched products
+            products.forEach(function (product) {
+                var newRow = $("<tr>");
+                newRow.append("<td>" + product.name + "</td>");
+                newRow.append("<td>" + product.unit_of_measurement + "</td>");
+                newRow.append("<td contenteditable='true' class='quantity'></td>");
+                newRow.append("<td contenteditable='true' class='unit-cost'>" + product.price + "</td>");
+                newRow.append("<td class='total-cost'></td>");
+                newRow.append('<td><button type="button" class="btn btn-danger btn-sm remove-product"><i class = "fa fa-trash"></i></button></td>');
+                newRow.append("</tr>");
+                tableBody.append(newRow);
+            });
+    
+            $(document).on("click", ".remove-product", function () {
+            $(this).closest("tr").remove();
+            calculateTotalCost();
+            });
+            // Calculate total cost at the end
+            calculateTotalCost();
+        }
+        // Function to calculate total cost
+        function calculateTotalCost() {
+            total = 0;
+            $("table tbody tr").each(function () {
+                var row = $(this);
+                var quantity = parseFloat(row.find(".quantity").text()) || 0;
+                var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
+                var rowTotal = quantity * unitCost;
+                total += isNaN(rowTotal) ? 0 : rowTotal;
+            });
+    
+            // Display the total at the end
+            $("#total-value").text("Total: $" + total.toFixed(2));
+            return total;
+        }
+    });
+    </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <body>

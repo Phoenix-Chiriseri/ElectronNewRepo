@@ -71,7 +71,7 @@ Swal.fire({
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Products</h6>
                                 <h6 class="text-white text-capitalize ps-3">Number Of Products {{$productCount}}</h6>
-                                <h6 class="text-white text-capitalize ps-3">Total Value of Products {{$totalValueOfProducts}}</h6>
+                               
                             </div>
                             <hr>
                             <button class = "btn btn-secondary" id="exportProducts"><i class = "fa fa-print"></i>Generate PDF</button>

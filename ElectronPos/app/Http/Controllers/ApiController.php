@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Rate;
 use App\Models\Sale;
 use App\Models\Customer;
 use App\Models\Cattegory;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Stock;
+use App\Models\GRV;
+use App\Models\Employee;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -21,6 +24,9 @@ class ApiController extends Controller
         return response()->json(['products' => $products]);
     }
 
+    public function showResult(){
+        return view("pages.test");
+    }
     //function for all top slling products
    public function topSellingProducts(){
     $topSellingProducts = DB::table('sales')
@@ -58,9 +64,12 @@ class ApiController extends Controller
     return response()->json($statistics);
     }
 
+
+    //function that will return all the stock information
     public function getStockInformation()
-{
-    $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
+    {
+    
+            $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
             ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
             ->select('products.name as product_name', 'cattegories.cattegory_name','products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
             ->groupBy('products.name', 'products.barcode', 'products.selling_price','cattegories.cattegory_name')
@@ -76,14 +85,41 @@ class ApiController extends Controller
     return response()->json($responseData);
     }
 
+    //function that will return all the customers
     public function getAllCustomers(){
         $customers=Customer::orderBy('id','desc')->get();
         return response()->json(['customers' => $customers]);
     }
 
+    //function that will return all the suppliers
     public function getAllSuppliers(){
         $suppliers=Supplier::orderBy('id','desc')->get();
         return response()->json(['suppliers' => $suppliers]);
     }
 
+    //function that will return all the grvs to the api
+    public function getAllGRVS(){
+        $grvs = GRV::orderBy("id","desc")->get();
+        return response()->json(['grvs'=>$grvs]);
+    }
+
+    //function that will fetch all the employees
+    public function getAllEmployees(){
+
+        $employees = Employee::orderBy("id","desc")->get();
+        return response()->json(['employees'=>$employees]);
+
+    }
+
+    public function getRate(){
+
+        $rate = Rate::latest()->first();
+        return response()->json(['rate'=>$rate]);
+        
+    }
+
+    public function getTotalSales(){
+        $totalSales = Sale::sum('total');
+        return response()->json(['totalSales'=>$totalSales]);
+    }
 }

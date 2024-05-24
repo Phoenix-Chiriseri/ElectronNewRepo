@@ -28,8 +28,8 @@ class ProductController extends Controller
     ->groupBy('products.id', 'products.name', 'products.barcode', 'products.description', 'products.price', 'products.selling_price', 'products.unit_of_measurement', 'products.created_at')
     ->orderByDesc('products.id') // Order by id in descending order
     ->get();
-        $totalValueOfProducts = Product::sum('selling_price');
-        return view('pages.view-products')->with("products",$products)->with("productCount",$productCount)->with("totalValueOfProducts",$totalValueOfProducts);
+        //$totalValueOfProducts = Product::sum('selling_price');
+        return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
     public function fetchProductsToMobile(){
@@ -88,8 +88,8 @@ class ProductController extends Controller
     //function that will search the products    
     public function editProduct($id){ 
         $product = Product::find($id);
-        $cattegories=Cattegory::all();
-        $suppliers = Supplier::all();
+        $cattegories=Cattegory::orderBy("id","desc")->get();
+        $suppliers = Supplier::orderBy("id","desc")->get();
         return view("pages.update-product")->with("product",$product)->with("cattegories",$cattegories)->with("suppliers",$suppliers);
     }
 
@@ -162,7 +162,6 @@ class ProductController extends Controller
      public function store(Request $request)
      {
 
-        //dd($request->all());
         $product = new Product(); 
         $product->name = $request->input("name");
         $product->barcode = $request->input("barcode");
@@ -172,14 +171,36 @@ class ProductController extends Controller
         $product->unit_of_measurement = $request->input("unit_of_measurement");
         $product->category_id = $request->input("category_id");
         //Tax calculation remains unchanged
-        $product->tax = $request->input("tax");   
-        //$product->price_inc_tax = $request->input("price_inc_tax");        
+        $product->tax = $request->input("tax");       
         $product->save();   
          if ($product->save()) {
             return redirect()->back()->with('success', 'Product Added Successfully');
          } else {
              return redirect()->back()->with('error', 'Sorry, there was a problem while saving your product');
           }    
+    }
+
+    public function updateProduct(Request $request, Product $product)
+    { 
+          $product->name = $request->input("name");
+          $product->barcode = $request->input("barcode");
+          $product->description = $request->input("description");
+          $product->price = $request->input("price");
+          $product->selling_price = $request->input("selling_price");
+          $product->unit_of_measurement = $request->input("unit_of_measurement");
+          $product->category_id = $request->input("category_id");
+          //Tax calculation remains unchanged
+          $product->tax = $request->input("tax");   
+               
+        if ($request->has('category_id')) {
+            $category = Cattegory::findOrFail($request->category_id);
+            $product->category()->associate($category);
+        }
+        if (!$product->save()) {
+            return redirect()->back()->with('error', 'Sorry, there\'s a problem while updating the product.');
+        }
+        // Redirect to the 'view-products' route after successful update
+        return redirect()->route('view-products')->with('success', 'Success, your product has been updated.');
     }
 
     //this is the function
@@ -246,32 +267,7 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Products imported successfully!');
     }
 
-    public function updateProduct(Request $request, Product $product)
-    {
-
-
-        $product->name = $request->name;
-        $product->barcode = $request->barcode;
-        $product->description = $request->description;
-        $product_price = $request->price;
-        $sellingPriceInLocalCurrency = $request->selling_price;
-        $sellingPriceInZig = $sellingPriceInLocalCurrency * 13.46;
-        $product->selling_price = $sellingPriceInZig;
-        $product->unit_of_measurement = $request->unit_of_measurement;
-        $product->category_id = $request->category_id;
-        $product->tax = $request->input("tax");         
-        if ($request->has('category_id')) {
-            $category = Cattegory::findOrFail($request->category_id);
-            $product->category()->associate($category);
-        }
     
-        if (!$product->save()) {
-            return redirect()->back()->with('error', 'Sorry, there\'s a problem while updating the product.');
-        }
-       
-        // Redirect to the 'view-products' route after successful update
-        return redirect()->route('view-products')->with('success', 'Success, your product has been updated.');
-    }
     /**
      * Remove the specified resource from storage.
      */

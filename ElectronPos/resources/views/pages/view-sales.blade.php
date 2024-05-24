@@ -47,6 +47,9 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                                Cashier
+                                             </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
                                                Total
                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
@@ -55,7 +58,6 @@
                                              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                                 Created At
                                              </th>
-                                        
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,11 +66,17 @@
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$sale->username}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>  
+                                            <td>
+                                                <div class="d-flex px-2 py-0">
+                                                    <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="mb-0 text-sm">{{$sale->total}}</h6>
                                                     </div>
                                                 </div>
                                             </td>  
-                                           
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">

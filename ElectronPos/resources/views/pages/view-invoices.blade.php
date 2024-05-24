@@ -1,17 +1,14 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="All Sales"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="All Invoices"></x-navbars.navs.auth>
         <script>
-            $(document).ready(function () {
-                
+            //jQuery activates when the page is ready to load
+            $(document).ready(function () {    
                 //button that will print the invoice
-                $("#printInvoice").on("click",function(){
-                    window.invoicesTable.print();
-                });
                 
                 $("#searchInput").on("keyup", function () {
                  var value = $(this).val().toLowerCase();        
@@ -19,9 +16,9 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
                 });
-                $("#exportSales").on("click", function () {
+                $("#exportInvoices").on("click", function () {
                     // Clone the printable content
-                    var salesTable = $("#salesTable").clone();
+                    var salesTable = $("#invoicesTable").clone();
                     
                     // Remove any unwanted elements (e.g., buttons, input fields)
                     salesTable.find("button, input").remove();
@@ -51,8 +48,7 @@
                                 <h6 class="text-white text-capitalize ps-3">Number Of Invoices {{$numberOfInvoices}}</h6>
                             </div>
                             <hr>
-                            <button class = "btn btn-info" id="exportSales"><i class = "fa fa-print"></i>Generate PDF</button>
-                            <button class = "btn btn-secondary" id="printInvoice"><i class = "fa fa-print"></i>Print Invoice</button>
+                            <button class = "btn btn-secondary" id="exportInvoices"><i class = "fa fa-print"></i>Export Invoices</button>
                         </div>
                         <input type="text" id="searchInput" class="form-control border border-2 p-2" placeholder="Search Invoice...">
                         <div class="card-body px-0 pb-2">
@@ -79,7 +75,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-0">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$invoice->id}}</h6>
+                                                        <h6 class="mb-0 text-sm">Inv-{{$invoice->id}}</h6>
                                                     </div>
                                                 </div>
                                             </td>  
@@ -98,13 +94,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-0">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <a href="{{ route('invoice.summarise', ['id' => $invoice->invoice_id]) }}" class="btn btn-danger">View Invoice</a>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            
                                           
                                         </tr>
                                         @endforeach
