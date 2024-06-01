@@ -158,7 +158,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/cart/delete', [CartController::class, 'delete']);
     Route::delete('/cart/empty', [CartController::class, 'empty']);
 	Route::post('/submit-company-details', [CompanyDataController::class, 'store'])->name('submit-company-details');
-
 	//api routes
 	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');

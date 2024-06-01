@@ -89,36 +89,41 @@ class GRVController extends Controller
      }
 
      
-     //function that will save the grv
-    public function submitGrv(Request $request)
-    {
-        //create a new grv along with the product information
-        $grv = new GRV(); // Use the GRV model
-        $grv->total = $request->input("total");
-        $grv->supplier_id = $request->input('supplier_id');
-        $grv->grn_date = $request->input('grn_date');
-        $grv->payment_method = $request->input('payment_method');
-        $grv->additional_information = $request->input('additional_information');
-        $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');        
-        $grv->save(); 
-        // Save the table data into the database
-        $tableData = $request->input('table_data');
-        foreach ($tableData as $rowData) {
-            $tableRow = new Stock(); // Use the Stock model
-            $tableRow->product_name = $rowData['product_name'];
-            $tableRow->measurement = $rowData['measurement'];
-            $tableRow->quantity = $rowData['quantity'];
-            $tableRow->unit_cost = $rowData['unit_cost'];
-            $tableRow->total_cost = $rowData['total_cost'];
-            // Find or create the product based on the product_name
-            $product = Product::firstOrCreate(['name' => $rowData['product_name']]);
-            $tableRow->product_id = $product->id;
-            $tableRow->grv_id = $grv->id;
-            $tableRow->save(); 
-        }
-        
-        return redirect()->route('create-grn')->with("success","GRV Saved Successfully");
-    }
+     public function submitGrv(Request $request)
+     {
+         // Create a new GRV along with the product information
+         $grv = new GRV(); // Use the GRV model
+         $grv->total = $request->input("total");
+         $grv->supplier_id = $request->input('supplier_id');
+         $grv->grn_date = $request->input('grn_date');
+         $grv->payment_method = $request->input('payment_method');
+         $grv->additional_information = $request->input('additional_information');
+         $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');        
+         $grv->save(); 
+         
+         // Save the table data into the database
+         $tableData = $request->input('table_data');
+         foreach ($tableData as $rowData) {
+             $tableRow = new Stock(); // Use the Stock model
+             $tableRow->product_name = $rowData['product_name'];
+             $tableRow->measurement = $rowData['measurement'];
+             $tableRow->quantity = $rowData['quantity'];
+             $tableRow->unit_cost = $rowData['unit_cost'];
+             $tableRow->total_cost = $rowData['total_cost'];
+             
+             // Find or create the product based on the product_name
+             $product = Product::firstOrCreate(['name' => $rowData['product_name']]);
+             $tableRow->product_id = $product->id;
+             $tableRow->grv_id = $grv->id;
+             $tableRow->save(); 
+             
+             // Update the cost price of the product
+             $product->price = $rowData['unit_cost'];
+             $product->save();
+         }
+         
+         return redirect()->route('create-grn')->with("success","GRV Saved Successfully");
+     }
 
 
     
