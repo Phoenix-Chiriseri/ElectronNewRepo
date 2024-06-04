@@ -53,8 +53,8 @@ class StockController extends Controller
         $stockLevels = SetStockLevels::latest()->first();
         $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
         ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
-        ->select('products.name as product_name', 'cattegories.cattegory_name','products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
-        ->groupBy('products.name', 'products.barcode', 'products.selling_price','cattegories.cattegory_name')
+        ->select('products.name as product_name', 'cattegories.cattegory_name','products.barcode as barcode', 'products.selling_price as selling_price','products.price as unit_cost', DB::raw('SUM(stocks.quantity) as total_quantity'))
+        ->groupBy('products.name', 'products.barcode', 'products.selling_price','cattegories.cattegory_name','products.price')
         ->get();
         $totalValueOfStock = Stock::sum('total_cost');
         //dd($totalValueOfProducts);

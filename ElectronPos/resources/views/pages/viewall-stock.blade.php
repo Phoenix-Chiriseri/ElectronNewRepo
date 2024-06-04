@@ -157,6 +157,9 @@
                                                Cattegory Name
                                             </th>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
+                                               Unit Cost
+                                             </th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                Selling Price
                                             </th>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
@@ -176,6 +179,9 @@
                                             
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->cattegory_name}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->unit_cost}}</p>
                                             </td>
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->selling_price}}</p>

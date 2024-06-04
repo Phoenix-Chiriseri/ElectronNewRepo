@@ -17,7 +17,6 @@ return new class extends Migration
             $table->date('grn_date');
             $table->string('payment_method');
             $table->string('total');
-            $table->text('additional_information');
             $table->string('supplier_invoicenumber');
             $table->timestamps();
             // Foreign keys

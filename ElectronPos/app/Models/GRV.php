@@ -13,7 +13,6 @@ class GRV extends Model
         'supplier_id',
         'grn_date',
         'payment_method',
-        'additional_information',
         'supplier_invoicenumber',
     ];
 

@@ -288,14 +288,7 @@ https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Additional Information</label>
-                                <textarea type="text" rows="8" name="additional_information" class="form-control border border-2 p-2" required>
-                                @error('description')
-                                    <p class="text-danger inputerror">{{ $message }}</p>
-                                @enderror
-                                </textarea>
-                            </div>
+                           
         <div class="mb-3 col-md-6">
             <label class="form-label">Supplier Invoice Number</label>
             <input type="text" name="supplier_invoicenumber" class="form-control border border-2 p-2" required>

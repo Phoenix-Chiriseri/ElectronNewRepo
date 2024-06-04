@@ -97,7 +97,6 @@ class GRVController extends Controller
          $grv->supplier_id = $request->input('supplier_id');
          $grv->grn_date = $request->input('grn_date');
          $grv->payment_method = $request->input('payment_method');
-         $grv->additional_information = $request->input('additional_information');
          $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');        
          $grv->save(); 
          
