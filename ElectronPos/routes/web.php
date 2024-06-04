@@ -28,6 +28,7 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\SaleZigController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\PaymentTypesController;
 
 
 Route::get('/', [DashboardController::class, 'welcome']);
@@ -140,6 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/finalise-sale', [SaleController::class, 'finaliseSale'])->name('finalise-sale');
 	Route::post('/submit-customer', [CustomerController::class, 'store'])->name('submit-customer');
 	Route::get('/view-customers', [CustomerController::class, 'viewAllCustomers'])->name('view-customers');
+	Route::get('/view-payment-types', [PaymentTypesController::class, 'addPaymentTypes'])->name('view-payment-types');
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('view-orders');
 	Route::get('/view-reports', [ReportController::class, 'create'])->name('view-reports');
 	Route::get('/view-inventoryvaluation', [ReportController::class, 'viewInventoryValuationReport'])->name('view-inventoryvaluation');
