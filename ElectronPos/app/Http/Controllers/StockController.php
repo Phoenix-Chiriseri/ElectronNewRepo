@@ -51,11 +51,32 @@ class StockController extends Controller
 
         //set the stock levels to the latest value that has been inserted into the database
         $stockLevels = SetStockLevels::latest()->first();
+    
         $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
-        ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
-        ->select('products.name as product_name', 'cattegories.cattegory_name','products.barcode as barcode', 'products.selling_price as selling_price','products.price as unit_cost', DB::raw('SUM(stocks.quantity) as total_quantity'))
-        ->groupBy('products.name', 'products.barcode', 'products.selling_price','cattegories.cattegory_name','products.price')
-        ->get();
+    ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
+    ->select(
+        'products.name as product_name', 
+        'cattegories.cattegory_name', 
+        'products.barcode as barcode', 
+        'products.selling_price as selling_price', 
+        'products.price as unit_cost', 
+        'products.unit_of_measurement as measurement', 
+        DB::raw('SUM(stocks.quantity) as total_quantity'), // Total quantity
+        DB::raw('SUM(stocks.quantity * products.price) as cost'), // Total cost
+        DB::raw('SUM(stocks.quantity * products.selling_price) as value') // Total value
+    )
+    ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'products.price', 'cattegories.cattegory_name', 'products.unit_of_measurement')
+    ->get();
+        /*
+        To calculate the total purchases from the retrieved $stocks collection, you can iterate over each item and sum the total purchase cost, which is the product of the unit cost and total quantity for each item. Here's how you can do it:
+        */
+        $totalPurchases = 0;
+        foreach ($stocks as $stock) {
+        // Calculate the total purchase cost for each item
+        $purchaseCost = $stock->unit_cost * $stock->total_quantity;
+        // Add the total purchase cost to the overall total
+        $totalPurchases += $purchaseCost;
+        }    
         $totalValueOfStock = Stock::sum('total_cost');
         //dd($totalValueOfProducts);
         $lowestStockProduct = null;
@@ -72,7 +93,7 @@ class StockController extends Controller
     if ($lowestStockProduct) {
     $flashMessages[] = "Product {$lowestStockProduct->product_name} is the lowest in stock with {$lowestStockProduct->total_quantity} items.";
     }
-        return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages)->with("totalValueOfStock",$totalValueOfStock);
+        return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages)->with("totalValueOfStock",$totalValueOfStock)->with("totalPurchases",$totalPurchases);
     }
         
     public function addToStock($id){

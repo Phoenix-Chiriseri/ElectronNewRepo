@@ -125,7 +125,8 @@
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Available Stock</h6>
-                                <h6 class="text-white text-capitalize ps-3">Total Value of Stock {{$totalValueOfStock}}</h6>
+                                <h6 class="text-white text-capitalize ps-3">Total Cost {{$totalValueOfStock}}</h6>
+                               
                             </div>
                             
                             <hr>
@@ -154,13 +155,19 @@
                                                 Product Code
                                             </th>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
+                                               Unit Of Measurement
+                                             </th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                Cattegory Name
                                             </th>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
-                                               Unit Cost
+                                               Cost Price
                                              </th>
+                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
+                                                Cost
+                                              </th>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
-                                               Selling Price
+                                              Value
                                             </th>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                 Stock Count
@@ -176,7 +183,9 @@
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->barcode}}</p>
                                             </td>
-                                            
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->measurement}}</p>
+                                            </td>
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->cattegory_name}}</p>
                                             </td>
@@ -184,7 +193,10 @@
                                                 <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->unit_cost}}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->selling_price}}</p>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->cost}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->value}}</p>
                                             </td>
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->total_quantity}}</p>
