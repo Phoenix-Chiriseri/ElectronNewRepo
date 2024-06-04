@@ -16,6 +16,11 @@ class PaymentTypesController extends Controller
         return view("pages.add-payment-types");
     }
 
+    public function showPaymentTypes(){
+
+        $paymentTypes = PaymentTypes::orderBy("id","desc")->get();
+        return view("pages.view-payment-types")->with("paymentTypes",$paymentTypes);
+    }
     /**
      * Show the form for creating a new resource.
      */

@@ -142,6 +142,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-customer', [CustomerController::class, 'store'])->name('submit-customer');
 	Route::get('/view-customers', [CustomerController::class, 'viewAllCustomers'])->name('view-customers');
 	Route::get('/view-payment-types', [PaymentTypesController::class, 'addPaymentTypes'])->name('view-payment-types');
+	Route::get('/show-payment-types', [PaymentTypesController::class, 'showPaymentTypes'])->name('show-payment-types');
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('view-orders');
 	Route::get('/view-reports', [ReportController::class, 'create'])->name('view-reports');
 	Route::get('/view-inventoryvaluation', [ReportController::class, 'viewInventoryValuationReport'])->name('view-inventoryvaluation');

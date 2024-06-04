@@ -59,10 +59,10 @@ Swal.fire({
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('view-products') }}"
+                                    <a class="btn btn-info" href="{{ route('show-payment-types') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">View Products</span>
+                                        <span class="ms-1">View Payment Types</span>
                                     </a>
                                     
                                 </li>

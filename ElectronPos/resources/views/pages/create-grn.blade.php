@@ -57,7 +57,7 @@
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Goods Received Vouchers<s></s></h6>
                                 <h6 class="text-white text-capitalize ps-3">Number Of GRVS {{$numberOfGrvs}}</h6>
-                                <h6 class="text-white text-capitalize ps-3">Total Stock Value {{$totalStockValue}}</h6>
+                              
                             </div>
                             <br>
                             <button class = "btn btn-info" id="exportGrn"><i class = "fa fa-print"></i>Generate PDF</button>
