@@ -126,8 +126,8 @@
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Available Stock</h6>
                                 <h6 class="text-white text-capitalize ps-3">Number Of Products {{$allProducts}}</h6>
-                                <h6 class="text-white text-capitalize ps-3">Total Cost {{$totalValueOfStock}}</h6>
-                                <h6 class="text-white text-capitalize ps-3">Value {{$totalValueOfStock}}</h6>
+                                <h6 class="text-white text-capitalize ps-3">Cost Price {{$overallCost}}</h6>
+                                <h6 class="text-white text-capitalize ps-3">Sale Price {{$overallSelling}}</h6>
                             </div>
                             <hr>
                             <button class="btn btn-info" id="exportStock">Export To Pdf</button>

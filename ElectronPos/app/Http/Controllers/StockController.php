@@ -67,10 +67,13 @@ class StockController extends Controller
     )
     ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'products.price', 'cattegories.cattegory_name', 'products.unit_of_measurement')
     ->get();
-    //dd($stocks);
-        /*
-        To calculate the total purchases from the retrieved $stocks collection, you can iterate over each item and sum the total purchase cost, which is the product of the unit cost and total quantity for each item. Here's how you can do it:
-        */
+
+    $overallCost = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
+    ->select(DB::raw('SUM(stocks.quantity * products.price) as overall_cost'))
+    ->first()->overall_cost;
+    $overallSellingPrice = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
+    ->select(DB::raw('SUM(stocks.quantity * products.selling_price) as overall_selling_price'))
+    ->first()->overall_selling_price;
         $totalPurchases = 0;
         foreach ($stocks as $stock) {
         // Calculate the total purchase cost for each item
@@ -79,6 +82,7 @@ class StockController extends Controller
         $totalPurchases += $purchaseCost;
         }    
         $totalValueOfStock = Stock::sum('total_cost');
+        $totalValueOfStock2 = Stock::sum('total_cost');
         //dd($totalValueOfProducts);
         $lowestStockProduct = null;
         foreach ($stocks as $stock) {
@@ -94,7 +98,7 @@ class StockController extends Controller
     if ($lowestStockProduct) {
     $flashMessages[] = "Product {$lowestStockProduct->product_name} is the lowest in stock with {$lowestStockProduct->total_quantity} items.";
     }
-        return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages)->with("totalValueOfStock",$totalValueOfStock)->with("totalPurchases",$totalPurchases)->with("allProducts",$allProducts);
+        return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages)->with("totalValueOfStock",$totalValueOfStock)->with("totalPurchases",$totalPurchases)->with("allProducts",$allProducts)->with("overallCost",$overallCost)->with("overallSelling",$overallSellingPrice);
     }
         
     public function addToStock($id){
