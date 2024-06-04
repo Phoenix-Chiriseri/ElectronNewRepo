@@ -125,10 +125,10 @@
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                 <h6 class="text-white text-capitalize ps-3">Available Stock</h6>
+                                <h6 class="text-white text-capitalize ps-3">Number Of Products {{$allProducts}}</h6>
                                 <h6 class="text-white text-capitalize ps-3">Total Cost {{$totalValueOfStock}}</h6>
-                               
+                                <h6 class="text-white text-capitalize ps-3">Value {{$totalValueOfStock}}</h6>
                             </div>
-                            
                             <hr>
                             <button class="btn btn-info" id="exportStock">Export To Pdf</button>
                             <a class="btn btn-success" href="{{ route('viewall-stock') }}"
@@ -149,10 +149,13 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
+                                                Product Code
+                                            </th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                 Product Name
                                             </th>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
-                                                Product Code
+                                                Stock Count
                                             </th>
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                                Unit Of Measurement
@@ -169,19 +172,20 @@
                                             <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
                                               Value
                                             </th>
-                                            <th class="text-uppercase text-xxs font-weight-bolder" style="color:black;">
-                                                Stock Count
-                                            </th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>        
                                         @foreach($stocks as $stock)
                                         <tr>
                                             <td>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->barcode}}</p>
+                                            </td>
+                                            <td>
                                                 <p class="text-xs font-weight-bold mb-0" style="color:black;">{{$stock->product_name}}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->barcode}}</p>
+                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->total_quantity}}</p>
                                             </td>
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->measurement}}</p>
@@ -198,9 +202,7 @@
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->value}}</p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0"  style="color:black;">{{$stock->total_quantity}}</p>
-                                            </td>
+                                           
                                             </tr>
                                         @endforeach
                                     </tbody>

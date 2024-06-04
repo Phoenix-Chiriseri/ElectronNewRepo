@@ -51,7 +51,7 @@ class StockController extends Controller
 
         //set the stock levels to the latest value that has been inserted into the database
         $stockLevels = SetStockLevels::latest()->first();
-    
+        $allProducts = Product::all()->count();
         $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
     ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
     ->select(
@@ -67,6 +67,7 @@ class StockController extends Controller
     )
     ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'products.price', 'cattegories.cattegory_name', 'products.unit_of_measurement')
     ->get();
+    //dd($stocks);
         /*
         To calculate the total purchases from the retrieved $stocks collection, you can iterate over each item and sum the total purchase cost, which is the product of the unit cost and total quantity for each item. Here's how you can do it:
         */
@@ -93,7 +94,7 @@ class StockController extends Controller
     if ($lowestStockProduct) {
     $flashMessages[] = "Product {$lowestStockProduct->product_name} is the lowest in stock with {$lowestStockProduct->total_quantity} items.";
     }
-        return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages)->with("totalValueOfStock",$totalValueOfStock)->with("totalPurchases",$totalPurchases);
+        return view("pages.viewall-stock")->with("stocks", $stocks)->with("flashMessages", $flashMessages)->with("totalValueOfStock",$totalValueOfStock)->with("totalPurchases",$totalPurchases)->with("allProducts",$allProducts);
     }
         
     public function addToStock($id){
