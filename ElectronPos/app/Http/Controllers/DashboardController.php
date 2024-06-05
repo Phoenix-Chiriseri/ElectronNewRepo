@@ -27,7 +27,7 @@ class DashboardController extends Controller
         
      // Get the current month
     $currentMonth = Carbon::now()->format('Y-m');
-
+    $numberOfCattegories = Cattegory::all()->count();
      $topSellingProducts = DB::table('sales')
     ->join('product_sale', 'sales.id', '=', 'product_sale.sales_id')
     ->join('products', 'product_sale.product_id', '=', 'products.id')
@@ -113,6 +113,6 @@ class DashboardController extends Controller
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
         ->with("totalSales",$totalSales)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel)->with("totalSalesPerDay",$totalSalesPerDay)->with("totalSalesPerWeek",$totalSalesPerWeek)
-        ->with("totalSalesPerMonth",$filteredMonthData)->with("totalSalesPerYear",$filteredYearData);
+        ->with("totalSalesPerMonth",$filteredMonthData)->with("totalSalesPerYear",$filteredYearData)->with("numberOfCattegories",$numberOfCattegories);
     }
 }

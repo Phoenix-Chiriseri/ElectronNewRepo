@@ -133,8 +133,8 @@ animation: blink 1s linear infinite;
         <i class="material-icons opacity-10">weekend</i>
         </div>
         <div class="text-end pt-1">
-        <p class="text-sm mb-0 text-capitalize">Total Sales</p>
-        <h4 class="mb-0">{{$totalSales}}</h4>
+        <p class="text-sm mb-0 text-capitalize">Number Of Cattegories</p>
+        <h4 class="mb-0">{{$numberOfCattegories}}</h4>
         </div>
         </div>
         <hr class="dark horizontal my-0">
