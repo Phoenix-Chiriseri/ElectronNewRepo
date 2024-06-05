@@ -276,7 +276,7 @@ https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
                                 </select>
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label class="form-label">Grn Date</label>
+                                <label class="form-label">GRV Date</label>
                                 <input type="date" name="grn_date" class="form-control border border-2 p-2" required>
                                 <label class="form-label mt-3">Payment Method</label>
                                 <select name="payment_method" class="form-control border border-2 p-2" required>

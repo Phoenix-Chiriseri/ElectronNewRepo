@@ -68,13 +68,15 @@ class StockController extends Controller
     ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'products.price', 'cattegories.cattegory_name', 'products.unit_of_measurement')
     ->get();
 
-    $overallCost = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
+     $overallCost = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
     ->select(DB::raw('SUM(stocks.quantity * products.price) as overall_cost'))
     ->first()->overall_cost;
+    
     $overallSellingPrice = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
     ->select(DB::raw('SUM(stocks.quantity * products.selling_price) as overall_selling_price'))
     ->first()->overall_selling_price;
-        $totalPurchases = 0;
+        
+    $totalPurchases = 0;
         foreach ($stocks as $stock) {
         // Calculate the total purchase cost for each item
         $purchaseCost = $stock->unit_cost * $stock->total_quantity;
@@ -117,37 +119,4 @@ class StockController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-       dd($request->all());
-    
-    }
-    public function show(Stock $stock)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Stock $stock)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Stock $stock)
-    {
-        //
-    }
-  
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Stock $stock)
-    {
-        //
-    }
 }

@@ -38,6 +38,45 @@ class DashboardController extends Controller
     ->orderByDesc('total_quantity_sold')
     ->paginate(10); // Set the number of records per page
 
+    //total sales per day
+    $totalSalesPerDay = DB::table('sales')
+    ->select(DB::raw('DATE(sales.created_at) as date'), DB::raw('SUM(total) as total_sales'))
+    ->whereYear('sales.created_at', '=', Carbon::now()->year)
+    ->whereMonth('sales.created_at', '=', Carbon::now()->month)
+    ->groupBy(DB::raw('DATE(sales.created_at)'))
+    ->orderBy('date', 'asc')
+    ->get();
+
+    //total sales per week
+    $totalSalesPerWeek = DB::table('sales')
+    ->select(DB::raw('YEARWEEK(sales.created_at) as week'), DB::raw('SUM(total) as total_sales'))
+    ->whereYear('sales.created_at', '=', Carbon::now()->year)
+    ->whereMonth('sales.created_at', '=', Carbon::now()->month)
+    ->groupBy(DB::raw('YEARWEEK(sales.created_at)'))
+    ->orderBy('week', 'asc')
+    ->get();
+    //dd($totalSalesPerWeek);
+
+    //total sales per month
+    $totalSalesPerMonth = DB::table('sales')
+    ->select(DB::raw('MONTH(sales.created_at) as month'), DB::raw('SUM(total) as total_sales'))
+    ->whereYear('sales.created_at', '=', Carbon::now()->year)
+    ->groupBy(DB::raw('MONTH(sales.created_at)'))
+    ->orderBy('month', 'asc')
+    ->get();
+
+    $filteredMonthData = ($totalSalesPerMonth[0]->total_sales);
+
+    //total sales per year
+    $totalSalesPerYear = DB::table('sales')
+    ->select(DB::raw('YEAR(sales.created_at) as year'), DB::raw('SUM(total) as total_sales'))
+    ->groupBy(DB::raw('YEAR(sales.created_at)'))
+    ->orderBy('year', 'asc')
+    ->get();
+
+    $filteredYearData = ($totalSalesPerYear[0]->total_sales);
+
+
 
         //set the stock levels in the appioci=====gggh
         $lowestStockLevel = SetStockLevels::latest()->first();
@@ -73,6 +112,7 @@ class DashboardController extends Controller
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
-        ->with("totalSales",$totalSales)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel);
+        ->with("totalSales",$totalSales)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel)->with("totalSalesPerDay",$totalSalesPerDay)->with("totalSalesPerWeek",$totalSalesPerWeek)
+        ->with("totalSalesPerMonth",$filteredMonthData)->with("totalSalesPerYear",$filteredYearData);
     }
 }
