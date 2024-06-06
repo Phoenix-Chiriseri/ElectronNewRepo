@@ -42,6 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
+    public function hasRole($role)
+    {
+        return $this->roles->pluck('name')->contains($role);
+    }
+    
     public function cart()
     {
         return $this->belongsToMany(Product::class, 'user_cart')->withPivot('quantity');

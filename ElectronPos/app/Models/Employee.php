@@ -9,5 +9,10 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','name', 'login_pin', 'pos_username', 'email'];
+    protected $fillable = ['user_id','name', 'login_pin', 'pos_username', 'email','role'];
+
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
 }

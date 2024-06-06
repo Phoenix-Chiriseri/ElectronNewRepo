@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('login_pin');
             $table->string('pos_username');
             $table->string('email')->unique();
+            $table->enum('role', ['manager', 'cashier']); // Enumerated role field
+            // Define foreign key constraint with users table
             $table->timestamps();
             // Define foreign key constraint with users table
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

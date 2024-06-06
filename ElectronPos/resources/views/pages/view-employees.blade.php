@@ -113,16 +113,16 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$employee->role}}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{$employee->pos_username}}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$employee->access_level}}</h6>
+                                                <h6 class="mb-0 text-sm">{{$employee->email}}</h6>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <h6 class="mb-0 text-sm">{{$employee->created_at}}</h6>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$employee->user}}</h6>
+                                                <h6 class="mb-0 text-sm">{{$employee->role}}</h6>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('delete-employee',$employee->id) }}">Delete Employee</a>

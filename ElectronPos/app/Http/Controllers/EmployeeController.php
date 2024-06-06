@@ -61,6 +61,7 @@ class EmployeeController extends Controller
             'login_pin' => Hash::make($request->login_pin), // Store login PIN hashed
             'pos_username' => $request->pos_username,
             'email' => $request->email,
+            'role'=>$request->role
         ]);
 
         if($employee->save()){
