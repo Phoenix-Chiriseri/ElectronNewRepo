@@ -29,6 +29,7 @@ use App\Http\Controllers\SaleZigController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\PaymentTypesController;
+use App\Http\Controllers\EmployeeLogin;
 
 
 Route::get('/', [DashboardController::class, 'welcome']);
@@ -44,9 +45,9 @@ Route::get('verify', function () {
 Route::get('/reset-password/{token}', function ($token) {
 	return view('sessions.password.reset', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
-Route::middleware(['auth', 'role:cashier'])->group(function () {
-    Route::get('/cashier-screen', 'CashierController@index')->name('cashier.index');
-});
+Route::get('/employee/login', [EmployeeLogin::class, 'showLoginForm'])->name('employee.login')->middleware('guest');
+Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
+Route::post('/employee/login/submit', [EmployeeLogin::class, 'store'])->name('employee.login.submit')->middleware('guest');
 Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('auth')->name('logout');
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
@@ -56,7 +57,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/search-product/{productName}', [ProductController::class, 'searchProduct']);
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
 	Route::post('/sellZig', [SaleZigController::class, 'store'])->name("submit.sale");
-	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
 	Route::get('/zig-screen', [ElectronPOE::class, 'zigScreen'])->name('zig-screen');
 	Route::get('/create-grn', [GRVController::class, 'createGRN'])->name('create-grn');
 	Route::get('/grv-enquiry', [GRVController::class, 'grvEnquiry'])->name('grv-enquiry');

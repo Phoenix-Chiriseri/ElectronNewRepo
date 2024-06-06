@@ -58,7 +58,7 @@ class EmployeeController extends Controller
         $employee = Employee::create([
             'user_id'=>$userId,
             'name' => $request->name,
-            'login_pin' => Hash::make($request->login_pin), // Store login PIN hashed
+            'login_pin' => $request->login_pin, // Store login PIN hashed
             'pos_username' => $request->pos_username,
             'email' => $request->email,
             'role'=>$request->role

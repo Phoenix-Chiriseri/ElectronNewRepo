@@ -42,11 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    public function hasRole($role)
+    public function isAdmin()
     {
-        return $this->roles->pluck('name')->contains($role);
+        // Assuming 'role' is a column in the users table
+        return $this->role === 'admin';
     }
-    
+
     public function cart()
     {
         return $this->belongsToMany(Product::class, 'user_cart')->withPivot('quantity');
