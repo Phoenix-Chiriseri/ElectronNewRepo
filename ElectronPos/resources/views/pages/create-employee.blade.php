@@ -59,7 +59,7 @@ Swal.fire({
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Create A User</h6>
+                                <h6 class="mb-3">Create A Employee</h6>
                             </div>
                         </div>
                     </div>
@@ -109,8 +109,8 @@ Swal.fire({
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Access Level</label>
-                                    <input type="number" name="access_level" class="form-control border border-2 p-2" required>
+                                    <label class="form-label">POS Login PIN</label>
+                                    <input type="password" name="login_pin" class="form-control border border-2 p-2" required>
                                     @error('last_name')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
@@ -118,18 +118,18 @@ Swal.fire({
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Password</label>
-                                    <input type="password" name="password" class="form-control border border-2 p-2" required>
-                                    @error('last_name')
+                                    <label class="form-label">POS Username</label>
+                                    <input type="text" name="pos_username" class="form-control border border-2 p-2" required>
+                                    @error('first_name')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Confirm Password</label>
-                                    <input type="password" name="confirm_password" class="form-control border border-2 p-2" required>
-                                    @error('last_name')
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control border border-2 p-2" required>
+                                    @error('first_name')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
                                 </div>

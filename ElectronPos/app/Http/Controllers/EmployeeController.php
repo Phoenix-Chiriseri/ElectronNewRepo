@@ -50,19 +50,20 @@ class EmployeeController extends Controller
     }
 
        public function store(Request $request)
-    {
-        $userId = Auth::user()->id;
-        $employee = Employee::create([
-            'name' => $request->input('name'),
-            'role' => $request->input('role'),
-            'access_level' => $request->input('access_level'),
-            'user_id'=>$userId,
-            'password' => Hash::make($request->input('password')),
-            'confirm_password' => Hash::make($request->input('confirm_password')),
-        ]);
+   
+     {
         
-        if($employee->save()){
+        $userId = Auth::user()->id;
+        // Create a new employee
+        $employee = Employee::create([
+            'user_id'=>$userId,
+            'name' => $request->name,
+            'login_pin' => Hash::make($request->login_pin), // Store login PIN hashed
+            'pos_username' => $request->pos_username,
+            'email' => $request->email,
+        ]);
 
+        if($employee->save()){
             return redirect()->back()->with('success', 'Employee Saved Successfully');
         }
         // Redirect back with a success message

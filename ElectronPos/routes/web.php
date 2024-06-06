@@ -138,6 +138,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/create-suppliers', [SupplierController::class, 'create'])->name('create-suppliers');
 	Route::get('/confirmation-screen', [SaleController::class, 'confirmationScreen'])->name('confirmation-screen');
 	Route::post('/submit-supplier', [SupplierController::class, 'store'])->name('submit-supplier');
+	Route::post('/submit-payment-type', [PaymentTypesController::class, 'store'])->name('submit-payment-types');
 	Route::post('/finalise-sale', [SaleController::class, 'finaliseSale'])->name('finalise-sale');
 	Route::post('/submit-customer', [CustomerController::class, 'store'])->name('submit-customer');
 	Route::get('/view-customers', [CustomerController::class, 'viewAllCustomers'])->name('view-customers');

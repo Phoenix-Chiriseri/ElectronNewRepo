@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('employees', function (Blueprint $table) {
+            
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id'); // Assuming a one-to-one relationship with users
             $table->string('name');
-            $table->string('password');
-            $table->string('confirm_password')->unique();
-            $table->string('access_level');
-            $table->string('role');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->rememberToken();
+            $table->string('login_pin');
+            $table->string('pos_username');
+            $table->string('email')->unique();
             $table->timestamps();
+            // Define foreign key constraint with users table
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     } 
     /**

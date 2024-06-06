@@ -9,12 +9,5 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'role',
-        'password',
-        'confirm_password',
-        'access_level',
-        'user_id'
-    ];
+    protected $fillable = ['user_id','name', 'login_pin', 'pos_username', 'email'];
 }

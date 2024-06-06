@@ -101,7 +101,7 @@ Swal.fire({
                                     </div>
                                 </div>
                         @endif
-                        <form method="POST" action="{{ route('submit-payments') }}">
+                        <form method="POST" action="{{ route('submit-payment-types') }}">
                           @csrf
                         <div class="row">
          <div class="mb-3 col-md-6">

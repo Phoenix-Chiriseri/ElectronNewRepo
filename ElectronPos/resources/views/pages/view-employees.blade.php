@@ -81,18 +81,18 @@
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
                                                Employee Name
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
-                                                Role
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 100px;">
-                                                Access Level
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
-                                               Created At
-                                            </th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
-                                                Created By
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
+                                                Pos Username
                                              </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
+                                               Email
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
+                                                Phone
+                                             </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
+                                              Role
+                                            </th>                                            
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
                                                 Delete
                                              </th>
