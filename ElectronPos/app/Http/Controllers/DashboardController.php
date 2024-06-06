@@ -47,6 +47,7 @@ class DashboardController extends Controller
     ->orderBy('date', 'asc')
     ->get();
     
+    $filteredDayData = ($totalSalesPerDay[0]->total_sales);
 
     //total sales per week
     $totalSalesPerWeek = DB::table('sales')
@@ -56,8 +57,9 @@ class DashboardController extends Controller
     ->groupBy(DB::raw('YEARWEEK(sales.created_at)'))
     ->orderBy('week', 'asc')
     ->get();
-    //dd($totalSalesPerWeek);
 
+    $filteredWeekData = ($totalSalesPerWeek[0]->total_sales);
+   
     //total sales per month
     $totalSalesPerMonth = DB::table('sales')
     ->select(DB::raw('MONTH(sales.created_at) as month'), DB::raw('SUM(total) as total_sales'))
@@ -113,7 +115,7 @@ class DashboardController extends Controller
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
-        ->with("totalSales",$totalSales)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel)->with("totalSalesPerDay",$totalSalesPerDay)->with("totalSalesPerWeek",$totalSalesPerWeek)
+        ->with("totalSales",$totalSales)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel)->with("totalSalesPerDay",$filteredDayData)->with("totalSalesPerWeek",$filteredWeekData)
         ->with("totalSalesPerMonth",$filteredMonthData)->with("totalSalesPerYear",$filteredYearData)->with("numberOfCattegories",$numberOfCattegories);
     }
 }
