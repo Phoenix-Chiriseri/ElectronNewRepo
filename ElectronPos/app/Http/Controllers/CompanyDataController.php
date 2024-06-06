@@ -43,14 +43,11 @@ class CompanyDataController extends Controller
     {
 
         $id = Auth::user()->id;
-
-        // Validate the form data
-    
-        // Process the form submission, e.g., save to database
-        // Assuming you have a CompanyDetails model
         $companyDetails = new CompanyData();
         $companyDetails->user_id = $id;
         $companyDetails->name = $request->input("name");
+        $companyDetails->bank_details = $request->input("bank_details");
+        $companyDetails->bank_account_number = $request->input("bank_account_number");
         $companyDetails->tinnumber = $request->input('tinnumber');
         $companyDetails->vatnumber = $request->input('vatnumber');
         $companyDetails->shop_address = $request->input('shop_address');

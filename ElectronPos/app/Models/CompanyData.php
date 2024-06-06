@@ -16,6 +16,9 @@ class CompanyData extends Model
         'shop_address',
         'phone_number',
         'email',
+        'bank_details',
+        'bank_account_number'
+
        
     ];
 

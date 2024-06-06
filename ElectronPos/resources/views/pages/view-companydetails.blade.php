@@ -1,177 +1,297 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <style>
-body{
-    color: #6F8BA4;
-    margin-top:20px;
+body{margin-top:20px;
+background-color: #f7f7ff;
 }
-.section {
-    padding: 100px 0;
+#invoice {
+    padding: 0px;
+}
+
+.invoice {
     position: relative;
-}
-.gray-bg {
-    background-color: #f5f5f5;
-}
-img {
-    max-width: 100%;
-}
-img {
-    vertical-align: middle;
-    border-style: none;
-}
-/* About Me 
----------------------*/
-.about-text h3 {
-  font-size: 45px;
-  font-weight: 700;
-  margin: 0 0 6px;
-}
-@media (max-width: 767px) {
-  .about-text h3 {
-    font-size: 35px;
-  }
-}
-.about-text h6 {
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-@media (max-width: 767px) {
-  .about-text h6 {
-    font-size: 18px;
-  }
-}
-.about-text p {
-  font-size: 18px;
-  max-width: 450px;
-}
-.about-text p mark {
-  font-weight: 600;
-  color: #20247b;
+    background-color: #FFF;
+    min-height: 680px;
+    padding: 15px
 }
 
-.about-list {
-  padding-top: 10px;
-}
-.about-list .media {
-  padding: 5px 0;
-}
-.about-list label {
-  color: #20247b;
-  font-weight: 600;
-  width: 88px;
-  margin: 0;
-  position: relative;
-}
-.about-list label:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 11px;
-  width: 1px;
-  height: 12px;
-  background: #20247b;
-  -moz-transform: rotate(15deg);
-  -o-transform: rotate(15deg);
-  -ms-transform: rotate(15deg);
-  -webkit-transform: rotate(15deg);
-  transform: rotate(15deg);
-  margin: auto;
-  opacity: 0.5;
-}
-.about-list p {
-  margin: 0;
-  font-size: 15px;
+.invoice header {
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #0d6efd
 }
 
-@media (max-width: 991px) {
-  .about-avatar {
-    margin-top: 30px;
-  }
+.invoice .company-details {
+    text-align: right
 }
 
-.about-section .counter {
-  padding: 22px 20px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 30px rgba(31, 45, 61, 0.125);
-}
-.about-section .counter .count-data {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.about-section .counter .count {
-  font-weight: 700;
-  color: #20247b;
-  margin: 0 0 5px;
-}
-.about-section .counter p {
-  font-weight: 600;
-  margin: 0;
-}
-mark {
-    background-image: linear-gradient(rgba(252, 83, 86, 0.6), rgba(252, 83, 86, 0.6));
-    background-size: 100% 3px;
-    background-repeat: no-repeat;
-    background-position: 0 bottom;
-    background-color: transparent;
-    padding: 0;
-    color: currentColor;
-}
-.theme-color {
-    color: #fc5356;
-}
-.dark-color {
-    color: #20247b;
+.invoice .company-details .name {
+    margin-top: 0;
+    margin-bottom: 0
 }
 
+.invoice .contacts {
+    margin-bottom: 20px
+}
+
+.invoice .invoice-to {
+    text-align: left
+}
+
+.invoice .invoice-to .to {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.invoice .invoice-details {
+    text-align: right
+}
+
+.invoice .invoice-details .invoice-id {
+    margin-top: 0;
+    color: #0d6efd
+}
+
+.invoice main {
+    padding-bottom: 50px
+}
+
+.invoice main .thanks {
+    margin-top: -100px;
+    font-size: 2em;
+    margin-bottom: 50px
+}
+
+.invoice main .notices {
+    padding-left: 6px;
+    border-left: 6px solid #0d6efd;
+    background: #e7f2ff;
+    padding: 10px;
+}
+
+.invoice main .notices .notice {
+    font-size: 1.2em
+}
+
+.invoice table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px
+}
+
+.invoice table td,
+.invoice table th {
+    padding: 15px;
+    background: #eee;
+    border-bottom: 1px solid #fff
+}
+
+.invoice table th {
+    white-space: nowrap;
+    font-weight: 400;
+    font-size: 16px
+}
+
+.invoice table td h3 {
+    margin: 0;
+    font-weight: 400;
+    color: #0d6efd;
+    font-size: 1.2em
+}
+
+.invoice table .qty,
+.invoice table .total,
+.invoice table .unit {
+    text-align: right;
+    font-size: 1.2em
+}
+
+.invoice table .no {
+    color: #fff;
+    font-size: 1.6em;
+    background: #0d6efd
+}
+
+.invoice table .unit {
+    background: #ddd
+}
+
+.invoice table .total {
+    background: #0d6efd;
+    color: #fff
+}
+
+.invoice table tbody tr:last-child td {
+    border: none
+}
+
+.invoice table tfoot td {
+    background: 0 0;
+    border-bottom: none;
+    white-space: nowrap;
+    text-align: right;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-top: 1px solid #aaa
+}
+
+.invoice table tfoot tr:first-child td {
+    border-top: none
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px solid rgba(0, 0, 0, 0);
+    border-radius: .25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+}
+
+.invoice table tfoot tr:last-child td {
+    color: #0d6efd;
+    font-size: 1.4em;
+    border-top: 1px solid #0d6efd
+}
+
+.invoice table tfoot tr td:first-child {
+    border: none
+}
+
+.invoice footer {
+    width: 100%;
+    text-align: center;
+    color: #777;
+    border-top: 1px solid #aaa;
+    padding: 8px 0
+}
+
+@media print {
+    .invoice {
+        font-size: 11px !important;
+        overflow: hidden !important
+    }
+    .invoice footer {
+        position: absolute;
+        bottom: 10px;
+        page-break-after: always
+    }
+    .invoice>div:last-child {
+        page-break-before: always
+    }
+}
+
+.invoice main .notices {
+    padding-left: 6px;
+    border-left: 6px solid #0d6efd;
+    background: #e7f2ff;
+    padding: 10px;
+}
 </style>
-<section class="section about-section gray-bg" id="about">
-    <div class="container">
-        <div class="row align-items-center flex-row-reverse">
-            <div class="col-lg-6">
-                <div class="about-text go-to">
-                    <h3 class="dark-color">Electron Point Of Sale</h3>
-                    <h6 class="theme-color lead">Shop Details</h6>
-                    <p>Hello<mark> {{$user->name}} </mark>these are your compnay details</p>
-                    <div class="row about-list">
-                        <div class="col-md-6">
-                            <div class="media">
-                                <label>Shop Name</label>
-                                <p>{{$details->shop_name}}</p>
-                            </div>
-                            <div class="media">
-                                <label>Tax Number</label>
-                                <p>{{$details->tax_number}}</p>
-                            </div>
-                            <div class="media">
-                                <label>Shop Address</label>
-                                <p>{{$details->shop_address}}</p>
-                            </div>
-                            <div class="media">
-                                <label>Shop City</label>
-                                <p>{{$details->shop_city}}</p>
-                            </div>
-                            <div class="media">
-                                <label>Created At</label>
-                                <p>{{$details->created_at}}</p>
-                            </div>
-                           
-                        </div>
-                        <a class="btn btn-danger btn-sm" href="{{ route('dashboard') }}"
-                                        role="tab" aria-selected="true">
-                                        <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">Dashboard</span>
-                        </a>
-                        <hr>
-                       
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="about-avatar">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
-                </div>
-            </div>
-        </div>
-      
-</section>
+<div class="container">
+  <div class="card">
+      <div class="card-body">
+          <div id="invoice">
+              <div class="toolbar hidden-print">
+              
+              <div class="invoice overflow-auto">
+                  <div style="min-width: 600px">
+                      <header>
+                          <div class="row">
+                              <div class="col">
+                                  <a href="javascript:;">
+                          <img src="assets/images/logo-icon.png" width="80" alt="">
+                      </a>
+                              </div>
+                              <div class="col company-details">
+                                  <h2 class="name">
+                                      <a target="_blank" href="javascript:;">
+                                      Company Name: {{$details->name}}  
+                                      </a>
+                                  </h2>
+                                  <div>{{$details->shop_address}}</div>
+                                  <div>{{$details->phone_number}}</div>
+                                  <div>{{$details->email}}</div>
+                                 
+                              </div>
+                          </div>
+                      </header>
+                      <main>
+                          <div class="row contacts">
+                             
+                              
+                          </div>
+                          <table>
+                              
+                              <tbody>
+                                  <tr>
+                                      <td class="no">01</td>
+                                      <td class="text-left">
+                                          <h3>
+                                              <a target="_blank" href="javascript:;">
+                  Tin Number
+                  </a>
+                                          </h3>
+                                         </td>
+                                    
+                                      <td class="total">{{$details->tinnumber}}</td>
+                                  </tr>
+                                  <tr>
+                                    <tr>
+                                      <td class="no">02</td>
+                                      <td class="text-left">
+                                          <h3>
+                                              <a target="_blank" href="javascript:;">
+                  Vat Number
+                  </a>
+                                          </h3>
+                                         </td>
+                                    
+                                      <td class="total">{{$details->vatnumber}}</td>
+                                  </tr>
+                                  <tr>
+                                    <tr>
+                                      <td class="no">03</td>
+                                      <td class="text-left">
+                                          <h3>
+                                              <a target="_blank" href="javascript:;">
+                  Bank Details
+                  </a>
+                                          </h3>
+                                         </td>
+                                    
+                                      <td class="total">{{$details->bank_details}}</td>
+                                  </tr>
+                                  <tr>
+                                    <tr>
+                                      <tr>
+                                        <td class="no">04</td>
+                                        <td class="text-left">
+                                            <h3>
+                                                <a target="_blank" href="javascript:;">
+                    Bank Account Number
+                    </a>
+                                            </h3>
+                                           </td>
+                                      
+                                        <td class="total">{{$details->bank_account_number}}</td>
+                                    </tr>
+                                                                 </tbody>
+                            
+                          </table>
+                          
+                        
+                      </main>
+                     
+                  </div>
+                  <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+                  <div></div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

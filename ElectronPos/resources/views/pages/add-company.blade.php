@@ -117,6 +117,20 @@
                                 @enderror
                                 </div>
                                 <div class="mb-3 col-md-12">
+                                    <label class="form-label">Bank Account Number</label>
+                                    <input type="text" name="bank_account_number" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Bank Details</label>
+                                    <input type="text" name="bank_details" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
                                     <label class="form-label">Email</label>
                                     <input type="text" name="email" class="form-control border border-2 p-2" required>
                                     @error('name')

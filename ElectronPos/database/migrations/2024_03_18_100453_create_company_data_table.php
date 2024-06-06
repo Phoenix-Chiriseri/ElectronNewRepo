@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('vatnumber', 9);
             $table->string('shop_address');
             $table->string('phone_number', 20);
+            $table->string('bank_details');
+            $table->string('bank_account_number');
             $table->string('email');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

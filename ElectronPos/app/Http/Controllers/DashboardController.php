@@ -46,6 +46,7 @@ class DashboardController extends Controller
     ->groupBy(DB::raw('DATE(sales.created_at)'))
     ->orderBy('date', 'asc')
     ->get();
+    
 
     //total sales per week
     $totalSalesPerWeek = DB::table('sales')
