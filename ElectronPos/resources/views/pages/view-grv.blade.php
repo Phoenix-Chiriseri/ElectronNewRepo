@@ -99,6 +99,7 @@ margin-top:20px;
 		#container {
 			background-color: #dcdcdc;
 		}
+        
 </style>
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 <div class="row">
@@ -114,7 +115,7 @@ margin-top:20px;
             filename: 'GRN.pdf',  // Specify the filename
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a5', orientation: 'landscape' }
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         // Use html2pdf library to export the content

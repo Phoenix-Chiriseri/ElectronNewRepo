@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Log;
 use Auth;
 use App\Models\Stock;
 use App\Models\User;
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
+use Illuminate\Support\Facades\Session;
 
 class SaleController extends Controller
 {

@@ -29,6 +29,7 @@ use App\Http\Controllers\SaleZigController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\PaymentTypesController;
+use App\Http\Controllers\AddPrinterController;
 use App\Http\Controllers\EmployeeLogin;
 
 
@@ -189,6 +190,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/get-all-suppliers', [ApiController::class, 'getAllSuppliers'])->name('get.allsuppliers');
 	Route::get('/get-all-suppliers', [ApiController::class, 'getAllSuppliers'])->name('get.allsuppliers');
 	Route::get("/get-all-grvs",[ApiController::class,'getAllGRVS'])->name("getAllGrvs");
+	Route::get("/add-printer",[AddPrinterController::class,'addPrinter'])->name("add-printer");
 	Route::get("/view-quotations",[QuoteController::class,'viewAllQuotations'])->name("view.quotes");
 	Route::get("get-employees",[ApiController::class,'getAllEmployees'])->name("getAllEmployees");
 	Route::get("/test",[ApiController::class,'showResult'])->name("showResult");
