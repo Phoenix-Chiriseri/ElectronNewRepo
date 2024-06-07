@@ -43,11 +43,7 @@ Swal.fire({
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
-                                    <a class="btn btn-info" href="{{ route('view-cattegories') }}"
-                                        role="tab" aria-selected="true">
-                                        <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1">View Cattegories</span>
-                                    </a>
+                                    
                                 </li>
                             </ul>
                             
@@ -85,15 +81,31 @@ Swal.fire({
                                     </div>
                                 </div>
                         @endif
-                        <form method='POST' action="{{ route('submit-cattegory') }}">
+                        <form method='POST' action="{{ route('add-printer') }}">
                             @csrf
                             <div class="row">       
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Cattegory Name</label>
+                                    <label class="form-label">Printer Name</label>
                                     <input type="text" name="name" class="form-control border border-2 p-2" required>
                                     @error('name')
                                 <p class='text-danger inputerror'>{{ $message }} </p>
                                 @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Printer Name</label>
+                                    <input type="text" name="name" class="form-control border border-2 p-2" required>
+                                    @error('name')
+                                <p class='text-danger inputerror'>{{ $message }} </p>
+                                @enderror
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Connection Mode</label>
+                                    <select name="connection_mode" class="form-control border border-2 p-2" required>
+                                        <option value="bluetooth">Bluetooth</option>
+                                        <option value="usb">USB</option>
+                                        <option value="network">Network</option>
+                                        <option value="wifi">Wi-Fi</option>
+                                    </select>
                                 </div>
                             </div>
                             <button type="submit" class="btn bg-gradient-dark">Submit</button>
