@@ -15,7 +15,7 @@ Swal.fire({
 </script>
 @endif
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='Create Cattegory'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Add Printers'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid px-2 px-md-4">
             <div class="page-header min-height-300 border-radius-xl mt-4"
@@ -84,13 +84,7 @@ Swal.fire({
                         <form method='POST' action="{{ route('add-printer') }}">
                             @csrf
                             <div class="row">       
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Printer Name</label>
-                                    <input type="text" name="name" class="form-control border border-2 p-2" required>
-                                    @error('name')
-                                <p class='text-danger inputerror'>{{ $message }} </p>
-                                @enderror
-                                </div>
+                               
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">Printer Name</label>
                                     <input type="text" name="name" class="form-control border border-2 p-2" required>

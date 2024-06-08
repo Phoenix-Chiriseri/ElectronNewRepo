@@ -32,7 +32,7 @@ class StockController extends Controller
 
     public function searchStock(Request $request){
 
-        $product_id = $request->input("product_id");
+        $product_id = $request->input("produc t_id");
         $from_date = $request->input("from_date");
         $to_date = $request->input("to_date");
         $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')

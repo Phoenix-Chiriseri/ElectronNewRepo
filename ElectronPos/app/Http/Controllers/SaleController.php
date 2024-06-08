@@ -33,6 +33,68 @@ class SaleController extends Controller
     }
 
     public function doTransaction(Request $request) {
+        $userId = Auth::user()->id;
+        $total = $request->input('total');
+        $change = $request->input('change');
+        $amountPaid = $request->input('amountPaid');
+        $customerId = $request->input('customerId');
+        $tableDataJson = $request->input('table_data');
+        $companyDetails = CompanyData::latest()->first();
+        
+        // Decode the JSON string into a PHP array
+        $tableData = json_decode($tableDataJson, true);      
+        
+        // Create a new sale record
+        $sale = Sales::create([
+            'total' => $total,
+            'change' => $change,
+            'amountPaid' => $amountPaid,
+            'user_id' => $userId // Corrected column name
+        ]);
+        
+        // Iterate through each item in the sale and associate it with the sale record
+        foreach ($tableData as $item) {
+            $productId = $item['id'];
+            $quantitySold = $item['quantity'];
+            
+            // Update the available quantity in the stocks table
+            Stock::where('product_id', $productId)
+                ->decrement('quantity', $quantitySold);
+            
+            // Associate the sold product with the sale
+            $sale->products()->attach($productId, ['quantity' => $quantitySold]);
+        }
+        
+        // Generate invoice HTML
+        $invoiceHtml = view('pages.salesInvoice', [ // ensure the correct view path
+            'sale' => $sale,
+            'customer' => Customer::find($customerId),
+            'items' => $tableData,
+            'details' => $companyDetails,
+            'amountPaid' => $amountPaid
+        ])->render();
+        
+        // Save the invoice HTML
+        $invoice = Invoice::create([
+            'html' => $invoiceHtml,
+            'user_id' => $userId
+        ]);
+        
+        // Associate the invoice with the sale
+        $sale->invoice_id = $invoice->id;
+        $sale->save();
+        
+        // Return the view with the $invoiceHtml variable
+        return view('pages.salesInvoice', [
+            'sale' => $sale,
+            'customer' => Customer::find($customerId),
+            'items' => $tableData,
+            'details' => $companyDetails,
+            'amountPaid' => $amountPaid,
+        ]);
+    }
+
+    /*public function doTransaction(Request $request) {
         
         $userId= Auth::user()->id;
         $total = $request->input('total');
@@ -89,7 +151,7 @@ class SaleController extends Controller
             'details' => $companyDetails,
             'amountPaid' => $amountPaid
         ]);
-    }
+    }*/
 
 
     public function create()

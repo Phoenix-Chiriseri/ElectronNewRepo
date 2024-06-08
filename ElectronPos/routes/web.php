@@ -196,6 +196,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get("/test",[ApiController::class,'showResult'])->name("showResult");
 	Route::get('/get-rate-json',[ApiController::class,'getRate'])->name('get-rate-json');
 	Route::get('/total-sales',[ApiController::class,'getTotalSales'])->name('get-total-sales');
+	Route::get('/printers', [AddPrinterController::class, 'showPrinters'])->name('printers');
+	Route::post('/print-test', [AddPrinterController::class, 'printTestPage'])->name('print-test');
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
