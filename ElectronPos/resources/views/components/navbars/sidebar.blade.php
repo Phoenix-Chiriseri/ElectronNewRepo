@@ -142,15 +142,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Payment Types</span>
                 </a>
-            </li>  
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('add-printer') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-print ps-2 pe-2 text-center" style="font-size: 1.2rem;"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Add Printers</span>
-                </a>
-            </li>
+            </li> 
             <li class="nav-item">
                 <a class="nav-link text-white"
                 href="{{ route('view-companydata') }}">
