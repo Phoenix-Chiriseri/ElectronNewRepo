@@ -97,6 +97,33 @@ Swal.fire({
                                     @enderror
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control border border-2 p-2" required>
+                                    @error('first_name')
+                                    <p class="text-danger inputerror">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" name="password" class="form-control border border-2 p-2" required>
+                                    @error('first_name')
+                                    <p class="text-danger inputerror">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Confirm Password</label>
+                                    <input type="password" name="confirm-password" class="form-control border border-2 p-2" required>
+                                    @error('first_name')
+                                    <p class="text-danger inputerror">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="mb-3 col-md-12">
                                 <label class="form-label">Role</label>
                                 <div class="form-group">
@@ -107,36 +134,9 @@ Swal.fire({
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">POS Login PIN</label>
-                                    <input type="password" name="login_pin" class="form-control border border-2 p-2" required>
-                                    @error('last_name')
-                                    <p class="text-danger inputerror">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">POS Username</label>
-                                    <input type="text" name="pos_username" class="form-control border border-2 p-2" required>
-                                    @error('first_name')
-                                    <p class="text-danger inputerror">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control border border-2 p-2" required>
-                                    @error('first_name')
-                                    <p class="text-danger inputerror">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
                             <hr>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Create Employee</button>
+                                <button type="submit" class="btn btn-primary">Create User</button>
                             </div>
                             <hr>
                         </form>

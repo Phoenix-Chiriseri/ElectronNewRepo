@@ -16,10 +16,12 @@ class PaymentTypesController extends Controller
         return view("pages.add-payment-types");
     }
 
+
     public function showPaymentTypes(){
 
-        $paymentTypes = PaymentTypes::orderBy("id","desc")->get();
-        return view("pages.view-payment-types")->with("paymentTypes",$paymentTypes);
+        $numberOfPaymentTypes = PaymentTypes::all()->count();
+        $paymentTypes = PaymentTypes::orderBy("id","desc")->paginate(5);
+        return view("pages.view-payment-types")->with("paymentTypes",$paymentTypes)->with("numberOfPaymentTypes",$numberOfPaymentTypes);
     }
     /**
      * Show the form for creating a new resource.
@@ -34,7 +36,13 @@ class PaymentTypesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $paymentType = PaymentTypes::create([
+            'payment_name' => $request->name,
+        ]);
+        if (!$paymentType) {
+            return redirect()->back()->with('error', 'Sorry, there a problem while creating this payment type.');
+        }
+        return redirect()->back()->with('success', 'Payment Type Successfully Created');  
     }
 
     /**

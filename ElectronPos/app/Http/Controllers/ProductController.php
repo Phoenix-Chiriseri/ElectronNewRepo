@@ -24,11 +24,10 @@ class ProductController extends Controller
         $productCount = Product::all()->count();
         //get the products from the database and get the stocvk count as well
         $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')
-    ->select('products.id', 'products.name', 'products.barcode', 'products.created_at', 'products.description', 'products.price', 'products.selling_price', 'products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
-    ->groupBy('products.id', 'products.name', 'products.barcode', 'products.description', 'products.price', 'products.selling_price', 'products.unit_of_measurement', 'products.created_at')
-    ->orderByDesc('products.id') // Order by id in descending order
-    ->get();
-        //$totalValueOfProducts = Product::sum('selling_price');
+         ->select('products.id', 'products.name', 'products.barcode', 'products.created_at', 'products.description', 'products.price', 'products.selling_price', 'products.unit_of_measurement', DB::raw('SUM(stocks.quantity) as total_stock_quantity'))
+        ->groupBy('products.id', 'products.name', 'products.barcode', 'products.description', 'products.price', 'products.selling_price', 'products.unit_of_measurement', 'products.created_at')
+        ->orderByDesc('products.id') // Order by id in descending order
+        ->get();
         return view('pages.view-products')->with("products",$products)->with("productCount",$productCount);
     }
 
@@ -83,7 +82,6 @@ class ProductController extends Controller
         // Return the products as JSON response
         return response()->json(["products" => $products]);
     }
-
 
     //function that will search the products    
     public function editProduct($id){ 

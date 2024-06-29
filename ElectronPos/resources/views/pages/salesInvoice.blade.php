@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receipt</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +11,6 @@
 
         .receipt {
             width: 80mm; /* Standard receipt width */
-            height: auto;
             margin: 0 auto;
             padding: 10px;
             border: 1px solid #ccc;
@@ -70,7 +67,6 @@
                 <html>
                 <head>
                     <title>Receipt</title>
-                    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
                     <style>
                         body {
                             font-family: Arial, sans-serif;
@@ -141,7 +137,7 @@
                 <p>Date: {{ $ldate = date('d/m/y') }}</p>
             </div>
             <div class="receipt-items">
-                <table class="table">
+                <table>
                     <thead>
                         <tr>
                             <th>Item</th>

@@ -50,7 +50,6 @@ class EmployeeController extends Controller
     }
 
        public function store(Request $request)
-   
      {
         
         $userId = Auth::user()->id;

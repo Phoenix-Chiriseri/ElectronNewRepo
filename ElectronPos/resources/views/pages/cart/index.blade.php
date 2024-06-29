@@ -854,11 +854,7 @@ $("#sellForm").on("submit", function (event) {
                             <br>
                             <hr>
                             <button type="submit" class="btn btn-secondary btn-block" id="newSale"></i>F4 New Sale</button>
-                            <select id="screenSelector" class="form-select form-select-lg mb-3" aria-label="Large select example" style="border: 3px solid #ced4da;">
-                                <option selected>Select Currency</option>
-                                <option value="USD">USD</option>
-                                <option value="ZIG">ZIG</option>
-                            </select>
+                            
                             
                             <form id="sellForm" action="/do-transaction" method="POST">
                                 @csrf
@@ -875,6 +871,14 @@ $("#sellForm").on("submit", function (event) {
                                 <input type="text" name="amountPaid" id="amountPaid" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
                                 <hr>
                                 <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
+                                <div class="form-group">
+                                    <label for="category_id">Select Currency</label>
+                                    <select name="category_id" class="form-control border border-2 p-2" required>
+                                        @foreach ($paymentTypes as $type)
+                                            <option value="{{ $type->id }}">{{ $type->payment_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <hr>
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>

@@ -30,6 +30,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\PaymentTypesController;
 use App\Http\Controllers\AddPrinterController;
+use App\Http\Controllers\PriceListsController;
 use App\Http\Controllers\EmployeeLogin;
 
 
@@ -140,9 +141,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/submit-customers', [CustomerController::class, 'store'])->name('submit-customers');
 	Route::get('/sell-product', [SalesController::class, 'index'])->name('sell-product');
 	Route::get('/create-suppliers', [SupplierController::class, 'create'])->name('create-suppliers');
+	Route::get('/list-payment-types', [PaymentTypesController::class, 'showPaymentTypes'])->name('list-payment-types');
 	Route::get('/confirmation-screen', [SaleController::class, 'confirmationScreen'])->name('confirmation-screen');
 	Route::post('/submit-supplier', [SupplierController::class, 'store'])->name('submit-supplier');
-	Route::post('/submit-payment-type', [PaymentTypesController::class, 'store'])->name('submit-payment-types');
+	Route::post('/submit-payment-type', [PaymentTypesController::class, 'store'])->name('submit-payment-type');
 	Route::post('/finalise-sale', [SaleController::class, 'finaliseSale'])->name('finalise-sale');
 	Route::post('/submit-customer', [CustomerController::class, 'store'])->name('submit-customer');
 	Route::get('/view-customers', [CustomerController::class, 'viewAllCustomers'])->name('view-customers');
@@ -155,6 +157,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/edit-employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit-employee');
 	Route::get('/delete-group/{id}', [CattegoryController::class, 'deleteCattegory'])->name('delete-group');
 	Route::get('/delete-supplier/{id}', [SupplierController::class, 'deleteSupplier'])->name('delete-supplier');
+	Route::get('/view-pricelists', [PriceListsController::class, 'viewPriceLists'])->name('view-pricelists');
 	Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
 	Route::post('/search-cart-product',[CartController::class, 'searchCartProduct'])->name('search-cart-product');
 	Route::post('/submit-grv', [GrvController::class, 'submitGrv'])->name('submit-grv');

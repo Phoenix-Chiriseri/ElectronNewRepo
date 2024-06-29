@@ -53,8 +53,8 @@ class StockController extends Controller
         $stockLevels = SetStockLevels::latest()->first();
         $allProducts = Product::all()->count();
         $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
-    ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
-    ->select(
+        ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
+        ->select(
         'products.name as product_name', 
         'cattegories.cattegory_name', 
         'products.barcode as barcode', 
@@ -68,10 +68,12 @@ class StockController extends Controller
     ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'products.price', 'cattegories.cattegory_name', 'products.unit_of_measurement')
     ->get();
 
+    //fetch the overall cost price from the database
      $overallCost = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
     ->select(DB::raw('SUM(stocks.quantity * products.price) as overall_cost'))
     ->first()->overall_cost;
     
+    //fetch the overall selling pice from the database
     $overallSellingPrice = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
     ->select(DB::raw('SUM(stocks.quantity * products.selling_price) as overall_selling_price'))
     ->first()->overall_selling_price;
@@ -117,6 +119,4 @@ class StockController extends Controller
         $suppliers = Supplier::all();
         return view("pages.edit-stock")->with("stock",$stock)->with("suppliers",$suppliers);
     }
-
-
 }

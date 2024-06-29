@@ -88,6 +88,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('view-products') }}">Product List</a>
+                    <a class="dropdown-item" href="{{ route('view-pricelists') }}">Price Lists</a>
                     <a class="dropdown-item" href="{{ route('view-cattegories') }}">Cattegories</a>
                 </div>
             </li>
@@ -129,7 +130,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i style="font-size: 1.2rem;" class="fas fa-warehouse me-2 ps-2 pe-2 text-center"></i>
-                    <span class="text-capitalize">Security</span>
+                    <span class="text-capitalize">Users And Security</span>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('view-employees') }}">View Employees</a>
                 </div>

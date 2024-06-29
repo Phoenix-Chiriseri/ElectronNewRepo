@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Rate;
 use App\Models\Customer;
+use App\Models\PaymentTypes;
 use App\Http\Requests\SaleRequest;
 use App\Models\Product;
 use App\Models\Sales;
@@ -20,8 +21,7 @@ class ElectronPOE extends Controller
     public function index()
     {
         $customers = Customer::orderBy('id', 'DESC')->get();
-        //Get the products information
-        //Get the products information
+        $paymentTypes = PaymentTypes::orderBy("id","desc")->get();
         $products = Product::orderBy('name', 'DESC')->get();
         //Total of sales today
         $totalSalesPerDay = 0;
@@ -33,7 +33,7 @@ class ElectronPOE extends Controller
         }
         return view(
             'pages.cart.index',
-            compact('customers', 'products', 'totalSalesPerDay')
+            compact('customers', 'products', 'totalSalesPerDay','paymentTypes')
         );
     }  
 

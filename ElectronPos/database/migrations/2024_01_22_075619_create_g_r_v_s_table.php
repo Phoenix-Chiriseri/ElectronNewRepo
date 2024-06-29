@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('total');
             $table->string('supplier_invoicenumber');
             $table->timestamps();
-            // Foreign keys
+            // Foreign keys to the supplier table
             $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
     }
