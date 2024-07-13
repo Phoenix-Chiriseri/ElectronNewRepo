@@ -46,6 +46,8 @@ class DashboardController extends Controller
     ->groupBy(DB::raw('DATE(sales.created_at)'))
     ->orderBy('date', 'asc')
     ->get();
+
+    //dd($totalSalesPerDay);
     
     $filteredDayData = ($totalSalesPerDay[0]->total_sales);
 

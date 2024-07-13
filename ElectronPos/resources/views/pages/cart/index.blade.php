@@ -10,6 +10,7 @@
             cart: [],
         };
 
+        //
         
     
         $("#amountPaid").on("input", function () {     
@@ -724,7 +725,7 @@ $("#sellForm").on("submit", function (event) {
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='USD Screen'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Electron Point Of Sale'></x-navbars.navs.auth>
         <!-- End Navbar -->
         <body>
             @if(session('success'))

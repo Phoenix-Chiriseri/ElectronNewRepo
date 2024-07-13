@@ -88,7 +88,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
                     <a class="dropdown-item" href="{{ route('view-products') }}">Product List</a>
-                    <a class="dropdown-item" href="{{ route('view-pricelists') }}">Price Lists</a>
+                    
                     <a class="dropdown-item" href="{{ route('view-cattegories') }}">Cattegories</a>
                 </div>
             </li>

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class ProfileController extends Controller
 {
     public function create()
     {
-        return view('pages.profile');
+        $loggedInUser = Auth::user();
+        return view('pages.profile')->with("user",$loggedInUser);
     }
 
     public function update()

@@ -26,6 +26,52 @@ class PaymentTypesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+     public function editPaymentType($id){
+
+        $paymentType = PaymentTypes::find($id);
+        return view("pages.editPaymentTypes")->with("paymentType",$paymentType);
+     }
+
+     public function sendUpdate(Request $request, PaymentTypes $paymentType)
+    {
+        $paymentType->payment_name = $request->payment_name;
+        if (!$paymentType->save()) {
+            return redirect()->back()->with('error', 'Sorry, there\'re a problem while saving this payment type');
+        }
+        return redirect()->route('-cattegories')->with('success', 'Your payment type has been updated');
+    
+    }
+
+
+     //function that will delete the cattegory
+     public function deleteCattegory($id){
+
+        $id = intval($id); // Ensure $id is an integer
+        //Check if the product exists
+        $paymentType = PaymentType::find($id);
+
+        if (!$paymentType) {
+       // Product not found, return a 404 response or handle the error appropriately
+       return response()->json(['error' => 'Payment Type'], 404);
+       
+       }
+       //delete the cattegory
+       try {
+       // Attempt to delete the product
+       $paymentType->delete();
+       return redirect()->back()->with('success', 'Payment Type Deleted Successfully');
+       } catch (\Exception $e) {
+       // Error occurred during deletion, handle the error gracefully
+       return redirect()->back()->with('error', 'Payment Type Not Deleted');
+       }
+   }
+
+
+     
+
+
+
     public function create()
     {
         //

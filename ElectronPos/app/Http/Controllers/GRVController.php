@@ -147,6 +147,7 @@ class GRVController extends Controller
             'supplier_invoicenumber' => 'required|string',
             // Add validation rules for table_data if necessary
         ]);
+        
         // Find the GRV by ID
         $grv = GRV::findOrFail($id);
         $tableData = json_decode($request->input('table_data'), true);

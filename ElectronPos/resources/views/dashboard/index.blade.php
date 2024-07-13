@@ -16,7 +16,7 @@ animation: blink 1s linear infinite;
       <div class="container-fluid py-1 px-3">
       <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Electron Point Of Sale</a></li>
       <li class="breadcrumb-item text-sm text-dark active" aria-current="page"></li>
       </ol>
       <h6 class="font-weight-bolder mb-0">Number Of Products {{$numberOfProducts}}</h6>
@@ -265,7 +265,7 @@ animation: blink 1s linear infinite;
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
         <div class="card z-index-2 ">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-        <div class="bg-gradient-info shadow-primary border-radius-lg py-3 pe-1 alert alert-warning blink" style="color:white;">
+        <!--<div class="bg-gradient-info shadow-primary border-radius-lg py-3 pe-1 alert alert-warning blink" style="color:white;">
           Alert. These Products Are Almost / Out Of Stock 
           <hr>
           Low Stock Currently Set To {{$stockLevel}} and below
@@ -275,7 +275,7 @@ animation: blink 1s linear infinite;
         </div>
         <a class="btn btn-info btn-sm" href=" {{ route('set-stocklevels') }} ">
           <span class="ms-2 font-weight-bold text-white">Set Stock Levels</span>
-        </a>
+        </a>!-->
         </div>
         <div class="card-body">
         <ul class="list-group">

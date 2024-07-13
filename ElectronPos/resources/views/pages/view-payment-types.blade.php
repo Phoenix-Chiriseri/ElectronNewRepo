@@ -56,12 +56,12 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Cattegories</h6>
-                                <h6 class="text-white text-capitalize ps-3">Number Of Payment Types{{$numberOfPaymentTypes}}</h6>
+                                <h6 class="text-white text-capitalize ps-3">Payment Types</h6>
+                                <h6 class="text-white text-capitalize ps-3">Number Of Payment Types {{$numberOfPaymentTypes}}</h6>
                             </div>
                             <hr>
                             <button class = "btn btn-info" id="exportCattegories"><i class = "fa fa-print"></i>Generate PDF</button>
-                            <a class="btn btn-danger" href="{{ route('create-cattegory') }}"
+                            <a class="btn btn-danger" href="{{ route('view-payment-types') }}"
                                         role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative"></i>
                                         <span class="ms-1">Add New Payment Type</span>
@@ -72,13 +72,19 @@
                         </div>
                         <hr>   
                         <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0" id="cattegoriesTable">
+                            <div class="table table-dark">
+                                <table class="table align-items-center" id="paymentTypesTable">
                                     <thead>
                                         <tr>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                                 Name</th>
+                                                <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                                Edit Payment Type</th>
+                                                <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                                Delete Payment Type</th>
                                         
                                         </tr>
                                     </thead>
@@ -92,7 +98,12 @@
                                                     </div>
                                                 </div>
                                             </td> 
-                                           
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('edit-payment-type',$type->id) }}">Edit Payment Type</a>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="btn btn-primary" href="{{ route('delete-payment-type',$product->id) }}">Delete Payment Type</a>
+                                            </td>      
                                         </tr>
                                         @endforeach
                                     </tbody>

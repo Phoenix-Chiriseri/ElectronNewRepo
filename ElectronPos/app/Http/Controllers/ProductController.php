@@ -21,6 +21,7 @@ class ProductController extends Controller
     public function viewProducts()
     {
         
+        //get the number of products from the database..
         $productCount = Product::all()->count();
         //get the products from the database and get the stocvk count as well
         $products = Product::leftJoin('stocks', 'products.id', '=', 'stocks.product_id')

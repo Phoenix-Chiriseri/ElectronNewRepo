@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/grn/{id}', [GRVController::class, 'viewById'])->name('grn.show');
 	Route::get('/update-grv/{id}', [GRVController::class, 'updateById'])->name('update-grv');
 	Route::put('/grv/{id}', [GRVController::class, 'sendUpdate'])->name('grv.send-update');
+	Route::put('/edit-payment-type/{id}', [PaymentTypesController::class, 'sendUpdate'])->name('paymentTypes.send-update');
 	Route::get('/view-purchaseorder/{id}', [PurchaseOrderController::class, 'viewById'])->name('purchaseorder.show');
 	Route::get('/purchase-order/{id}', [PurchaseOrderController::class, 'showSinglePurchaseOrder'])->name('purchase-order.show');
 	Route::get('/quote/{id}', [QuoteController::class, 'showSingleQuote'])->name('quote.show');
@@ -87,6 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/update/customer/{customer}', [CustomerController::class, 'updateCustomer'])->name('update-customer');
 	Route::put('/update/cattegory/{cattegory}', [CattegoryController::class, 'updateCattegory'])->name('update-cattegory');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
+	Route::get('/delete-payment-type/{id}', [PaymentTypeContoller::class, 'deletePaymentType'])->name('delete-payment-type');
 	Route::get('/delete-shop/{id}', [ShopController::class, 'deleteShop'])->name('delete-shop');
 	Route::get('/edit-shop/{id}', [ShopController::class, 'editShop'])->name('edit-shop');
 	Route::put('/update/shop/shop}', [ShopController::class, 'updateShop'])->name('update-shop');
@@ -154,6 +156,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-reports', [ReportController::class, 'create'])->name('view-reports');
 	Route::get('/view-inventoryvaluation', [ReportController::class, 'viewInventoryValuationReport'])->name('view-inventoryvaluation');
 	Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
+	Route::get('/edit-payment-type/{id}', [PaymentTypesController::class, 'editPaymentType'])->name('edit-payment-type');
 	Route::get('/edit-employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit-employee');
 	Route::get('/delete-group/{id}', [CattegoryController::class, 'deleteCattegory'])->name('delete-group');
 	Route::get('/delete-supplier/{id}', [SupplierController::class, 'deleteSupplier'])->name('delete-supplier');
