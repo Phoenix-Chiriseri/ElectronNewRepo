@@ -88,7 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/update/customer/{customer}', [CustomerController::class, 'updateCustomer'])->name('update-customer');
 	Route::put('/update/cattegory/{cattegory}', [CattegoryController::class, 'updateCattegory'])->name('update-cattegory');
 	Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
-	Route::get('/delete-payment-type/{id}', [PaymentTypeContoller::class, 'deletePaymentType'])->name('delete-payment-type');
+	Route::get('/delete-payment-type/{id}', [PaymentTypesController::class, 'deletePaymentType'])->name('delete-payment-type');
 	Route::get('/delete-shop/{id}', [ShopController::class, 'deleteShop'])->name('delete-shop');
 	Route::get('/edit-shop/{id}', [ShopController::class, 'editShop'])->name('edit-shop');
 	Route::put('/update/shop/shop}', [ShopController::class, 'updateShop'])->name('update-shop');

@@ -76,9 +76,13 @@
                                 <table class="table align-items-center" id="paymentTypesTable">
                                     <thead>
                                         <tr>
+                                            
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
-                                                Name</th>
+                                                Payment Name</th>
+                                                <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder ">
+                                                Created By</th>
                                                 <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder ">
                                                 Edit Payment Type</th>
@@ -98,19 +102,24 @@
                                                     </div>
                                                 </div>
                                             </td> 
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$type->name}}</h6>
+                                                    </div>
+                                                </div>
+                                            </td> 
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('edit-payment-type',$type->id) }}">Edit Payment Type</a>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a class="btn btn-primary" href="{{ route('delete-payment-type',$product->id) }}">Delete Payment Type</a>
+                                                <a class="btn btn-primary" href="{{ route('delete-payment-type',$type->id) }}">Delete Payment Type</a>
                                             </td>      
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <div class="d-flex justify-content-center mt-3">
-                                    {{ $paymentTypes->links() }}
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

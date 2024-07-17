@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PaymentTypes;
 use Illuminate\Http\Request;
+use Auth;
 
 class PaymentTypesController extends Controller
 {
@@ -20,7 +21,11 @@ class PaymentTypesController extends Controller
     public function showPaymentTypes(){
 
         $numberOfPaymentTypes = PaymentTypes::all()->count();
-        $paymentTypes = PaymentTypes::orderBy("id","desc")->paginate(5);
+        //$paymentTypes = PaymentTypes::orderBy("id","desc")->paginate(5);
+        $paymentTypes = PaymentTypes::leftJoin('users', 'payment_types.user_id', '=', 'users.id')
+        ->select('users.name', 'payment_types.*')
+        ->orderBy('payment_types.id', 'desc')
+        ->get();
         return view("pages.view-payment-types")->with("paymentTypes",$paymentTypes)->with("numberOfPaymentTypes",$numberOfPaymentTypes);
     }
     /**
@@ -35,22 +40,21 @@ class PaymentTypesController extends Controller
 
      public function sendUpdate(Request $request, PaymentTypes $paymentType)
     {
+        //dd($request->all());
         $paymentType->payment_name = $request->payment_name;
         if (!$paymentType->save()) {
             return redirect()->back()->with('error', 'Sorry, there\'re a problem while saving this payment type');
         }
-        return redirect()->route('-cattegories')->with('success', 'Your payment type has been updated');
+        return redirect()->route('list-payment-types')->with('success', 'Your payment type has been updated');
     
     }
 
 
      //function that will delete the cattegory
-     public function deleteCattegory($id){
-
+     public function deletePaymentType($id){
         $id = intval($id); // Ensure $id is an integer
         //Check if the product exists
-        $paymentType = PaymentType::find($id);
-
+        $paymentType = PaymentTypes::find($id);
         if (!$paymentType) {
        // Product not found, return a 404 response or handle the error appropriately
        return response()->json(['error' => 'Payment Type'], 404);
@@ -82,9 +86,13 @@ class PaymentTypesController extends Controller
      */
     public function store(Request $request)
     {
+
+        $user_id = Auth::user()->id;
         $paymentType = PaymentTypes::create([
             'payment_name' => $request->name,
+            'user_id'=>$user_id
         ]);
+
         if (!$paymentType) {
             return redirect()->back()->with('error', 'Sorry, there a problem while creating this payment type.');
         }
