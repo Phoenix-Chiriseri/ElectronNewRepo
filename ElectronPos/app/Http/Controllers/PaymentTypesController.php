@@ -22,10 +22,7 @@ class PaymentTypesController extends Controller
 
         $numberOfPaymentTypes = PaymentTypes::all()->count();
         //$paymentTypes = PaymentTypes::orderBy("id","desc")->paginate(5);
-        $paymentTypes = PaymentTypes::leftJoin('users', 'payment_types.user_id', '=', 'users.id')
-        ->select('users.name', 'payment_types.*')
-        ->orderBy('payment_types.id', 'desc')
-        ->get();
+        $paymentTypes = PaymentTypes::all();
         return view("pages.view-payment-types")->with("paymentTypes",$paymentTypes)->with("numberOfPaymentTypes",$numberOfPaymentTypes);
     }
     /**
@@ -41,7 +38,9 @@ class PaymentTypesController extends Controller
      public function sendUpdate(Request $request, PaymentTypes $paymentType)
     {
         //dd($request->all());
-        $paymentType->payment_name = $request->payment_name;
+        $paymentType->update([
+            'payment_name' => $request->input('payment_type'),
+        ]);
         if (!$paymentType->save()) {
             return redirect()->back()->with('error', 'Sorry, there\'re a problem while saving this payment type');
         }
