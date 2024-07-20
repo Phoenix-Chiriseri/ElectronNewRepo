@@ -491,10 +491,10 @@
                                 <hr>
                                 <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
                                 <div class="form-group">
-                                    <label for="category_id">Select Currency</label>
+                                    <label for="paymentMethod">Select Payment Method</label>
                                     <select name="payment_method" id="paymentMethod" class="form-control border border-2 p-2" required>
                                         @foreach ($paymentTypes as $type)
-                                            <option value="{{ $type->id }}">{{ $type->payment_name }}</option>
+                                            <option value="{{ $type->payment_name }}">{{ $type->payment_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
