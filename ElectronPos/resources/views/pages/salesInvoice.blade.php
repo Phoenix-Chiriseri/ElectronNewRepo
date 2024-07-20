@@ -24,19 +24,19 @@
 
         .receipt-header h4 {
             margin: 0;
-            font-size: 18px; /* Increased font size */
+            font-size: 16px; /* Adjusted font size */
         }
 
         .receipt-details p {
             margin: 5px 0;
-            font-size: 14px; /* Increased font size */
+            font-size: 12px; /* Adjusted font size */
         }
 
         .receipt-items th, .receipt-items td {
             border: none;
-            padding: 8px 0;
+            padding: 5px 0; /* Reduced padding */
             text-align: left;
-            font-size: 14px; /* Increased font size */
+            font-size: 12px; /* Adjusted font size */
         }
 
         .receipt-items th {
@@ -45,13 +45,13 @@
 
         .receipt-totals p {
             margin: 5px 0;
-            font-size: 14px; /* Increased font size */
+            font-size: 12px; /* Adjusted font size */
         }
 
         .receipt-footer {
             text-align: center;
             margin-top: 10px;
-            font-size: 14px; /* Increased font size */
+            font-size: 12px; /* Adjusted font size */
         }
 
         .hidden-print {
@@ -71,33 +71,30 @@
         .hidden-print button:hover {
             background-color: #0056b3;
         }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .receipt, .receipt * {
+                visibility: visible;
+            }
+            .receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
     </style>
     <script>
         function printReceipt() {
-            var receiptContent = document.querySelector('.receipt').innerHTML;
-            var printWindow = window.open('', '', 'width=800,height=600');
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>Receipt</title>
-                    <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                        }
-                        /* You can remove duplicated styles here */
-                    </style>
-                </head>
-                <body>
-                    <div class="receipt">
-                        ${receiptContent}
-                    </div>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-            printWindow.close(); // Close the print window after printing
+            window.print();
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            printReceipt();
+        });
     </script>
 </head>
 <body>
