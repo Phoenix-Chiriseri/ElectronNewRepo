@@ -68,6 +68,7 @@ class StockController extends Controller
     ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'products.price', 'cattegories.cattegory_name', 'products.unit_of_measurement')
     ->get();
 
+
     //fetch the overall cost price from the database
      $overallCost = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
     ->select(DB::raw('SUM(stocks.quantity * products.price) as overall_cost'))
