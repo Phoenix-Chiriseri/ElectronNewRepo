@@ -86,10 +86,8 @@ class PaymentTypesController extends Controller
     public function store(Request $request)
     {
 
-        $user_id = Auth::user()->id;
         $paymentType = PaymentTypes::create([
             'payment_name' => $request->name,
-            'user_id'=>$user_id
         ]);
 
         if (!$paymentType) {
