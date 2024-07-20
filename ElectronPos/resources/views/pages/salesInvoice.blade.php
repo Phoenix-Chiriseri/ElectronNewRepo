@@ -110,7 +110,7 @@
             <p>VAT: {{ $details->vatnumber }}</p>
             <p>Phone: {{ $details->phone_number }}</p>
             <p>Email: {{ $details->email }}</p>
-            <p>Payment Method: {{ $details->payment_method }}</p>
+            <p>Payment Method: {{ $paymentMethod }}</p>
             <p>Invoice #: {{ $sale->id }}</p>
             <p>Date: {{ date('d/m/y') }}</p>
         </div>

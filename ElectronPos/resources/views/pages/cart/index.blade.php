@@ -492,7 +492,7 @@
                                 <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
                                 <div class="form-group">
                                     <label for="category_id">Select Currency</label>
-                                    <select name="category_id" id="paymentMethod" class="form-control border border-2 p-2" required>
+                                    <select name="payment_method" id="paymentMethod" class="form-control border border-2 p-2" required>
                                         @foreach ($paymentTypes as $type)
                                             <option value="{{ $type->id }}">{{ $type->payment_name }}</option>
                                         @endforeach
