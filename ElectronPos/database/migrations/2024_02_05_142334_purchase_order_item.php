@@ -20,7 +20,6 @@ return new class extends Migration
     $table->decimal('unit_cost', 10, 2);
     $table->decimal('total_cost', 10, 2);
     $table->timestamps();
-
     $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade');
         }); 
     }

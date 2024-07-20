@@ -2,6 +2,10 @@
 <script src="{{ asset('assets') }}/js/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<script src="{{ asset('assets') }}/js/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
     $(document).ready(function () {
         $("#prodResult").hide();
@@ -10,428 +14,187 @@
             cart: [],
         };
 
-        //
-        
-    
-        $("#amountPaid").on("input", function () {     
-            var amountPaid = $(this).val();
-            var totalValue = $("#totalValue").val();
-            var change = amountPaid-totalValue;
-            $("#change").val(change); 
+        $("#amountPaid").on("input", function () {
+            const amountPaid = parseFloat($(this).val());
+            const totalValue = parseFloat($("#totalValue").val());
+            const change = amountPaid - totalValue;
+            $("#change").val(change.toFixed(2));
         });
 
-        $("#screenSelector").on("change",function(){
-
-            var selectedCurrency = $(this).val(); // Get the selected currency value
-            console.log(selectedCurrency);
-            navigateToScreen(selectedCurrency); // Call function to navi
-
+        $("#screenSelector").on("change", function () {
+            const selectedCurrency = $(this).val();
+            navigateToScreen(selectedCurrency);
         });
 
         function navigateToScreen(currency) {
-        var screenUrl;
-        if (currency === 'USD') {
-        screenUrl = '/cart';
-        } else if (currency === 'ZIG') {
-        screenUrl = '/zig-screen';
-        }
-        window.location.href = screenUrl;
+            const screenUrl = currency === 'USD' ? '/cart' : '/zig-screen';
+            window.location.href = screenUrl;
         }
 
-        //click event that will clear the calculations fields
-        $("#clearCalculations").on("click",function(){
-            $("#amountPaid").val(""); 
-            $("#totalValue").val(""); 
-            $("#change").val(""); 
+        $("#clearCalculations").on("click", function () {
+            $("#amountPaid, #totalValue, #change").val("");
         });
 
-        //function to clear the cart
         $("#clearCart").on("click", function () {
             state.cart = [];
             updateCartUI();
         });
 
-        $(document).keydown(function(e) {
-         if (e.which === 115) { // Check if the pressed key is F4
-        $("#newSale").trigger("click"); // Trigger the click event on #newSale
-        }
+        $(document).keydown(function (e) {
+            switch (e.which) {
+                case 115: // F4
+                    $("#newSale").trigger("click");
+                    break;
+                case 118: // F7
+                    $("#clearCart").trigger("click");
+                    break;
+                case 114: // F3
+                    $("#sellItems").trigger("click");
+                    break;
+            }
         });
 
-        $(document).keydown(function(e) {
-         if (e.which === 115) { // Check if the pressed key is F4
-        $("#newSale").trigger("click"); // Trigger the click event on #newSale
-         }
-        });
-
-        $(document).keydown(function(e) {
-         if (e.which === 115) { // Check if the pressed key is F4
-        $("#zigScreen").trigger("click"); // Trigger the click event on #newSale
-         }
-        });
-
-        $(document).keydown(function(e) {
-         if (e.which === 115) { // Check if the pressed key is F4
-        $("#newSale").trigger("click"); // Trigger the click event on #newSale
-         }
-        });
-
-        //clear cart using the down 118
-        $(document).keydown(function(e) {
-        if (e.which === 118) { // Check if the pressed key is F7
-        $("#clearCart").trigger("click"); // Trigger the click event on #newSale
-        }
-        });
-
-        $(document).keydown(function(e) {
-         if (e.which === 114) { // Check if the pressed key is F3
-        $("#sellItems").trigger("click"); // Trigger the click event on #newSale
-        }
-        });
-
-
-        //perform a new sale....
-        $("#newSale").on("click",function(){
+        $("#newSale").on("click", function () {
             state.cart = [];
             updateCartUI();
         });
-        
-    //search for a product by the name
-    $("#searchSelectedProd").on("keydown", function (event) {
-        if (event.which == 13) {
-        event.preventDefault();
-        var productName = $(this).val();
-        if(productName==''){
-            showAlert("Product Name Cannot Be Empty",'error');
-        }
-        //load the products with the productName
-        loadProductsByName(productName);
-        }
-    });
 
-     //search for a product by the name
-     $("#searchSelectedProdByCode").on("keydown", function (event) {
-        if (event.which == 13) {
-        event.preventDefault();
-        var productCode = $(this).val();
-        if(productCode==''){
-            showAlert("Product Name Cannot Be Empty",'error');
-        }
-        //load the products with the productName
-        loadProductsByCode(productCode);
-        $("#searchSelectedProdByCode").val("");
-
-        }
-    });
-
-    function loadProductsByCode(productCode) {
-    axios.get(`/products/searchByCode/${productCode}`)
-        .then((response) => {
-            $("#prodResult").hide();
-            const products = response.data.products;  // Accessing products array in the response
-            const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
-
-            if (product) {
-                var taxGroup = product.tax;
-                var tax;
-                var total;
-                var unitPrice;
-                
-                ////
-                if(product.price_inc_tax=='No'){
-                    unitPrice = product.price;
-                    if(taxGroup==0.15){
-                    tax=product.price*taxGroup;
-                    total=product.price*1.15;
-                if(taxGroup=='ex'){
-                    tax='-';
-                }
-                }else{
-                    tax=0;
-                    total=product.price;
-                }
-
-
-                }else{
-
-                    if(taxGroup==0.15){
-                    unitPrice = product.price/1.15;
-                    total=product.price;
-                    tax=total-unitPrice;
-                    
-                if(taxGroup=='ex'){
-                    unitPrice=product.price;
-                    tax='-';
-                }
-                }else{
-                    unitPrice=product.price;
-                    tax=0;
-                    total=product.price;
-                }
-
-                }
-  
-                ////////
-                const existingCartItem = state.cart.find(item => item.id === product.id);
-                if (existingCartItem) {
-                    // If the product is already in the cart, increase the quantity
-                    existingCartItem.quantity += 1;
+        $("#searchSelectedProd").on("keydown", function (event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                const productName = $(this).val();
+                if (productName) {
+                    loadProductsByName(productName);
                 } else {
-                    // If the product is not in the cart, add it with quantity 1
-                    state.cart.push({
-                        id: product.id,
-                        name: product.name,
-                        barcode:product.barcode,
-                        tax:tax,
-                        unitPrice:unitPrice,
-                        total:parseFloat(total), // Assuming price is a string, convert it to a number
-                        quantity: 1,
-                    });
+                    showAlert("Product Name Cannot Be Empty", 'error');
                 }
-                // Update the user interface with the product information
-                updateCartUI();
-            } else {    
-
-                showAlert('Product Not Found',"error");
             }
-        })
-        .catch((error) => {
-            // Handle errors here
-            console.error('Error loading products:', error);
         });
-    }
 
-    // Load the products by name.
-    function loadProductsByName(productName) {
-    axios.get(`/products/searchByName/${productName}`)
-        .then((response) => {
-            $("#prodResult").hide();
-            const products = response.data.products;  // Accessing products array in the response
-            const product = products.length > 0 ? products[0] : null;  // Assuming the response contains an array of products
-            if (product) {
-                var taxGroup = product.tax;
-                var tax;
-                var total;
-                var unitPrice;
-                //console.log(product.price_inc_tax);
-                if(product.price_inc_tax==='No'){
+        $("#searchSelectedProdByCode").on("keydown", function (event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                const productCode = $(this).val();
+                if (productCode) {
+                    loadProductsByCode(productCode);
+                    $(this).val("");
+                } else {
+                    showAlert("Product Code Cannot Be Empty", 'error');
+                }
+            }
+        });
+
+        function loadProductsByCode(productCode) {
+            axios.get(`/products/searchByCode/${productCode}`)
+                .then(response => {
+                    $("#prodResult").hide();
+                    const products = response.data.products;
+                    const product = products.length > 0 ? products[0] : null;
+                    if (product) {
+                        addProductToCart(product);
+                    } else {
+                        showAlert('Product Not Found', "error");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading products:', error);
+                });
+        }
+
+        function loadProductsByName(productName) {
+            axios.get(`/products/searchByName/${productName}`)
+                .then(response => {
+                    $("#prodResult").hide();
+                    const products = response.data.products;
+                    const product = products.length > 0 ? products[0] : null;
+                    if (product) {
+                        addProductToCart(product);
+                    } else {
+                        showAlert('Product Not Found', "error");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading products:', error);
+                });
+        }
+
+        function addProductToCart(product) {
+            const taxGroup = product.tax;
+            let tax, total, unitPrice;
+
+            if (product.price_inc_tax === 'No') {
                 unitPrice = product.price;
-                //console.log(unitPrice);
-                if(taxGroup==0.15){
-                tax=product.price*taxGroup;
-                total=product.price*1.15;
-                if(taxGroup=='ex'){
-                    tax='-';
-                }
-                }else{
-                    tax=0;
-                    total=product.price;
-                }
-
-
-                }else{
-
-                    if(taxGroup==0.15){
-                    unitPrice = product.price/1.15;
-                    total=product.price;
-                    tax=total-unitPrice;
-                    
-                if(taxGroup=='ex'){
-                    unitPrice=product.price;
-                    tax='-';
-                }
-                }else{
-                    unitPrice=product.price;
-                    tax=0;
-                    total=product.price;
-                }
-
-                }
-
-                
-                ////////
-                const existingCartItem = state.cart.find(item => item.id === product.id);
-                if (existingCartItem) {
-                    // If the product is already in the cart, increase the quantity
-                    existingCartItem.quantity += 1;
+                if (taxGroup == 0.15) {
+                    tax = product.price * taxGroup;
+                    total = product.price * 1.15;
                 } else {
-                    // If the product is not in the cart, add it with quantity 1
-                    state.cart.push({
-                        id: product.id,
-                        name: product.name,
-                        barcode:product.barcode,
-                        tax:tax,
-                        unitPrice:unitPrice,
-                        total:parseFloat(total), // Assuming price is a string, convert it to a number
-                        quantity: 1,
-                    });
+                    tax = 0;
+                    total = product.price;
                 }
-                // Update the user interface with the product information
-                updateCartUI();
-            } else {    
-
-                showAlert('Product Not Found',"error");
+            } else {
+                if (taxGroup == 0.15) {
+                    unitPrice = product.price / 1.15;
+                    total = product.price;
+                    tax = total - unitPrice;
+                } else {
+                    unitPrice = product.price;
+                    tax = 0;
+                    total = product.price;
+                }
             }
-        })
-        .catch((error) => {
-            // Handle errors here
-            console.error('Error loading products:', error);
-        });
-    }
 
-    function showAlert(message,errorIconMessage){
-        Swal.fire({
-                position: "top-end",
-                icon: errorIconMessage,
-                title: message,
-                showConfirmButton: false,
-                timer: 1000
-                });    
-    
-     }
-    
-    function updateCartUI() {
-    const cartTableBody = $(".user-cart table tbody");
-    cartTableBody.empty();
-    //const latestProductData = {};
-    //const tableRows = []; // Array to hold HTML rows
-    const tableRows = []; // Array to hold HTML rows
-    const dataRows = []; // 
-    state.cart.forEach((item) => {
-        const rowHtml = `
-            <tr>
-                <td>${item.name}</td>   
-                <td>
-                    <div class="input-group">
-                        <input
-                            type="number"
-                            class="form-control border border-2 py-1 px-2 quantity-input"
-                            value="${item.quantity}"
-                            id="quantityField"
-                            data-product-id="${item.id}"
-                        />    
-                    </div>
-                </td>
-                <td>${item.barcode}</td>    
-                <td id="tax-input">${(item.tax * item.quantity).toFixed(2)}</td>  
-                <td>${item.unitPrice}</td>
-                <td>
-                    <div class="input-group-append">
-                        <button class="btn btn-danger btn-lg py-1 px-2 remove-item" data-product-id="${item.id}">
-                            <i class="fas fa-trash fa-2x"></i>
-                        </button>
-                    </div>
-                </td>
-                <td class="text-right" id="total">${(item.total * item.quantity).toFixed(2)}</td>
-            </tr>
-        `;
-        cartTableBody.append(rowHtml); 
-        tableRows.push(rowHtml); // Add HTML row to the array
-        dataRows.push([
-            item.id,
-            item.name,
-            item.quantity,
-            item.barcode,
-            (item.tax * item.quantity).toFixed(2),
-            item.unitPrice.toFixed(2),
-            (item.total * item.quantity).toFixed(2)
-        ]); 
-        
-        var results = JSON.stringify(tableRows);
-        //alert(results);
-        //tableDataInput.value = results;
-
-        var rowsToSend = [];
-    // Prepare data rows to send to backend
-    var rowsToSend = [];
-    for (var i = 0; i < dataRows.length; i++) {
-        var row = dataRows[i];
-        var rowData = {
-            id: row[0],
-            name: row[1],
-            quantity: row[2],
-            barcode: row[3],
-            tax: row[4],
-            unitPrice: row[5],
-            total: row[6]
-        };
-        rowsToSend.push(rowData);
-    }
-
-    var jsonDataToSend = JSON.stringify(rowsToSend);
-    const tableDataInput = document.getElementById('tableDataInput');
-    tableDataInput.value = jsonDataToSend;
-
-       
-    });
-
-        $(".remove-item").on("click", function () {
-    const productId = $(this).data("product-id");
-    removeCartItem(productId);
-});
-
-
-function removeCartItem(productId) {
-    state.cart = state.cart.filter((item) => item.id !== productId);
-    updateCartUI();
-}
-        // Update the total value
-        let totalValue = 0
-    state.cart.forEach(item => {
-        totalValue += item.total * item.quantity;
-    });
-    $("#totalValue").val(totalValue.toFixed(2));
-
-    // Update the table data input
-    //const tableDataInput = document.getElementById('tableDataInput');
-    //tableDataInput.value = JSON.stringify(state.cart);
-     
-        function updateTotal() {
-    const totalValue = state.cart.reduce((total, item) => {
-        return total + (item.quantity * item.total); // Multiply quantity by unit price for each item
-    }, 0).toFixed(2);
-    $("#totalValue").val(totalValue);
-}
-
-
-        let selectedCustomerName = "";
-
-        $("#customerName").on("change", function () {
-            selectedCustomerName = $(this).val();
-            if(selectedCustomerName==null){
-                console.log("customer name cannot be equal to null")
-            }
-        });
-        
-        //search the product by its name when you press the enter button
-        $("#searchProduct").on("input", function (event) {
-            const product = event.target.value;
-            //function that will load the product by its name
-            loadProductsByName(product);
-        });
-
-        $(".addToCart").click(function (event) {
-            event.preventDefault();
-            var productId = $(this).data('product-id');
-            let product = state.products.find((p) => p.id === productId);
-
-            if (product) {
+            const existingCartItem = state.cart.find(item => item.id === product.id);
+            if (existingCartItem) {
+                existingCartItem.quantity += 1;
+            } else {
                 state.cart.push({
                     id: product.id,
                     name: product.name,
-                    price: product.price,
+                    barcode: product.barcode,
+                    tax: tax,
+                    unitPrice: unitPrice,
+                    total: parseFloat(total),
                     quantity: 1,
                 });
-
-               // console.log("Product added to cart:", product);
-                updateCartUI();
             }
-        });
+            updateCartUI();
+        }
 
-        
-            $(".quantity-input").on("input", function () {
-                const productId = $(this).data("product-id");
-                const newQuantity = parseInt($(this).val(), 10);
-                updateCartQuantity(productId, newQuantity);
+        function showAlert(message, icon) {
+            Swal.fire({
+                position: "top-end",
+                icon: icon,
+                title: message,
+                showConfirmButton: false,
+                timer: 1000
+            });
+        }
+
+        function updateCartUI() {
+            const cartTableBody = $(".user-cart table tbody");
+            cartTableBody.empty();
+            const tableRows = [];
+            state.cart.forEach(item => {
+                const rowHtml = `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" class="form-control border border-2 py-1 px-2 quantity-input" value="${item.quantity}" data-product-id="${item.id}" />
+                            </div>
+                        </td>
+                        <td>${item.barcode}</td>
+                        <td>${(item.tax * item.quantity).toFixed(2)}</td>
+                        <td>${item.unitPrice}</td>
+                        <td>
+                            <button class="btn btn-danger btn-lg py-1 px-2 remove-item" data-product-id="${item.id}">
+                                <i class="fas fa-trash fa-2x"></i>
+                            </button>
+                        </td>
+                        <td class="text-right">${(item.total * item.quantity).toFixed(2)}</td>
+                    </tr>`;
+                cartTableBody.append(rowHtml);
+                tableRows.push(rowHtml);
             });
 
             $(".remove-item").on("click", function () {
@@ -439,11 +202,18 @@ function removeCartItem(productId) {
                 removeCartItem(productId);
             });
 
-            updateTotal();
+            $(document).on("input", ".quantity-input", function () {
+                const productId = $(this).data("product-id");
+                const newQuantity = parseInt($(this).val(), 10);
+                updateCartQuantity(productId, newQuantity);
+            });
+
+            updateTotalValue();
+            updateTableDataInput();
         }
 
         function updateCartQuantity(productId, newQuantity) {
-            const cartItem = state.cart.find((item) => item.id === productId);
+            const cartItem = state.cart.find(item => item.id === productId);
             if (cartItem) {
                 cartItem.quantity = newQuantity;
             }
@@ -451,262 +221,111 @@ function removeCartItem(productId) {
         }
 
         function removeCartItem(productId) {
-            state.cart = state.cart.filter((item) => item.id !== productId);
+            state.cart = state.cart.filter(item => item.id !== productId);
             updateCartUI();
         }
 
-        function updateTotal() {
-            
-            const totalValue = state.cart.reduce((total, item) => {
-                return total + item.price * item.quantity;
-            }, 0).toFixed(2);
-            $("#totalValue").val(totalValue); // Set the total value in the input field
-            
+        function updateTotalValue() {
+            const totalValue = state.cart.reduce((total, item) => total + item.total * item.quantity, 0).toFixed(2);
+            $("#totalValue").val(totalValue);
         }
 
-        function clearCart() {
-            state.cart = [];
-            updateCartUI();
+        function updateTableDataInput() {
+            const tableDataInput = $("#tableDataInput");
+            tableDataInput.val(JSON.stringify(state.cart));
         }
-    });
 
+        // Customer selection and creation
+        const searchInput = $("#search");
+        const searchResultsContainer = $("#searchResults");
+        const selectedCustomerDropdown = $("#selectedCustomer");
 
-    //this is the code for the selecting a customer from the database
-    $(document).ready(function () {
+        let selectedItem;
 
+        searchInput.on("keyup", function () {
+            setTimeout(() => {
+                performSearch(searchInput.val());
+            }, 300);
+        });
 
-const searchInput = $("#search");
-const searchResultsContainer = $("#searchResults");
-const selectedCustomerDropdown = $("#selectedCustomer");
-    
-let selectedItem;  // Declare the variable here
-
-// Event listener for keyup on the search input
-searchInput.on("keyup", function () {
-    // Delay the search by a small interval to prevent too frequent requests
-    setTimeout(function () {
-        performSearch(searchInput.val());
-    }, 300);
-});
-
-
-// Event listener for the 'Create Customer' button
-$("#createCustomer").on("click", function () {
-    Swal.fire({
-        title: 'Create Customer',
-        icon: 'info',
-        html:
-            '<form id="createCustomerForm">' +
-            '<input type="text" id="customer_name" class="swal2-input form-control" placeholder="Customer Name" required name="customer_name">' +
-            '<input type="text" id="code" class="swal2-input" placeholder="Code" name="code" required>' +
-            '<input type="text" id="customer_taxnumber" class="swal2-input" placeholder="Customer Tax Number" name="customer_taxnumber" required>' +
-            '<input type="text" id="city" class="swal2-input" placeholder="Customer City" required name="customer_city">' +
-            '<input type="text" id="customer_address" class="swal2-input" placeholder="Customer Address" name="customer_address" required>' +
-            '<input type="text" id="customer_phonenumber" class="swal2-input" placeholder="Customer Phone Number" name="customer_phonenumber" required>' +
-            '<input type="text" id="customer_city" class="swal2-input" placeholder="Customer City" name="customer_city" required>'+
-            '<select id="customer_status" class="swal2-select" placeholder="Customer Status" required name="customer_status">' +
-            '<option value="active" class="form-control">Active</option>' +
-            '<option value="inactive" class="form-control">Inactive</option></select>' +
-            '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
-            '</form>',
-        showCancelButton: true,
-        confirmButtonText: 'Create',
-        cancelButtonText: 'Cancel',
-        focusConfirm: false,
-        preConfirm: () => {
-            // Collect form data
-            const formData = {
-                customer_name: document.getElementById('customer_name').value,
-                code: document.getElementById('code').value,
-                customer_taxnumber: document.getElementById('customer_taxnumber').value,
-                city: document.getElementById('city').value,
-                customer_address: document.getElementById('customer_address').value,
-                customer_phonenumber: document.getElementById('customer_phonenumber').value,
-                customer_status: document.getElementById('customer_status').value,
-                customer_city: document.getElementById('customer_city').value,
-            };
-
-            // Gather sale items (replace this with your actual implementation)
-            const saleItems = getSaleItems();
-
-            // Append sale items to form data
-            formData.sale_items = JSON.stringify(saleItems);
-
-            return formData;
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Create a form element dynamically
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/submit-customers';
-
-            // Append input fields to the form
-            Object.keys(result.value).forEach(key => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = result.value[key];
-                form.appendChild(input);
+        $("#createCustomer").on("click", function () {
+            Swal.fire({
+                title: 'Create Customer',
+                icon: 'info',
+                html:
+                    '<form id="createCustomerForm">' +
+                    '<input type="text" id="customer_name" class="swal2-input form-control" placeholder="Customer Name" required name="customer_name">' +
+                    '<input type="text" id="code" class="swal2-input" placeholder="Code" name="code" required>' +
+                    '<input type="text" id="customer_taxnumber" class="swal2-input" placeholder="Customer Tax Number" name="customer_taxnumber" required>' +
+                    '<input type="text" id="city" class="swal2-input" placeholder="Customer City" required name="customer_city">' +
+                    '<input type="text" id="customer_street" class="swal2-input" placeholder="Customer Street" required name="customer_street">' +
+                    '<input type="text" id="country" class="swal2-input" placeholder="Customer Country" required name="customer_country">' +
+                    '</form>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const form = document.getElementById('createCustomerForm');
+                    const formData = new FormData(form);
+                    const customerData = {};
+                    formData.forEach((value, key) => customerData[key] = value);
+                    return createCustomer(customerData);
+                },
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const newCustomer = result.value;
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Customer created successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        selectedCustomerDropdown.append(new Option(newCustomer.customer_name, newCustomer.id, true, true));
+                        selectedCustomerDropdown.val(newCustomer.id);
+                    });
+                }
             });
+        });
 
-            // Append the form to the body and submit
-            document.body.appendChild(form);
-            const csrfTokenInput = document.createElement('input'); 
-            csrfTokenInput.type = 'hidden';
-            csrfTokenInput.name = '_token';
-            csrfTokenInput.value = '{{ csrf_token() }}'; // Use Blade syntax to get the CSRF token
-            form.appendChild(csrfTokenInput);
-            form.submit();
+        function createCustomer(customerData) {
+            return axios.post('/customers', customerData)
+                .then(response => response.data)
+                .catch(error => {
+                    console.error('Error creating customer:', error);
+                    showAlert('Error creating customer', 'error');
+                });
+        }
 
-            // After creating the customer, update the customer dropdown
-            updateCustomerDropdown();
+        function performSearch(query) {
+            if (query.length > 1) {
+                axios.get(`/customer-search?query=${query}`)
+                    .then(response => {
+                        const customers = response.data.customers;
+                        if (customers.length === 0) {
+                            searchResultsContainer.empty().append('<p>No customers found.</p>');
+                        } else {
+                            searchResultsContainer.empty();
+                            customers.forEach(customer => {
+                                const customerItem = $(`<div class="customer-item">${customer.customer_name}</div>`);
+                                customerItem.on('click', function () {
+                                    selectedItem = customer;
+                                    selectedCustomerDropdown.val(customer.id);
+                                    searchInput.val(customer.customer_name);
+                                    searchResultsContainer.empty();
+                                });
+                                searchResultsContainer.append(customerItem);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error searching for customers:', error);
+                    });
+            } else {
+                searchResultsContainer.empty();
+            }
         }
     });
-});
-
-function performSearch(searchQuery) {
-    // Make an AJAX request to the search endpoint
-    $.ajax({
-        url: "{{ route('search-customers') }}",
-        method: "GET",
-        data: { search: searchQuery },
-        dataType: 'json', // Expect JSON response
-        success: function (data) {
-            // Update the search results container with the received JSON data
-            displaySearchResults(data.customers);
-        },
-        error: function (error) {
-            showAlert('Customer Not Found', 'error');
-        }
-    });
-}
-
-function showAlert(message, errorIconMessage) {
-    Swal.fire({
-        position: "top-end",
-        icon: errorIconMessage,
-        title: message,
-        showConfirmButton: false,
-        timer: 1000
-    });
-}
-
-
-function displaySearchResults(customers) {
-// Clear previous results
-searchResultsContainer.empty();
-
-// Create an unordered list
-const resultList = $('<ul class="list-group"></ul>');
-resultList.append("<br>");
-
-
-// Append list items for each customer
-customers.forEach(function (customer) {
-// Create a clickable list item
-const listItem = $('<li class="list-group-item clickable">' + customer.customer_name + '</li>');
-// Add a click event listener
-listItem.on("click", function () {
-    // Toggle the active class on click
-    $(".list-group-item").removeClass("active");
-    listItem.addClass("active");
-
-    // Set the selected customer in the dropdown
-    selectedItem = customer.id;
-    selectedCustomerDropdown.val(selectedItem).trigger('change');
-});
-
-// Append the list item to the list
-resultList.append(listItem);
-});
-
-// Append the list to the container
-searchResultsContainer.append(resultList);
-}
-
-
-function updateCustomerDropdown() {
-    // Clear previous options
-    selectedCustomerDropdown.empty();
-
-    // Refresh the customer dropdown options by performing a search
-    performSearch("");
-
-    // Optionally, you can add a default option or trigger a search here
-}
-
-function getSaleItems() {
-    // Implement a function to get sale items from your UI or data source
-    // For example, you can retrieve them from a form or any other input elements
-    // and return them as an array or object
-    // ...
-
-    // For demonstration purposes, return an empty array
-    return [];
-}
-});
-
-$(document).on("input", ".quantity-input", function () {
-        const productId = $(this).data("product-id");
-        const newQuantity = parseInt($(this).val(), 10);
-        updateCartQuantity(productId, newQuantity);
-    });
-
-     function updateCartQuantity(productId, newQuantity) {
-        const cartItem = state.cart.find((item) => item.id === productId);
-        if (cartItem) {
-            cartItem.quantity = newQuantity;
-        }
-        updateCartUI();
-    }
-
-$("#sellForm").on("submit", function (event) {
-    event.preventDefault();
-    // Check if there are items in the cart
-    if (state.cart.length === 0) {
-        showAlert('Cart is empty', 'error');
-        return;
-    }
-
-    // Collect total value
-    const totalValue = $("#totalValue").val();
-
-    // Collect amount paid
-    const amountPaid = $("#amountPaid").val();
-
-    // Calculate change
-    const change = amountPaid - totalValue;
-
-   // const vatTotal = 
-
-    // Create a hidden form element
-    const sellForm = document.createElement('form');
-    sellForm.method = 'POST';
-    sellForm.action = '/sell';
-
-    // Append total value, amount paid, and change as hidden fields
-    sellForm.innerHTML += '<input type="hidden" name="total" value="' + totalValue + '">';
-    sellForm.innerHTML += '<input type="hidden" name="amount_paid" value="' + amountPaid + '">';
-    sellForm.innerHTML += '<input type="hidden" name="change" value="' + change + '">';
-
-    // Append sale items including quantity and tax as hidden fields
-    state.cart.forEach(item => {
-    const row = $(".user-cart").find("[data-product-id='" + item.id + "']").closest("tr");
-    const updatedQuantity = row.find(".quantity-input").val(); // Get the updated quantity
-    const updatedTax = row.find(".tax-input").text(); // Get the updated tax
-    const updatedTotal = row.find(".text-right").text(); // Get the updated total
-    sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][quantity]" value="' + updatedQuantity + '">';
-    sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][tax]" value="' + updatedTax + '">';
-    sellForm.innerHTML += '<input type="hidden" name="sale_items[' + item.id + '][total]" value="' + updatedTotal + '">';
-    
-    });
-
-    // Append the form to the document body and submit
-    document.body.appendChild(sellForm);
-    sellForm.submit();
-});
 </script>
+
 @if(session('message'))
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -810,8 +429,7 @@ $("#sellForm").on("submit", function (event) {
                             </div>
                         </div>
                     </div>  
-                    <h5 class="text-center">USD Screen</h5>
-                  
+                
                     <div class="user-cart">
                         <div class="card">
                             <table class="user-cart table align-items-center">
@@ -874,7 +492,7 @@ $("#sellForm").on("submit", function (event) {
                                 <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
                                 <div class="form-group">
                                     <label for="category_id">Select Currency</label>
-                                    <select name="category_id" class="form-control border border-2 p-2" required>
+                                    <select name="category_id" id="paymentMethod" class="form-control border border-2 p-2" required>
                                         @foreach ($paymentTypes as $type)
                                             <option value="{{ $type->id }}">{{ $type->payment_name }}</option>
                                         @endforeach
