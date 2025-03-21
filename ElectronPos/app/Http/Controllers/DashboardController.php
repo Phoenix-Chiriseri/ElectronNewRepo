@@ -38,18 +38,18 @@ class DashboardController extends Controller
     ->orderByDesc('total_quantity_sold')
     ->paginate(10); // Set the number of records per page
 
-    //total sales per day
-    $totalSalesPerDay = DB::table('sales')
-    ->select(DB::raw('DATE(sales.created_at) as date'), DB::raw('SUM(total) as total_sales'))
-    ->whereYear('sales.created_at', '=', Carbon::now()->year)
-    ->whereMonth('sales.created_at', '=', Carbon::now()->month)
-    ->groupBy(DB::raw('DATE(sales.created_at)'))
-    ->orderBy('date', 'asc')
-    ->get();
+    // //total sales per day
+    // $totalSalesPerDay = DB::table('sales')
+    // ->select(DB::raw('DATE(sales.created_at) as date'), DB::raw('SUM(total) as total_sales'))
+    // ->whereYear('sales.created_at', '=', Carbon::now()->year)
+    // ->whereMonth('sales.created_at', '=', Carbon::now()->month)
+    // ->groupBy(DB::raw('DATE(sales.created_at)'))
+    // ->orderBy('date', 'asc')
+    // ->get();
 
     //dd($totalSalesPerDay);
     
-    $filteredDayData = ($totalSalesPerDay[0]->total_sales);
+    //$filteredDayData = ($totalSalesPerDay[0]->total_sales);
 
     //total sales per week
     $totalSalesPerWeek = DB::table('sales')
@@ -60,7 +60,7 @@ class DashboardController extends Controller
     ->orderBy('week', 'asc')
     ->get();
 
-    $filteredWeekData = ($totalSalesPerWeek[0]->total_sales);
+   // $filteredWeekData = ($totalSalesPerWeek[0]->total_sales);
    
     //total sales per month
     $totalSalesPerMonth = DB::table('sales')
@@ -70,7 +70,7 @@ class DashboardController extends Controller
     ->orderBy('month', 'asc')
     ->get();
 
-    $filteredMonthData = ($totalSalesPerMonth[0]->total_sales);
+    //$filteredMonthData = ($totalSalesPerMonth[0]->total_sales);
 
     //total sales per year
     $totalSalesPerYear = DB::table('sales')
@@ -79,29 +79,29 @@ class DashboardController extends Controller
     ->orderBy('year', 'asc')
     ->get();
 
-    $filteredYearData = ($totalSalesPerYear[0]->total_sales);
+    //$filteredYearData = ($totalSalesPerYear[0]->total_sales);
 
 
 
         //set the stock levels in the appioci=====gggh
-        $lowestStockLevel = SetStockLevels::latest()->first();
+       // $lowestStockLevel = SetStockLevels::latest()->first();
         // Validate $lowestStockLevel
-        if (!$lowestStockLevel || !isset($lowestStockLevel['stock_levels']) || !is_numeric($lowestStockLevel['stock_levels'])) {
-        //Handle invalid or missing lowest stock level
-        return response()->json(['error' => 'Invalid or missing lowest stock level'], 400);
-        //return view('dashboard.index')->with("message","the lowest stock level has not been set");
-        }
+        // if (!$lowestStockLevel || !isset($lowestStockLevel['stock_levels']) || !is_numeric($lowestStockLevel['stock_levels'])) {
+        // //Handle invalid or missing lowest stock level
+        // return response()->json(['error' => 'Invalid or missing lowest stock level'], 400);
+        // //return view('dashboard.index')->with("message","the lowest stock level has not been set");
+        // }
         //this will test the levels of the stock and check what is the lowest value that is in the stock
-        $intLevel = (int)$lowestStockLevel['stock_levels'];
-        $lowestStockProducts = DB::table('stocks')
-        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
-        ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
-        ->select('products.name as product_name', 'cattegories.cattegory_name', 'products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
-        ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
-        ->havingRaw("total_quantity <= $intLevel")
-        ->orderBy('total_quantity')
-        ->limit(5)
-        ->get();
+        //$intLevel = (int)$lowestStockLevel['stock_levels'];
+        // $lowestStockProducts = DB::table('stocks')
+        // ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+        // ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
+        // ->select('products.name as product_name', 'cattegories.cattegory_name', 'products.barcode as barcode', 'products.selling_price as selling_price', DB::raw('SUM(stocks.quantity) as total_quantity'))
+        // ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
+        // ->havingRaw("total_quantity <= $intLevel")
+        // ->orderBy('total_quantity')
+        // ->limit(5)
+        // ->get();
 
         //number of sales that have been done
         $numberOfSales = Sale::all()->count();
@@ -117,7 +117,14 @@ class DashboardController extends Controller
         return view('dashboard.index')->with("numberOfProducts",$numberOfProducts)
         ->with("users",$users)->with("numberOfCustomers",$numberOfCustomers)->with("numberOfCattegories",$numberOfCattegories)->with("numberOfSuppliers",$numberOfSuppliers)
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
-        ->with("totalSales",$totalSales)->with("numberOfSales",$numberOfSales)->with("lowestStockProducts",$lowestStockProducts)->with("stockLevel",$intLevel)->with("totalSalesPerDay",$filteredDayData)->with("totalSalesPerWeek",$filteredWeekData)
-        ->with("totalSalesPerMonth",$filteredMonthData)->with("totalSalesPerYear",$filteredYearData)->with("numberOfCattegories",$numberOfCattegories);
+        ->with("totalSales",$totalSales)
+        ->with("numberOfSales",$numberOfSales)
+        //->with("lowestStockProducts",$lowestStockProducts)
+        //->with("stockLevel",$intLevel)
+        //->with("totalSalesPerDay",$filteredDayData)
+        //->with("totalSalesPerWeek",$filteredWeekData)
+        //->with("totalSalesPerMonth",$filteredMonthData)
+        //->with("totalSalesPerYear",$filteredYearData)
+        ->with("numberOfCattegories",$numberOfCattegories);
     }
 }

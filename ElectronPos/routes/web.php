@@ -32,6 +32,7 @@ use App\Http\Controllers\PaymentTypesController;
 use App\Http\Controllers\AddPrinterController;
 use App\Http\Controllers\PriceListsController;
 use App\Http\Controllers\EmployeeLogin;
+use App\Http\Controllers\FiscalController;
 
 
 Route::get('/', [DashboardController::class, 'welcome']);
@@ -193,6 +194,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/get-statistics', [ApiController::class, 'getStatistics'])->name('view.get-statistics');
 	Route::get('/get-stockinfo', [ApiController::class, 'getStockInformation'])->name('get.stockinfo');
 	Route::get('/get-all-customers', [ApiController::class, 'getAllCustomers'])->name('get.allcustomers');
+	Route::get('/device-register', [FiscalController::class, 'registerDevice']);
+	Route::post('/device-register', [FiscalController::class, 'submitDevice']);
 	Route::get('/get-all-suppliers', [ApiController::class, 'getAllSuppliers'])->name('get.allsuppliers');
 	Route::get('/get-all-suppliers', [ApiController::class, 'getAllSuppliers'])->name('get.allsuppliers');
 	Route::get("/get-all-grvs",[ApiController::class,'getAllGRVS'])->name("getAllGrvs");
@@ -207,4 +210,23 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
+
+
+	// Device Status Route
+
+
+	// Device Status Route
+Route::get('/device/status', [FiscalDeviceController::class, 'getDeviceStatus']);
+
+// Open Fiscal Day Route
+Route::post('/device/openDay', [FiscalDeviceController::class, 'openFiscalDay']);
+
+// Close Fiscal Day Route
+Route::post('/device/closeDay', [FiscalDeviceController::class, 'closeFiscalDay']);
+
+// Submit Receipt Route
+Route::post('/device/submitReceipt', [FiscalDeviceController::class, 'submitReceipt']);
+
+// Get Device Configuration Route
+Route::get('/device/config', [FiscalDeviceController::class, 'getDeviceConfig']);
 });
