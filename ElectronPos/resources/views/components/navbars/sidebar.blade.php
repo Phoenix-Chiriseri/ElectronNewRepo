@@ -104,6 +104,9 @@
                     <a class="dropdown-item" href="{{ route('create-purchaseorder') }}">Purchase Orders</a>
                     <a class="dropdown-item" href="{{ route('stock-enquiry') }}">Stock Enquiry</a>
                     <a class="dropdown-item" href="{{ route('view-inventoryvaluation') }}">Inventory Valuation Report</a>
+                    <a class="dropdown-item" href="{{route('create-suppliers')}}">
+                        Add Supplier 
+                    </a>
                 </div>
             </li>
             <li class="nav-item dropdown">
