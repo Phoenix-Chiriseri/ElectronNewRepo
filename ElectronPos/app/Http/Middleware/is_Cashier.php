@@ -15,6 +15,7 @@ class is_Cashier
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         return $next($request);
     }
 }

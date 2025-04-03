@@ -50,6 +50,8 @@ Route::get('/reset-password/{token}', function ($token) {
 })->middleware('guest')->name('password.reset');
 Route::get('/employee/login', [EmployeeLogin::class, 'showLoginForm'])->name('employee.login')->middleware('guest');
 Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
+// ->middleware('is_Cashier')
+
 Route::post('/employee/login/submit', [EmployeeLogin::class, 'store'])->name('employee.login.submit')->middleware('guest');
 Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('auth')->name('logout');
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
