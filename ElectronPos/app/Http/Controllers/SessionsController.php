@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Auth;
 
 class SessionsController extends Controller
 {
@@ -31,6 +32,16 @@ class SessionsController extends Controller
         }
 
         session()->regenerate();
+
+        $user = Auth::user();
+
+        // Redirect based on user role
+        if ($user->role === 'admin') {
+            return redirect()->route('dashboard');
+        }
+        if ($user->role === 'cashier') {
+            return redirect('/dash');
+        } 
 
         return redirect('/dashboard');
 

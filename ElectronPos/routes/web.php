@@ -17,6 +17,7 @@ use App\Http\Controllers\PosController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ElectronPOE;
+
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\GrvController;
@@ -33,9 +34,11 @@ use App\Http\Controllers\AddPrinterController;
 use App\Http\Controllers\PriceListsController;
 use App\Http\Controllers\EmployeeLogin;
 use App\Http\Controllers\FiscalController;
+use App\Http\Controllers\ClientDashboardController;
+use App\Http\Middleware\IsAdmin;
 
 
-Route::get('/', [DashboardController::class, 'welcome']);
+Route::get('/', [DashboardController::class, 'welcome'])->name('home');
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
@@ -49,14 +52,14 @@ Route::get('/reset-password/{token}', function ($token) {
 	return view('sessions.password.reset', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
 Route::get('/employee/login', [EmployeeLogin::class, 'showLoginForm'])->name('employee.login')->middleware('guest');
-Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
+
 // ->middleware('is_Cashier')
 
 Route::post('/employee/login/submit', [EmployeeLogin::class, 'store'])->name('employee.login.submit')->middleware('guest');
 Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('auth')->name('logout');
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth',IsAdmin::class], function () {
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('orders-index');
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/search-product/{productName}', [ProductController::class, 'searchProduct']);
@@ -232,3 +235,14 @@ Route::post('/device/submitReceipt', [FiscalDeviceController::class, 'submitRece
 // Get Device Configuration Route
 Route::get('/device/config', [FiscalDeviceController::class, 'getDeviceConfig']);
 });
+
+
+Route::group([
+	'middleware' =>[App\Http\Middleware\is_Cashier::class,]
+], function(){
+	Route::get('/dash', [ClientDashboardController::class, 'index'])->name('client_dashboard');
+	Route::get('/cart', [ElectronPOE::class, 'index'])->name('cart-index');
+
+});
+
+

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class is_Cashier
+class is_Admin
 {
     /**
      * Handle an incoming request.
@@ -15,14 +15,13 @@ class is_Cashier
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth() ->check()){
+        if (!auth()->check()){
             return redirect()->route('login');
         }
 
-        if (auth()->user()->role !== 'cashier'){
+        if(auth()->user()->role !== 'admin'){
             return redirect('/dashboard');
         }
-
         return $next($request);
     }
 }
