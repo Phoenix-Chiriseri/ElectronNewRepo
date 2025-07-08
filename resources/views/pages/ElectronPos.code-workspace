@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../laravel projects/WtctJobBoard"
+		},
+		{
+			"path": "../../../../laravel projects/laravel-pos"
+		},
+		{
+			"path": "../../../../QrCode"
+		},
+		{
+			"path": "../../../../../Downloads/laravel-point-of-sale-main"
+		},
+		{
+			"path": "../../../../../Downloads/My Tsoro Project"
+		}
+	],
+	"settings": {}
+}

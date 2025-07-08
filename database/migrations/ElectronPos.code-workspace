@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../laravel-pos"
+		},
+		{
+			"path": "../../../larapos-master"
+		}
+	],
+	"settings": {}
+}
