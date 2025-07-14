@@ -33,6 +33,7 @@ class SaleController extends Controller
     }
 
     public function doTransaction(Request $request) {
+
         $userId = Auth::user()->id;
         $paymentMethod = $request->input("payment_method");
         //dd($paymentMethod);

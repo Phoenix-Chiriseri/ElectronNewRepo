@@ -235,6 +235,155 @@
             tableDataInput.val(JSON.stringify(state.cart));
         }
 
+        // Print receipt function
+        $("#printReceipt").on("click", function() {
+            if (state.cart.length === 0) {
+                showAlert('Cart is empty. Add items before printing.', 'warning');
+                return;
+            }
+
+            const totalValue = parseFloat($("#totalValue").val()) || 0;
+            const amountPaid = parseFloat($("#amountPaid").val()) || 0;
+            const change = parseFloat($("#change").val()) || 0;
+            const paymentMethod = $("#paymentMethod").val();
+
+            if (amountPaid === 0) {
+                showAlert('Please enter amount paid before printing.', 'warning');
+                return;
+            }
+
+            printReceiptDirectly({
+                items: state.cart,
+                total: totalValue,
+                amountPaid: amountPaid,
+                change: change,
+                paymentMethod: paymentMethod
+            });
+        });
+
+        function printReceiptDirectly(receiptData) {
+            // Create receipt content
+            const receiptContent = generateReceiptHTML(receiptData);
+            
+            // Create a hidden iframe for printing
+            const printFrame = document.createElement('iframe');
+            printFrame.style.position = 'absolute';
+            printFrame.style.top = '-1000px';
+            printFrame.style.left = '-1000px';
+            printFrame.style.width = '1px';
+            printFrame.style.height = '1px';
+            printFrame.style.border = 'none';
+            
+            document.body.appendChild(printFrame);
+            
+            const printDocument = printFrame.contentDocument || printFrame.contentWindow.document;
+            printDocument.open();
+            printDocument.write(receiptContent);
+            printDocument.close();
+            
+            // Wait for content to load then print
+            printFrame.onload = function() {
+                setTimeout(() => {
+                    printFrame.contentWindow.focus();
+                    printFrame.contentWindow.print();
+                    
+                    // Remove iframe after printing
+                    setTimeout(() => {
+                        document.body.removeChild(printFrame);
+                    }, 1000);
+                }, 100);
+            };
+            
+            showAlert('Receipt sent to printer', 'success');
+        }
+
+        function generateReceiptHTML(data) {
+            const currentDate = new Date().toLocaleString();
+            let itemsHTML = '';
+            
+            data.items.forEach(item => {
+                itemsHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.quantity}</td>
+                        <td>$${item.unitPrice.toFixed(2)}</td>
+                        <td>$${(item.total * item.quantity).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Receipt</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 20px; }
+                        .receipt { width: 300px; margin: 0 auto; }
+                        .header { text-align: center; margin-bottom: 20px; }
+                        .company-name { font-size: 16px; font-weight: bold; }
+                        .date { margin: 10px 0; }
+                        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+                        th, td { padding: 5px; text-align: left; border-bottom: 1px solid #ddd; }
+                        .total-section { margin-top: 15px; }
+                        .total-line { display: flex; justify-content: space-between; margin: 5px 0; }
+                        .total-line.bold { font-weight: bold; font-size: 14px; }
+                        .footer { text-align: center; margin-top: 20px; font-size: 10px; }
+                        @media print {
+                            body { margin: 0; padding: 10px; }
+                            .receipt { width: 100%; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="receipt">
+                        <div class="header">
+                            <div class="company-name">Electron Point Of Sale</div>
+                            <div class="date">${currentDate}</div>
+                        </div>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${itemsHTML}
+                            </tbody>
+                        </table>
+                        
+                        <div class="total-section">
+                            <div class="total-line bold">
+                                <span>Total:</span>
+                                <span>$${data.total.toFixed(2)}</span>
+                            </div>
+                            <div class="total-line">
+                                <span>Amount Paid:</span>
+                                <span>$${data.amountPaid.toFixed(2)}</span>
+                            </div>
+                            <div class="total-line">
+                                <span>Change:</span>
+                                <span>$${data.change.toFixed(2)}</span>
+                            </div>
+                            <div class="total-line">
+                                <span>Payment Method:</span>
+                                <span>${data.paymentMethod}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="footer">
+                            <p>Thank you for your business!</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
         // Customer selection and creation
         const searchInput = $("#search");
         const searchResultsContainer = $("#searchResults");
@@ -501,6 +650,7 @@
                                 <hr>
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>
+                                <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class="fa fa-print"></i> Print Receipt</button>
                                 <button type="button" class="btn btn-danger mb-2" id="clearCalculations"><i class="fa fa-cl"></i> Clear</button>
                             </form>
                            

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('total', 10, 2);
             $table->decimal('change', 10, 2);
             $table->string('amountPaid');
+            $table->string('payment_method');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('set null');
             $table->timestamps();

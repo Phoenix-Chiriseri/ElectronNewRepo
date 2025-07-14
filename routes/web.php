@@ -35,7 +35,6 @@ use App\Http\Controllers\EmployeeLogin;
 use App\Http\Controllers\FiscalController;
 use App\Http\Controllers\PrintersController;
 
-
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
@@ -57,6 +56,14 @@ Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')-
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('orders-index');
+	Route::get('/reports', [ReportController::class, 'index'])->name('reports');
+    Route::get('/reports/daily', [ReportController::class, 'dailySales'])->name('reports.daily');
+	Route::get('/reports/z-report', [ReportController::class, 'zReport'])->name('reports.z-report');
+	Route::get('/reports/weekly', [ReportController::class, 'weeklySales'])->name('reports.weekly');
+	Route::get('/reports/employee-shift', [ReportController::class, 'employeeShift'])->name('reports.employee-shift');
+	Route::get('/reports/tax', [ReportController::class, 'taxReport'])->name('reports.tax');
+	Route::get('/reports/download/{type}', [ReportController::class, 'downloadReport'])->name('reports.download');
+	Route::get('/reports/inventoryvaluation', [ReportController::class, 'inventoryValuation'])->name('reports.inventory-valuation');
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/search-product/{productName}', [ProductController::class, 'searchProduct']);
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
@@ -155,7 +162,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-payment-types', [PaymentTypesController::class, 'addPaymentTypes'])->name('view-payment-types');
 	Route::get('/show-payment-types', [PaymentTypesController::class, 'showPaymentTypes'])->name('show-payment-types');
 	Route::get('/view-orders', [OrdersController::class, 'index'])->name('view-orders');
-	Route::get('/view-reports', [ReportController::class, 'create'])->name('view-reports');
 	Route::get('/view-inventoryvaluation', [ReportController::class, 'viewInventoryValuationReport'])->name('view-inventoryvaluation');
 	Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
 	Route::get('/edit-payment-type/{id}', [PaymentTypesController::class, 'editPaymentType'])->name('edit-payment-type');
@@ -201,6 +207,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/get-all-suppliers', [ApiController::class, 'getAllSuppliers'])->name('get.allsuppliers');
 	Route::get("/get-all-grvs",[ApiController::class,'getAllGRVS'])->name("getAllGrvs");
 	Route::get("/add-printer",[AddPrinterController::class,'addPrinter'])->name("add-printer");
+	Route::get("/add-printer",[AddPrinterController::class,'testPrint'])->name("test-print");
+	Route::post("/add-printer",[AddPrinterController::class,'store'])->name("add-printer");
 	Route::get("/view-quotations",[QuoteController::class,'viewAllQuotations'])->name("view.quotes");
 	Route::get("get-employees",[ApiController::class,'getAllEmployees'])->name("getAllEmployees");
 	Route::get("/test",[ApiController::class,'showResult'])->name("showResult");
@@ -208,6 +216,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/total-sales',[ApiController::class,'getTotalSales'])->name('get-total-sales');
 	Route::get('/printers', [AddPrinterController::class, 'showPrinters'])->name('printers');
 	Route::get('/configure-printers', [PrintersController::class, 'index'])->name('configure-printers');
+
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');

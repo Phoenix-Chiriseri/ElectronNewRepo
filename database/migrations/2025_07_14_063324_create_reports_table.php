@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('printers', function (Blueprint $table) {
-          $table->id();
-    $table->string('name');
-    $table->string('ip');
-    $table->string('driver')->nullable()->default('HS-88AI');
-    $table->string('connection_mode')->default('websocket');
-    $table->timestamps();
+        Schema::create('reports', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('printers');
+        Schema::dropIfExists('reports');
     }
 };

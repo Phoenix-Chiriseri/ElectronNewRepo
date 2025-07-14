@@ -11,9 +11,12 @@ class PrintersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index()
     {
-        return view('pages.configure-printers')->with("printers");
+    
+    $printers = Printers::all();
+    return view('pages.configure-printers')->with("printers",$printers);
+    
     }
 
     /**

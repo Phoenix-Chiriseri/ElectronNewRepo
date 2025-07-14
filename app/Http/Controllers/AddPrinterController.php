@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer;
 
 class AddPrinterController extends Controller
 {
@@ -10,7 +12,24 @@ class AddPrinterController extends Controller
     public function addPrinter(){
         return view("pages.add-printer");
     }
-    private function getPrinters()
+
+    public function printTest(Request $request)
+{
+    try {
+        // Replace 'HS-88AI' with your actual printer name
+        $connector = new WindowsPrintConnector("HS-88AI");
+        $printer = new Printer($connector);
+        $printer->text("*** Test Page ***\nHello from Laravel USB Printer!\n");
+        $printer->cut();
+        $printer->close();
+
+        return response()->json(['success' => true, 'message' => 'Print job sent.']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+ 
+private function getPrinters()
     {
         $output = [];
         $os = PHP_OS_FAMILY;
@@ -63,4 +82,20 @@ class AddPrinterController extends Controller
         $printer->cut();
         $printer->close();
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'connection_mode' => 'required|string',
+            'device_id' => 'nullable|string',
+            'status' => 'required|string'
+        ]);
+
+        // Here you would typically save to database
+        // For now, we'll just return success
+         Printer::create($validated);
+        return redirect()->back()->with('success', 'Printer configured successfully!');
+    }
 }
+?>
