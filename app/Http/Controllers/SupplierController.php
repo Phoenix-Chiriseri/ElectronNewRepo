@@ -52,30 +52,53 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the request
+        $request->validate([
+            'supplier_name' => 'required|string|max:255',
+            'supplier_tinnumber' => 'required|string|max:10',
+            'supplier_vatnumber' => 'required|string|max:9',
+            'supplier_address' => 'required|string|max:255',
+            'supplier_phonenumber' => 'required|string|max:20',
+            'supplier_contactperson' => 'required|string|max:255',
+            'supplier_contactpersonnumber' => 'required|string|max:20',
+            'supplier_status' => 'required|in:active,not_active',
+            'supplier_type' => 'required|in:cash,credit'
+        ]);
 
-       
         $userId = Auth::user()->id;
         $supplier = Supplier::create([
-        'code' => $request->code,
         'supplier_name' => $request->supplier_name,
         'supplier_tinnumber'=>$request->supplier_tinnumber,
         'supplier_vatnumber'=>$request->supplier_vatnumber,
         'supplier_address' => $request->supplier_address,
         'supplier_phonenumber' => $request->supplier_phonenumber,
-        'customer_address' => $request->supplier_address,
         'user_id' => $userId,
         'supplier_status'=>$request->supplier_status,
         'supplier_contactperson'=>$request->supplier_contactperson,
         'supplier_contactpersonnumber'=>$request->supplier_contactpersonnumber,
         'type'=>$request->supplier_type,
-        
         ]);
         
-        //if the supplier is saved
-         if ($supplier) {
-          return redirect()->back()->with('success', 'Supplier created successfully');
-        }else{
-
+        // Check if this is an AJAX request (from the modal)
+        if ($request->ajax()) {
+            if ($supplier) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Supplier created successfully',
+                    'supplier' => $supplier
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Supplier could not be created'
+                ], 400);
+            }
+        }
+        
+        // Regular form submission (from create-suppliers page)
+        if ($supplier) {
+            return redirect()->back()->with('success', 'Supplier created successfully');
+        } else {
             return redirect()->back()->with('error', 'Supplier could not be created');
         }
         

@@ -2,6 +2,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Date</th>
                 <th>Product Name</th>
                 <th>Category</th>
                 <th>Barcode</th>
@@ -17,6 +18,7 @@
         <tbody>
             @foreach($data['inventoryValuationReport'] as $item)
             <tr>
+                <td>{{ date('Y-m-d') }}</td>
                 <td>{{ $item['Product Name'] }}</td>
                 <td>{{ $item['Category'] }}</td>
                 <td>{{ $item['Barcode'] }}</td>

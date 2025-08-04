@@ -145,12 +145,14 @@ margin-top:20px;
                    <div class="receipt-header receipt-header-mid">
                        <div class="col-xs-8 col-sm-8 col-md-8 text-left">
                            <div class="receipt-right">
-                               <h5>Supplier Name : {{ $grv->supplier_name }}</h5>
-                               <p>Supplier Address : {{ $grv->supplier_address }}</p>
-                               <p>Supplier Phone Number : {{ $grv->supplier_phonenumber }}</p>
-                               <p>Contact Person : {{ $grv->supplier_contactperson }}</p>
-                               <p>Contact Person Phone Number : {{ $grv->supplier_contactpersonnumber }}</p>
-                               <p><b>Location: </b> {{ $grv->shop_name }}</p>
+                               @if($grv->supplier_name || $grv->supplier_address || $grv->supplier_phonenumber || $grv->supplier_contactperson || $grv->supplier_contactpersonnumber)
+                                   <h5>Supplier Name : {{ $grv->supplier_name }}</h5>
+                                   <p>Supplier Address : {{ $grv->supplier_address }}</p>
+                                   <p>Supplier Phone Number : {{ $grv->supplier_phonenumber }}</p>
+                                   <p>Contact Person : {{ $grv->supplier_contactperson }}</p>
+                                   <p>Contact Person Phone Number : {{ $grv->supplier_contactpersonnumber }}</p>
+                                   <p><b>Location: </b> {{ $grv->shop_name }}</p>
+                               @endif
                                <p><b> GRN Date </b> {{ $grv->grn_date }}</p>
                                <p><strong>Print Date:</strong> {{ $grv->created_at }}</p>
                                <p><strong>Payment Method </strong> {{ $grv->payment_method }}</p>

@@ -1,4 +1,5 @@
 <script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="reports"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
@@ -8,29 +9,7 @@
             <div class="page-header min-height-200 border-radius-xl mt-4" style="background: linear-gradient(135deg,rgb(234, 117, 102) 0%,rgb(233, 51, 6) 100%);">
                 <span class="mask bg-gradient-primary opacity-6"></span>
             </div>
-           <script>
-            $(document).ready(function () {
-            $('#download-reports').on('click', function () {
-            
-            const { jsPDF } = window.jspdf;
-            html2canvas(document.querySelector("#report-content")).then(canvas => {
-                const imgData = canvas.toDataURL("image/png");
-                const pdf = new jsPDF("p", "pt", "a4");
-                
-                const pageWidth = pdf.internal.pageSize.getWidth();
-                const pageHeight = pdf.internal.pageSize.getHeight();
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfWidth = pageWidth - 40;
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                let position = 20;
-
-                pdf.addImage(imgData, "PNG", 20, position, pdfWidth, pdfHeight);
-                pdf.save("report.pdf");
-                    });
-                });
-                });
-        </script>      
+           
             <div class="card card-body mx-3 mx-md-4 mt-n6">
                 <div class="row mb-4">
                     <div class="col-12">
@@ -158,22 +137,24 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Report Display Area -->
                 @if(isset($reportData))
-                <div class="row mt-4" id = "report-content">
+                <div class="row mt-4" id="report-content">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">{{ $reportTitle }}</h5>
+                                <div>
+                                    <h5 class="mb-0">{{ $reportTitle }}</h5>
+                                    <small class="text-muted">Generated on: {{ date('Y-m-d H:i:s') }}</small>
+                                </div>
                                 <div>
                                     <button onclick="window.print()" class="btn btn-outline-primary btn-sm me-2">
                                         <i class="fas fa-print"></i> Print
                                     </button>
                                     @if(isset($reportType))
-                                    <a href="{{ route('reports.download', ['type' => $reportType]) }}" id = "download-reports" class="btn btn-primary btn-sm">
+                                    <button onclick="downloadPDF('{{ $reportType }}', '{{ $reportTitle }}')" class="btn btn-primary btn-sm">
                                         <i class="fas fa-download"></i> Download PDF
-                                    </a>
+                                    </button>
                                     @endif
                                 </div>
                             </div>
@@ -191,3 +172,36 @@
     </div>
     <x-plugins></x-plugins>
 </x-layout>
+
+<script>
+function downloadPDF(reportType, reportTitle) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    doc.setFontSize(16);
+    doc.text(reportTitle, 20, 20);
+    
+    doc.setFontSize(10);
+    doc.text('Generated on: ' + new Date().toLocaleString(), 20, 35);
+    
+    const table = document.querySelector('.table');
+    if (table) {
+        let yPos = 50;
+        const rows = table.querySelectorAll('tr');
+        
+        rows.forEach((row, index) => {
+            const cells = row.querySelectorAll('th, td');
+            let xPos = 20;
+            
+            cells.forEach(cell => {
+                doc.setFontSize(index === 0 ? 12 : 10);
+                doc.text(cell.textContent.trim(), xPos, yPos);
+                xPos += 40;
+            });
+            yPos += 10;
+        });
+    }
+    
+    doc.save(reportType + '-report.pdf');
+}
+</script>
