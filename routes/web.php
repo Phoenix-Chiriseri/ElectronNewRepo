@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/reports/daily', [ReportController::class, 'dailySales'])->name('reports.daily');
 	Route::get('/reports/z-report', [ReportController::class, 'zReport'])->name('reports.z-report');
 	Route::get('/reports/weekly', [ReportController::class, 'weeklySales'])->name('reports.weekly');
+	Route::get('/reports/yearly', [ReportController::class, 'yearlySales'])->name('reports.yearly');
 	Route::get('/reports/employee-shift', [ReportController::class, 'employeeShift'])->name('reports.employee-shift');
 	Route::get('/reports/tax', [ReportController::class, 'taxReport'])->name('reports.tax');
 	Route::get('/reports/download/{type}', [ReportController::class, 'downloadReport'])->name('reports.download');
@@ -192,6 +193,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/getRate', [RateController::class, 'getRate'])->name('get-rate');
 	Route::get('/view-invoices', [InvoiceController::class, 'viewInvoices'])->name('view-invoices');
 	Route::get('/view-productRpt', [ReportController::class, 'viewProductRpt'])->name('view-productRpt');
+	Route::get('/yearly-sales-report', [ReportController::class, 'yearlySalesReport'])->name('yearly-sales-report');
 	Route::get('/view-invoice/{id}', [InvoiceController::class, 'viewInvoiceById'])->name('invoice.show');
 	Route::get('/summarise-invoice/{id}', [InvoiceController::class, 'summariseInvoice'])->name('invoice.summarise');
 	Route::get('/delete-invoice/{id}', [InvoiceController::class, 'deleteInvoice'])->name('invoice.delete');

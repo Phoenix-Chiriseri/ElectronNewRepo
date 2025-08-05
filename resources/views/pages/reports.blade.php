@@ -68,6 +68,20 @@
                     </div>
                 </div>
 
+                <!-- Second row of Sales Reports -->
+                <div class="row mb-5">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calendar-alt fa-3x text-danger mb-3"></i>
+                                <h5>Yearly Sales Report</h5>
+                                <p class="text-sm">Comprehensive yearly sales analysis</p>
+                                <a href="{{ route('reports.yearly') }}" class="btn btn-danger btn-sm">Generate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Purchase Reports Section -->
                 <div class="row mb-4">
                     <div class="col-12">

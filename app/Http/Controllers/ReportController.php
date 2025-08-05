@@ -58,6 +58,38 @@ class ReportController extends Controller
         ]);
     }
 
+    public function yearlySales() {
+        $currentYear = Carbon::now()->year;
+        $year = request('year', $currentYear);
+        
+        $sales = Sales::leftJoin('users', 'sales.user_id', '=', 'users.id')
+            ->select('users.name as cashier_name', 'sales.*')
+            ->whereYear('sales.created_at', $year)
+            ->orderBy('sales.created_at', 'desc')
+            ->get();
+        
+        // Calculate summary statistics
+        $totalSales = $sales->sum('total');
+        $totalTransactions = $sales->count();
+        $averageTransaction = $totalTransactions > 0 ? $totalSales / $totalTransactions : 0;
+        
+        // Group sales by month
+        $monthlySales = $sales->groupBy(function($sale) {
+            return Carbon::parse($sale->created_at)->format('M');
+        })->map(function($monthSales) {
+            return [
+                'total' => $monthSales->sum('total'),
+                'count' => $monthSales->count()
+            ];
+        });
+        
+        return view('pages.reports', [
+            'reportData' => compact('sales', 'year', 'totalSales', 'totalTransactions', 'averageTransaction', 'monthlySales'),
+            'reportTitle' => 'Yearly Sales Report - ' . $year,
+            'reportType' => 'yearly'
+        ]);
+    }
+
     public function zReport() {
         $today = Carbon::today();
         $sales = Sales::whereDate('created_at', $today)->get();
