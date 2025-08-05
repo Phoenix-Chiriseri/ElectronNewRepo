@@ -2,17 +2,29 @@
     extract($data);
 @endphp
 
-<!-- Year Selection Form -->
+<!-- Date Range Selection Form -->
 <div class="row mb-4">
-    <div class="col-md-4">
-        <form method="GET" action="{{ route('reports.yearly') }}">
-            <div class="input-group">
-                <select name="year" class="form-select">
+    <div class="col-md-8">
+        <form method="GET" action="{{ route('reports.yearly') }}" class="row g-3">
+            <div class="col-md-3">
+                <label for="year" class="form-label">Year:</label>
+                <select name="year" id="year" class="form-select">
                     @for($y = date('Y'); $y >= 2020; $y--)
                         <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>{{ $y }}</option>
                     @endfor
                 </select>
-                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+            <div class="col-md-3">
+                <label for="start_date" class="form-label">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" class="form-control" value="{{ $startDate }}">
+            </div>
+            <div class="col-md-3">
+                <label for="end_date" class="form-label">End Date:</label>
+                <input type="date" name="end_date" id="end_date" class="form-control" value="{{ $endDate }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary form-control">Filter</button>
             </div>
         </form>
     </div>

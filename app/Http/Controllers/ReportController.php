@@ -22,9 +22,11 @@ class ReportController extends Controller
         return view("pages.reports");
     }
 
-    public function dailySales() {
-        $today = Carbon::today();
-        $sales = Sales::whereDate('created_at', $today)
+    public function dailySales(Request $request) {
+        $startDate = $request->get('start_date', Carbon::today()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::today()->format('Y-m-d'));
+        
+        $sales = Sales::whereBetween('created_at', [$startDate, $endDate])
             ->select('payment_method', DB::raw('COUNT(*) as count'), DB::raw('SUM(total) as total'))
             ->groupBy('payment_method')
             ->get();
@@ -33,17 +35,17 @@ class ReportController extends Controller
         $totalTransactions = $sales->sum('count');
         
         return view('pages.reports', [
-            'reportData' => compact('sales', 'totalSales', 'totalTransactions', 'today'),
-            'reportTitle' => 'Daily Sales Report - ' . $today->format('Y-m-d'),
+            'reportData' => compact('sales', 'totalSales', 'totalTransactions', 'startDate', 'endDate'),
+            'reportTitle' => 'Daily Sales Report - ' . $startDate . ' to ' . $endDate,
             'reportType' => 'daily'
         ]);
     }
 
-    public function weeklySales() {
-        $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek = Carbon::now()->endOfWeek();
+    public function weeklySales(Request $request) {
+        $startDate = $request->get('start_date', Carbon::now()->startOfWeek()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::now()->endOfWeek()->format('Y-m-d'));
         
-        $sales = Sales::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+        $sales = Sales::whereBetween('created_at', [$startDate, $endDate])
             ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total) as total'), DB::raw('COUNT(*) as count'))
             ->groupBy(DB::raw('DATE(created_at)'))
             ->orderBy('date')
@@ -52,19 +54,21 @@ class ReportController extends Controller
         $totalWeeklySales = $sales->sum('total');
         
         return view('pages.reports', [
-            'reportData' => compact('sales', 'totalWeeklySales', 'startOfWeek', 'endOfWeek'),
-            'reportTitle' => 'Weekly Sales Report',
+            'reportData' => compact('sales', 'totalWeeklySales', 'startDate', 'endDate'),
+            'reportTitle' => 'Weekly Sales Report - ' . $startDate . ' to ' . $endDate,
             'reportType' => 'weekly'
         ]);
     }
 
-    public function yearlySales() {
+    public function yearlySales(Request $request) {
         $currentYear = Carbon::now()->year;
-        $year = request('year', $currentYear);
+        $year = $request->get('year', $currentYear);
+        $startDate = $request->get('start_date', $year . '-01-01');
+        $endDate = $request->get('end_date', $year . '-12-31');
         
         $sales = Sales::leftJoin('users', 'sales.user_id', '=', 'users.id')
             ->select('users.name as cashier_name', 'sales.*')
-            ->whereYear('sales.created_at', $year)
+            ->whereBetween('sales.created_at', [$startDate, $endDate])
             ->orderBy('sales.created_at', 'desc')
             ->get();
         
@@ -84,15 +88,17 @@ class ReportController extends Controller
         });
         
         return view('pages.reports', [
-            'reportData' => compact('sales', 'year', 'totalSales', 'totalTransactions', 'averageTransaction', 'monthlySales'),
-            'reportTitle' => 'Yearly Sales Report - ' . $year,
+            'reportData' => compact('sales', 'year', 'startDate', 'endDate', 'totalSales', 'totalTransactions', 'averageTransaction', 'monthlySales'),
+            'reportTitle' => 'Yearly Sales Report - ' . $startDate . ' to ' . $endDate,
             'reportType' => 'yearly'
         ]);
     }
 
-    public function zReport() {
-        $today = Carbon::today();
-        $sales = Sales::whereDate('created_at', $today)->get();
+    public function zReport(Request $request) {
+        $startDate = $request->get('start_date', Carbon::today()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::today()->format('Y-m-d'));
+        
+        $sales = Sales::whereBetween('created_at', [$startDate, $endDate])->get();
         
         $cashSales = $sales->where('payment_method', 'Cash')->sum('total');
         $cardSales = $sales->where('payment_method', 'Card')->sum('total');
@@ -100,15 +106,17 @@ class ReportController extends Controller
         $transactionCount = $sales->count();
         
         return view('pages.reports', [
-            'reportData' => compact('cashSales', 'cardSales', 'totalSales', 'transactionCount', 'today'),
-            'reportTitle' => 'Z Report - End of Day',
+            'reportData' => compact('cashSales', 'cardSales', 'totalSales', 'transactionCount', 'startDate', 'endDate'),
+            'reportTitle' => 'Z Report - ' . $startDate . ' to ' . $endDate,
             'reportType' => 'z-report'
         ]);
     }
 
-    public function taxReport() {
-        $today = Carbon::today();
-        $sales = Sales::with('products')->whereDate('created_at', $today)->get();
+    public function taxReport(Request $request) {
+        $startDate = $request->get('start_date', Carbon::today()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::today()->format('Y-m-d'));
+        
+        $sales = Sales::with('products')->whereBetween('created_at', [$startDate, $endDate])->get();
         
         $taxableAmount = 0;
         $taxAmount = 0;
@@ -123,16 +131,18 @@ class ReportController extends Controller
         }
         
         return view('pages.reports', [
-            'reportData' => compact('taxableAmount', 'taxAmount', 'today'),
-            'reportTitle' => 'Tax Report',
+            'reportData' => compact('taxableAmount', 'taxAmount', 'startDate', 'endDate'),
+            'reportTitle' => 'Tax Report - ' . $startDate . ' to ' . $endDate,
             'reportType' => 'tax'
         ]);
     }
 
-    public function employeeShift() {
-        $today = Carbon::today();
-        $employees = User::with(['sales' => function($query) use ($today) {
-            $query->whereDate('created_at', $today);
+    public function employeeShift(Request $request) {
+        $startDate = $request->get('start_date', Carbon::today()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::today()->format('Y-m-d'));
+        
+        $employees = User::with(['sales' => function($query) use ($startDate, $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         }])->get();
         
         $employeeData = $employees->map(function($employee) {
@@ -146,26 +156,34 @@ class ReportController extends Controller
         });
         
         return view('pages.reports', [
-            'reportData' => compact('employeeData', 'today'),
-            'reportTitle' => 'Employee Shift Report',
+            'reportData' => compact('employeeData', 'startDate', 'endDate'),
+            'reportTitle' => 'Employee Shift Report - ' . $startDate . ' to ' . $endDate,
             'reportType' => 'employee-shift'
         ]);
     }
 
-    public function inventoryValuation() {
-        $stocks = DB::table('stocks')
-        ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
-        ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
-        ->select(
-            'products.name as product_name',
-            'cattegories.cattegory_name as category_name',
-            'products.barcode',
-            'products.selling_price',
-            DB::raw('SUM(stocks.quantity) as total_quantity'),
-            DB::raw('SUM(stocks.total_cost) as total_cost')
-        )
-        ->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
-        ->get();
+    public function inventoryValuation(Request $request) {
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+        
+        $stocksQuery = DB::table('stocks')
+            ->leftJoin('products', 'stocks.product_id', '=', 'products.id')
+            ->leftJoin('cattegories', 'products.category_id', '=', 'cattegories.id')
+            ->select(
+                'products.name as product_name',
+                'cattegories.cattegory_name as category_name',
+                'products.barcode',
+                'products.selling_price',
+                DB::raw('SUM(stocks.quantity) as total_quantity'),
+                DB::raw('SUM(stocks.total_cost) as total_cost')
+            );
+            
+        if ($startDate && $endDate) {
+            $stocksQuery->whereBetween('stocks.created_at', [$startDate, $endDate]);
+        }
+        
+        $stocks = $stocksQuery->groupBy('products.name', 'products.barcode', 'products.selling_price', 'cattegories.cattegory_name')
+            ->get();
 
         $inventoryValuationReport = [];
         $totalInventoryValue = 0;
@@ -202,8 +220,8 @@ class ReportController extends Controller
         }
 
         return view('pages.reports', [
-            'reportData' => compact('inventoryValuationReport', 'totalInventoryValue'),
-            'reportTitle' => 'Inventory Valuation Report',
+            'reportData' => compact('inventoryValuationReport', 'totalInventoryValue', 'startDate', 'endDate'),
+            'reportTitle' => 'Inventory Valuation Report' . ($startDate && $endDate ? ' - ' . $startDate . ' to ' . $endDate : ''),
             'reportType' => 'inventory-valuation'
         ]);
     }

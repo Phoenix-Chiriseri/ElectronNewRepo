@@ -1,3 +1,27 @@
+@php
+    extract($data);
+@endphp
+
+<!-- Date Range Selection Form -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <form method="GET" action="{{ route('reports.inventory-valuation') }}" class="row g-3">
+            <div class="col-md-4">
+                <label for="start_date" class="form-label">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" class="form-control" value="{{ $startDate ?? date('Y-m-d') }}">
+            </div>
+            <div class="col-md-4">
+                <label for="end_date" class="form-label">End Date:</label>
+                <input type="date" name="end_date" id="end_date" class="form-control" value="{{ $endDate ?? date('Y-m-d') }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary form-control">Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -16,9 +40,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($data['inventoryValuationReport'] as $item)
+            @foreach($inventoryValuationReport as $item)
             <tr>
-                <td>{{ date('Y-m-d') }}</td>
+                <td>{{ $startDate ?? date('Y-m-d') }}</td>
                 <td>{{ $item['Product Name'] }}</td>
                 <td>{{ $item['Category'] }}</td>
                 <td>{{ $item['Barcode'] }}</td>

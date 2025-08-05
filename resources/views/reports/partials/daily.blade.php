@@ -1,8 +1,32 @@
+@php
+    extract($data);
+@endphp
+
+<!-- Date Range Selection Form -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <form method="GET" action="{{ route('reports.daily') }}" class="row g-3">
+            <div class="col-md-4">
+                <label for="start_date" class="form-label">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" class="form-control" value="{{ $startDate ?? date('Y-m-d') }}">
+            </div>
+            <div class="col-md-4">
+                <label for="end_date" class="form-label">End Date:</label>
+                <input type="date" name="end_date" id="end_date" class="form-control" value="{{ $endDate ?? date('Y-m-d') }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary form-control">Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="row mb-4">
     <div class="col-md-4">
         <div class="card bg-gradient-primary text-white">
             <div class="card-body text-center">
-                <h3>${{ number_format($data['totalSales'], 2) }}</h3>
+                <h3>${{ number_format($totalSales, 2) }}</h3>
                 <p class="mb-0">Total Sales</p>
             </div>
         </div>
@@ -10,7 +34,7 @@
     <div class="col-md-4">
         <div class="card bg-gradient-success text-white">
             <div class="card-body text-center">
-                <h3>{{ $data['totalTransactions'] }}</h3>
+                <h3>{{ $totalTransactions }}</h3>
                 <p class="mb-0">Total Transactions</p>
             </div>
         </div>
@@ -18,8 +42,8 @@
     <div class="col-md-4">
         <div class="card bg-gradient-info text-white">
             <div class="card-body text-center">
-                <h3>{{ $data['today']->format('M d, Y') }}</h3>
-                <p class="mb-0">Report Date</p>
+                <h3>{{ \Carbon\Carbon::parse($startDate)->format('M d') }} - {{ \Carbon\Carbon::parse($endDate)->format('M d, Y') }}</h3>
+                <p class="mb-0">Date Range</p>
             </div>
         </div>
     </div>
@@ -42,16 +66,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data['sales'] as $sale)
+                    @foreach($sales as $sale)
                     <tr>
-                        <td><span class="badge bg-secondary">{{ $data['today']->format('Y-m-d') }}</span></td>
+                        <td><span class="badge bg-secondary">{{ \Carbon\Carbon::parse($startDate)->format('Y-m-d') }}</span></td>
                         <td><i class="fas fa-credit-card me-2"></i>{{ $sale->payment_method }}</td>
                         <td><span class="badge bg-info">{{ $sale->count }}</span></td>
                         <td><strong class="text-success">${{ number_format($sale->total, 2) }}</strong></td>
                         <td>
                             <div class="progress" style="height: 20px;">
-                                <div class="progress-bar bg-gradient-primary" style="width: {{ $data['totalSales'] > 0 ? ($sale->total / $data['totalSales']) * 100 : 0 }}%">
-                                    {{ $data['totalSales'] > 0 ? number_format(($sale->total / $data['totalSales']) * 100, 1) : 0 }}%
+                                <div class="progress-bar bg-gradient-primary" style="width: {{ $totalSales > 0 ? ($sale->total / $totalSales) * 100 : 0 }}%">
+                                    {{ $totalSales > 0 ? number_format(($sale->total / $totalSales) * 100, 1) : 0 }}%
                                 </div>
                             </div>
                         </td>
