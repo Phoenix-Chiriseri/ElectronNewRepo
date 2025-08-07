@@ -57,11 +57,11 @@
                                         </div>
                                     </div>
                                 </form>
-                                <small class="text-muted">Select a payment method and click "Apply Filter", then generate any report to see filtered results.</small>
+                                <small style="color:#000">Select a payment method and click "Apply Filter", then generate any report to see filtered results.</small>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
                                 <h6 class="mb-3">Quick Actions</h6>
@@ -75,9 +75,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-
                 <!-- Sales Reports Section -->
                 <div class="row mb-4">
                     <div class="col-12">
@@ -358,9 +357,11 @@ function applyPaymentFilter() {
     const successMessage = document.createElement('div');
     successMessage.className = 'alert alert-success alert-dismissible fade show mt-3';
     successMessage.innerHTML = `
-        <i class="fas fa-check-circle"></i> 
-        <strong>Filter Applied!</strong> Payment method filter set to <strong>${paymentMethodName}</strong>. 
-        Now click "Generate" on any report to see filtered results.
+        <div style="color: white;">
+            <i class="fas fa-check-circle"></i> 
+            <strong>Filter Applied!</strong> Payment method filter set to <strong>${paymentMethodName}</strong>. 
+            Now click "Generate" on any report to see filtered results.
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
     
@@ -415,7 +416,7 @@ function updatePaymentMethod() {
         newStatus.className = 'alert alert-info';
         newStatus.innerHTML = `
             <div class="d-flex justify-content-between align-items-center">
-                <div>
+                <div style="color: white;">
                     <i class="fas fa-filter"></i> 
                     <strong>Filter Active:</strong> Reports will show data for <strong>${paymentMethodName}</strong> payment method only.
                 </div>
