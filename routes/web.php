@@ -61,9 +61,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/reports/z-report', [ReportController::class, 'zReport'])->name('reports.z-report');
 	Route::get('/reports/weekly', [ReportController::class, 'weeklySales'])->name('reports.weekly');
 	Route::get('/reports/yearly', [ReportController::class, 'yearlySales'])->name('reports.yearly');
+	Route::get('/reports/quarterly', [ReportController::class, 'quarterlySales'])->name('reports.quarterly');
 	Route::get('/reports/employee-shift', [ReportController::class, 'employeeShift'])->name('reports.employee-shift');
 	Route::get('/reports/tax', [ReportController::class, 'taxReport'])->name('reports.tax');
 	Route::get('/reports/download/{type}', [ReportController::class, 'downloadReport'])->name('reports.download');
+	Route::get('/reports/download-payment/{type}', [ReportController::class, 'downloadPaymentReport'])->name('reports.download-payment');
 	Route::get('/reports/inventoryvaluation', [ReportController::class, 'inventoryValuation'])->name('reports.inventory-valuation');
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/search-product/{productName}', [ProductController::class, 'searchProduct']);

@@ -18,6 +18,63 @@
                     </div>
                 </div>
 
+                <!-- Payment Method Filter -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="mb-3">Filter by Payment Method</h6>
+                                <form id="payment-filter-form">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label for="global_payment_method" class="form-label">Select Payment Method:</label>
+                                                <select id="global_payment_method" class="form-control" style="border-color: #141618ff;">
+                                                    <option value="">All Payment Methods</option>
+                                                    @if(isset($paymentMethods))
+                                                        @foreach($paymentMethods as $method)
+                                                            <option value="{{ $method->id }}">{{ $method->payment_name }}</option>
+                                                        @endforeach
+                                                    @else
+                                                        <option value="cash">Cash</option>
+                                                        <option value="card">Card</option>
+                                                        <option value="mobile_money">Mobile Money</option>
+                                                        <option value="bank_transfer">Bank Transfer</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">&nbsp;</label>
+                                            <div class="d-grid">
+                                                <button type="button" onclick="applyPaymentFilter()" class="btn btn-primary">
+                                                    <i class="fas fa-filter"></i> Apply Filter
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <small class="text-muted">Select a payment method and click "Apply Filter", then generate any report to see filtered results.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="mb-3">Quick Actions</h6>
+                                <div class="d-grid gap-2">
+                                    <button onclick="clearPaymentFilter()" class="btn btn-outline-secondary btn-sm">
+                                        <i class="fas fa-times"></i> Clear Filter
+                                    </button>
+                                    <button onclick="downloadAllReports()" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-download"></i> Download All Reports
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Sales Reports Section -->
                 <div class="row mb-4">
                     <div class="col-12">
@@ -32,7 +89,12 @@
                                 <i class="fas fa-calendar-day fa-3x text-primary mb-3"></i>
                                 <h5>Daily Sales Report</h5>
                                 <p class="text-sm">Sales breakdown by payment type for today</p>
-                                <a href="{{ route('reports.daily') }}" class="btn btn-primary btn-sm">Generate</a>
+                                <div class="btn-group" role="group">
+                                    <a href="#" onclick="generateReport('daily')" class="btn btn-primary btn-sm">Generate</a>
+                                    <a href="#" onclick="downloadReport('daily')" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -42,7 +104,12 @@
                                 <i class="fas fa-calendar-week fa-3x text-success mb-3"></i>
                                 <h5>Weekly Sales Report</h5>
                                 <p class="text-sm">Weekly sales summary and trends</p>
-                                <a href="{{ route('reports.weekly') }}" class="btn btn-success btn-sm">Generate</a>
+                                <div class="btn-group" role="group">
+                                    <a href="#" onclick="generateReport('weekly')" class="btn btn-success btn-sm">Generate</a>
+                                    <a href="#" onclick="downloadReport('weekly')" class="btn btn-outline-success btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -52,7 +119,12 @@
                                 <i class="fas fa-cash-register fa-3x text-warning mb-3"></i>
                                 <h5>Z Report</h5>
                                 <p class="text-sm">End of day cash register report</p>
-                                <a href="{{ route('reports.z-report') }}" class="btn btn-warning btn-sm">Generate</a>
+                                <div class="btn-group" role="group">
+                                    <a href="#" onclick="generateReport('z-report')" class="btn btn-warning btn-sm">Generate</a>
+                                    <a href="#" onclick="downloadReport('z-report')" class="btn btn-outline-warning btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -62,7 +134,12 @@
                                 <i class="fas fa-receipt fa-3x text-info mb-3"></i>
                                 <h5>Tax Report</h5>
                                 <p class="text-sm">Tax summary and calculations</p>
-                                <a href="{{ route('reports.tax') }}" class="btn btn-info btn-sm">Generate</a>
+                                <div class="btn-group" role="group">
+                                    <a href="#" onclick="generateReport('tax')" class="btn btn-info btn-sm">Generate</a>
+                                    <a href="#" onclick="downloadReport('tax')" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,7 +153,42 @@
                                 <i class="fas fa-calendar-alt fa-3x text-danger mb-3"></i>
                                 <h5>Yearly Sales Report</h5>
                                 <p class="text-sm">Comprehensive yearly sales analysis</p>
-                                <a href="{{ route('reports.yearly') }}" class="btn btn-danger btn-sm">Generate</a>
+                                <div class="btn-group" role="group">
+                                    <a href="#" onclick="generateReport('yearly')" class="btn btn-danger btn-sm">Generate</a>
+                                    <a href="#" onclick="downloadReport('yearly')" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calendar-times fa-3x text-secondary mb-3"></i>
+                                <h5>Quarterly Sales Report</h5>
+                                <p class="text-sm">Quarterly sales breakdown and trends</p>
+                                <div class="btn-group" role="group">
+                                    <a href="#" onclick="generateReport('quarterly')" class="btn btn-secondary btn-sm">Generate</a>
+                                    <a href="#" onclick="downloadReport('quarterly')" class="btn btn-outline-secondary btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-3x text-success mb-3"></i>
+                                <h5>Employee Shift Report</h5>
+                                <p class="text-sm">Employee performance and shift details</p>
+                                <div class="btn-group" role="group">
+                                    <a href="#" onclick="generateReport('employee-shift')" class="btn btn-success btn-sm">Generate</a>
+                                    <a href="#" onclick="downloadReport('employee-shift')" class="btn btn-outline-success btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -125,7 +237,12 @@
                                 <i class="fas fa-boxes fa-3x text-dark mb-3"></i>
                                 <h5>Inventory Valuation</h5>
                                 <p class="text-sm">Stock valuation and profit margins</p>
-                                <a href="{{ route('reports.inventory-valuation') }}" class="btn btn-dark btn-sm">Generate</a>
+                                <div class="btn-group" role="group">
+                                    <a href="#" onclick="generateReport('inventory-valuation')" class="btn btn-dark btn-sm">Generate</a>
+                                    <a href="#" onclick="downloadReport('inventory-valuation')" class="btn btn-outline-dark btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -216,5 +333,232 @@ function downloadPDF(reportType, reportTitle) {
     }
     
     doc.save(reportType + '-report.pdf');
+}
+
+// Payment Method Filtering Functions
+function applyPaymentFilter() {
+    const paymentMethod = document.getElementById('global_payment_method').value;
+    console.log("paymentMethod",paymentMethod);
+    
+    if (!paymentMethod) {
+        alert('Please select a payment method first');
+        return;
+    }
+    
+    updatePaymentMethod();
+    
+    // Show success message
+    const successMessage = document.createElement('div');
+    successMessage.className = 'alert alert-success alert-dismissible fade show mt-3';
+    successMessage.innerHTML = `
+        <i class="fas fa-check-circle"></i> 
+        <strong>Filter Applied!</strong> Payment method filter set to <strong>${paymentMethod.replace('_', ' ').toUpperCase()}</strong>. 
+        Now click "Generate" on any report to see filtered results.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Insert after the filter form
+    const filterForm = document.getElementById('payment-filter-form');
+    if (filterForm) {
+        filterForm.after(successMessage);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (successMessage.parentNode) {
+                successMessage.remove();
+            }
+        }, 5000);
+    }
+}
+
+function updatePaymentMethod() {
+    const paymentMethod = document.getElementById('global_payment_method').value;
+    
+    // Update all report cards to show current filter
+    document.querySelectorAll('.card').forEach(card => {
+        const existingBadge = card.querySelector('.payment-filter-badge');
+        if (existingBadge) {
+            existingBadge.remove();
+        }
+        
+        // Only add badges to report cards (cards with Generate buttons)
+        if (card.querySelector('a[onclick*="generateReport"]')) {
+            if (paymentMethod) {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-info payment-filter-badge position-absolute top-0 start-100 translate-middle';
+                badge.style.zIndex = '1';
+                badge.textContent = paymentMethod.replace('_', ' ').toUpperCase();
+                card.style.position = 'relative';
+                card.appendChild(badge);
+            }
+        }
+    });
+    
+    // Update the status message
+    const statusMessage = document.getElementById('filter-status');
+    if (statusMessage) {
+        statusMessage.remove();
+    }
+    
+    if (paymentMethod) {
+        const newStatus = document.createElement('div');
+        newStatus.id = 'filter-status';
+        newStatus.className = 'alert alert-info';
+        newStatus.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-filter"></i> 
+                    <strong>Filter Active:</strong> Reports will show data for <strong>${paymentMethod.replace('_', ' ').toUpperCase()}</strong> payment method only.
+                </div>
+                <button onclick="clearPaymentFilter()" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-times"></i> Clear Filter
+                </button>
+            </div>
+        `;
+        
+        // Insert after the payment method filter row
+        const filterRow = document.querySelector('.row.mb-4:has(#payment-filter-form)');
+        if (filterRow) {
+            filterRow.after(newStatus);
+        }
+    }
+}
+
+function clearPaymentFilter() {
+    document.getElementById('global_payment_method').value = '';
+    updatePaymentMethod();
+    
+    // Clear any existing status messages
+    const statusMessage = document.getElementById('filter-status');
+    if (statusMessage) {
+        statusMessage.remove();
+    }
+    
+    // Clear any success messages
+    document.querySelectorAll('.alert-success').forEach(alert => {
+        if (alert.textContent.includes('Filter Applied')) {
+            alert.remove();
+        }
+    });
+    
+    // Show cleared message
+    const clearedMessage = document.createElement('div');
+    clearedMessage.className = 'alert alert-secondary alert-dismissible fade show';
+    clearedMessage.innerHTML = `
+        <i class="fas fa-info-circle"></i> 
+        <strong>Filter Cleared!</strong> All reports will now show data for all payment methods.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Insert after the filter form
+    const filterForm = document.getElementById('payment-filter-form');
+    if (filterForm) {
+        filterForm.after(clearedMessage);
+        
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            if (clearedMessage.parentNode) {
+                clearedMessage.remove();
+            }
+        }, 3000);
+    }
+    
+    console.log('Payment filter cleared');
+}
+
+function generateReport(reportType) {
+    const paymentMethod = document.getElementById('global_payment_method').value;
+    let url;
+    
+    // Build URL with payment method parameter
+    switch(reportType) {
+        case 'daily':
+            url = '{{ route("reports.daily") }}';
+            break;
+        case 'weekly':
+            url = '{{ route("reports.weekly") }}';
+            break;
+        case 'yearly':
+            url = '{{ route("reports.yearly") }}';
+            break;
+        case 'quarterly':
+            url = '{{ route("reports.quarterly") }}';
+            break;
+        case 'z-report':
+            url = '{{ route("reports.z-report") }}';
+            break;
+        case 'tax':
+            url = '{{ route("reports.tax") }}';
+            break;
+        case 'employee-shift':
+            url = '{{ route("reports.employee-shift") }}';
+            break;
+        case 'inventory-valuation':
+            url = '{{ route("reports.inventory-valuation") }}';
+            break;
+        default:
+            alert('Invalid report type');
+            return;
+    }
+    
+    // Add payment method parameter if selected
+    if (paymentMethod) {
+        url += (url.includes('?') ? '&' : '?') + 'payment_method=' + encodeURIComponent(paymentMethod);
+        console.log('Generating report with payment method:', paymentMethod);
+        console.log('Final URL:', url);
+    }
+    
+    // Show loading indicator
+    const loadingMessage = document.createElement('div');
+    loadingMessage.innerHTML = `
+        <div class="alert alert-info">
+            <i class="fas fa-spinner fa-spin"></i> 
+            Generating ${reportType} report${paymentMethod ? ' for payment method: ' + paymentMethod.replace('_', ' ').toUpperCase() : ''}...
+        </div>
+    `;
+
+    // Insert loading message before report content if it exists
+    const reportContent = document.getElementById('report-content');
+    if (reportContent) {
+        reportContent.innerHTML = loadingMessage.innerHTML;
+    }
+    
+    // Navigate to the report
+    window.location.href = url;
+}
+
+function downloadAllReports() {
+    const paymentMethod = document.getElementById('global_payment_method').value;
+    
+    if (!paymentMethod) {
+        alert('Please select a payment method first');
+        return;
+    }
+    
+    const reportTypes = ['daily', 'weekly', 'yearly', 'quarterly', 'z-report', 'tax', 'employee-shift'];
+    const today = new Date().toISOString().split('T')[0];
+    
+    reportTypes.forEach((type, index) => {
+        setTimeout(() => {
+            const url = `{{ route('reports.download-payment', ['type' => 'TYPE_PLACEHOLDER']) }}`.replace('TYPE_PLACEHOLDER', type) + `?payment_method=${paymentMethod}&date=${today}`;
+            window.open(url, '_blank');
+        }, index * 1000); // Stagger downloads by 1 second
+    });
+}
+
+// Individual report download function
+function downloadReport(reportType) {
+    const paymentMethod = document.getElementById('global_payment_method').value;
+    const today = new Date().toISOString().split('T')[0];
+    
+    if (paymentMethod) {
+        // Use payment-specific download route
+        const url = `{{ route('reports.download-payment', ['type' => 'TYPE_PLACEHOLDER']) }}`.replace('TYPE_PLACEHOLDER', reportType) + `?payment_method=${paymentMethod}&date=${today}`;
+        window.open(url, '_blank');
+    } else {
+        // Use regular download route
+        const url = `{{ route('reports.download', ['type' => 'TYPE_PLACEHOLDER']) }}`.replace('TYPE_PLACEHOLDER', reportType) + `?date=${today}`;
+        window.open(url, '_blank');
+    }
 }
 </script>
