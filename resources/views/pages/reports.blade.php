@@ -47,7 +47,7 @@
                                         <div class="col-md-4">
                                             <label class="form-label">&nbsp;</label>
                                             <div class="d-grid">
-                                                <button type="button" onclick="applyPaymentFilter()" class="btn btn-primary">
+                                                <button type="button" onclick="applyPaymentFilter()" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-filter"></i> Apply Filter
                                                 </button>
                                             </div>
@@ -337,8 +337,12 @@ function downloadPDF(reportType, reportTitle) {
 
 // Payment Method Filtering Functions
 function applyPaymentFilter() {
-    const paymentMethod = document.getElementById('global_payment_method').value;
-    console.log("paymentMethod",paymentMethod);
+    const paymentMethodSelect = document.getElementById('global_payment_method');
+    const paymentMethod = paymentMethodSelect.value;
+    const paymentMethodName = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text;
+    
+    console.log("paymentMethod", paymentMethod);
+    console.log("paymentMethodName", paymentMethodName);
     
     if (!paymentMethod) {
         alert('Please select a payment method first');
@@ -352,7 +356,7 @@ function applyPaymentFilter() {
     successMessage.className = 'alert alert-success alert-dismissible fade show mt-3';
     successMessage.innerHTML = `
         <i class="fas fa-check-circle"></i> 
-        <strong>Filter Applied!</strong> Payment method filter set to <strong>${paymentMethod.replace('_', ' ').toUpperCase()}</strong>. 
+        <strong>Filter Applied!</strong> Payment method filter set to <strong>${paymentMethodName}</strong>. 
         Now click "Generate" on any report to see filtered results.
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
@@ -372,7 +376,9 @@ function applyPaymentFilter() {
 }
 
 function updatePaymentMethod() {
-    const paymentMethod = document.getElementById('global_payment_method').value;
+    const paymentMethodSelect = document.getElementById('global_payment_method');
+    const paymentMethod = paymentMethodSelect.value;
+    const paymentMethodName = paymentMethod ? paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text : '';
     
     // Update all report cards to show current filter
     document.querySelectorAll('.card').forEach(card => {
@@ -387,7 +393,7 @@ function updatePaymentMethod() {
                 const badge = document.createElement('span');
                 badge.className = 'badge bg-info payment-filter-badge position-absolute top-0 start-100 translate-middle';
                 badge.style.zIndex = '1';
-                badge.textContent = paymentMethod.replace('_', ' ').toUpperCase();
+                badge.textContent = paymentMethodName;
                 card.style.position = 'relative';
                 card.appendChild(badge);
             }
@@ -408,7 +414,7 @@ function updatePaymentMethod() {
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <i class="fas fa-filter"></i> 
-                    <strong>Filter Active:</strong> Reports will show data for <strong>${paymentMethod.replace('_', ' ').toUpperCase()}</strong> payment method only.
+                    <strong>Filter Active:</strong> Reports will show data for <strong>${paymentMethodName}</strong> payment method only.
                 </div>
                 <button onclick="clearPaymentFilter()" class="btn btn-sm btn-outline-secondary">
                     <i class="fas fa-times"></i> Clear Filter
@@ -467,7 +473,9 @@ function clearPaymentFilter() {
 }
 
 function generateReport(reportType) {
-    const paymentMethod = document.getElementById('global_payment_method').value;
+    const paymentMethodSelect = document.getElementById('global_payment_method');
+    const paymentMethod = paymentMethodSelect.value;
+    const paymentMethodName = paymentMethod ? paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text : '';
     let url;
     
     // Build URL with payment method parameter
@@ -513,7 +521,7 @@ function generateReport(reportType) {
     loadingMessage.innerHTML = `
         <div class="alert alert-info">
             <i class="fas fa-spinner fa-spin"></i> 
-            Generating ${reportType} report${paymentMethod ? ' for payment method: ' + paymentMethod.replace('_', ' ').toUpperCase() : ''}...
+            Generating ${reportType} report${paymentMethod ? ' for payment method: ' + paymentMethodName : ''}...
         </div>
     `;
 
