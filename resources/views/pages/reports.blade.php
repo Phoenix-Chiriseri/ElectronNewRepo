@@ -1,4 +1,4 @@
-<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<script src="{{ asset('assets') }}/js/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="reports"></x-navbars.sidebar>
