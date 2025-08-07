@@ -29,19 +29,22 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label for="global_payment_method" class="form-label">Select Payment Method:</label>
-                                                <select id="global_payment_method" class="form-control" style="border-color: #141618ff;">
-                                                    <option value="">All Payment Methods</option>
-                                                    @if(isset($paymentMethods))
-                                                        @foreach($paymentMethods as $method)
-                                                            <option value="{{ $method->id }}">{{ $method->payment_name }}</option>
-                                                        @endforeach
-                                                    @else
-                                                        <option value="cash">Cash</option>
-                                                        <option value="card">Card</option>
-                                                        <option value="mobile_money">Mobile Money</option>
-                                                        <option value="bank_transfer">Bank Transfer</option>
-                                                    @endif
-                                                </select>
+                                                <div class="position-relative">
+                                                    <select id="global_payment_method" class="form-control" style="border: 2px solid #141618ff; border-radius: 6px; padding: 8px 12px; padding-right: 40px; appearance: none; background-color: white;">
+                                                        <option value="">All Payment Methods</option>
+                                                        @if(isset($paymentMethods))
+                                                            @foreach($paymentMethods as $method)
+                                                                <option value="{{ $method->id }}">{{ $method->payment_name }}</option>
+                                                            @endforeach
+                                                        @else
+                                                            <option value="cash">Cash</option>
+                                                            <option value="card">Card</option>
+                                                            <option value="mobile_money">Mobile Money</option>
+                                                            <option value="bank_transfer">Bank Transfer</option>
+                                                        @endif
+                                                    </select>
+                                                    <i class="fas fa-chevron-down position-absolute" style="right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #141618ff;"></i>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
