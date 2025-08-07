@@ -83,7 +83,8 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i style="font-size: 1.2rem;" class="fas fa-warehouse me-2 ps-2 pe-2 text-center"></i>
+                    <!-- <i class="fa-brands fa-product-hunt"></i>&nbsp; -->
+                    <i style="font-size: 1.2rem;" class="fa-brands fa-product-hunt me-2 ps-2 pe-2 text-center"></i>
                     <span class="text-capitalize">products</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
@@ -109,7 +110,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i style="font-size: 1.2rem;" class="fas fa-warehouse me-2 ps-2 pe-2 text-center"></i>
+                    <i style="font-size: 1.2rem;" class="fa-solid fa-people-arrows me-2 ps-2 pe-2 text-center"></i>
                     <span class="text-capitalize">customers</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
@@ -140,7 +141,7 @@
             </li>
               <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i style="font-size: 1.2rem;" class="fas fa-warehouse me-2 ps-2 pe-2 text-center"></i>
+                    <i style="font-size: 1.2rem;" class="fa solid fa-clipboard me-2 ps-2 pe-2 text-center"></i>
                     <span class="text-capitalize">reports</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="inventoryDropdown">
@@ -151,7 +152,7 @@
                 <a class="nav-link text-white"
                 href="{{ route('configure-printers') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fa fa-money ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fa-solid fa-print ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Configure Printers</span>
                 </a>
@@ -160,7 +161,7 @@
                 <a class="nav-link text-white"
                 href="{{ route('view-payment-types') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fa fa-money ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fa-solid fa-money-bill-1 ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Payment Types</span>
                 </a>
