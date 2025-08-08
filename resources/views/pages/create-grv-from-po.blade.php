@@ -14,10 +14,9 @@
                     <div class="card mb-4">
                         <div class="card-header pb-0">
                             <h6>Create GRV from Purchase Order #{{ $purchaseOrder->id }}</h6>
-                            <p class="text-sm mb-0">
-                                Purchase Order Date: {{ $purchaseOrder->purchaseorder_date }} | 
-                                Supplier: {{ $purchaseOrder->supplier_name ?? 'N/A' }}
-                            </p>
+                                <p class="mb-0" style="color:black;">
+                                <b>Purchase Order Date:</b> {{ $purchaseOrder->purchaseorder_date }} </p>
+                                <p style="color:black;"><b>Supplier:</b> {{ $purchaseOrder->supplier_name ?? 'N/A' }}</p>
                         </div>
                         <div class="card-body">
                             @if (session('error'))
@@ -25,7 +24,6 @@
                                     {{ session('error') }}
                                 </div>
                             @endif
-
                             <form action="{{ route('grv.store-from-po') }}" method="POST" id="grvForm">
                                 @csrf
                                 <input type="hidden" name="purchase_order_id" value="{{ $purchaseOrder->id }}">
@@ -34,7 +32,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="supplier_id" class="form-control-label">Supplier</label>
-                                            <select class="form-control" name="supplier_id" id="supplier_id" required>
+                                            <select class="form-control" name="supplier_id" id="supplier_id" required disabled>
                                                 <option value="">Select Supplier</option>
                                                 @foreach($suppliers as $supplier)
                                                     <option value="{{ $supplier->id }}" 
@@ -51,7 +49,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="grn_date" class="form-control-label">GRN Date</label>
-                                            <input class="form-control" type="date" name="grn_date" id="grn_date" 
+                                            <input class="form-control" type="date" name="grn_date" id="grn_date" disabled
                                                    value="{{ date('Y-m-d') }}" required>
                                             @error('grn_date')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -64,7 +62,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="payment_method" class="form-control-label">Payment Method</label>
-                                            <select class="form-control" name="payment_method" id="payment_method" required>
+                                            <select class="form-control" name="payment_method" id="payment_method" required disabled>
                                                 <option value="">Select Payment Method</option>
                                                 <option value="cash" {{ $purchaseOrder->payment_method == 'cash' ? 'selected' : '' }}>Cash</option>
                                                 <option value="card" {{ $purchaseOrder->payment_method == 'card' ? 'selected' : '' }}>Card</option>
@@ -79,7 +77,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="supplier_invoicenumber" class="form-control-label">Supplier Invoice Number</label>
-                                            <input class="form-control" type="text" name="supplier_invoicenumber" id="supplier_invoicenumber" 
+                                            <input class="form-control" type="text" name="supplier_invoicenumber" id="supplier_invoicenumber" disabled
                                                    value="{{ $purchaseOrder->supplier_invoicenumber }}" required>
                                             @error('supplier_invoicenumber')
                                                 <div class="text-danger">{{ $message }}</div>
