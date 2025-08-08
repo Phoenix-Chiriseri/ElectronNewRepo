@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Product;
+use App\Models\PaymentTypes;
 use App\Models\Cattegory;
 use App\Models\User;
 use App\Models\Customer;
@@ -22,12 +23,14 @@ class DashboardController extends Controller
     }
 
     //return the numbefoproducts, number of customers and number of cattegories and all the users
-    public function index()
+    public function index(Request $request)
     { 
+        // Get payment method filter
+        $paymentMethodFilter = $request->get('payment_method');
         
-     // Get the current month
-    $currentMonth = Carbon::now()->format('Y-m');
-    $numberOfCattegories = Cattegory::all()->count();
+        // Get the current month
+        $currentMonth = Carbon::now()->format('Y-m');
+        $numberOfCattegories = Cattegory::all()->count();
      $topSellingProducts = DB::table('sales')
     ->join('product_sale', 'sales.id', '=', 'product_sale.sales_id')
     ->join('products', 'product_sale.product_id', '=', 'products.id')
@@ -39,42 +42,46 @@ class DashboardController extends Controller
     ->paginate(10); // Set the number of records per page
 
     // //total sales per day
-    // $totalSalesPerDay = DB::table('sales')
-    // ->select(DB::raw('DATE(sales.created_at) as date'), DB::raw('SUM(total) as total_sales'))
-    // ->whereYear('sales.created_at', '=', Carbon::now()->year)
-    // ->whereMonth('sales.created_at', '=', Carbon::now()->month)
-    // ->groupBy(DB::raw('DATE(sales.created_at)'))
-    // ->orderBy('date', 'asc')
-    // ->get();
-
-    //dd($totalSalesPerDay);
-    
-    //$filteredDayData = ($totalSalesPerDay[0]->total_sales);
+    $totalSalesPerDay = DB::table('sales')
+    ->select(DB::raw('DATE(sales.created_at) as date'), DB::raw('SUM(total) as total_sales'))
+    ->whereYear('sales.created_at', '=', Carbon::now()->year)
+    ->whereMonth('sales.created_at', '=', Carbon::now()->month)
+    ->when($paymentMethodFilter, function ($query) use ($paymentMethodFilter) {
+        return $query->where('payment_method', $paymentMethodFilter);
+    })
+    ->groupBy(DB::raw('DATE(sales.created_at)'))
+    ->orderBy('date', 'asc')
+    ->get();
 
     //total sales per week
     $totalSalesPerWeek = DB::table('sales')
     ->select(DB::raw('YEARWEEK(sales.created_at) as week'), DB::raw('SUM(total) as total_sales'))
     ->whereYear('sales.created_at', '=', Carbon::now()->year)
     ->whereMonth('sales.created_at', '=', Carbon::now()->month)
+    ->when($paymentMethodFilter, function ($query) use ($paymentMethodFilter) {
+        return $query->where('payment_method', $paymentMethodFilter);
+    })
     ->groupBy(DB::raw('YEARWEEK(sales.created_at)'))
     ->orderBy('week', 'asc')
     ->get();
 
-   // $filteredWeekData = ($totalSalesPerWeek[0]->total_sales);
-   
     //total sales per month
     $totalSalesPerMonth = DB::table('sales')
     ->select(DB::raw('MONTH(sales.created_at) as month'), DB::raw('SUM(total) as total_sales'))
     ->whereYear('sales.created_at', '=', Carbon::now()->year)
+    ->when($paymentMethodFilter, function ($query) use ($paymentMethodFilter) {
+        return $query->where('payment_method', $paymentMethodFilter);
+    })
     ->groupBy(DB::raw('MONTH(sales.created_at)'))
     ->orderBy('month', 'asc')
     ->get();
 
-    //$filteredMonthData = ($totalSalesPerMonth[0]->total_sales);
-
     //total sales per year
     $totalSalesPerYear = DB::table('sales')
     ->select(DB::raw('YEAR(sales.created_at) as year'), DB::raw('SUM(total) as total_sales'))
+    ->when($paymentMethodFilter, function ($query) use ($paymentMethodFilter) {
+        return $query->where('payment_method', $paymentMethodFilter);
+    })
     ->groupBy(DB::raw('YEAR(sales.created_at)'))
     ->orderBy('year', 'asc')
     ->get();
@@ -107,6 +114,27 @@ class DashboardController extends Controller
         $numberOfSales = Sale::all()->count();
         //total sales in the database
         $totalSales = Sale::sum('total');
+        
+        // Calculate total sales by payment type
+        $totalSalesByPaymentType = DB::table('sales')
+            ->select('payment_method', DB::raw('SUM(total) as total_sales'), DB::raw('COUNT(*) as transaction_count'))
+            ->groupBy('payment_method')
+            ->orderByDesc('total_sales')
+            ->get();
+            
+        // Calculate overall payment type statistics
+        $paymentTypeStats = DB::table('sales')
+            ->select(
+                'payment_method',
+                DB::raw('SUM(total) as total_amount'),
+                DB::raw('COUNT(*) as total_transactions'),
+                DB::raw('AVG(total) as average_transaction'),
+                DB::raw('ROUND((SUM(total) / (SELECT SUM(total) FROM sales) * 100), 2) as percentage_of_total')
+            )
+            ->groupBy('payment_method')
+            ->orderByDesc('total_amount')
+            ->get();
+            
         $numberOfProducts = Product::all()->count();
         $numberOfCustomers = Customer::all()->count();
         $numberOfCattegories = Cattegory::all()->count();
@@ -119,12 +147,15 @@ class DashboardController extends Controller
         ->with("user",$user)->with("topSellingProducts",$topSellingProducts)
         ->with("totalSales",$totalSales)
         ->with("numberOfSales",$numberOfSales)
+        ->with("totalSalesByPaymentType",$totalSalesByPaymentType)
+        ->with("paymentTypeStats",$paymentTypeStats)
+        ->with("totalSalesPerDay",$totalSalesPerDay)
+        ->with("totalSalesPerWeek",$totalSalesPerWeek)
+        ->with("totalSalesPerMonth",$totalSalesPerMonth)
+        ->with("totalSalesPerYear",$totalSalesPerYear)
+        ->with("paymentMethodFilter",$paymentMethodFilter)
         //->with("lowestStockProducts",$lowestStockProducts)
         //->with("stockLevel",$intLevel)
-        //->with("totalSalesPerDay",$filteredDayData)
-        //->with("totalSalesPerWeek",$filteredWeekData)
-        //->with("totalSalesPerMonth",$filteredMonthData)
-        //->with("totalSalesPerYear",$filteredYearData)
         ->with("numberOfCattegories",$numberOfCattegories);
     }
 }

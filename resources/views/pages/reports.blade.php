@@ -51,7 +51,7 @@
                                             <label class="form-label">&nbsp;</label>
                                             <div class="d-grid">
                                                 <button type="button" onclick="applyPaymentFilter()" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-filter"></i> Apply Filter
+                                                    Apply Filter
                                                 </button>
                                             </div>
                                         </div>

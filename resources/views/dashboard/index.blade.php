@@ -94,20 +94,78 @@
 
       <br>
 
+      <!-- Payment Type Filter for Sales Data -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header pb-0">
+              <h6>Filter Sales Data by Payment Method</h6>
+            </div>
+            <div class="card-body">
+              <form method="GET" action="{{ route('dashboard') }}">
+                <div class="row align-items-end">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="payment_method" class="form-label">Select Payment Method:</label>
+                      <select id="payment_method" name="payment_method" class="form-control">
+                        <option value="">All Payment Methods</option>
+                        @if(isset($paymentTypeStats))
+                          @foreach($paymentTypeStats as $stat)
+                            <option value="{{ $stat->payment_method }}" {{ request('payment_method') == $stat->payment_method ? 'selected' : '' }}>
+                              {{ ucfirst(str_replace('_', ' ', $stat->payment_method)) }}
+                            </option>
+                          @endforeach
+                        @endif
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="material-icons">filter_list</i> Apply Filter
+                    </button>
+                  </div>
+                  <div class="col-md-3">
+                    <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
+                      <i class="material-icons">clear</i> Clear Filter
+                    </a>
+                  </div>
+                </div>
+              </form>
+              
+              @if(request('payment_method'))
+                <div class="alert alert-info mt-3">
+                  <i class="material-icons">info</i>
+                  <strong>Filter Active:</strong> Sales data filtered for <strong>{{ ucfirst(str_replace('_', ' ', request('payment_method'))) }}</strong> payment method.
+                </div>
+              @endif
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">weekend</i>
+                <i class="material-icons opacity-10">today</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Sales Per Day</p>
-                <h4 class="mb-0">{{ $totalSalesPerDay[0]->total_sales ?? 'N/A' }}</h4>
+                <h4 class="mb-0">${{ number_format($totalSalesPerDay->sum('total_sales') ?? 0, 2) }}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
-            <div class="card-footer p-3"></div>
+            <div class="card-footer p-3">
+              @if(request('payment_method'))
+                <p class="text-info text-sm mb-0">
+                  <i class="material-icons text-sm">filter_list</i>
+                  {{ ucfirst(str_replace('_', ' ', request('payment_method'))) }} only
+                </p>
+              @else
+                <p class="text-muted text-sm mb-0">All payment methods</p>
+              @endif
+            </div>
           </div>
         </div>
 
@@ -115,15 +173,24 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">person</i>
+                <i class="material-icons opacity-10">date_range</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Sales Per Week</p>
-                <h4 class="mb-0">{{ $totalSalesPerWeek[0]->total_sales ?? 'N/A' }}</h4>
+                <h4 class="mb-0">${{ number_format($totalSalesPerWeek->sum('total_sales') ?? 0, 2) }}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
-            <div class="card-footer p-3"></div>
+            <div class="card-footer p-3">
+              @if(request('payment_method'))
+                <p class="text-info text-sm mb-0">
+                  <i class="material-icons text-sm">filter_list</i>
+                  {{ ucfirst(str_replace('_', ' ', request('payment_method'))) }} only
+                </p>
+              @else
+                <p class="text-muted text-sm mb-0">All payment methods</p>
+              @endif
+            </div>
           </div>
         </div>
 
@@ -131,15 +198,24 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">person</i>
+                <i class="material-icons opacity-10">calendar_month</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Sales Per Month</p>
-                <h4 class="mb-0">{{ $totalSalesPerMonth[0]->total_sales ?? 'N/A' }}</h4>
+                <h4 class="mb-0">${{ number_format($totalSalesPerMonth->sum('total_sales') ?? 0, 2) }}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
-            <div class="card-footer p-3"></div>
+            <div class="card-footer p-3">
+              @if(request('payment_method'))
+                <p class="text-info text-sm mb-0">
+                  <i class="material-icons text-sm">filter_list</i>
+                  {{ ucfirst(str_replace('_', ' ', request('payment_method'))) }} only
+                </p>
+              @else
+                <p class="text-muted text-sm mb-0">All payment methods</p>
+              @endif
+            </div>
           </div>
         </div>
 
@@ -153,15 +229,24 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">weekend</i>
+                <i class="material-icons opacity-10">calendar_view_year</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Sales Per Year</p>
-                <h4 class="mb-0">{{ $totalSalesPerYear[0]->total_sales ?? 'N/A' }}</h4>
+                <h4 class="mb-0">${{ number_format($totalSalesPerYear->sum('total_sales') ?? 0, 2) }}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
-            <div class="card-footer p-3"></div>
+            <div class="card-footer p-3">
+              @if(request('payment_method'))
+                <p class="text-info text-sm mb-0">
+                  <i class="material-icons text-sm">filter_list</i>
+                  {{ ucfirst(str_replace('_', ' ', request('payment_method'))) }} only
+                </p>
+              @else
+                <p class="text-muted text-sm mb-0">All payment methods</p>
+              @endif
+            </div>
           </div>
         </div>
       </div>
