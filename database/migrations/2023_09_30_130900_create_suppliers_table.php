@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('supplier_phonenumber');
             $table->string('supplier_contactperson');
             $table->string('supplier_contactpersonnumber');
-            $table->string('supplier_status');
             $table->string('type');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

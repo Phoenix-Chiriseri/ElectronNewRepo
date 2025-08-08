@@ -108,6 +108,7 @@
                         <div class="form-group">
                             <label for="supplier_status">Type</label>
                             <select name="supplier_type" class="form-control border border-2 p-2" required>
+                            <option value="na">NA</option>
                             <option value="cash">Cash</option>
                             <option value="credit">Credit</option>
                             </select>
@@ -124,12 +125,6 @@
                             <label for="customer_phonenumber">Contact Person Number</label>
                             <input type="text" name="supplier_contactpersonnumber" id="supplier_contactperson" class="form-control border border-2 p-2" required>
                         </div>
-                        <div class="form-group">
-                            <label for="supplier_status">Status</label>
-                            <select name="supplier_status" class="form-control border border-2 p-2" required>
-                            <option value="active">Active</option>
-                            <option value="not_active">Not Active</option>
-                            </select>
                         <hr>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Create Supplier</button>
