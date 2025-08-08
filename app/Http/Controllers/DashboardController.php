@@ -25,6 +25,8 @@ class DashboardController extends Controller
     //return the numbefoproducts, number of customers and number of cattegories and all the users
     public function index(Request $request)
     { 
+
+        $user = Auth::user();
         // Get payment method filter
         $paymentMethodFilter = $request->get('payment_method');
         
@@ -156,6 +158,7 @@ class DashboardController extends Controller
         ->with("paymentMethodFilter",$paymentMethodFilter)
         //->with("lowestStockProducts",$lowestStockProducts)
         //->with("stockLevel",$intLevel)
-        ->with("numberOfCattegories",$numberOfCattegories);
+        ->with("numberOfCattegories",$numberOfCattegories)
+        ->with("user",$user);
     }
 }

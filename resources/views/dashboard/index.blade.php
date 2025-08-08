@@ -99,6 +99,12 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header pb-0">
+              <div class="d-flex align-items-center mb-3">
+                <i class="material-icons text-primary me-2" style="font-size: 2rem;">person</i>
+                <h4 class="mb-0 text-gradient text-primary font-weight-bold">
+                  Welcome, {{$user->name}}!
+                </h4>
+              </div>
               <h6>Filter Sales Data by Payment Method</h6>
             </div>
             <div class="card-body">
@@ -132,7 +138,7 @@
                 </div>
               </form>
               @if(request('payment_method'))
-                <div class="alert alert-info mt-3">
+                <div class="alert alert-info mt-3 text-white">
                   <i class="material-icons">info</i>
                   <strong>Filter Active:</strong> Sales data filtered for <strong>{{ ucfirst(str_replace('_', ' ', request('payment_method'))) }}</strong> payment method.
                 </div>

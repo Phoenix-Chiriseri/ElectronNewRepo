@@ -5,7 +5,7 @@
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Products"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="View Customers"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <script>
             $(document).ready(function () {
