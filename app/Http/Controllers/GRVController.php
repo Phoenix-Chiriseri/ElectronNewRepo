@@ -46,13 +46,13 @@ class GRVController extends Controller
     public function storeFromPurchaseOrder(Request $request)
     {
         $request->validate([
-            'purchase_order_id' => 'required|exists:purchase_orders,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'grn_date' => 'required|date',
-            'payment_method' => 'required|string',
-            'supplier_invoicenumber' => 'required|string',
-            'total' => 'required|numeric|min:0',
-            'table_data' => 'required|array|min:1',
+            //'purchase_order_id' => 'required|exists:purchase_orders,id',
+            //'supplier_id' => 'required|exists:suppliers,id',
+            //'grn_date' => 'required|date',
+            //'payment_method' => 'required|string',
+            //'supplier_invoicenumber' => 'required|string',
+            //'total' => 'required|numeric|min:0',
+            //'table_data' => 'required|array|min:1',
         ]);
 
         try {
