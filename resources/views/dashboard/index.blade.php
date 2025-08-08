@@ -31,7 +31,7 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">weekend</i>
+                <i class="material-icons opacity-10">category</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Number Of Categories</p>
@@ -47,7 +47,7 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">person</i>
+                <i class="material-icons opacity-10">shopping_cart</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Number Of Sales</p>
@@ -63,7 +63,7 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">person</i>
+                <i class="material-icons opacity-10">local_shipping</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Number Of Suppliers</p>
@@ -79,7 +79,7 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">weekend</i>
+                <i class="material-icons opacity-10">people</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Number Of Customers</p>
@@ -95,7 +95,7 @@
       <br>
 
       <!-- Payment Type Filter for Sales Data -->
-      <div class="row mb-3">
+      <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header pb-0">
@@ -107,7 +107,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="payment_method" class="form-label">Select Payment Method:</label>
-                      <select id="payment_method" name="payment_method" class="form-control">
+                      <select id="payment_method" name="payment_method" class="form-control" style="border: 2px solid #dee2e6; border-radius: 6px; padding: 8px 12px;">
                         <option value="">All Payment Methods</option>
                         @if(isset($paymentTypeStats))
                           @foreach($paymentTypeStats as $stat)
@@ -119,15 +119,15 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">
-                      <i class="material-icons">filter_list</i> Apply Filter
-                    </button>
-                  </div>
-                  <div class="col-md-3">
-                    <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
-                      <i class="material-icons">clear</i> Clear Filter
-                    </a>
+                  <div class="col-md-6">
+                    <div class="d-flex gap-2">
+                      <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="material-icons">filter_list</i> Apply Filter
+                      </button>
+                      <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="material-icons">clear</i> Clear Filter
+                      </a>
+                    </div>
                   </div>
                 </div>
               </form>
@@ -142,7 +142,7 @@
           </div>
         </div>
       </div>
-
+      <br>
       <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
@@ -228,8 +228,8 @@
         <div class="col-xl-3 col-sm-6">
           <div class="card">
             <div class="card-header p-3 pt-2">
-              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">calendar_view_year</i>
+               <div class="icon icon-lg icon-shape bg-gradient-danger shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">calendar_month</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Sales Per Year</p>
