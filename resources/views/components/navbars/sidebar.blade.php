@@ -63,6 +63,7 @@
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
+          
             <span class="ms-2 font-weight-bold text-white">Electron Point Of Sale</span>
         </a>
     </div>
@@ -76,7 +77,7 @@
                 <a class="nav-link text-white"
                 href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="font-size: 1.2rem;" class="fas fa-users ps-2 pe-2 text-center"></i>
+                        <i style="font-size: 1.2rem;" class="fas fa-tachometer-alt ps-2 pe-2 text-center"></i>
                     </div>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
