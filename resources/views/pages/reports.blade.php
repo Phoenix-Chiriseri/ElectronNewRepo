@@ -92,7 +92,7 @@
                                 <h5>Daily Sales Report</h5>
                                 <p class="text-sm">Sales breakdown by payment type for today</p>
                                 <div class="btn-group" role="group">
-                                    <a href="#" onclick="generateReport('daily')" class="btn btn-primary btn-sm">Generate</a>
+                                    <a href="#" onclick="generateReport('daily')" class="btn btn-danger btn-sm">Generate</a>
                                     <a href="#" onclick="downloadReport('daily')" class="btn btn-outline-primary btn-sm">
                                         <i class="fas fa-download"></i>
                                     </a>
@@ -107,7 +107,7 @@
                                 <h5>Weekly Sales Report</h5>
                                 <p class="text-sm">Weekly sales summary and trends</p>
                                 <div class="btn-group" role="group">
-                                    <a href="#" onclick="generateReport('weekly')" class="btn btn-success btn-sm">Generate</a>
+                                    <a href="#" onclick="generateReport('weekly')" class="btn btn-danger btn-sm">Generate</a>
                                     <a href="#" onclick="downloadReport('weekly')" class="btn btn-outline-success btn-sm">
                                         <i class="fas fa-download"></i>
                                     </a>
@@ -122,7 +122,7 @@
                                 <h5>Z Report</h5>
                                 <p class="text-sm">End of day cash register report</p>
                                 <div class="btn-group" role="group">
-                                    <a href="#" onclick="generateReport('z-report')" class="btn btn-warning btn-sm">Generate</a>
+                                    <a href="#" onclick="generateReport('z-report')" class="btn btn-danger btn-sm">Generate</a>
                                     <a href="#" onclick="downloadReport('z-report')" class="btn btn-outline-warning btn-sm">
                                         <i class="fas fa-download"></i>
                                     </a>
@@ -137,7 +137,7 @@
                                 <h5>Tax Report</h5>
                                 <p class="text-sm">Tax summary and calculations</p>
                                 <div class="btn-group" role="group">
-                                    <a href="#" onclick="generateReport('tax')" class="btn btn-info btn-sm">Generate</a>
+                                    <a href="#" onclick="generateReport('tax')" class="btn btn-danger btn-sm">Generate</a>
                                     <a href="#" onclick="downloadReport('tax')" class="btn btn-outline-info btn-sm">
                                         <i class="fas fa-download"></i>
                                     </a>
@@ -171,7 +171,7 @@
                                 <h5>Quarterly Sales Report</h5>
                                 <p class="text-sm">Quarterly sales breakdown and trends</p>
                                 <div class="btn-group" role="group">
-                                    <a href="#" onclick="generateReport('quarterly')" class="btn btn-secondary btn-sm">Generate</a>
+                                    <a href="#" onclick="generateReport('quarterly')" class="btn btn-danger btn-sm">Generate</a>
                                     <a href="#" onclick="downloadReport('quarterly')" class="btn btn-outline-secondary btn-sm">
                                         <i class="fas fa-download"></i>
                                     </a>
@@ -186,7 +186,7 @@
                                 <h5>Employee Shift Report</h5>
                                 <p class="text-sm">Employee performance and shift details</p>
                                 <div class="btn-group" role="group">
-                                    <a href="#" onclick="generateReport('employee-shift')" class="btn btn-success btn-sm">Generate</a>
+                                    <a href="#" onclick="generateReport('employee-shift')" class="btn btn-danger btn-sm">Generate</a>
                                     <a href="#" onclick="downloadReport('employee-shift')" class="btn btn-outline-success btn-sm">
                                         <i class="fas fa-download"></i>
                                     </a>
@@ -209,7 +209,7 @@
                                 <i class="fas fa-shopping-cart fa-3x text-success mb-3"></i>
                                 <h5>Purchase Orders</h5>
                                 <p class="text-sm">View all purchase orders</p>
-                                <a href="#" class="btn btn-success btn-sm">Generate</a>
+                                <a href="#" class="btn btn-danger btn-sm">Generate</a>
                             </div>
                         </div>
                     </div>
@@ -219,7 +219,7 @@
                                 <i class="fas fa-truck fa-3x text-primary mb-3"></i>
                                 <h5>Supplier Report</h5>
                                 <p class="text-sm">Supplier performance and purchases</p>
-                                <a href="#" class="btn btn-primary btn-sm">Generate</a>
+                                <a href="#" class="btn btn-danger btn-sm">Generate</a>
                             </div>
                         </div>
                     </div>
@@ -240,7 +240,7 @@
                                 <h5>Inventory Valuation</h5>
                                 <p class="text-sm">Stock valuation and profit margins</p>
                                 <div class="btn-group" role="group">
-                                    <a href="#" onclick="generateReport('inventory-valuation')" class="btn btn-dark btn-sm">Generate</a>
+                                    <a href="#" onclick="generateReport('inventory-valuation')" class="btn btn-danger btn-sm">Generate</a>
                                     <a href="#" onclick="downloadReport('inventory-valuation')" class="btn btn-outline-dark btn-sm">
                                         <i class="fas fa-download"></i>
                                     </a>
@@ -264,7 +264,7 @@
                                 <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
                                 <h5>Stock Movement</h5>
                                 <p class="text-sm">Track stock in and out movements</p>
-                                <a href="#" class="btn btn-info btn-sm">Generate</a>
+                                <a href="#" class="btn btn-danger btn-sm">Generate</a>
                             </div>
                         </div>
                     </div>
@@ -534,6 +534,12 @@ function generateReport(reportType) {
     if (reportContent) {
         reportContent.innerHTML = loadingMessage.innerHTML;
     }
+    
+    // Scroll to bottom of the page with smooth animation
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
     
     // Navigate to the report
     window.location.href = url;

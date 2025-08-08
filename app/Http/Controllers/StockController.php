@@ -32,19 +32,30 @@ class StockController extends Controller
 
     public function searchStock(Request $request){
 
-        $product_id = $request->input("produc t_id");
-        $from_date = $request->input("from_date");
-        $to_date = $request->input("to_date");
-        $stocks = Stock::leftJoin('products', 'stocks.product_id', '=', 'products.id')
-        ->select(DB::raw('SUM(stocks.quantity) as total_quantity'))
-        ->where('products.id',$product_id)
-        ->get();
-        $total_quantity = $stocks[0]->total_quantity;
-        if (!$total_quantity) {
-            return redirect()->back()->with('success', 'Stock Level Is'.$total_quantity);
-         } else {
-             return redirect()->back()->with('error', 'Sorry, there was a problem retrieving the stock count');
-        }     
+        $product_id = $request->input("product_id");
+        
+        // Validate input
+        if (!$product_id) {
+            return redirect()->back()->with('error', 'Please select a product to enquire about.');
+        }
+
+        // Get the selected product
+        $selectedProduct = Product::find($product_id);
+        
+        if (!$selectedProduct) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+
+        // Calculate total stock quantity for the selected product
+        $stockLevel = Stock::where('product_id', $product_id)->sum('quantity');
+        
+        // Get all products for the dropdown
+        $products = Product::all();
+        
+        return view("pages.stock-enquiry")
+            ->with("products", $products)
+            ->with("selectedProduct", $selectedProduct)
+            ->with("stockLevel", $stockLevel);
     }
 
     public function viewAllStockItems(){ 

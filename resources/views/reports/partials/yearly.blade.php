@@ -2,6 +2,29 @@
     extract($data);
 @endphp
 
+<style>
+    /* Enhanced styling for date inputs in reports */
+    input[type="date"] {
+        border: 2px solid #dee2e6 !important;
+        border-radius: 6px !important;
+        padding: 8px 12px !important;
+        background-color: white !important;
+        font-size: 14px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+        transition: border-color 0.3s ease !important;
+    }
+    
+    input[type="date"]:focus {
+        border-color: #007bff !important;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25) !important;
+        outline: none !important;
+    }
+    
+    input[type="date"]:hover {
+        border-color: #adb5bd !important;
+    }
+</style>
+
 <!-- Date Range Selection Form -->
 <div class="row mb-4">
     <div class="col-md-8">

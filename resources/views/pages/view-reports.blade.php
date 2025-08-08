@@ -1,6 +1,29 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <style>
+            /* Enhanced styling for date inputs */
+            input[type="date"] {
+                border: 2px solid #dee2e6 !important;
+                border-radius: 6px !important;
+                padding: 8px 12px !important;
+                background-color: white !important;
+                font-size: 14px !important;
+                min-width: 150px !important;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+                transition: border-color 0.3s ease !important;
+            }
+            
+            input[type="date"]:focus {
+                border-color: #007bff !important;
+                box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25) !important;
+                outline: none !important;
+            }
+            
+            input[type="date"]:hover {
+                border-color: #adb5bd !important;
+            }
+        </style>
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage="Reports"></x-navbars.navs.auth>
         <!-- End Navbar -->

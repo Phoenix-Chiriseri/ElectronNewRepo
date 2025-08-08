@@ -1,183 +1,8 @@
-<script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
+<script src="{{ asset('assets') }}/js/jquery-3.3.1.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="
-https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
-"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.2/awesomplete.min.js" defer></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-$(document).ready(function(){
-    // Form submission
-    
-    //alert("hello world");
-    $("#submitForm").submit(function (event) {
-        event.preventDefault();
-        var total=0;
-        var formData = [];  // Form data state
-        // Get form data
-        formData = $(this).serializeArray();
-        console.log(formData);
-        // Get table data
-        var tableData = [];
-        $(".table tbody tr").each(function () {
-        var row = {};
-        row.product_name = $(this).find("td:nth-child(1)").text();
-        row.measurement = $(this).find("td:nth-child(2)").text();
-        row.quantity = $(this).find(".quantity").text();
-        row.unit_cost = $(this).find(".unit-cost").text();
-        row.total_cost = $(this).find(".total-cost").text();
-        tableData.push(row);
-        });
-        // Include table data in the form data
-        if (tableData.length > 0) {
-        //Include table data in the form data
-        if (tableData.length > 0) {
-        tableData.forEach(function (row, index) {
-        formData.push({
-            name: "table_data[" + index + "][product_name]",
-            value: row.product_name
-        });
-        formData.push({
-            name: "table_data[" + index + "][measurement]",
-            value: row.measurement
-        });
-        formData.push({
-            name: "table_data[" + index + "][quantity]",
-            value: row.quantity
-        });
-        formData.push({
-            name: "table_data[" + index + "][unit_cost]",
-            value: row.unit_cost
-        });
-        formData.push({
-            name: "table_data[" + index + "][total_cost]",
-            value: row.total_cost
-        });
 
-        formData.push({
-            name:"total",
-            value:total
-        });
-
-        total = calculateTotalCost();
-        formData.push({
-            name: "total",
-            value: total
-        });
-    });
-} else {
-    console.error("Table data is empty");
-    return; // Stop form submission if table data is empty
-}
-        } else {
-        console.error("Table data is empty");
-        return; // Stop form submission if table data is empty
-        }
-        // Create a hidden form and submit it
-        //var hiddenForm = $('<form action="' + $(this).attr('action') + '" method="POST"></form>');
-        // Append form data to the hidden form
-        var hiddenForm = $('<form action="/submit-grv" method="POST"></form>');
-        formData.forEach(function (field) {
-            hiddenForm.append('<input type="hidden" name="' + field.name + '" value="' + field.value + '">');
-        });
-        // Append the hidden form to the body and submit
-        hiddenForm.append(tableData);
-        $('body').append(hiddenForm);
-        hiddenForm.submit();
-    });
-
-
-        // Handle the search input
-    $("#searchSelectedProd").on("keydown", function (event) {
-        if (event.which == 13) {
-            event.preventDefault();
-            var productName = $(this).val();
-            console.log('Search Term:', productName);
-            // Make an AJAX request to fetch products
-            $.ajax({
-                type: 'GET',
-                url: '/search-product/' + productName,
-                success: function (response) {
-                    // Update the table with the fetched products
-                    console.log(response.products);
-                    updateProductTable(response.products);
-                },
-                error: function (error) {
-                    //showAlert("Product Not Found","error");
-                    console.log("error dude");
-                }
-            });
-        }
-    });
-  
-    function showAlert(message,errorIconMessage){
-        Swal.fire({
-                position: "top-end",
-                icon: errorIconMessage,
-                title: message,
-                showConfirmButton: false,
-                timer: 1000
-                });    
-    
-     }
-    
-
-    // Calculate total cost when quantity or unit cost is changed
-    $(document).on("input", ".quantity, .unit-cost", function () {
-        var row = $(this).closest("tr");
-        var quantity = parseFloat(row.find(".quantity").text()) || 0;
-        var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
-        var totalCost = quantity * unitCost;
-        row.find(".total-cost").text(totalCost.toFixed(2));
-        calculateTotalCost();
-    });
-
-    function updateProductTable(products) {
-        var tableBody = $("table tbody");
-        // Append new rows based on the fetched products
-        products.forEach(function (product) {
-            var newRow = $("<tr>");
-            newRow.append("<td>" + product.name + "</td>");
-            newRow.append("<td>" + product.unit_of_measurement + "</td>");
-            newRow.append("<td contenteditable='true' class='quantity'></td>");
-            newRow.append("<td class='unit-cost'>" + product.price + "</td>");
-            //newRow.append("<td contenteditable='true' class='unit-cost'></td>");
-            newRow.append("<td class='total-cost'></td>");
-            newRow.append('<td><button type="button" class="btn btn-danger btn-sm remove-product"><i class = "fa fa-trash"></i></button></td>');
-            newRow.append("</tr>");
-            tableBody.append(newRow);
-        });
-
-        $(document).on("click", ".remove-product", function () {
-        $(this).closest("tr").remove();
-        calculateTotalCost();
-        });
-        // Calculate total cost at the end
-        calculateTotalCost();
-    }
-    // Function to calculate total cost
-    function calculateTotalCost() {
-        total = 0;
-        $("table tbody tr").each(function () {
-            var row = $(this);
-            var quantity = parseFloat(row.find(".quantity").text()) || 0;
-            var unitCost = parseFloat(row.find(".unit-cost").text()) || 0;
-            var rowTotal = quantity * unitCost;
-            total += isNaN(rowTotal) ? 0 : rowTotal;
-        });
-
-        // Display the total at the end
-        $("#total-value").text("Total: $" + total.toFixed(2));
-        return total;
-    }
-});
-</script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
     <body>
@@ -190,10 +15,23 @@ $(document).ready(function(){
             title: 'Success!',
             text: '{{ session('success') }}',
             showConfirmButton: false,
-            timer: 1000 // Adjust the timer as needed
+            timer: 3000
         });
-    </script>
-    @endif
+        </script>
+        @endif
+        
+        @if(session('error'))
+        <script>
+        Swal.fire({
+            icon: 'error',
+            position: "top-end",
+            title: 'Error!',
+            text: '{{ session('error') }}',
+            showConfirmButton: false,
+            timer: 3000
+        });
+        </script>
+        @endif
         <!-- Navbar -->
         <x-navbars.navs.auth titlePage='Stock Level Enquiry'></x-navbars.navs.auth>
         <!-- End Navbar -->
@@ -264,17 +102,169 @@ $(document).ready(function(){
                         <form method="POST" action="{{ route('enquire-stock') }}">
                           @csrf
                         <div class="row">
-                            <div class="form-group">
-                                <label for="supplier_id">Select Product</label>
-                                <select name="product_id" class="form-control border border-2 p-2" required>
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="product_id">Select Product to Check Stock Level</label>
+                                    <select name="product_id" class="form-control border border-2 p-2" style="border: 2px solid #dee2e6; border-radius: 6px;" required>
+                                        <option value="">-- Select a Product --</option>
+                                        @foreach ($products as $product)
+                                            <option value="{{ $product->id }}" {{ (isset($selectedProduct) && $selectedProduct->id == $product->id) ? 'selected' : '' }}>
+                                                {{ $product->name }} ({{ $product->unit_of_measurement }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                            <hr>
-                            <input type="submit" class="btn bg-gradient-dark btn-sm">
-                            </form>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" class="btn bg-gradient-primary btn-block">
+                                        <i class="fas fa-search"></i> Check Stock Level
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+
+                        @if(isset($selectedProduct))
+                        <hr class="my-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-boxes text-primary"></i> 
+                                            Stock Level Information for: <strong>{{ $selectedProduct->name }}</strong>
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="card text-center bg-gradient-primary">
+                                                    <div class="card-body">
+                                                        <i class="fas fa-cubes fa-2x text-white mb-2"></i>
+                                                        <h4 class="text-white mb-0">{{ $stockLevel ?? 0 }}</h4>
+                                                        <p class="text-white text-sm mb-0">Current Stock</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="card text-center bg-gradient-success">
+                                                    <div class="card-body">
+                                                        <i class="fas fa-dollar-sign fa-2x text-white mb-2"></i>
+                                                        <h4 class="text-white mb-0">${{ number_format($selectedProduct->price ?? 0, 2) }}</h4>
+                                                        <p class="text-white text-sm mb-0">Unit Price</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="card text-center bg-gradient-info">
+                                                    <div class="card-body">
+                                                        <i class="fas fa-balance-scale fa-2x text-white mb-2"></i>
+                                                        <h4 class="text-white mb-0">{{ $selectedProduct->unit_of_measurement ?? 'N/A' }}</h4>
+                                                        <p class="text-white text-sm mb-0">Unit of Measurement</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="card text-center bg-gradient-warning">
+                                                    <div class="card-body">
+                                                        <i class="fas fa-calculator fa-2x text-white mb-2"></i>
+                                                        <h4 class="text-white mb-0">${{ number_format(($stockLevel ?? 0) * ($selectedProduct->price ?? 0), 2) }}</h4>
+                                                        <p class="text-white text-sm mb-0">Total Value</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-4">
+                                            <div class="col-md-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6><i class="fas fa-info-circle text-info"></i> Product Details</h6>
+                                                        <table class="table table-sm">
+                                                            <tr>
+                                                                <td><strong>Product Name:</strong></td>
+                                                                <td>{{ $selectedProduct->name }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Category:</strong></td>
+                                                                <td>{{ $selectedProduct->cattegory->cattegory_name ?? 'N/A' }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Price:</strong></td>
+                                                                <td>${{ number_format($selectedProduct->price ?? 0, 2) }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Unit:</strong></td>
+                                                                <td>{{ $selectedProduct->unit_of_measurement ?? 'N/A' }}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6><i class="fas fa-chart-line text-success"></i> Stock Status</h6>
+                                                        @php
+                                                            $stockStatus = 'Unknown';
+                                                            $statusClass = 'secondary';
+                                                            $statusIcon = 'question';
+                                                            
+                                                            if(isset($stockLevel)) {
+                                                                if($stockLevel > 50) {
+                                                                    $stockStatus = 'High Stock';
+                                                                    $statusClass = 'success';
+                                                                    $statusIcon = 'check-circle';
+                                                                } elseif($stockLevel > 10) {
+                                                                    $stockStatus = 'Medium Stock';
+                                                                    $statusClass = 'warning';
+                                                                    $statusIcon = 'exclamation-triangle';
+                                                                } elseif($stockLevel > 0) {
+                                                                    $stockStatus = 'Low Stock';
+                                                                    $statusClass = 'danger';
+                                                                    $statusIcon = 'exclamation-circle';
+                                                                } else {
+                                                                    $stockStatus = 'Out of Stock';
+                                                                    $statusClass = 'danger';
+                                                                    $statusIcon = 'times-circle';
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        
+                                                        <div class="alert alert-{{ $statusClass }} text-center">
+                                                            <i class="fas fa-{{ $statusIcon }} fa-2x mb-2"></i>
+                                                            <h5 class="mb-1">{{ $stockStatus }}</h5>
+                                                            <p class="mb-0">Current stock level: {{ $stockLevel ?? 0 }} {{ $selectedProduct->unit_of_measurement ?? 'units' }}</p>
+                                                        </div>
+
+                                                        @if(isset($stockLevel) && $stockLevel <= 10)
+                                                        <div class="alert alert-warning">
+                                                            <i class="fas fa-bell"></i> 
+                                                            <strong>Reorder Alert:</strong> Stock level is getting low. Consider restocking soon.
+                                                        </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col-12 text-center">
+                                                <a href="{{ route('stock-enquiry') }}" class="btn btn-outline-secondary">
+                                                    <i class="fas fa-search"></i> Check Another Product
+                                                </a>
+                                                <a href="{{ route('viewall-stock') }}" class="btn btn-primary ms-2">
+                                                    <i class="fas fa-list"></i> View All Stock
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
