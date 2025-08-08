@@ -131,7 +131,6 @@
                   </div>
                 </div>
               </form>
-              
               @if(request('payment_method'))
                 <div class="alert alert-info mt-3">
                   <i class="material-icons">info</i>
@@ -250,24 +249,6 @@
           </div>
         </div>
       </div>
-
-      <div class="row mt-6">
-        <div class="col-lg-4 col-md-6 mt-4 mb-4">
-          <div class="card z-index-2">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent"></div>
-            <div class="card-body"></div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mt-4 mb-4">
-          <div class="card z-index-2">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent"></div>
-            <div class="card-body">
-              <div class="d-flex justify-content-center mt-3"></div>
-              <hr class="dark horizontal">
-              <div class="d-flex"></div>
-            </div>
-          </div>
-        </div>
         </div>
       </div>
     </div>
