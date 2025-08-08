@@ -8,6 +8,8 @@ use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\Shop;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 
 class PurchaseOrderController extends Controller
 {
@@ -165,6 +167,91 @@ class PurchaseOrderController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Error deleting purchase order.');
+        }
+    }
+
+    /**
+     * Email purchase order to specified address
+     */
+    public function emailPurchaseOrder(Request $request, $id)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'message' => 'nullable|string|max:1000'
+        ]);
+
+        try {
+            $purchaseOrder = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
+                ->select('purchase_orders.*', 'suppliers.supplier_name')
+                ->with(['purchaseOrderItems'])
+                ->findOrFail($id);
+            
+            $email = auth()->user()->email;
+            $userMessage = $request->input('message', '');
+            
+            // Check if mail is configured for actual sending
+            $mailDriver = config('mail.default');
+            
+            if ($mailDriver === 'log') {
+                // Log the email instead of sending it
+                \Log::info('Purchase Order Email (Development Mode)', [
+                    'to' => $request->email,
+                    'purchase_order_id' => $purchaseOrder->id,
+                    'message' => $userMessage,
+                    'sent_by' => $email
+                ]);
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Email logged successfully! (Development mode - check storage/logs/laravel.log)',
+                    'dev_mode' => true
+                ]);
+            }
+            
+            // Try to send email with better error handling
+            try {
+                Mail::send('emails.purchase-order', [
+                    'purchaseOrder' => $purchaseOrder,
+                    'email' => $email,
+                    'userMessage' => $userMessage
+                ], function ($message) use ($request, $purchaseOrder) {
+                    $message->to($request->email)
+                        ->subject('Purchase Order #' . $purchaseOrder->id . ' - ' . config('app.name', 'ElectronPOS'));
+                });
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Purchase order email sent successfully!'
+                ]);
+                
+            } catch (\Swift_TransportException $e) {
+                // Handle SMTP connection/authentication errors
+                \Log::error('Email SMTP Error: ' . $e->getMessage());
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'SMTP configuration error. Please check your email settings or contact your administrator.',
+                    'error_type' => 'smtp_config'
+                ], 500);
+                
+            } catch (\Exception $e) {
+                // Handle other email-related errors
+                \Log::error('Email sending error: ' . $e->getMessage());
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to send email: ' . $e->getMessage(),
+                    'error_type' => 'general'
+                ], 500);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error('Purchase Order Email Error: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to process email request: ' . $e->getMessage()
+            ], 500);
         }
     }
 

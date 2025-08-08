@@ -22,6 +22,108 @@ $("document").ready(function(){
                         }
                     });
                 });
+
+    $("#emailPurchaseOrder").on("click", function () {
+        Swal.fire({
+            title: 'Email Purchase Order',
+            html: `
+                <div class="form-group text-left">
+                    <label for="email-address" class="form-label">Email Address:</label>
+                    <input type="email" id="email-address" class="swal2-input" placeholder="Enter email address" required>
+                </div>
+                <div class="form-group text-left mt-3">
+                    <label for="email-message" class="form-label">Message (Optional):</label>
+                    <textarea id="email-message" class="swal2-textarea" placeholder="Enter additional message..."></textarea>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Send Email',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            preConfirm: () => {
+                const email = document.getElementById('email-address').value;
+                const message = document.getElementById('email-message').value;
+                
+                if (!email) {
+                    Swal.showValidationMessage('Please enter an email address');
+                    return false;
+                }
+                
+                // Basic email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    Swal.showValidationMessage('Please enter a valid email address');
+                    return false;
+                }
+                
+                return { email: email, message: message };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show loading
+                Swal.fire({
+                    title: 'Sending Email...',
+                    text: 'Please wait while we send the purchase order.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                // Send AJAX request to email the purchase order
+                $.ajax({
+                    url: '{{ route("purchase-order.email", $purchaseOrder->id) }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        email: result.value.email,
+                        message: result.value.message
+                    },
+                    success: function(response) {
+                        if (response.dev_mode) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Development Mode',
+                                html: '<p>Email has been logged to the system logs.</p><p class="text-muted"><small>' + response.message + '</small></p>',
+                                confirmButtonColor: '#3085d6'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Email Sent!',
+                                text: 'Purchase order has been sent successfully to ' + result.value.email,
+                                confirmButtonColor: '#3085d6'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = 'Failed to send email. Please try again.';
+                        let errorTitle = 'Email Failed';
+                        
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                            
+                            // Provide specific guidance based on error type
+                            if (xhr.responseJSON.error_type === 'smtp_config') {
+                                errorTitle = 'Email Configuration Issue';
+                                errorMessage += '\n\nTo fix this:\n1. Contact your administrator\n2. Or configure proper SMTP settings in your .env file';
+                            }
+                        }
+                        
+                        Swal.fire({
+                            icon: 'error',
+                            title: errorTitle,
+                            text: errorMessage,
+                            confirmButtonColor: '#d33'
+                        });
+                    }
+                });
+            }
+        });
+    });
             });
 </script>
 <style>
@@ -150,9 +252,11 @@ body{
          <!-- begin invoice-company -->
          <div class="invoice-company text-inverse f-w-600">
             <span class="pull-right hidden-print">
-            <a href="javascript:;" id = "exportPurchaseOrder" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>
+            <a href="javascript:;" id = "exportPurchaseOrder" class="btn btn-sm btn-white m-b-10 p-l-5 mr-2"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>
+            <a href="{{ route('grv.create-from-po', $purchaseOrder->id) }}" class="btn btn-sm btn-success m-b-10 p-l-5 mr-2"><i class="fa fa-plus t-plus-1 fa-fw fa-lg"></i> Create GRV</a>
+            <a href="javascript:;" id="emailPurchaseOrder" class="btn btn-sm btn-primary m-b-10 p-l-5"><i class="fa fa-envelope t-plus-1 fa-fw fa-lg"></i> Email PO</a>
             </span>
-            {{$purchaseOrder->po_number}}
+            Purchase Order #{{$purchaseOrder->id}}
          </div>
          <!-- end invoice-company -->
          <!-- begin invoice-header -->

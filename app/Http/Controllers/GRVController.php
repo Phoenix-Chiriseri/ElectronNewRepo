@@ -6,6 +6,8 @@ use App\Models\GRV;
 use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderItem;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use PDF;
@@ -14,6 +16,93 @@ use Illuminate\Support\Facades\DB;
 
 class GRVController extends Controller
 {
+    /**
+     * Create GRV from Purchase Order
+     */
+    public function createFromPurchaseOrder($purchaseOrderId)
+    {
+        try {
+            // Get the purchase order with its items and supplier
+            $purchaseOrder = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
+                ->select('purchase_orders.*', 'suppliers.supplier_name')
+                ->with(['purchaseOrderItems'])
+                ->findOrFail($purchaseOrderId);
+            
+            $suppliers = Supplier::orderBy("id","desc")->get();
+            
+            return view("pages.create-grv-from-po")
+                ->with("purchaseOrder", $purchaseOrder)
+                ->with("suppliers", $suppliers);
+                
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Purchase Order not found or error occurred: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Store GRV created from Purchase Order
+     */
+    public function storeFromPurchaseOrder(Request $request)
+    {
+        $request->validate([
+            'purchase_order_id' => 'required|exists:purchase_orders,id',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'grn_date' => 'required|date',
+            'payment_method' => 'required|string',
+            'supplier_invoicenumber' => 'required|string',
+            'total' => 'required|numeric|min:0',
+            'table_data' => 'required|array|min:1',
+        ]);
+
+        try {
+            // Create a new GRV
+            $grv = new GRV();
+            $grv->total = $request->input("total");
+            $grv->supplier_id = $request->input('supplier_id');
+            $grv->grn_date = $request->input('grn_date');
+            $grv->payment_method = $request->input('payment_method');
+            $grv->supplier_invoicenumber = $request->input('supplier_invoicenumber');
+            $grv->purchase_order_id = $request->input('purchase_order_id'); // Link to PO
+            $grv->save();
+            
+            // Save the table data into the database
+            $tableData = $request->input('table_data');
+            foreach ($tableData as $rowData) {
+                $stock = new Stock();
+                $stock->product_name = $rowData['product_name'];
+                $stock->measurement = $rowData['measurement'];
+                $stock->quantity = $rowData['quantity'];
+                $stock->unit_cost = $rowData['unit_cost'];
+                $stock->total_cost = $rowData['total_cost'];
+                
+                // Find or create the product based on the product_name
+                $product = Product::firstOrCreate(['name' => $rowData['product_name']]);
+                $stock->product_id = $product->id;
+                $stock->grv_id = $grv->id;
+                $stock->save();
+                
+                // Update the cost price of the product
+                $product->price = $rowData['unit_cost'];
+                $product->save();
+            }
+            
+            // Update purchase order status to received
+            $purchaseOrder = PurchaseOrder::find($request->input('purchase_order_id'));
+            if ($purchaseOrder) {
+                $purchaseOrder->status = 'received';
+                $purchaseOrder->save();
+            }
+            
+            return redirect()->route('create-grn')->with("success", "GRV created successfully from Purchase Order!");
+            
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error creating GRV: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */

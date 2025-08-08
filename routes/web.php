@@ -78,9 +78,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/grn/{id}', [GRVController::class, 'viewById'])->name('grn.show');
 	Route::get('/update-grv/{id}', [GRVController::class, 'updateById'])->name('update-grv');
 	Route::put('/grv/{id}', [GRVController::class, 'sendUpdate'])->name('grv.send-update');
+	Route::get('/grv/create-from-po/{id}', [GRVController::class, 'createFromPurchaseOrder'])->name('grv.create-from-po');
+	Route::post('/grv/store-from-po', [GRVController::class, 'storeFromPurchaseOrder'])->name('grv.store-from-po');
 	Route::put('/edit-payment-type/{id}', [PaymentTypesController::class, 'sendUpdate'])->name('paymentTypes.send-update');
 	Route::get('/view-purchaseorder/{id}', [PurchaseOrderController::class, 'viewById'])->name('purchaseorder.show');
 	Route::get('/purchase-order/{id}', [PurchaseOrderController::class, 'showSinglePurchaseOrder'])->name('purchase-order.show');
+	Route::post('/purchase-order/{id}/email', [PurchaseOrderController::class, 'emailPurchaseOrder'])->name('purchase-order.email');
 	Route::get('/quote/{id}', [QuoteController::class, 'showSingleQuote'])->name('quote.show');
 	Route::get('/create-grn-view', [StockController::class, 'createGRNView'])->name('create-grn-view');
 	Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
