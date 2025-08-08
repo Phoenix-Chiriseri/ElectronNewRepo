@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
-
     $table->id();
     $table->unsignedBigInteger('supplier_id');
     $table->date('purchaseorder_date');
@@ -21,9 +20,10 @@ return new class extends Migration
     $table->text('delivery_instructions')->nullable();
     $table->string('supplier_invoicenumber')->nullable();
     $table->decimal('total', 10, 2);
-    $table->string('status')->default('pending'); // pending, received, cancelled
+    //$table->string('status')->default('pending'); // pending, received, cancelled
     $table->timestamps();
     $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+    $table->foreign('grv_id')->references('id')->on('grvs')->onDelete('cascade');
     });
     }
 

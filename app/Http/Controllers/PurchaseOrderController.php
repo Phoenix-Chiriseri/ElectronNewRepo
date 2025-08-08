@@ -80,7 +80,6 @@ class PurchaseOrderController extends Controller
             $purchaseOrder->supplier_invoicenumber = $request->input("supplier_invoicenumber");
             $purchaseOrder->payment_method = $request->input("payment_method");
             $purchaseOrder->total = $request->input("total");
-            $purchaseOrder->status = 'pending'; // Set default status
             $purchaseOrder->save();
             
             // Save the purchases order items
@@ -109,7 +108,9 @@ class PurchaseOrderController extends Controller
     public function showSinglePurchaseOrder($id){
         try {
             $email = auth()->user()->email;
-            $purchaseOrder = PurchaseOrder::with(['purchaseOrderItems', 'supplier'])
+            $purchaseOrder = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
+                ->select('purchase_orders.*', 'suppliers.supplier_name')
+                ->with(['purchaseOrderItems'])
                 ->findOrFail($id);
             
             return view("pages.single-purchaseorder")

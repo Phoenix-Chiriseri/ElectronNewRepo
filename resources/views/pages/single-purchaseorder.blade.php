@@ -160,7 +160,7 @@ body{
             <div class="invoice-from">
                <small>Supplier Name</small>
                <address class="m-t-5 m-b-5">
-                  <strong class="text-inverse"> {{$supplier_name}}</strong><br>
+                  <strong class="text-inverse"> {{$purchaseOrder->supplier_name ?? 'N/A'}}</strong><br>
                </address>
             </div>
             <div class="invoice-header" id="purchTable">

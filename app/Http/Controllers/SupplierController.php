@@ -73,7 +73,6 @@ class SupplierController extends Controller
         'supplier_address' => $request->supplier_address,
         'supplier_phonenumber' => $request->supplier_phonenumber,
         'user_id' => $userId,
-        'supplier_status'=>$request->supplier_status,
         'supplier_contactperson'=>$request->supplier_contactperson,
         'supplier_contactpersonnumber'=>$request->supplier_contactpersonnumber,
         'type'=>$request->supplier_type,
@@ -131,7 +130,6 @@ class SupplierController extends Controller
         $supplier->supplier_tinnumber= $request->supplier_tinnumber;
         $supplier->supplier_address = $request->supplier_address;
         $supplier->supplier_phonenumber = $request->supplier_phonenumber;
-        $supplier->supplier_status = $request->supplier_status;
         $supplier->supplier_contactperson = $request->supplier_contactperson;
         $supplier->supplier_contactpersonnumber = $request->supplier_contactpersonnumber;
        

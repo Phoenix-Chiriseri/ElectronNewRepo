@@ -112,12 +112,6 @@
                                 <label for="customer_phonenumber">Contact Person Number</label>
                                 <input type="text" name="supplier_contactpersonnumber" id="supplier_contactperson"  value="{{$supplier->supplier_contactpersonnumber}}"  class="form-control border border-2 p-2" required>
                             </div>
-                            <div class="form-group">
-                                <label for="supplier_status">Status</label>
-                                <select name="supplier_status" class="form-control border border-2 p-2" required>
-                                <option value="active">Active</option>
-                                <option value="not_active">Not Active</option>
-                                </select>
                             <hr>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Update Supplier</button>
