@@ -264,14 +264,6 @@ $(document).ready(function(){
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="shop_id">Select Shop</label>
-                                <select name="shop_id" class="form-control border border-2 p-2" required>
-                                    @foreach ($shops as $shop)
-                                        <option value="{{ $shop->id }}">{{ $shop->shop_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label">Purchase Order Date</label>
                                 <input type="date" name="purchaseorder_date" class="form-control border border-2 p-2" required>
