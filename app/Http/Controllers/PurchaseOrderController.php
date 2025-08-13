@@ -45,9 +45,6 @@ class PurchaseOrderController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
      public function viewById($id){
         $email = auth()->user()->email;
         $purchaseOrder = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
@@ -55,27 +52,23 @@ class PurchaseOrderController extends Controller
         ->select('purchase_orders.*', 'suppliers.supplier_name', 'shops.shop_name')
         ->find($id);  
         return view("pages.view-purchasesorder")->with("purchaseOrder",$purchaseOrder);
-        // Use find directly to fetch a single record by ID
     }
 
     public function store(Request $request)
     {
-        // Validate the request
-        // $request->validate([
-        //     'supplier_id' => 'required|exists:suppliers,id',
-        //     'purchaseorder_date' => 'required|date',
-        //     'expected_date' => 'required|date|after_or_equal:purchaseorder_date',
-        //     'payment_method' => 'required|string',
-        //     'total' => 'required|numeric|min:0',
-        //     'table_data' => 'required|array|min:1',
-        //     'table_data.*.product_name' => 'required|string',
-        //     'table_data.*.quantity' => 'required|numeric|min:1',
-        //     'table_data.*.unit_cost' => 'required|numeric|min:0',
-        // ]);
-
-
-        //dd($request->all());
-        try {
+            $request->validate([
+            'supplier_id' => 'required|exists:suppliers,id',
+            'purchaseorder_date' => 'required|date',
+            'expected_date' => 'required|date|after_or_equal:purchaseorder_date',
+            'payment_method' => 'required|string',
+            'total' => 'required|numeric|min:0',
+            'table_data' => 'required|array|min:1',
+            'table_data.*.product_name' => 'required|string',
+            'table_data.*.quantity' => 'required|numeric|min:1',
+            'table_data.*.unit_cost' => 'required|numeric|min:0',
+            'table_data.*.measurement' => 'required|string',]);
+            
+            try {
             $purchaseOrder = new PurchaseOrder();
             $purchaseOrder->supplier_id = $request->input("supplier_id");
             $purchaseOrder->purchaseorder_date = $request->input("purchaseorder_date");
@@ -103,10 +96,9 @@ class PurchaseOrderController extends Controller
                 ->with('success', 'Purchase Order created successfully!');
                 
         } catch (\Exception $e) {
-            // return redirect()->back()
-            //     ->with('error', 'Error creating purchase order: ' . $e->getMessage())
-            //     ->withInput();
-            dd("error creating purchase order: {$e->getMessage()}");
+            return redirect()->back()
+                ->with('error', 'Error creating purchase order: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
@@ -211,7 +203,6 @@ class PurchaseOrderController extends Controller
                 ]);
             }
             
-            // Try to send email with better error handling
             try {
                 Mail::send('emails.purchase-order', [
                     'purchaseOrder' => $purchaseOrder,

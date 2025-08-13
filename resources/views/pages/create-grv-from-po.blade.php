@@ -3,22 +3,99 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-    <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
+    <body>
+    <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
+        @if(session('success'))
+        <script>
+        Swal.fire({
+            icon: 'success',
+            position: "top-end",
+            title: 'Success!',
+            text: '{{ session('success') }}',
+            showConfirmButton: false,
+            timer: 1000 // Adjust the timer as needed
+        });
+    </script>
+    @endif
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Create GRV from Purchase Order"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Create GRV from Purchase Order'></x-navbars.navs.auth>
         <!-- End Navbar -->
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card mb-4">
-                        <div class="card-header pb-0">
-                            <h6>Create GRV from Purchase Order #{{ $purchaseOrder->id }}</h6>
+        <div class="container-fluid pxsae-2 px-md-4">
+            <div class="page-header min-height-300 border-radius-xl mt-4"
+                style="background-image: url('https://images.unsplash.com/photo-1592488874899-35c8ed86d2e3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+            </div>
+            
+            <div class="card card-body mx-3 mx-md-4 mt-n6">
+                <div class="row gx-4 mb-2">
+                    <div class="col-auto">
+                        <div class="avatar avatar-xl position-relative">
+                            <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
+                            class="w-100 border-radius-lg shadow-sm">
+                        </div>
+                    </div>
+                    <div class="col-auto my-auto">
+                        <div class="h-100">
+                            <h5 class="mb-1">
+                                {{ auth()->user()->name }}
+                            </h5>
+                            <p class="mb-0 font-weight-normal text-sm">
+                                Electron Point Of Sale
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                        <div class="nav-wrapper position-relative end-0">
+                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                                <li class="nav-item">
+                                    <a class="btn btn-danger" href="{{ route('purchase-order.show', $purchaseOrder->id) }}"
+                                        role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative"></i>
+                                        <span class="ms-1">Back to PO</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-plain h-100">
+                    <div class="card-header pb-0 p-3">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <h6 class="mb-3">Create GRV from Purchase Order #{{ $purchaseOrder->id }}</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
                                 <p class="mb-0" style="color:black;">
                                 <b>Purchase Order Date:</b> {{ $purchaseOrder->purchaseorder_date }} </p>
                                 <p style="color:black;"><b>Supplier:</b> {{ $purchaseOrder->supplier_name ?? 'N/A' }}</p>
+                            </div>
                         </div>
-                        <div class="card-body">
+                    </div>
+                    <div class="card-body p-3">
+                        @if (session('status'))
+                        <div class="row">
+                            <div class="alert alert-success alert-dismissible text-white" role="alert">
+                                <span class="text-sm">{{ Session::get('status') }}</span>
+                                <button type="button" class="btn-close text-lg py-3 opacity-10"
+                                    data-bs-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+                        @if (Session::has('demo'))
+                                <div class="row">
+                                    <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ Session::get('demo') }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10"
+                                            data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                        @endif
                             @if (session('error'))
                                 <div class="alert alert-danger">
                                     {{ session('error') }}
@@ -26,144 +103,127 @@
                             @endif
                             <form action="{{ route('grv.store-from-po') }}" method="POST" id="grvForm">
                                 @csrf
-                                <input type="hidden" name="purchase_order_id" value="{{ $purchaseOrder->id }}">      
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="supplier_id" class="form-control-label">Supplier</label>
-                                            <select class="form-control" name="supplier_id" id="supplier_id" disabled>
-                                                <option value="">Select Supplier</option>
-                                                @foreach($suppliers as $supplier)
-                                                    <option value="{{ $supplier->id }}" 
-                                                        {{ $supplier->id == $purchaseOrder->supplier_id ? 'selected' : '' }}>
-                                                        {{ $supplier->supplier_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('supplier_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="grn_date" class="form-control-label">GRN Date</label>
-                                            <input class="form-control" type="date" name="grn_date" id="grn_date" disabled
-                                                   value="{{ date('Y-m-d') }}">
-                                            @error('grn_date')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
+                                <input type="hidden" name="purchase_order_id" value="{{ $purchaseOrder->id }}">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="supplier_id">Supplier</label>
+                                <select name="supplier_id" class="form-control border border-2 p-2 me-2" disabled>
+                                    <option value="">Select Supplier</option>
+                                    @foreach($suppliers as $supplier)
+                                        <option value="{{ $supplier->id }}" 
+                                            {{ $supplier->id == $purchaseOrder->supplier_id ? 'selected' : '' }}>
+                                            {{ $supplier->supplier_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('supplier_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">GRV Date</label>
+                                <input type="date" name="grn_date" class="form-control border border-2 p-2" disabled
+                                       value="{{ date('Y-m-d') }}">
+                                <label class="form-label mt-3">Payment Method</label>
+                                <select name="payment_method" class="form-control border border-2 p-2" disabled>
+                                    <option value="">Select Payment Method</option>
+                                    <option value="cash" {{ $purchaseOrder->payment_method == 'cash' ? 'selected' : '' }}>Cash</option>
+                                    <option value="card" {{ $purchaseOrder->payment_method == 'card' ? 'selected' : '' }}>Card</option>
+                                    <option value="credit" {{ $purchaseOrder->payment_method == 'credit' ? 'selected' : '' }}>Credit</option>
+                                    <option value="bank_transfer" {{ $purchaseOrder->payment_method == 'bank_transfer' ? 'selected' : '' }}>Bank Transfer</option>
+                                </select>
+                                @error('payment_method')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror                          
+                            </div>
+                           
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Supplier Invoice Number</label>
+            <input type="text" name="supplier_invoicenumber" class="form-control border border-2 p-2" disabled
+                   value="{{ $purchaseOrder->supplier_invoicenumber }}">
+            @error('supplier_invoicenumber')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="payment_method" class="form-control-label">Payment Method</label>
-                                            <select class="form-control" name="payment_method" id="payment_method" disabled>
-                                                <option value="">Select Payment Method</option>
-                                                <option value="cash" {{ $purchaseOrder->payment_method == 'cash' ? 'selected' : '' }}>Cash</option>
-                                                <option value="card" {{ $purchaseOrder->payment_method == 'card' ? 'selected' : '' }}>Card</option>
-                                                <option value="credit" {{ $purchaseOrder->payment_method == 'credit' ? 'selected' : '' }}>Credit</option>
-                                                <option value="bank_transfer" {{ $purchaseOrder->payment_method == 'bank_transfer' ? 'selected' : '' }}>Bank Transfer</option>
-                                            </select>
-                                            @error('payment_method')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="supplier_invoicenumber" class="form-control-label">Supplier Invoice Number</label>
-                                            <input class="form-control" type="text" name="supplier_invoicenumber" id="supplier_invoicenumber" disabled
-                                                   value="{{ $purchaseOrder->supplier_invoicenumber }}" >
-                                            @error('supplier_invoicenumber')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row mt-4">
-                                    <div class="col-12">
-                                        <h6>Purchase Order Items</h6>
-                                        <div class="container-fluid px-1 px-md-3">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <div class="row mb-2">
-                                                        <div class="col">
-                                                        </div>
-                                                    </div>
-                                                    <div class="user-cart">
-                                                        <div class="card">
-                                                            <table class="table table-striped">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="color:black;">Product Name</th>
-                                                                        <th style="color:black;">Measurement</th>
-                                                                        <th style="color:black;">Grn Quantity</th>
-                                                                        <th style="color:black;">Unit Cost</th>
-                                                                        <th style="color:black;">Total Cost</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @foreach($purchaseOrder->purchaseOrderItems as $item)
-                                                                    <tr data-original-quantity="{{ $item->quantity }}" data-index="{{ $loop->index }}">
-                                                                        <td>{{ $item->product_name }}</td>
-                                                                        <td>{{ $item->measurement }}</td>
-                                                                        <td contenteditable="true" class="quantity">{{ $item->quantity }}</td>
-                                                                        <td contenteditable="true" class="unit-cost">{{ $item->unit_cost }}</td>
-                                                                        <td class="total-cost">{{ $item->total_cost }}</td>
-                                                                    </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
+                                <div class="container-fluid px-1 px-md-3">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="row mb-2">
+                                                <div class="col">
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <!-- Add your content for the second column here -->
-                                                    <div className="mb-2">
-                                                     <input
-                                                         type="text"
-                                                         class="form-control border border-2 p-2"
-                                                         placeholder="Search Product"
-                                                         onChange=""
-                                                         onKeyDown=""
-                                                         id = "searchSelectedProd"
-                                                         disabled
-                                                     />
-                                                     <datalist id="productSuggestions"></datalist>
-                                                     <select id="productDropdown" class="form-control"></select>
-                                                     <div id = "noProductFound" hidden></div>
-                                                 </div>
-                                                 <hr>
+                                            </div>
+                                            <div class="user-cart">
+                                                <div class="card">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="color:black;">Product Name</th>
+                                                                <th style="color:black;">Measurement</th>
+                                                                <th style="color:black;">Grn Quantity</th>
+                                                                <th style="color:black;">Unit Cost</th>
+                                                                <th style="color:black;">Total Cost</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($purchaseOrder->purchaseOrderItems as $item)
+                                                            <tr data-original-quantity="{{ $item->quantity }}" data-index="{{ $loop->index }}">
+                                                                <td>{{ $item->product_name }}</td>
+                                                                <td>{{ $item->measurement }}</td>
+                                                                <td contenteditable="true" class="quantity">{{ $item->quantity }}</td>
+                                                                <td contenteditable="true" class="unit-cost">{{ $item->unit_cost }}</td>
+                                                                <td class="total-cost">{{ $item->total_cost }}</td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col"></div>
+                                                <div class="col text-centre" id="total-value">Total: ${{ $purchaseOrder->total }}</div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col">
+                                                    
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-4">
+                                            <!-- Add your content for the second column here -->
+                                            <div className="mb-2">
+                                             <input
+                                                 type="text"
+                                                 class="form-control border border-2 p-2"
+                                                 placeholder="Search Product"
+                                                 onChange=""
+                                                 onKeyDown=""
+                                                 id = "searchSelectedProd"
+                                                 disabled
+                                             />
+                                             <datalist id="productSuggestions"></datalist>
+                                             <select id="productDropdown" class="form-control"></select>
+                                             <div id = "noProductFound" hidden></div>
+                                         </div>
+                                         <hr>
+                                        </div>
                                     </div>
                                 </div>
+    <hr>
+    <button type="submit" class="btn bg-gradient-dark">Create GRV</button>
+</form>
 
-                                <hr>
-                                <div class="row">
-                                    <div class="col"></div>
-                                    <div class="col text-centre" id="total-value">Total: ${{ $purchaseOrder->total }}</div>
-                                </div>
-                                <hr>
-
-                                <div class="row mt-4">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-success">Create GRV</button>
-                                        <a href="{{ route('purchase-order.show', $purchaseOrder->id) }}" class="btn btn-secondary">Cancel</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
+       
+    </div>
+    </body>
 
         <script>
         $(document).ready(function() {
@@ -267,6 +327,7 @@
             }
         });
         </script>
-    </main>
+    </body>
     <x-plugins></x-plugins>
+
 </x-layout>
