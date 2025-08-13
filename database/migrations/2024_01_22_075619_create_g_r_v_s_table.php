@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('g_r_v_s', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->unsignedBigInteger('purchase_order_id')->nullable();
             $table->date('grn_date');
             $table->string('payment_method');
             $table->string('total');
@@ -24,6 +25,11 @@ return new class extends Migration
            ->references('id')
            ->on('suppliers')
            ->nullOnDelete(); // optional: handles what happens when a supplier is deleted
+           // Foreign key to the purchase_orders table
+           $table->foreign('purchase_order_id')
+           ->references('id')
+           ->on('purchase_orders')
+           ->nullOnDelete(); // optional: handles what happens when a purchase order is deleted
         });
     }
 
