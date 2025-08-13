@@ -70,6 +70,12 @@
                                 <p class="mb-0" style="color:black;">
                                 <b>Purchase Order Date:</b> {{ $purchaseOrder->purchaseorder_date }} </p>
                                 <p style="color:black;"><b>Supplier:</b> {{ $purchaseOrder->supplier_name ?? 'N/A' }}</p>
+                                @if($existingGrv)
+                                    <div class="alert alert-warning mt-2">
+                                        <strong>Notice:</strong> A GRV has already been created for this Purchase Order (GRV #{{ $existingGrv->id }}). 
+                                        <a href="{{ route('grv.view', $existingGrv->id) }}" class="alert-link">View existing GRV</a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -107,7 +113,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <label for="supplier_id">Supplier</label>
-                                <select name="supplier_id" class="form-control border border-2 p-2 me-2" disabled>
+                                <select name="supplier_id" class="form-control border border-2 p-2 me-2" readonly>
                                     <option value="">Select Supplier</option>
                                     @foreach($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}" 
@@ -116,22 +122,26 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <!-- Hidden input to ensure supplier_id is sent -->
+                                <input type="hidden" name="supplier_id" value="{{ $purchaseOrder->supplier_id }}">
                                 @error('supplier_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label">GRV Date</label>
-                                <input type="date" name="grn_date" class="form-control border border-2 p-2" disabled
+                                <input type="date" name="grn_date" class="form-control border border-2 p-2" readonly
                                        value="{{ date('Y-m-d') }}">
                                 <label class="form-label mt-3">Payment Method</label>
-                                <select name="payment_method" class="form-control border border-2 p-2" disabled>
+                                <select name="payment_method" class="form-control border border-2 p-2" readonly>
                                     <option value="">Select Payment Method</option>
                                     <option value="cash" {{ $purchaseOrder->payment_method == 'cash' ? 'selected' : '' }}>Cash</option>
                                     <option value="card" {{ $purchaseOrder->payment_method == 'card' ? 'selected' : '' }}>Card</option>
                                     <option value="credit" {{ $purchaseOrder->payment_method == 'credit' ? 'selected' : '' }}>Credit</option>
                                     <option value="bank_transfer" {{ $purchaseOrder->payment_method == 'bank_transfer' ? 'selected' : '' }}>Bank Transfer</option>
                                 </select>
+                                <!-- Hidden input to ensure payment_method is sent -->
+                                <input type="hidden" name="payment_method" value="{{ $purchaseOrder->payment_method }}">
                                 @error('payment_method')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror                          
@@ -139,7 +149,7 @@
                            
         <div class="mb-3 col-md-6">
             <label class="form-label">Supplier Invoice Number</label>
-            <input type="text" name="supplier_invoicenumber" class="form-control border border-2 p-2" disabled
+            <input type="text" name="supplier_invoicenumber" class="form-control border border-2 p-2" readonly
                    value="{{ $purchaseOrder->supplier_invoicenumber }}">
             @error('supplier_invoicenumber')
                 <div class="text-danger">{{ $message }}</div>
@@ -213,7 +223,16 @@
                                     </div>
                                 </div>
     <hr>
-    <button type="submit" class="btn bg-gradient-dark">Create GRV</button>
+    @if($existingGrv)
+        <button type="button" class="btn btn-secondary" disabled>
+            GRV Already Created (GRV #{{ $existingGrv->id }})
+        </button>
+        <a href="{{ route('grv.view', $existingGrv->id) }}" class="btn btn-info">
+            View Existing GRV
+        </a>
+    @else
+        <button type="submit" class="btn bg-gradient-dark">Create GRV</button>
+    @endif
 </form>
 
                     </div>
@@ -228,14 +247,49 @@
         <script>
         $(document).ready(function() {
             var total = 0;
+            var existingGrv = @json($existingGrv);
 
             // Form submission handler
             $("#grvForm").submit(function (event) {
                 event.preventDefault();
+                
+                // Check if GRV already exists
+                if (existingGrv) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'GRV Already Exists',
+                        text: 'A GRV has already been created for this Purchase Order (GRV #' + existingGrv.id + ')',
+                        confirmButtonColor: '#d33'
+                    });
+                    return;
+                }
+                
                 var formData = [];  
                 
                 // Get form data
                 formData = $(this).serializeArray();
+                
+                // Explicitly add the required fields to ensure they're included
+                formData.push({
+                    name: "purchase_order_id",
+                    value: "{{ $purchaseOrder->id }}"
+                });
+                formData.push({
+                    name: "supplier_id",
+                    value: "{{ $purchaseOrder->supplier_id }}"
+                });
+                formData.push({
+                    name: "grn_date",
+                    value: "{{ date('Y-m-d') }}"
+                });
+                formData.push({
+                    name: "payment_method",
+                    value: "{{ $purchaseOrder->payment_method }}"
+                });
+                formData.push({
+                    name: "supplier_invoicenumber",
+                    value: "{{ $purchaseOrder->supplier_invoicenumber }}"
+                });
                 
                 // Get table data
                 var tableData = [];
@@ -291,6 +345,10 @@
                 
                 // Create a hidden form and submit it
                 var hiddenForm = $('<form action="{{ route('grv.store-from-po') }}" method="POST"></form>');
+                
+                // Add CSRF token
+                hiddenForm.append('<input type="hidden" name="_token" value="{{ csrf_token() }}">');
+                
                 formData.forEach(function (field) {
                     hiddenForm.append('<input type="hidden" name="' + field.name + '" value="' + field.value + '">');
                 });

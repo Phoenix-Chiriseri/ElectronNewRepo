@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/grv-enquiry', [GRVController::class, 'grvEnquiry'])->name('grv-enquiry');
 	Route::post('/grv-enquiry', [GRvController::class, 'queryGRV'])->name("search.grv");
 	Route::get('/grn/{id}', [GRVController::class, 'viewById'])->name('grn.show');
+	Route::get('/grv/{id}', [GRVController::class, 'viewById'])->name('grv.view');
 	Route::get('/update-grv/{id}', [GRVController::class, 'updateById'])->name('update-grv');
 	Route::put('/grv/{id}', [GRVController::class, 'sendUpdate'])->name('grv.send-update');
 	Route::get('/grv/create-from-po/{id}', [GRVController::class, 'createFromPurchaseOrder'])->name('grv.create-from-po');

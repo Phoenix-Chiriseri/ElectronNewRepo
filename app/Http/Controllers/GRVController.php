@@ -28,11 +28,15 @@ class GRVController extends Controller
                 ->with(['purchaseOrderItems'])
                 ->findOrFail($purchaseOrderId);
             
+            // Check if GRV already exists for this purchase order
+            $existingGrv = GRV::where('purchase_order_id', $purchaseOrderId)->first();
+            
             $suppliers = Supplier::orderBy("id","desc")->get();
             
             return view("pages.create-grv-from-po")
                 ->with("purchaseOrder", $purchaseOrder)
-                ->with("suppliers", $suppliers);
+                ->with("suppliers", $suppliers)
+                ->with("existingGrv", $existingGrv);
                 
         } catch (\Exception $e) {
             return redirect()->back()
@@ -56,6 +60,14 @@ class GRVController extends Controller
         ]);
 
         try {
+            // Check if GRV already exists for this purchase order
+            $existingGrv = GRV::where('purchase_order_id', $request->input('purchase_order_id'))->first();
+            if ($existingGrv) {
+                return redirect()->back()
+                    ->with('error', 'A GRV has already been created for this Purchase Order (GRV #' . $existingGrv->id . ')')
+                    ->withInput();
+            }
+
             // Create a new GRV
             $grv = new GRV();
             $grv->total = $request->input("total");

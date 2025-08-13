@@ -58,41 +58,34 @@
                             role="tab" aria-selected="true">Create Purchase Order</a>
                         </div>
                         <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">      
-                              <i class="material-icons text-lg position-relative"></i>
-                                </a>
+                            <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0" id="grnTable">
                                     <thead>
                                         <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                               Purchase Order Number</th>
-                                               <th
-                                               class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                               Supplier Name</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                               Date</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Shop</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Total Cost</th>
-                                                <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                View</th>
-                                                
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                               Purchase Order Number
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                               Supplier Name
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                               Date
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Total Cost
+                                            </th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                View
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         @foreach($purchaseOrders as $order)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">POO {{$order->id}}</h6>
+                                                        <h6 class="mb-0 text-sm">PO {{$order->id}}</h6>
                                                     </div>
                                                 </div>
                                             </td>     
@@ -109,22 +102,16 @@
                                                         <h6 class="mb-0 text-sm">{{$order->purchaseorder_date}}</h6>
                                                     </div>
                                                 </div>
-                                            </td> <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$order->shop_name}}</h6>
-                                                    </div>
-                                                </div>
-                                            </td>   
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$order->total}}</h6>
-                                                    </div>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex justify-content-center">
+                                                    <h6 class="mb-0 text-sm">${{number_format($order->total, 2)}}</h6>
                                                 </div>
                                             </td>   
                                             <td class="align-middle text-center">
-                                                <a class="btn btn-primary" href="{{ route('purchase-order.show',$order->id) }}">View</a>
+                                                <a class="btn btn-primary btn-sm" href="{{ route('purchase-order.show',$order->id) }}">
+                                                    <i class="fa fa-eye"></i> View
+                                                </a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -133,7 +120,6 @@
                                 <div class="d-flex justify-content-center mt-3">
                                     {{ $purchaseOrders->links('vendor.pagination.bootstrap-4') }}
                                 </div>
-                                    
                             </div>
                         </div>
                     </div>
