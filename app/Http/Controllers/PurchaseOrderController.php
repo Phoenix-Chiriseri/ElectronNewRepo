@@ -61,18 +61,20 @@ class PurchaseOrderController extends Controller
     public function store(Request $request)
     {
         // Validate the request
-        $request->validate([
-            'supplier_id' => 'required|exists:suppliers,id',
-            'purchaseorder_date' => 'required|date',
-            'expected_date' => 'required|date|after_or_equal:purchaseorder_date',
-            'payment_method' => 'required|string',
-            'total' => 'required|numeric|min:0',
-            'table_data' => 'required|array|min:1',
-            'table_data.*.product_name' => 'required|string',
-            'table_data.*.quantity' => 'required|numeric|min:1',
-            'table_data.*.unit_cost' => 'required|numeric|min:0',
-        ]);
+        // $request->validate([
+        //     'supplier_id' => 'required|exists:suppliers,id',
+        //     'purchaseorder_date' => 'required|date',
+        //     'expected_date' => 'required|date|after_or_equal:purchaseorder_date',
+        //     'payment_method' => 'required|string',
+        //     'total' => 'required|numeric|min:0',
+        //     'table_data' => 'required|array|min:1',
+        //     'table_data.*.product_name' => 'required|string',
+        //     'table_data.*.quantity' => 'required|numeric|min:1',
+        //     'table_data.*.unit_cost' => 'required|numeric|min:0',
+        // ]);
 
+
+        //dd($request->all());
         try {
             $purchaseOrder = new PurchaseOrder();
             $purchaseOrder->supplier_id = $request->input("supplier_id");
@@ -82,6 +84,7 @@ class PurchaseOrderController extends Controller
             $purchaseOrder->supplier_invoicenumber = $request->input("supplier_invoicenumber");
             $purchaseOrder->payment_method = $request->input("payment_method");
             $purchaseOrder->total = $request->input("total");
+            $purchaseOrder->status = "pending";
             $purchaseOrder->save();
             
             // Save the purchases order items
@@ -96,14 +99,14 @@ class PurchaseOrderController extends Controller
                 $purchaseOrderItem->total_cost = $rowData['total_cost'];
                 $purchaseOrderItem->save();
             }
-
             return redirect()->route('purchase-order.show', $purchaseOrder->id)
                 ->with('success', 'Purchase Order created successfully!');
                 
         } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Error creating purchase order: ' . $e->getMessage())
-                ->withInput();
+            // return redirect()->back()
+            //     ->with('error', 'Error creating purchase order: ' . $e->getMessage())
+            //     ->withInput();
+            dd("error creating purchase order: {$e->getMessage()}");
         }
     }
 
