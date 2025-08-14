@@ -10,6 +10,7 @@ use App\Models\Shop;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
+use App\Mail\PurchaseOrderMail;
 
 class PurchaseOrderController extends Controller
 {
@@ -105,6 +106,7 @@ class PurchaseOrderController extends Controller
     public function showSinglePurchaseOrder($id){
         try {
             $email = auth()->user()->email;
+            $purchaseOrderEmail = env('PURCHASE_ORDER_EMAIL', config('mail.from.address', 'noreply@example.com'));
             $purchaseOrder = PurchaseOrder::leftJoin('suppliers', 'purchase_orders.supplier_id', '=', 'suppliers.id')
                 ->select('purchase_orders.*', 'suppliers.supplier_name')
                 ->with(['purchaseOrderItems'])
@@ -112,7 +114,8 @@ class PurchaseOrderController extends Controller
             
             return view("pages.single-purchaseorder")
                 ->with("purchaseOrder", $purchaseOrder)
-                ->with("email", $email);
+                ->with("email", $email)
+                ->with("purchaseOrderEmail", $purchaseOrderEmail);
                 
         } catch (\Exception $e) {
             return redirect()->route('view-purchaseorders')
@@ -204,14 +207,7 @@ class PurchaseOrderController extends Controller
             }
             
             try {
-                Mail::send('emails.purchase-order', [
-                    'purchaseOrder' => $purchaseOrder,
-                    'email' => $email,
-                    'userMessage' => $userMessage
-                ], function ($message) use ($request, $purchaseOrder) {
-                    $message->to($request->email)
-                        ->subject('Purchase Order #' . $purchaseOrder->id . ' - ' . config('app.name', 'ElectronPOS'));
-                });
+                Mail::to($request->email)->send(new PurchaseOrderMail($purchaseOrder, $email, $userMessage));
 
                 return response()->json([
                     'success' => true,

@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\PurchaseOrder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,22 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PurchaseOrderMail extends Mailable
+class TestMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $purchaseOrder;
-    public $email;
-    public $userMessage;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(PurchaseOrder $purchaseOrder, $email, $userMessage = '')
+    public function __construct()
     {
-        $this->purchaseOrder = $purchaseOrder;
-        $this->email = $email;
-        $this->userMessage = $userMessage;
+        //
     }
 
     /**
@@ -34,7 +27,7 @@ class PurchaseOrderMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Purchase Order #' . $this->purchaseOrder->id . ' - ' . config('app.name', 'ElectronPOS'),
+            subject: 'Test Mail',
         );
     }
 
@@ -44,12 +37,7 @@ class PurchaseOrderMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.purchase-order',
-            with: [
-                'purchaseOrder' => $this->purchaseOrder,
-                'email' => $this->email,
-                'userMessage' => $this->userMessage,
-            ],
+            view: 'emails.test',
         );
     }
 

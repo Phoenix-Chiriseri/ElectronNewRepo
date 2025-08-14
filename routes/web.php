@@ -34,6 +34,13 @@ use App\Http\Controllers\PriceListsController;
 use App\Http\Controllers\EmployeeLogin;
 use App\Http\Controllers\FiscalController;
 use App\Http\Controllers\PrintersController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
+
+Route::get('/test-email', function () {
+    Mail::to('itaineilchiriseri@gmail.com')->send(new TestMail());
+    return 'Email sent successfully!';
+});
 
 Route::get('/', [DashboardController::class, 'welcome']);
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -72,15 +79,15 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/sell', [SaleController::class, 'store'])->name("submit.sale");
 	Route::post('/sellZig', [SaleZigController::class, 'store'])->name("submit.sale");
 	Route::get('/zig-screen', [ElectronPOE::class, 'zigScreen'])->name('zig-screen');
-	Route::get('/create-grn', [GRVController::class, 'createGRN'])->name('create-grn');
-	Route::get('/grv-enquiry', [GRVController::class, 'grvEnquiry'])->name('grv-enquiry');
-	Route::post('/grv-enquiry', [GRvController::class, 'queryGRV'])->name("search.grv");
-	Route::get('/grn/{id}', [GRVController::class, 'viewById'])->name('grn.show');
-	Route::get('/grv/{id}', [GRVController::class, 'viewById'])->name('grv.view');
-	Route::get('/update-grv/{id}', [GRVController::class, 'updateById'])->name('update-grv');
-	Route::put('/grv/{id}', [GRVController::class, 'sendUpdate'])->name('grv.send-update');
-	Route::get('/grv/create-from-po/{id}', [GRVController::class, 'createFromPurchaseOrder'])->name('grv.create-from-po');
-	Route::post('/grv/store-from-po', [GRVController::class, 'storeFromPurchaseOrder'])->name('grv.store-from-po');
+	Route::get('/create-grn', [GrvController::class, 'createGRN'])->name('create-grn');
+	Route::get('/grv-enquiry', [GrvController::class, 'grvEnquiry'])->name('grv-enquiry');
+	Route::post('/grv-enquiry', [GrvController::class, 'queryGRV'])->name("search.grv");
+	Route::get('/grn/{id}', [GrvController::class, 'viewById'])->name('grn.show');
+	Route::get('/grv/{id}', [GrvController::class, 'viewById'])->name('grv.view');
+	Route::get('/update-grv/{id}', [GrvController::class, 'updateById'])->name('update-grv');
+	Route::put('/grv/{id}', [GrvController::class, 'sendUpdate'])->name('grv.send-update');
+	Route::get('/grv/create-from-po/{id}', [GrvController::class, 'createFromPurchaseOrder'])->name('grv.create-from-po');
+	Route::post('/grv/store-from-po', [GrvController::class, 'storeFromPurchaseOrder'])->name('grv.store-from-po');
 	Route::put('/edit-payment-type/{id}', [PaymentTypesController::class, 'sendUpdate'])->name('paymentTypes.send-update');
 	Route::get('/view-purchaseorder/{id}', [PurchaseOrderController::class, 'viewById'])->name('purchaseorder.show');
 	Route::get('/purchase-order/{id}', [PurchaseOrderController::class, 'showSinglePurchaseOrder'])->name('purchase-order.show');
@@ -124,7 +131,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/access-rights', [EmployeeController::class, 'accessRights'])->name('access-rights');
 	Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByName'])->name('products.searchByName');
 	Route::get('/products/searchByCode/{productCode}', [ProductController::class, 'searchByCode'])->name('products.searchByCode');
-	//loop through the products and then add them to cart
 	Route::get('/create-suppliers', [SuppliersController::class, 'create'])->name('create-suppliers');
 	Route::get('/create-purchaseorder', [PurchaseOrderController::class, 'index'])->name('create-purchaseorder');
 	Route::get('/view-purchaseorder', [PurchaseOrderController::class, 'viewPurchasesOrders'])->name('view-purchaseorders');
@@ -140,7 +146,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/quote-customers', [CustomerController::class, 'quoteCustomers'])->name('quote-customers');
 	Route::get('/view-products', [ProductController::class, 'viewProducts'])->name('view-products');
 	Route::get('/view-employees', [EmployeeController::class, 'viewEmployees'])->name('view-employees');
-	Route::get('grn/download/{id}', [GrVController::class, 'downloadPdf'])->name('grn.download');
+	Route::get('grn/download/{id}', [GrvController::class, 'downloadPdf'])->name('grn.download');
 	Route::get('/view-cattegories', [CattegoryController::class, 'viewCattegories'])->name('view-cattegories');
 	Route::get('/view-suppliers', [SupplierController::class, 'viewSuppliers'])->name('view-suppliers');
 	Route::get('/finish-transaction/{customerId}', [SaleController::class, 'finishTransaction'])->name('finish-transaction');
@@ -187,7 +193,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/cart/delete', [CartController::class, 'delete']);
     Route::delete('/cart/empty', [CartController::class, 'empty']);
 	Route::post('/submit-company-details', [CompanyDataController::class, 'store'])->name('submit-company-details');
-	//api routes
 	Route::get('/products-json', [ProductController::class, 'getProductsJson'])->name('products-json');
 	Route::get('/products-sell', [ProductController::class, 'getAllProductsJson'])->name('all-products-json');
 	Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');
@@ -195,7 +200,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/import-products', [ProductController::class, 'importProducts'])->name('import-products');
 	Route::get('/view-rates', [RateController::class, 'index'])->name('view-rates');
 	Route::post('/submit-rate', [RateController::class, 'store'])->name('submit-rate');
-	//route that will get the rate
 	Route::get('/getRate', [RateController::class, 'getRate'])->name('get-rate');
 	Route::get('/view-invoices', [InvoiceController::class, 'viewInvoices'])->name('view-invoices');
 	Route::get('/view-productRpt', [ReportController::class, 'viewProductRpt'])->name('view-productRpt');
@@ -203,7 +207,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/view-invoice/{id}', [InvoiceController::class, 'viewInvoiceById'])->name('invoice.show');
 	Route::get('/summarise-invoice/{id}', [InvoiceController::class, 'summariseInvoice'])->name('invoice.summarise');
 	Route::get('/delete-invoice/{id}', [InvoiceController::class, 'deleteInvoice'])->name('invoice.delete');
-	//api routes
 	Route::get('/all-products', [ApiController::class, 'viewAllProducts'])->name('view.products');
 	Route::get('/top-selling-products', [ApiController::class, 'topSellingProducts'])->name('view.top-products');
 	Route::get('/get-statistics', [ApiController::class, 'getStatistics'])->name('view.get-statistics');
@@ -224,27 +227,18 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/total-sales',[ApiController::class,'getTotalSales'])->name('get-total-sales');
 	Route::get('/printers', [AddPrinterController::class, 'showPrinters'])->name('printers');
 	Route::get('/configure-printers', [PrintersController::class, 'index'])->name('configure-printers');
-
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
-
-
 	// Device Status Route
-
-
 	// Device Status Route
-Route::get('/device/status', [FiscalDeviceController::class, 'getDeviceStatus']);
-
-// Open Fiscal Day Route
-Route::post('/device/openDay', [FiscalDeviceController::class, 'openFiscalDay']);
-
-// Close Fiscal Day Route
-Route::post('/device/closeDay', [FiscalDeviceController::class, 'closeFiscalDay']);
-
-// Submit Receipt Route
-Route::post('/device/submitReceipt', [FiscalDeviceController::class, 'submitReceipt']);
-
-// Get Device Configuration Route
-Route::get('/device/config', [FiscalDeviceController::class, 'getDeviceConfig']);
+	Route::get('/device/status', [FiscalDeviceController::class, 'getDeviceStatus']);
+	// Open Fiscal Day Route
+	Route::post('/device/openDay', [FiscalDeviceController::class, 'openFiscalDay']);
+	// Close Fiscal Day Route
+	Route::post('/device/closeDay', [FiscalDeviceController::class, 'closeFiscalDay']);
+	// Submit Receipt Route
+	Route::post('/device/submitReceipt', [FiscalDeviceController::class, 'submitReceipt']);
+	// Get Device Configuration Route
+	Route::get('/device/config', [FiscalDeviceController::class, 'getDeviceConfig']);
 });
