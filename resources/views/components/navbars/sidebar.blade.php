@@ -106,7 +106,6 @@
                     <a class="dropdown-item" href="{{ route('grv-enquiry') }}">GRV Enquiry</a>
                     <a class="dropdown-item" href="{{ route('create-purchaseorder') }}">Purchase Orders</a>
                     <a class="dropdown-item" href="{{ route('stock-enquiry') }}">Stock Enquiry</a>
-                    <a class="dropdown-item" href="{{ route('view-inventoryvaluation') }}">Inventory Valuation Report</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
