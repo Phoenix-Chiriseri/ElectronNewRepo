@@ -47,8 +47,11 @@ class GRVController extends Controller
     /**
      * Store GRV created from Purchase Order
      */
+
+    //function that will create the grv from the purchase order
     public function storeFromPurchaseOrder(Request $request)
     {
+
         $request->validate([
             //'purchase_order_id' => 'required|exists:purchase_orders,id',
             //'supplier_id' => 'required|exists:suppliers,id',
