@@ -40,10 +40,32 @@ class QuoteController extends Controller
     
     public function store(Request $request)
     {
-    
+        // Handle temporary customer creation
+        $customerId = $request->input('customer_id');
+        
+        // Check if this is a temporary customer
+        if (str_starts_with($customerId, 'temp_') && $request->has('temp_customer_data')) {
+            $tempCustomerData = json_decode($request->input('temp_customer_data'), true);
+            
+            // Create the customer using the same fields as CustomerController
+            $customer = new Customer();
+            $customer->customer_name = $tempCustomerData['customer_name'];
+            $customer->code = $tempCustomerData['code'];
+            $customer->customer_tinnumber = $tempCustomerData['customer_tinnumber'];
+            $customer->customer_vatnumber = $tempCustomerData['customer_vatnumber'];
+            $customer->customer_address = $tempCustomerData['customer_address'];
+            $customer->customer_phonenumber = $tempCustomerData['customer_phonenumber'];
+            $customer->customer_status = $tempCustomerData['customer_status'];
+            $customer->user_id = Auth::user()->id;
+            $customer->save();
+            
+            // Update customer_id to the newly created customer
+            $customerId = $customer->id;
+        }
+
         $userId = Auth::user()->id;
-        $quote = new Quote(); // Use the GRV model
-        $quote->customer_id = $request->input("customer_id");
+        $quote = new Quote(); // Use the Quote model
+        $quote->customer_id = $customerId; // Use the resolved customer ID
         $quote->user_id = $userId;
         $quote->quote_number = $request->input("quote_number");
         $quote->quote_date = $request->input("quote_date"); 

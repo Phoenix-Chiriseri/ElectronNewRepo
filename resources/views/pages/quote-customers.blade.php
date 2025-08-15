@@ -175,6 +175,101 @@ $(document).ready(function(){
         $("#total-value").text("Total: $" + total.toFixed(2));
         return total;
     }
+
+    // Add New Customer Modal Handler
+    $("#addCustomerBtn").click(function() {
+        $("#addCustomerModal").modal('show');
+    });
+
+    // Save & Use Customer Handler
+    $("#saveCustomerBtn").click(function() {
+        var customerData = {
+            customer_name: $("#modal_customer_name").val(),
+            code: $("#modal_code").val(),
+            customer_tinnumber: $("#modal_customer_tinnumber").val(),
+            customer_vatnumber: $("#modal_customer_vatnumber").val(),
+            customer_address: $("#modal_customer_address").val(),
+            customer_phonenumber: $("#modal_customer_phonenumber").val(),
+            customer_status: $("#modal_customer_status").val()
+        };
+
+        // Validate required fields
+        if (!customerData.customer_name || !customerData.code || !customerData.customer_tinnumber || 
+            !customerData.customer_vatnumber || !customerData.customer_address || !customerData.customer_phonenumber) {
+            showAlert("Please fill in all required fields", "error");
+            return;
+        }
+
+        // Save customer via AJAX
+        $.ajax({
+            type: 'POST',
+            url: '/submit-customers',
+            data: customerData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                // Add new customer to dropdown
+                var newOption = '<option value="' + response.customer.id + '">' + response.customer.customer_name + '</option>';
+                $('select[name="customer_id"]').append(newOption);
+                $('select[name="customer_id"]').val(response.customer.id);
+                
+                // Clear modal form
+                $("#addCustomerForm")[0].reset();
+                $("#addCustomerModal").modal('hide');
+                
+                showAlert("Customer created successfully", "success");
+            },
+            error: function(xhr, status, error) {
+                showAlert("Error creating customer: " + error, "error");
+            }
+        });
+    });
+
+    // Use Without Saving Handler
+    $("#useWithoutSavingBtn").click(function() {
+        var customerName = $("#modal_customer_name").val();
+        
+        if (!customerName) {
+            showAlert("Please enter customer name", "error");
+            return;
+        }
+
+        // Add temporary customer option (with negative ID to indicate temporary)
+        var tempId = 'temp_' + Date.now();
+        var newOption = '<option value="' + tempId + '">' + customerName + '</option>';
+        $('select[name="customer_id"]').append(newOption);
+        $('select[name="customer_id"]').val(tempId);
+        
+        // Store temporary customer data for form submission
+        $("#tempCustomerData").remove(); // Remove any existing temp data
+        var tempCustomerInput = '<input type="hidden" id="tempCustomerData" name="temp_customer_data" value=\'' + JSON.stringify({
+            customer_name: $("#modal_customer_name").val(),
+            code: $("#modal_code").val(),
+            customer_tinnumber: $("#modal_customer_tinnumber").val(),
+            customer_vatnumber: $("#modal_customer_vatnumber").val(),
+            customer_address: $("#modal_customer_address").val(),
+            customer_phonenumber: $("#modal_customer_phonenumber").val(),
+            customer_status: $("#modal_customer_status").val()
+        }) + '\'>';
+        $("#submitForm").append(tempCustomerInput);
+        
+        // Clear modal form
+        $("#addCustomerForm")[0].reset();
+        $("#addCustomerModal").modal('hide');
+        
+        showAlert("Customer added temporarily", "info");
+    });
+
+    function showAlert(message, errorIconMessage) {
+        Swal.fire({
+            position: "top-end",
+            icon: errorIconMessage,
+            title: message,
+            showConfirmButton: false,
+            timer: 1000
+        });
+    }
 });
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
@@ -268,12 +363,18 @@ $(document).ready(function(){
                           @csrf
                         <div class="row">
                             <div class="form-group">
-                                <label for="supplier_id">Select Customer</label>
-                                <select name="customer_id" class="form-control border border-2 p-2" required>
-                                    @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="customer_id">Select Customer</label>
+                                <div class="d-flex">
+                                    <select name="customer_id" class="form-control border border-2 p-2 me-2" required>
+                                        <option value="">Choose Customer</option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="button" id="addCustomerBtn" class="btn btn-success btn-sm">
+                                        <i class="fa fa-plus"></i> Add New
+                                    </button>
+                                </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label">Quote Number</label>
@@ -364,6 +465,81 @@ $(document).ready(function(){
         </div>
        
     </div>
+
+    <!-- Add Customer Modal -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Add New Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCustomerForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_customer_name">Customer Name *</label>
+                                    <input type="text" id="modal_customer_name" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_code">Customer Code *</label>
+                                    <input type="text" id="modal_code" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_customer_tinnumber">Customer TIN Number *</label>
+                                    <input type="text" id="modal_customer_tinnumber" maxlength="10" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_customer_vatnumber">Customer VAT Number *</label>
+                                    <input type="text" id="modal_customer_vatnumber" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_customer_address">Customer Address *</label>
+                                    <input type="text" id="modal_customer_address" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_customer_phonenumber">Customer Phone Number *</label>
+                                    <input type="text" id="modal_customer_phonenumber" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_customer_status">Status *</label>
+                                    <select id="modal_customer_status" class="form-control border border-2 p-2" required>
+                                        <option value="active">Active</option>
+                                        <option value="not_active">Not Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="useWithoutSavingBtn" class="btn btn-warning">Use Without Saving</button>
+                    <button type="button" id="saveCustomerBtn" class="btn btn-primary">Save & Use</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </body>
     <x-plugins></x-plugins>
 
