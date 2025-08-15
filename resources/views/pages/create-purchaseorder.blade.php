@@ -164,6 +164,106 @@ $(document).ready(function(){
         $("#total-value").text("Total: $" + total.toFixed(2));
         return total;
     }
+
+    // Add New Supplier Modal Handler
+    $("#addSupplierBtn").click(function() {
+        $("#addSupplierModal").modal('show');
+    });
+
+    // Save Supplier Handler
+    $("#saveSupplierBtn").click(function() {
+        var supplierData = {
+            supplier_name: $("#modal_supplier_name").val(),
+            supplier_tinnumber: $("#modal_supplier_tinnumber").val(),
+            supplier_vatnumber: $("#modal_supplier_vatnumber").val(),
+            supplier_address: $("#modal_supplier_address").val(),
+            supplier_type: $("#modal_supplier_type").val(),
+            supplier_phonenumber: $("#modal_supplier_phonenumber").val(),
+            supplier_contactperson: $("#modal_supplier_contactperson").val(),
+            supplier_contactpersonnumber: $("#modal_supplier_contactpersonnumber").val(),
+            supplier_status: $("#modal_supplier_status").val()
+        };
+
+        // Validate required fields
+        if (!supplierData.supplier_name || !supplierData.supplier_tinnumber || !supplierData.supplier_vatnumber || 
+            !supplierData.supplier_address || !supplierData.supplier_phonenumber || !supplierData.supplier_contactperson || 
+            !supplierData.supplier_contactpersonnumber) {
+            showAlert("Please fill in all required fields", "error");
+            return;
+        }
+
+        // Save supplier via AJAX
+        $.ajax({
+            type: 'POST',
+            url: '/submit-suppliers',
+            data: supplierData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                // Add new supplier to dropdown
+                var newOption = '<option value="' + response.supplier.id + '">' + response.supplier.supplier_name + '</option>';
+                $('select[name="supplier_id"]').append(newOption);
+                $('select[name="supplier_id"]').val(response.supplier.id);
+                
+                // Clear modal form
+                $("#addSupplierForm")[0].reset();
+                $("#addSupplierModal").modal('hide');
+                
+                showAlert("Supplier created successfully", "success");
+            },
+            error: function(xhr, status, error) {
+                showAlert("Error creating supplier: " + error, "error");
+            }
+        });
+    });
+
+    // Use Without Saving Handler
+    $("#useWithoutSavingBtn").click(function() {
+        var supplierName = $("#modal_supplier_name").val();
+        
+        if (!supplierName) {
+            showAlert("Please enter supplier name", "error");
+            return;
+        }
+
+        // Add temporary supplier option (with negative ID to indicate temporary)
+        var tempId = 'temp_' + Date.now();
+        var newOption = '<option value="' + tempId + '">' + supplierName + '</option>';
+        $('select[name="supplier_id"]').append(newOption);
+        $('select[name="supplier_id"]').val(tempId);
+        
+        // Store temporary supplier data for form submission
+        $("#tempSupplierData").remove(); // Remove any existing temp data
+        var tempSupplierInput = '<input type="hidden" id="tempSupplierData" name="temp_supplier_data" value=\'' + JSON.stringify({
+            supplier_name: $("#modal_supplier_name").val(),
+            supplier_tinnumber: $("#modal_supplier_tinnumber").val(),
+            supplier_vatnumber: $("#modal_supplier_vatnumber").val(),
+            supplier_address: $("#modal_supplier_address").val(),
+            supplier_type: $("#modal_supplier_type").val(),
+            supplier_phonenumber: $("#modal_supplier_phonenumber").val(),
+            supplier_contactperson: $("#modal_supplier_contactperson").val(),
+            supplier_contactpersonnumber: $("#modal_supplier_contactpersonnumber").val(),
+            supplier_status: $("#modal_supplier_status").val()
+        }) + '\'>';
+        $("#submitForm").append(tempSupplierInput);
+        
+        // Clear modal form
+        $("#addSupplierForm")[0].reset();
+        $("#addSupplierModal").modal('hide');
+        
+        showAlert("Supplier added temporarily", "info");
+    });
+
+    function showAlert(message, errorIconMessage) {
+        Swal.fire({
+            position: "top-end",
+            icon: errorIconMessage,
+            title: message,
+            showConfirmButton: false,
+            timer: 1000
+        });
+    }
 });
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
@@ -258,11 +358,17 @@ $(document).ready(function(){
                         <div class="row">
                             <div class="form-group">
                                 <label for="supplier_id">Select Supplier</label>
-                                <select name="supplier_id" class="form-control border border-2 p-2" required>
-                                    @foreach ($suppliers as $supplier)
-                                        <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="d-flex">
+                                    <select name="supplier_id" class="form-control border border-2 p-2 me-2" required>
+                                        <option value="">Choose Supplier</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="button" id="addSupplierBtn" class="btn btn-success btn-sm">
+                                        <i class="fa fa-plus"></i> Add New
+                                    </button>
+                                </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label">Purchase Order Date</label>
@@ -379,6 +485,98 @@ $(document).ready(function(){
         </div>
        
     </div>
+
+    <!-- Add Supplier Modal -->
+    <div class="modal fade" id="addSupplierModal" tabindex="-1" aria-labelledby="addSupplierModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSupplierModalLabel">Add New Supplier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addSupplierForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_name">Supplier Name *</label>
+                                    <input type="text" id="modal_supplier_name" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_tinnumber">TIN Number *</label>
+                                    <input type="text" id="modal_supplier_tinnumber" maxlength="10" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_vatnumber">VAT Number *</label>
+                                    <input type="text" id="modal_supplier_vatnumber" maxlength="9" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_address">Address *</label>
+                                    <input type="text" id="modal_supplier_address" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_type">Type</label>
+                                    <select id="modal_supplier_type" class="form-control border border-2 p-2" required>
+                                        <option value="cash">Cash</option>
+                                        <option value="credit">Credit</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_phonenumber">Phone Number *</label>
+                                    <input type="text" id="modal_supplier_phonenumber" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_contactperson">Contact Person *</label>
+                                    <input type="text" id="modal_supplier_contactperson" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_contactpersonnumber">Contact Person Number *</label>
+                                    <input type="text" id="modal_supplier_contactpersonnumber" class="form-control border border-2 p-2" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="modal_supplier_status">Status</label>
+                                    <select id="modal_supplier_status" class="form-control border border-2 p-2" required>
+                                        <option value="active">Active</option>
+                                        <option value="not_active">Not Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="useWithoutSavingBtn" class="btn btn-warning">Use Without Saving</button>
+                    <button type="button" id="saveSupplierBtn" class="btn btn-primary">Save & Use</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </body>
     <x-plugins></x-plugins>
 

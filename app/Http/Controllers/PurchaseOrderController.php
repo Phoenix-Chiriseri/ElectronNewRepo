@@ -57,8 +57,31 @@ class PurchaseOrderController extends Controller
 
     public function store(Request $request)
     {
-            $request->validate([
-            'supplier_id' => 'required|exists:suppliers,id',
+        // Handle temporary supplier creation
+        $supplierId = $request->input('supplier_id');
+        
+        // Check if this is a temporary supplier
+        if (str_starts_with($supplierId, 'temp_') && $request->has('temp_supplier_data')) {
+            $tempSupplierData = json_decode($request->input('temp_supplier_data'), true);
+            
+            // Create the supplier
+            $supplier = new Supplier();
+            $supplier->supplier_name = $tempSupplierData['supplier_name'];
+            $supplier->supplier_tinnumber = $tempSupplierData['supplier_tinnumber'];
+            $supplier->supplier_vatnumber = $tempSupplierData['supplier_vatnumber'];
+            $supplier->supplier_address = $tempSupplierData['supplier_address'];
+            $supplier->supplier_type = $tempSupplierData['supplier_type'];
+            $supplier->supplier_phonenumber = $tempSupplierData['supplier_phonenumber'];
+            $supplier->supplier_contactperson = $tempSupplierData['supplier_contactperson'];
+            $supplier->supplier_contactpersonnumber = $tempSupplierData['supplier_contactpersonnumber'];
+            $supplier->supplier_status = $tempSupplierData['supplier_status'];
+            $supplier->save();
+            
+            // Update supplier_id to the newly created supplier
+            $supplierId = $supplier->id;
+        }
+
+        $request->validate([
             'purchaseorder_date' => 'required|date',
             'expected_date' => 'required|date|after_or_equal:purchaseorder_date',
             'payment_method' => 'required|string',
@@ -71,7 +94,7 @@ class PurchaseOrderController extends Controller
             
             try {
             $purchaseOrder = new PurchaseOrder();
-            $purchaseOrder->supplier_id = $request->input("supplier_id");
+            $purchaseOrder->supplier_id = $supplierId; // Use the resolved supplier ID
             $purchaseOrder->purchaseorder_date = $request->input("purchaseorder_date");
             $purchaseOrder->expected_date = $request->input("expected_date");
             $purchaseOrder->delivery_instructions = $request->input("delivery_instructions");
