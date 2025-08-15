@@ -26,7 +26,7 @@ class CustomerController extends Controller
 
     public function quoteCustomers(){
 
-        $customers = Customer::all();
+        $customers = Customer::orderBy("id","desc")->get();
         return view("pages.quote-customers")->with("customers",$customers);
     }
 
