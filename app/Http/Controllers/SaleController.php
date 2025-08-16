@@ -32,86 +32,113 @@ class SaleController extends Controller
         return view("pages.view-sales")->with("sales",$sales)->with("numberOfSales",$numberOfSales);
     }
 
+    //please this method is the one to do the direct printing
     public function doTransaction(Request $request) {
 
         $userId = Auth::user()->id;
         $paymentMethod = $request->input("payment_method");
-        //dd($paymentMethod);
         $total = $request->input('total');
         $change = $request->input('change');
         $amountPaid = $request->input('amountPaid');
         $customerId = $request->input('customerId');
         $tableDataJson = $request->input('table_data');
         $companyDetails = CompanyData::latest()->first();
-    
+
         // Decode the JSON string into a PHP array
-        $tableData = json_decode($tableDataJson, true);      
-    
+        $tableData = json_decode($tableDataJson, true);
+
         // Create a new sale record
         $sale = Sales::create([
             'total' => $total,
             'change' => $change,
             'amountPaid' => $amountPaid,
             'user_id' => $userId,
-            'payment_method' => $paymentMethod // Add payment method here
+            'payment_method' => $paymentMethod
         ]);
-    
+
         // Iterate through each item in the sale and associate it with the sale record
         foreach ($tableData as $item) {
             $productId = $item['id'];
             $quantitySold = $item['quantity'];
-    
-            // Update the available quantity in the stocks table
             Stock::where('product_id', $productId)
                 ->decrement('quantity', $quantitySold);
-    
-            // Associate the sold product with the sale
             $sale->products()->attach($productId, ['quantity' => $quantitySold]);
         }
-    
-        // Generate invoice HTML
-        $invoiceHtml = view('pages.salesInvoice', [ // ensure the correct view path
-            'sale' => $sale,
-            'customer' => Customer::find($customerId),
-            'items' => $tableData,
-            'details' => $companyDetails,
-            'amountPaid' => $amountPaid,
-            'paymentMethod' => $paymentMethod // Include payment method in the view
-        ])->render();
-    
         // Save the invoice HTML
-        $invoice = Invoice::create([
-            'html' => $invoiceHtml,
-            'user_id' => $userId
-        ]);
-    
-        // Associate the invoice with the sale
-        $sale->invoice_id = $invoice->id;
-        $sale->save();
-    
-        // Return the view with the $invoiceHtml variable
-        return view('pages.salesInvoice', [
-            'sale' => $sale,
-            'customer' => Customer::find($customerId),
-            'items' => $tableData,
-            'details' => $companyDetails,
-            'amountPaid' => $amountPaid,
-            'paymentMethod' => $paymentMethod // Pass payment method to the view
-        ]);
+        // $invoiceHtml = view('pages.salesInvoice', [
+        //     'sale' => $sale,
+        //     'customer' => Customer::find($customerId),
+        //     'items' => $tableData,
+        //     'details' => $companyDetails,
+        //     'amountPaid' => $amountPaid,
+        //     'paymentMethod' => $paymentMethod
+        // ])->render();
+        // $invoice = Invoice::create([
+        //     'html' => $invoiceHtml,
+        //     'user_id' => $userId
+        // ]);
+        
+        // $sale->invoice_id = $invoice->id;
+        // $sale->save();
+        // Direct printing using mike42/escpos-php
+        
+        try {
+            $connector = new \Mike42\Escpos\PrintConnectors\WindowsPrintConnector('POS-80');
+            $printer = new \Mike42\Escpos\Printer($connector);
+
+            // Header with company name
+            $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_CENTER);
+            $printer->setEmphasis(true);
+            $printer->text(strtoupper($companyDetails->name) . "\n");
+            $printer->setEmphasis(false);
+            $printer->text("TIN: " . $companyDetails->tinnumber . "   VAT: " . $companyDetails->vatnumber . "\n");
+            $printer->text("Phone: " . $companyDetails->phone_number . "\n");
+            $printer->text("Email: " . $companyDetails->email . "\n");
+            $printer->text("Payment: " . $paymentMethod . "\n");
+            $printer->text("Invoice #: " . $sale->id . "\n");
+            $printer->text("Date: " . date('d/m/y') . "\n");
+            $printer->text(str_repeat("-", 32) . "\n");
+
+            // Items table
+            $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_LEFT);
+            $printer->text("Item        Qty   Price   Total\n");
+            $printer->text(str_repeat("-", 32) . "\n");
+            foreach ($tableData as $item) {
+                $line = sprintf("%-10s %3d %7.2f %7.2f\n",
+                    $item['name'],
+                    $item['quantity'],
+                    $item['unitPrice'],
+                    $item['total']
+                );
+                $printer->text($line);
+            }
+            $printer->text(str_repeat("-", 32) . "\n");
+
+            // Totals
+            $vat = $total * 0.16;
+            $totalExVat = $total - $vat;
+            $printer->text(sprintf("Total Ex VAT:   %7.2f\n", $totalExVat));
+            $printer->text(sprintf("VAT (16%%):     %7.2f\n", $vat));
+            $printer->text(sprintf("Sub Total:      %7.2f\n", $total));
+            $printer->text(sprintf("Amount Paid:    %7.2f\n", $amountPaid));
+            $printer->text(sprintf("Change:         %7.2f\n", $change));
+            $printer->text(str_repeat("-", 32) . "\n");
+
+            // Footer
+            $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_CENTER);
+            $printer->text("Thank you for shopping with us!\n");
+            $printer->cut();
+            $printer->close();
+        } catch (\Exception $e) {
+            \Log::error('Print error: ' . $e->getMessage());
+        }
+        return redirect()->back()->with('success', 'Sale completed and receipt printed.');
     }
 
     public function create()
     {
         //
     }
-
-
-    public function show(Sale $sale)
-        {
-            
-            //
-        
-        }
 
     /**
      * Show the form for editing the specified resource.
