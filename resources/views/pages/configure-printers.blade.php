@@ -3,8 +3,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
     <div class="container mt-5">
-        <h3>Configure Printer</h3>
-        
+        <h3>Configure Printers</h3>
         <!-- IP Discovery Section -->
         <div class="card mb-4">
             <div class="card-header">
@@ -15,17 +14,13 @@
                 <div id="scanResults" class="mt-3"></div>
             </div>
         </div>
-        
         <!-- Add Printer Form -->
         <form method="POST" action="{{ route('add-printer') }}" class="row">
             @csrf
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
                 <input name="name" class="form-control" placeholder="Printer Name" required>
             </div>
-            <div class="col-md-4 mb-3">
-                <input name="ip" class="form-control" placeholder="Printer IP" required>
-            </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
                 <button type="submit" class="btn btn-primary">Save Printer</button>
             </div>
         </form>

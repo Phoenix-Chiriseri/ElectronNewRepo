@@ -35,6 +35,7 @@ class SaleController extends Controller
     //please this method is the one to do the direct printing
     public function doTransaction(Request $request) {
 
+        
         $userId = Auth::user()->id;
         $paymentMethod = $request->input("payment_method");
         $total = $request->input('total');
@@ -43,10 +44,9 @@ class SaleController extends Controller
         $customerId = $request->input('customerId');
         $tableDataJson = $request->input('table_data');
         $companyDetails = CompanyData::latest()->first();
-
         // Decode the JSON string into a PHP array
         $tableData = json_decode($tableDataJson, true);
-
+        
         // Create a new sale record
         $sale = Sales::create([
             'total' => $total,
@@ -55,7 +55,6 @@ class SaleController extends Controller
             'user_id' => $userId,
             'payment_method' => $paymentMethod
         ]);
-
         // Iterate through each item in the sale and associate it with the sale record
         foreach ($tableData as $item) {
             $productId = $item['id'];
@@ -82,10 +81,11 @@ class SaleController extends Controller
         // $sale->save();
         // Direct printing using mike42/escpos-php
         
+        // Fetch saved printer name from config or database
+        $printerName = config('pos.printer_name', 'POS-80'); // fallback to POS-80 if not set
         try {
-            $connector = new \Mike42\Escpos\PrintConnectors\WindowsPrintConnector('POS-80');
+            $connector = new \Mike42\Escpos\PrintConnectors\WindowsPrintConnector($printerName);
             $printer = new \Mike42\Escpos\Printer($connector);
-
             // Header with company name
             $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_CENTER);
             $printer->setEmphasis(true);
@@ -98,7 +98,6 @@ class SaleController extends Controller
             $printer->text("Invoice #: " . $sale->id . "\n");
             $printer->text("Date: " . date('d/m/y') . "\n");
             $printer->text(str_repeat("-", 32) . "\n");
-
             // Items table
             $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_LEFT);
             $printer->text("Item        Qty   Price   Total\n");
@@ -112,8 +111,8 @@ class SaleController extends Controller
                 );
                 $printer->text($line);
             }
+            
             $printer->text(str_repeat("-", 32) . "\n");
-
             // Totals
             $vat = $total * 0.16;
             $totalExVat = $total - $vat;
@@ -123,7 +122,6 @@ class SaleController extends Controller
             $printer->text(sprintf("Amount Paid:    %7.2f\n", $amountPaid));
             $printer->text(sprintf("Change:         %7.2f\n", $change));
             $printer->text(str_repeat("-", 32) . "\n");
-
             // Footer
             $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_CENTER);
             $printer->text("Thank you for shopping with us!\n");
