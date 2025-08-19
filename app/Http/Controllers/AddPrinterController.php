@@ -14,31 +14,38 @@ class AddPrinterController extends Controller
     
     public function testPrint()
     {
-    $data = [
-    'customer' => 'John Doe',
-    'items' => [
-        ['name' => 'Product A', 'price' => 10],
-        ['name' => 'Product B', 'price' => 20],
-    ],
-    'total' => 30,
-    ];
-    $pdf = Pdf::loadView('receipt', $data);
-    $pdfPath = storage_path('app/public/receipt.pdf');
-    $saved = $pdf->save($pdfPath);
-    if($saved){
-        // Print using SumatraPDF (silent)
-        $sumatraPath = 'C:\\Program Files\\SumatraPDF\\SumatraPDF.exe'; // Adjust if installed elsewhere
-        $printerName = 'HS-88AI'; // Change to your printer name
-        $cmd = '"' . $sumatraPath . '" -print-to "' . $printerName . '" -silent "' . $pdfPath . '"';
-        exec($cmd, $output, $resultCode);
-        if($resultCode === 0){
-            echo "saved and sent to printer";
-        }else{
-            echo "saved but print failed";
+        $data = [
+            'customer' => 'John Doe',
+            'items' => [
+                ['name' => 'Product A', 'price' => 10],
+                ['name' => 'Product B', 'price' => 20],
+            ],
+            'total' => 30,
+        ];
+
+        try {
+            $pdf = Pdf::loadView('receipt', $data);
+            $pdfPath = storage_path('app/public/receipt.pdf');
+            $saved = $pdf->save($pdfPath);
+
+            if ($saved) {
+                // Print using SumatraPDF (silent)
+                $sumatraPath = 'C:\\SumatraPDF.exe'; // Adjust if installed elsewhere
+                $printerName = 'HS-88AI'; // Change to your printer name
+                $cmd = '"' . $sumatraPath . '" -print-to "' . $printerName . '" -silent "' . $pdfPath . '"';
+                exec($cmd, $output, $resultCode);
+
+                if ($resultCode === 0) {
+                    echo "saved and sent to printer";
+                } else {
+                    echo "saved but print failed";
+                }
+            } else {
+                echo "not saved";
+            }
+        } catch (\Exception $e) {
+            echo "Exception: " . $e->getMessage();
         }
-    }else{
-        echo "not saved";
-      }
     }
     
     //screen to add a new printer
