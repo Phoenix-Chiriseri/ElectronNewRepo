@@ -5,17 +5,54 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
+use App\Models\Printers;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class AddPrinterController extends Controller
 {
+    
+    public function testPrint()
+    {
+    $data = [
+    'customer' => 'John Doe',
+    'items' => [
+        ['name' => 'Product A', 'price' => 10],
+        ['name' => 'Product B', 'price' => 20],
+    ],
+    'total' => 30,
+    ];
+    $pdf = Pdf::loadView('receipt', $data);
+    $pdfPath = storage_path('app/public/receipt.pdf');
+    $saved = $pdf->save($pdfPath);
+    if($saved){
+        // Print using SumatraPDF (silent)
+        $sumatraPath = 'C:\\Program Files\\SumatraPDF\\SumatraPDF.exe'; // Adjust if installed elsewhere
+        $printerName = 'HS-88AI'; // Change to your printer name
+        $cmd = '"' . $sumatraPath . '" -print-to "' . $printerName . '" -silent "' . $pdfPath . '"';
+        exec($cmd, $output, $resultCode);
+        if($resultCode === 0){
+            echo "saved and sent to printer";
+        }else{
+            echo "saved but print failed";
+        }
+    }else{
+        echo "not saved";
+      }
+    }
+    
     //screen to add a new printer
     public function addPrinter(){
+ 
         return view("pages.add-printer");
+ 
     }
 
+
     public function printTest(Request $request)
-{
-    try {
+    {
+   
+      try {
         // Replace 'HS-88AI' with your actual printer name
         $connector = new WindowsPrintConnector("HS-88AI");
         $printer = new Printer($connector);
@@ -28,74 +65,5 @@ class AddPrinterController extends Controller
         return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     }
 }
- 
-private function getPrinters()
-    {
-        $output = [];
-        $os = PHP_OS_FAMILY;
-        if ($os === 'Windows') {
-            $result = shell_exec('wmic printer get name');
-            $printers = explode("\n", $result);
-            foreach ($printers as $printer) {
-                $printer = trim($printer);
-                if (!empty($printer) && $printer !== 'Name') {
-                    $output[] = $printer;
-                }
-            }
-        } elseif ($os === 'Linux') {
-            $result = shell_exec('lpstat -p');
-            $printers = explode("\n", $result);
-            foreach ($printers as $printer) {
-                if (preg_match('/^printer\s+(\S+)/', $printer, $matches)) {
-                    $output[] = $matches[1];
-                }
-            }
-        }
-
-        return $output;
-    }
-
-    public function showPrinters()
-    {
-        // Get list of printers
-        $printers = $this->getPrinters();
-        return view('pages.printers', compact('printers'));
-    }
-
-    private function printToPrinter($printerName)
-    {
-        $os = PHP_OS_FAMILY;
-        if ($os === 'Windows') {
-            $connector = new WindowsPrintConnector($printerName);
-        } elseif ($os === 'Linux') {
-            $connector = new FilePrintConnector("/dev/usb/lp0");
-        } else {
-            throw new Exception('Unsupported OS');
-        }
-
-        $printer = new Printer($connector);
-        $printer->text("Test Page\n");
-        $printer->text("-------------------\n");
-        $printer->text("Hello, this is a test print.\n");
-        $printer->text("-------------------\n");
-
-        $printer->cut();
-        $printer->close();
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'connection_mode' => 'required|string',
-            'device_id' => 'nullable|string',
-            'status' => 'required|string'
-        ]);
-
-        // Here you would typically save to database
-        // For now, we'll just return success
-         Printer::create($validated);
-        return redirect()->back()->with('success', 'Printer configured successfully!');
-    }
 }
 ?>

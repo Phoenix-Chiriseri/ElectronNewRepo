@@ -55,6 +55,7 @@ class SaleController extends Controller
             'user_id' => $userId,
             'payment_method' => $paymentMethod
         ]);
+
         // Iterate through each item in the sale and associate it with the sale record
         foreach ($tableData as $item) {
             $productId = $item['id'];
@@ -82,7 +83,9 @@ class SaleController extends Controller
         // Direct printing using mike42/escpos-php
         
         // Fetch saved printer name from config or database
+       
         $printerName = config('pos.printer_name', 'POS-80'); // fallback to POS-80 if not set
+       
         try {
             $connector = new \Mike42\Escpos\PrintConnectors\WindowsPrintConnector($printerName);
             $printer = new \Mike42\Escpos\Printer($connector);

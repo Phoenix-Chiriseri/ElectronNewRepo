@@ -10,6 +10,6 @@ class Printers extends Model
     use HasFactory;
 
       protected $fillable = [
-        'name', 'driver_name', 'connection_mode', 'device_id', 'status'
+        'name'
     ];
 }

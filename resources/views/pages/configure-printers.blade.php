@@ -18,44 +18,13 @@
         <form method="POST" action="{{ route('add-printer') }}" class="row">
             @csrf
             <div class="col-md-6 mb-3">
-                <input name="name" class="form-control" placeholder="Printer Name" required>
+                <input name="printer_name" class="form-control" placeholder="Printer Name" required>
             </div>
             <div class="col-md-6 mb-3">
                 <button type="submit" class="btn btn-primary">Save Printer</button>
             </div>
         </form>
-
         <hr>
-
-
-        <script>
-document.getElementById('scanNetwork').addEventListener('click', function () {
-    const resultsDiv = document.getElementById('scanResults');
-    resultsDiv.innerHTML = 'Sending test print...';
-
-    fetch("{{ route('test-print') }}", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({})
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            resultsDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-        } else {
-            resultsDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
-        }
-    })
-    .catch(err => {
-        resultsDiv.innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`;
-    });
-});
-</script>
-
-
         <!-- Saved Printers List -->
         <h5>Saved Printers</h5>
         @foreach($printers as $printer)

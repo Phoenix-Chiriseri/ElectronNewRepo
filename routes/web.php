@@ -218,7 +218,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/get-all-suppliers', [ApiController::class, 'getAllSuppliers'])->name('get.allsuppliers');
 	Route::get("/get-all-grvs",[ApiController::class,'getAllGRVS'])->name("getAllGrvs");
 	Route::get("/add-printer",[AddPrinterController::class,'addPrinter'])->name("add-printer");
-	Route::get("/add-printer",[AddPrinterController::class,'testPrint'])->name("test-print");
+	//Route::get("/add-printer",[AddPrinterController::class,'testPrint'])->name("test-print");
 	Route::post("/add-printer",[AddPrinterController::class,'store'])->name("add-printer");
 	Route::get("/view-quotations",[QuoteController::class,'viewAllQuotations'])->name("view.quotes");
 	Route::get("get-employees",[ApiController::class,'getAllEmployees'])->name("getAllEmployees");
@@ -227,6 +227,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/total-sales',[ApiController::class,'getTotalSales'])->name('get-total-sales');
 	Route::get('/printers', [AddPrinterController::class, 'showPrinters'])->name('printers');
 	Route::get('/configure-printers', [PrintersController::class, 'index'])->name('configure-printers');
+	Route::get('/test-print', [AddPrinterController::class, 'testPrint'])->name('test-print');
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');

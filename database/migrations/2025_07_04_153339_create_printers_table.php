@@ -7,17 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations.cd 
      */
     public function up(): void
     {
         Schema::create('printers', function (Blueprint $table) {
           $table->id();
-    $table->string('name');
-    $table->string('ip');
-    $table->string('driver')->nullable()->default('HS-88AI');
-    $table->string('connection_mode')->default('websocket');
-    $table->timestamps();
+          $table->string('name');
+          $table->timestamps();
         });
     }
 
