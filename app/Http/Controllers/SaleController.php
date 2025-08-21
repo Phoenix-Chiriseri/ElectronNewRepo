@@ -22,7 +22,7 @@ class SaleController extends Controller
 {
     
      public function index()
-    {
+     {
         //return the sales to the view-sales blade file
         $sales = Sales::leftJoin('users', 'sales.user_id', '=', 'users.id')
         ->select('users.name', 'sales.*')
@@ -32,7 +32,7 @@ class SaleController extends Controller
         return view("pages.view-sales")->with("sales",$sales)->with("numberOfSales",$numberOfSales);
     }
 
-    //please this method is the one to do the direct printing
+   //please this method is the one to do the direct printing
    public function doTransaction(Request $request) {
     $userId = Auth::user()->id;
     $paymentMethod = $request->input("payment_method");
@@ -99,13 +99,13 @@ class SaleController extends Controller
     }
     $receiptPath = $directory . "/ElectronReceipt_" . $sale->id . ".txt";
     file_put_contents($receiptPath, $receipt);
-    return redirect()->back()->with('success', 'Sale completed and receipt saved as text file.');
+    return redirect()->back()->with('success', 'Sale Complete');
    
     }
 
     public function create()
     {
-        //
+        
     }
 
     /**
