@@ -32,8 +32,8 @@ class SaleController extends Controller
         return view("pages.view-sales")->with("sales",$sales)->with("numberOfSales",$numberOfSales);
     }
 
-   //please this method is the one to do the direct printing
-   public function doTransaction(Request $request) {
+
+    public function doTransaction(Request $request) {
     $userId = Auth::user()->id;
     $paymentMethod = $request->input("payment_method");
     $total = $request->input('total');
@@ -60,47 +60,34 @@ class SaleController extends Controller
         $sale->products()->attach($productId, ['quantity' => $quantitySold]);
     }
 
-    // Build receipt as plain text
-    $receipt = "";
-    $receipt .= strtoupper($companyDetails->name) . "\n";
-    $receipt .= "TIN: " . $companyDetails->tinnumber . "   VAT: " . $companyDetails->vatnumber . "\n";
-    $receipt .= "Phone: " . $companyDetails->phone_number . "\n";
-    $receipt .= "Email: " . $companyDetails->email . "\n";
-    $receipt .= "Payment: " . $paymentMethod . "\n";
-    $receipt .= "Invoice #: " . $sale->id . "\n";
-    $receipt .= "Date: " . date('d/m/y') . "\n";
-    $receipt .= str_repeat("-", 32) . "\n";
-    $receipt .= "Item        Qty   Price   Total\n";
-    $receipt .= str_repeat("-", 32) . "\n";
-    foreach ($tableData as $item) {
-        $line = sprintf("%-10s %3d %7.2f %7.2f\n",
-            $item['name'],
-            $item['quantity'],
-            $item['unitPrice'],
-            $item['total']
-        );
-        $receipt .= $line;
-    }
-    $receipt .= str_repeat("-", 32) . "\n";
-    $vat = $total * 0.16;
-    $totalExVat = $total - $vat;
-    $receipt .= sprintf("Total Ex VAT:   %7.2f\n", $totalExVat);
-    $receipt .= sprintf("VAT (16%%):     %7.2f\n", $vat);
-    $receipt .= sprintf("Sub Total:      %7.2f\n", $total);
-    $receipt .= sprintf("Amount Paid:    %7.2f\n", $amountPaid);
-    $receipt .= sprintf("Change:         %7.2f\n", $change);
-    $receipt .= str_repeat("-", 32) . "\n";
-    $receipt .= "Thank you for shopping with us!\n";
+    // Prepare data for PDF
+    $pdfData = [
+        'sale' => $sale,
+        'customer' => Customer::find($customerId),
+        'items' => $tableData,
+        'details' => $companyDetails,
+        'amountPaid' => $amountPaid,
+        'paymentMethod' => $paymentMethod
+    ];
 
-    // Save to text file (C:/receipts/ElectronReceipt_{sale_id}.txt)
+    // Generate PDF using Blade view
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.salesInvoice', $pdfData);
+
+    // Save PDF to C:/receipts/ElectronReceipt_{sale_id}.pdf
     $directory = "C:/receipts";
     if (!is_dir($directory)) {
         mkdir($directory, 0777, true); // create directory if it doesn't exist
     }
-    $receiptPath = $directory . "/ElectronReceipt_" . $sale->id . ".txt";
-    file_put_contents($receiptPath, $receipt);
-    return redirect()->back()->with('success', 'Sale Complete');
-   
+    $receiptPath = $directory . "/ElectronReceipt_" . $sale->id . ".pdf";
+    $pdf->save($receiptPath);
+
+    // Silent print using SumatraPDF
+    $sumatraPath = 'C:\\Program Files\\SumatraPDF\\SumatraPDF.exe'; // Update path if needed
+    $printerName = 'POS-80'; // Change to your printer name
+    $cmd = "\"$sumatraPath\" -print-to \"$printerName\" -silent \"$receiptPath\"";
+    exec($cmd, $output, $resultCode);
+
+    return redirect()->back()->with('success', 'Sale Complete, PDF exported and sent to printer.');
     }
 
     public function create()

@@ -33,7 +33,7 @@
         .receipt-container:hover {
             transform: translateY(-5px);
         }
-
+        
         .receipt {
             width: 85mm;
             padding: 0;
