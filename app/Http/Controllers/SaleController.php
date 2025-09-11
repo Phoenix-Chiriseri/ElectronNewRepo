@@ -34,6 +34,7 @@ class SaleController extends Controller
 
 
     public function doTransaction(Request $request) {
+    
     $userId = Auth::user()->id;
     $paymentMethod = $request->input("payment_method");
     $total = $request->input('total');
@@ -72,7 +73,6 @@ class SaleController extends Controller
 
     // Generate PDF using Blade view
     $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pages.salesInvoice', $pdfData);
-
     // Save PDF to C:/receipts/ElectronReceipt_{sale_id}.pdf
     $directory = "C:/receipts";
     if (!is_dir($directory)) {
@@ -82,12 +82,12 @@ class SaleController extends Controller
     $pdf->save($receiptPath);
 
     // Silent print using SumatraPDF
-    $sumatraPath = 'C:\\Program Files\\SumatraPDF\\SumatraPDF.exe'; // Update path if needed
+    $sumatraPath = 'C:\\Users\\itai\\AppData\\Local\\SumatraPDF\\SumatraPDF.exe';
     $printerName = 'POS-80'; // Change to your printer name
     $cmd = "\"$sumatraPath\" -print-to \"$printerName\" -silent \"$receiptPath\"";
     exec($cmd, $output, $resultCode);
-
     return redirect()->back()->with('success', 'Sale Complete, PDF exported and sent to printer.');
+    
     }
 
     public function create()
