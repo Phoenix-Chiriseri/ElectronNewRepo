@@ -129,6 +129,15 @@
                     <span class="nav-link-text ms-1">Invoices</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                    href="cart">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i style="font-size: 1.2rem;" class = "fa fa-book ps-2 pe-2 text-center"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Cart</span>
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link btn btn-dark btn-sm dropdown-toggle text-right" href="#" id="inventoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i style="font-size: 1.2rem;" class="fas fa-users me-2 ps-2 pe-2 text-center"></i>

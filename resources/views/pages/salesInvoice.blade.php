@@ -12,230 +12,150 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Courier New', monospace;
+            background: #f0f0f0;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            margin: 0;
         }
 
         .receipt-container {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             overflow: hidden;
-            transform: translateY(0);
-            transition: transform 0.3s ease;
-        }
-
-        .receipt-container:hover {
-            transform: translateY(-5px);
         }
         
         .receipt {
-            width: 85mm;
-            padding: 0;
-            background: white;
-            position: relative;
-        }
-
-        .receipt-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 15px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .receipt-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            opacity: 0.1;
-        }
-
-        .receipt-header h4 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .receipt-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 15px;
-            background: white;
-            border-radius: 15px 15px 0 0;
-        }
-
-        .receipt-body {
-            padding: 20px 15px;
-        }
-
-        .receipt-details {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .receipt-details p {
-            margin: 6px 0;
-            font-size: 12px;
-            color: #555;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .receipt-details p strong {
-            color: #333;
-            font-weight: 600;
-        }
-
-        .info-label {
-            font-weight: 500;
-            color: #667eea;
-        }
-
-        .receipt-items {
-            margin-bottom: 20px;
-        }
-
-        .receipt-items table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .receipt-items th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 12px 8px;
-            text-align: left;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .receipt-items td {
-            padding: 10px 8px;
-            font-size: 11px;
-            border-bottom: 1px solid #f0f0f0;
-            color: #555;
-        }
-
-        .receipt-items tr:last-child td {
-            border-bottom: none;
-        }
-
-        .receipt-items tr:hover {
-            background: #f8f9fa;
-        }
-
-        .receipt-totals {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #e9ecef;
-        }
-
-        .receipt-totals p {
-            margin: 8px 0;
-            font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .receipt-totals p:last-child {
-            font-weight: 700;
-            font-size: 14px;
-            color: #667eea;
-            border-top: 2px solid #667eea;
-            padding-top: 8px;
-            margin-top: 10px;
-        }
-
-        .receipt-totals span {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .receipt-footer {
-            text-align: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border: 2px dashed #667eea;
-            margin-bottom: 20px;
-        }
-
-        .receipt-footer p {
-            font-size: 13px;
-            color: #667eea;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .hidden-print {
-            text-align: center;
+            width: 320px;
             padding: 20px;
             background: white;
+            font-size: 13px;
+            line-height: 1.3;
+            color: #333;
         }
 
-        .hidden-print button {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .store-name {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .store-info {
+            text-align: left;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        .dashed-line {
+            border: none;
+            border-top: 1px dashed #333;
+            margin: 8px 0;
+            height: 1px;
+        }
+
+        .items-table {
+            width: 100%;
+            margin: 8px 0;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 3px;
+            font-size: 12px;
+        }
+
+        .header-item {
+            flex: 1;
+        }
+
+        .header-qty {
+            flex: 0.6;
+            text-align: center;
+        }
+
+        .header-price {
+            flex: 0.8;
+            text-align: right;
+        }
+
+        .header-total {
+            flex: 0.8;
+            text-align: right;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 3px 0;
+            font-size: 12px;
+        }
+
+        .item-name {
+            flex: 1;
+        }
+
+        .item-qty {
+            flex: 0.6;
+            text-align: center;
+        }
+
+        .item-price {
+            flex: 0.8;
+            text-align: right;
+        }
+
+        .item-total {
+            flex: 0.8;
+            text-align: right;
+        }
+
+        .totals-section {
+            margin-top: 8px;
+        }
+
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            margin: 2px 0;
+            font-size: 12px;
+        }
+
+        .thank-you {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .print-button-section {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .print-btn {
+            background: #007bff;
             color: white;
             border: none;
-            border-radius: 25px;
+            padding: 10px 25px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            font-weight: 500;
+            transition: background-color 0.2s;
         }
 
-        .hidden-print button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .hidden-print button:active {
-            transform: translateY(0);
-        }
-
-        /* Decorative elements */
-        .receipt-header::before {
-            content: '🧾';
-            font-size: 24px;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            opacity: 0.2;
+        .print-btn:hover {
+            background: #0056b3;
         }
 
         /* Print styles */
@@ -243,39 +163,33 @@
             body {
                 background: white;
                 padding: 0;
-            }
-            
-            body * {
-                visibility: hidden;
-            }
-            
-            .receipt-container, .receipt-container * {
-                visibility: visible;
+                margin: 0;
             }
             
             .receipt-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
                 box-shadow: none;
                 border-radius: 0;
             }
-            
-            .hidden-print {
+
+            .print-button-section {
                 display: none;
+            }
+
+            .receipt {
+                width: auto;
+                max-width: none;
             }
         }
 
         /* Mobile responsiveness */
         @media (max-width: 480px) {
             .receipt {
-                width: 100%;
-                max-width: 350px;
+                width: 80mm;
+                max-width: 80mm;
             }
             
             body {
-                padding: 10px;
+                padding: 5px;
             }
         }
     </style>
@@ -283,77 +197,80 @@
         function printReceipt() {
             window.print();
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add subtle animation
-            const receipt = document.querySelector('.receipt-container');
-            receipt.style.opacity = '0';
-            receipt.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                receipt.style.transition = 'all 0.5s ease';
-                receipt.style.opacity = '1';
-                receipt.style.transform = 'translateY(0)';
-            }, 100);
-        });
     </script>
 </head>
 <body>
     <div class="receipt-container">
         <div class="receipt">
-            <div class="receipt-header">
-                <h4>{{ $details->name }}</h4>
+            <!-- Store Name -->
+            <div class="store-name">{{ $details->name }}</div>
+            
+            <!-- Store Information -->
+            <div class="store-info">TIN: {{ $details->tinnumber }}   VAT: {{ $details->vatnumber }}</div>
+            <div class="store-info">Phone: {{ $details->phone_number }}</div>
+            <div class="store-info">Email: {{ $details->email }}</div>
+            <div class="store-info">Payment: {{ $paymentMethod }}</div>
+            <div class="store-info">Invoice #: {{ $sale->id }}</div>
+            <div class="store-info">Date: {{ date('d/m/y') }}</div>
+            
+            <!-- Dashed separator -->
+            <hr class="dashed-line">
+            
+            <!-- Items Table Header -->
+            <div class="table-header">
+                <div class="header-item">Item</div>
+                <div class="header-qty">Qty</div>
+                <div class="header-price">Price</div>
+                <div class="header-total">Total</div>
             </div>
-            <div class="receipt-body">
-                <div class="receipt-details">
-                    <p><span class="info-label">TIN:</span> <strong>{{ $details->tinnumber }}</strong></p>
-                    <p><span class="info-label">VAT:</span> <strong>{{ $details->vatnumber }}</strong></p>
-                    <p><span class="info-label">Phone:</span> <strong>{{ $details->phone_number }}</strong></p>
-                    <p><span class="info-label">Email:</span> <strong>{{ $details->email }}</strong></p>
-                    <p><span class="info-label">Payment:</span> <strong>{{ $paymentMethod }}</strong></p>
-                    <p><span class="info-label">Invoice #:</span> <strong>{{ $sale->id }}</strong></p>
-                    <p><span class="info-label">Date:</span> <strong>{{ date('d/m/y') }}</strong></p>
+            
+            <!-- Dashed separator -->
+            <hr class="dashed-line">
+            
+            <!-- Items List -->
+            @foreach($items as $item)
+            <div class="item-row">
+                <div class="item-name">{{ $item['name'] }}</div>
+                <div class="item-qty">{{ $item['quantity'] }}</div>
+                <div class="item-price">{{ number_format($item['unitPrice'], 2) }}</div>
+                <div class="item-total">{{ number_format($item['total'], 2) }}</div>
+            </div>
+            @endforeach
+            
+            <!-- Dashed separator -->
+            <hr class="dashed-line">
+            
+            <!-- Totals Section -->
+            <div class="totals-section">
+                <div class="total-line">
+                    <span>Total Ex VAT:</span>
+                    <span>{{ number_format($sale->total - $sale->total * 0.16, 2) }}</span>
                 </div>
-                
-                <div class="receipt-items">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Qty</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($items as $item)
-                            <tr>
-                                <td>{{ $item['name'] }}</td>
-                                <td>{{ $item['quantity'] }}</td>
-                                <td>${{ number_format($item['unitPrice'], 2) }}</td>
-                                <td>${{ number_format($item['total'], 2) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <div class="total-line">
+                    <span>VAT (16%):</span>
+                    <span>{{ number_format($sale->total * 0.16, 2) }}</span>
                 </div>
-                
-                <div class="receipt-totals">
-                    <p><span>Total Excluding VAT:</span> <span>${{ number_format($sale->total - $sale->total * 0.16, 2) }}</span></p>
-                    <p><span>VAT Total (16%):</span> <span>${{ number_format($sale->total * 0.16, 2) }}</span></p>
-                    <p><span>Sub Total:</span> <span>${{ number_format($sale->total, 2) }}</span></p>
-                    <p><span>Amount Paid:</span> <span>${{ number_format($amountPaid, 2) }}</span></p>
+                <div class="total-line">
+                    <span>Sub Total:</span>
+                    <span>{{ number_format($sale->total, 2) }}</span>
                 </div>
-                
-                <div class="receipt-footer">
-                    <p>✨ Thank you for shopping with us! ✨</p>
+                <div class="total-line">
+                    <span>Amount Paid:</span>
+                    <span>{{ number_format($amountPaid, 2) }}</span>
+                </div>
+                <div class="total-line">
+                    <span>Change:</span>
+                    <span>{{ number_format($amountPaid - $sale->total, 2) }}</span>
                 </div>
             </div>
+            
+            <!-- Dashed separator -->
+            <hr class="dashed-line">
+            
+            <!-- Thank you message -->
+            <div class="thank-you">Thank you for shopping with us!</div>
         </div>
-        
-        <div class="hidden-print">
-            <button onclick="printReceipt()">Print Receipt</button>
-        </div>
+        <!-- Print Button (hidden during print) -->
     </div>
 </body>
 </html>
