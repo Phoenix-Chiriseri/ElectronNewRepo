@@ -119,7 +119,6 @@
                     <a class="dropdown-item" href="{{ route('view-customers') }}">View Customers</a>
                 </div>
             </li>
-           
             <li class="nav-item">
                 <a class="nav-link text-white"
                     href="/view-invoices">

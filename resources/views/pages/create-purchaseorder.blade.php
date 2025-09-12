@@ -127,18 +127,30 @@ $(document).ready(function(){
 
     function updateProductTable(products) {
         var tableBody = $("table tbody");
-        // Append new rows based on the fetched products
         products.forEach(function (product) {
-            var newRow = $("<tr>");
-            newRow.append("<td>" + product.name + "</td>");
-            newRow.append("<td>" + product.unit_of_measurement + "</td>");
-            newRow.append("<td contenteditable='true' class='quantity'></td>");
-            newRow.append("<td class='unit-cost'>" + product.price + "</td>");
-            //newRow.append("<td contenteditable='true' class='unit-cost'></td>");
-            newRow.append("<td class='total-cost'></td>");
-            newRow.append('<td><button type="button" class="btn btn-danger btn-sm remove-product"><i class = "fa fa-trash"></i></button></td>');
-            newRow.append("</tr>");
-            tableBody.append(newRow);
+            // Check if product already exists in the table
+            var existingRow = tableBody.find("tr").filter(function() {
+                return $(this).find("td:first").text() === product.name;
+            });
+            if (existingRow.length > 0) {
+                // If exists, increase quantity
+                var quantityCell = existingRow.find(".quantity");
+                var currentQuantity = parseInt(quantityCell.text()) || 0;
+                quantityCell.text(currentQuantity + 1);
+                // Update total cost
+                var unitCost = parseFloat(existingRow.find(".unit-cost").text()) || 0;
+                existingRow.find(".total-cost").text(((currentQuantity + 1) * unitCost).toFixed(2));
+            } else {
+                // If not exists, add new row
+                var newRow = $("<tr>");
+                newRow.append("<td>" + product.name + "</td>");
+                newRow.append("<td>" + product.unit_of_measurement + "</td>");
+                newRow.append("<td contenteditable='true' class='quantity'>1</td>");
+                newRow.append("<td class='unit-cost'>" + product.price + "</td>");
+                newRow.append("<td class='total-cost'>" + product.price + "</td>");
+                newRow.append('<td><button type="button" class="btn btn-danger btn-sm remove-product"><i class = "fa fa-trash"></i></button></td>');
+                tableBody.append(newRow);
+            }
         });
 
         $(document).on("click", ".remove-product", function () {
