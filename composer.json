@@ -18,7 +18,8 @@
         "mike42/escpos-php": "*",
         "mikehaertl/php-shellcommand": "*",
         "milon/barcode": "^11.0",
-        "rawilk/laravel-printing": "*"
+        "rawilk/laravel-printing": "*",
+        "spatie/laravel-permission": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
