@@ -15,21 +15,41 @@ class RegisterController extends Controller
     }
 
     public function store(Request $request){
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'role' => 'required|in:manager,cashier',
-        ]);
+
+        // $validated = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|string|min:6|confirmed',
+        //     'role' => 'required',
+        // ]);
 
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'role' => $request['role'],
         ]);
         
-        return redirect('/dashboard')->with('success', 'User created successfully!'); 
+        return redirect()->back()->with('success', 'Employee Created Successfully');
+    }
+
+    public function updateEmployee(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        // $validated = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        //     'role' => 'required|in:manager,cashier',
+        //     'password' => 'nullable|string|min:6|confirmed',
+        // ]);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->role = $request->input('role');
+        if (!empty($request->input('password'))) {
+            $user->password = Hash::make($request->input('password'));
+        }
+        $user->save();
+        return redirect()->back()->with('success', 'Employee updated successfully');
     }
 }
 

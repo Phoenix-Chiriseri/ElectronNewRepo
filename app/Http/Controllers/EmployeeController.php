@@ -19,7 +19,7 @@ class EmployeeController extends Controller
         // ->select('users.name as user', 'employees.*')
         // ->orderBy('employees.id', 'desc')
         // ->paginate(10);
-        $employees = User::paginate(10);
+        $employees = User::orderBy("id","desc")->paginate(10);
         $employeesCount = User::all()->count();
         return view("pages.view-employees")->with("employees",$employees)->with("employeesCount",$employeesCount);
     }

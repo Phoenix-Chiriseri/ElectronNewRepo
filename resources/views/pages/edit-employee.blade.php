@@ -86,7 +86,7 @@ Swal.fire({
                             </div>
                         </div>
                         @endif
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ route('update-employee', $employee->id) }}">
                             @csrf
                             <div class="row">
                                 <div class="mb-3 col-md-12">

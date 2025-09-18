@@ -122,7 +122,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/customer-update/{customer}',[SupplierController::class, 'updateCustomer'])->name('customer.update');
 	Route::post('/submit-cattegory', [CattegoryController::class, 'store'])->name('submit-cattegory');
 	Route::post('/submit-employee', [ShopController::class, 'store'])->name('submit-shop');
-	Route::post('/submit-employee', [RegisterController::class, 'store'])->name('register');
+	Route::post('/submit-employee', [RegisterController::class, 'store'])->name('submit-employee');
 	Route::post('/submit-purchaseorder', [PurchaseOrderController::class, 'store'])->name('submit-purchaseorder');
 	Route::post('/submit-shop', [ShopController::class, 'store'])->name('submit-shop');
 	Route::get('/sell-product', [SalesController::class, 'create'])->name('sell-product');
@@ -179,6 +179,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
 	Route::get('/edit-payment-type/{id}', [PaymentTypesController::class, 'editPaymentType'])->name('edit-payment-type');
 	Route::get('/edit-employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit-employee');
+	Route::post('/update-employee/{id}', [RegisterController::class, 'updateEmployee'])->name('update-employee');
 	Route::get('/delete-group/{id}', [CattegoryController::class, 'deleteCattegory'])->name('delete-group');
 	Route::get('/delete-supplier/{id}', [SupplierController::class, 'deleteSupplier'])->name('delete-supplier');
 	Route::get('/view-pricelists', [PriceListsController::class, 'viewPriceLists'])->name('view-pricelists');
