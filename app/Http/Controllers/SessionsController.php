@@ -32,8 +32,11 @@ class SessionsController extends Controller
 
         session()->regenerate();
 
+        // Redirect based on role
+        if (auth()->user()->role === 'cashier') {
+            return redirect('/cart');
+        }
         return redirect('/dashboard');
-
     }
 
     public function show(){
