@@ -227,7 +227,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/total-sales',[ApiController::class,'getTotalSales'])->name('get-total-sales');
 	Route::get('/printers', [AddPrinterController::class, 'showPrinters'])->name('printers');
 	Route::get('/configure-printers', [PrintersController::class, 'index'])->name('configure-printers');
-	Route::get('/test-print', [AddPrinterController::class, 'testPrint'])->name('test-print');
+	Route::get('/test-print', [AddPrinterConstroller::class, 'testPrint'])->name('test-print');
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');

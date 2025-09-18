@@ -86,7 +86,7 @@ class SaleController extends Controller
     $printerName = 'POS-80'; // Change to your printer name
     $cmd = "\"$sumatraPath\" -print-to \"$printerName\" -silent \"$receiptPath\"";
     exec($cmd, $output, $resultCode);
-    return redirect()->back()->with('success', 'Sale Complete, PDF exported and sent to printer.');
+    return redirect()->back()->with('success', 'Sale Completed.');
     
     }
 
