@@ -79,19 +79,16 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
-                                               Employee Name
+                                               User Name
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 150px;">
-                                                Pos Username
-                                             </th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
                                                Email
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
-                                                Phone
-                                             </th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
                                               Role
+                                            </th>  
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
+                                              Created At
                                             </th>                                            
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder" style="width: 120px;">
                                                 Delete
@@ -112,17 +109,14 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{$employee->pos_username}}</p>
-                                            </td>
                                             <td class="align-middle text-center text-sm">
                                                 <h6 class="mb-0 text-sm">{{$employee->email}}</h6>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6 class="mb-0 text-sm">{{$employee->created_at}}</h6>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
                                                 <h6 class="mb-0 text-sm">{{$employee->role}}</h6>
+                                            </td>
+                                             <td class="align-middle text-center text-sm">
+                                                <h6 class="mb-0 text-sm">{{$employee->created_at}}</h6>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a class="btn btn-primary" href="{{ route('delete-employee',$employee->id) }}">Delete Employee</a>

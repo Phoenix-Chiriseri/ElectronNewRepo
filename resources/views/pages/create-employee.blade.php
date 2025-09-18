@@ -86,7 +86,7 @@ Swal.fire({
                             </div>
                         </div>
                         @endif
-                        <form method="POST" action="{{ route('submit-employee') }}">
+                        <form method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="row">
                                 <div class="mb-3 col-md-12">
@@ -110,7 +110,7 @@ Swal.fire({
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">Password</label>
                                     <input type="password" name="password" class="form-control border border-2 p-2" required>
-                                    @error('first_name')
+                                    @error('password')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -118,8 +118,8 @@ Swal.fire({
                             <div class="row">
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">Confirm Password</label>
-                                    <input type="password" name="confirm-password" class="form-control border border-2 p-2" required>
-                                    @error('first_name')
+                                    <input type="password" name="password_confirmation" class="form-control border border-2 p-2" required>
+                                    @error('password_confirmation')
                                     <p class="text-danger inputerror">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -127,8 +127,8 @@ Swal.fire({
                             <div class="mb-3 col-md-12">
                                 <label class="form-label">Role</label>
                                 <div class="form-group">
-                                    <label for="unit">Select Role</label>
                                     <select name="role" class="form-control border border-2 p-2" required>
+                                        <option value="admin">Administrator</option>
                                         <option value="manager">Manager</option>
                                         <option value="cashier">Cashier</option>
                                     </select>

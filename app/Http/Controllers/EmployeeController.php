@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -15,11 +15,12 @@ class EmployeeController extends Controller
      */
     public function viewEmployees()
     {
-        $employees = Employee::leftJoin('users', 'employees.user_id', '=', 'users.id')
-        ->select('users.name as user', 'employees.*')
-        ->orderBy('employees.id', 'desc')
-        ->paginate(10);
-        $employeesCount = Employee::all()->count();
+        // $employees = User::leftJoin('users', 'employees.user_id', '=', 'users.id')
+        // ->select('users.name as user', 'employees.*')
+        // ->orderBy('employees.id', 'desc')
+        // ->paginate(10);
+        $employees = User::paginate(10);
+        $employeesCount = User::all()->count();
         return view("pages.view-employees")->with("employees",$employees)->with("employeesCount",$employeesCount);
     }
 

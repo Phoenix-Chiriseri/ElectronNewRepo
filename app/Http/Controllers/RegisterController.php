@@ -15,15 +15,21 @@ class RegisterController extends Controller
     }
 
     public function store(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|in:manager,cashier',
+        ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
         ]);
         
-        auth()->login($user); 
-        return redirect('/dashboard'); 
+        return redirect('/dashboard')->with('success', 'User created successfully!'); 
     }
-} 
+}
 
