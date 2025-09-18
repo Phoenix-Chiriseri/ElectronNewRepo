@@ -3,7 +3,7 @@
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Tables"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Employees"></x-navbars.navs.auth>
         <script>
             $(document).ready(function () {
 

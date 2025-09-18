@@ -34,13 +34,10 @@ class EmployeeController extends Controller
     //return the employee to the view, find the employee by the id
     public function editEmployee($id){
 
-        $employee = Employee::find($id);
-        
+        $employee = User::find($id);
         if(!$employee){
-
             echo "employee does not exist";
         }
-
         return view("pages.edit-employee")->with("employee",$employee);
     }
 
@@ -97,7 +94,7 @@ class EmployeeController extends Controller
 
     public function deleteEmployee($id)
     {
-        $employee = Employee::find($id);
+        $employee = User::find($id);
         $employee->delete();
         return redirect('/view-employees');
     }
