@@ -490,12 +490,18 @@
 @endif
 <!-- Rest of your HTML content -->
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-    <!-- <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar> -->
+    @if(auth()->user() && auth()->user()->role !== 'cashier')
+        <x-navbars.sidebar activePage="user-profile"></x-navbars.sidebar>
+    @endif
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage='Electron Point Of Sale'></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage='Electron Point Of Sale'>
+            
+        </x-navbars.navs.auth>
+        
         <!-- End Navbar -->
         <body>
+            
             @if(session('success'))
             <script>
             Swal.fire({
@@ -509,6 +515,12 @@
             </script>
             @endif
 
+            @if(auth()->user() && auth()->user()->role === 'cashier')
+                <form method="POST" action="{{ route('logout') }}" style="display:inline;margin-left:1500px;">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm ms-2">Logout</button>
+                </form>
+            @endif
             <div class="container-fluid px-2 px-md-4">
 
                 <div class = "row">
@@ -584,7 +596,7 @@
                             <table class="user-cart table align-items-center">
                                 <thead>
                                     <tr>
-                                        <th style="color:black;">Product Name</th>
+                                        <th style="color:black;">Product Name Baba</th>
                                         <th style="color:black;">Quantity</th>
                                         <th style="color:black;">Code</th>
                                         <th style="color:black;">Tax</th>
