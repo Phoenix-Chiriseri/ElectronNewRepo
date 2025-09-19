@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Hash;
+use Database\Seeders\ElectronUsers;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,6 +26,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'itai',
             'email' => 'itaineilchiriseri@gmail.com',
             'password' => ('mygodisgood')
+        ]);
+
+        $this->call([
+        ElectronUsers::class,
         ]);
     }
 }
