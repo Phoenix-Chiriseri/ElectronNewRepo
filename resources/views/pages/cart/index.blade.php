@@ -516,173 +516,102 @@
             @endif
 
             @if(auth()->user() && auth()->user()->role === 'cashier')
-                <form method="POST" action="{{ route('logout') }}" style="display:inline;margin-left:1500px;">
+                <form method="POST" action="{{ route('logout') }}" style="display:inline; float:right; margin: 20px 30px 0 0;">
                     @csrf
                     <button type="submit" class="btn btn-danger btn-sm ms-2">Logout</button>
                 </form>
             @endif
             <div class="container-fluid px-2 px-md-4">
-
-                <div class = "row">
-
-                <div class="col-md-6">
-
-                    <div id = "prodResult"></div>   
-                    <input
-                    type="text"
-                    class="form-control border border-2 p-2"
-                    placeholder="Search Product By Name"
-                    onChange=""
-                    onKeyDown=""
-                    id="searchSelectedProd"
-                    /> 
-                              
-
-
-                </div>
-
-
-                <div class="col-md-6">
-
-                    <div id = "prodResult"></div>
-                    <input
-                    type="text"
-                    class="form-control border border-2 p-2"
-                    placeholder="Barcode"
-                    onChange=""
-                    onKeyDown=""
-                    id="searchSelectedProdByCode"
-                    />     
-                           
-
-                </div>
-                
-
-            </div>
-
-        <div class="container-fluid px-2 px-md-4" style="margin-top:66px;">
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="row mb-2">  
-                    </div>
-                    <div class="row mb-2">
-                    </div>
-                    <!-- <div class="container-fluid">
-                        <div class="card card-body mx-3 mx-md-4 mt-n6">
-                            <div class="row"> -->
-                                <!--<div class="col-md-8">
-                                 <<input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
-                                    <div id="searchResults"></div>!-->
-                                    <!--<div class="form-group">
-                                        <select id="selectedCustomer" class="form-control">
-                                            < Options will be dynamically populated when searching for customers -->
-                                        <!--</select>
-                                    </div>!-->
-                                <!--</div>
-                                <div class="col-md-4">
-                                    <a class="btn btn-danger" id="createCustomer" role="tab" aria-selected="true">
-                                        <i class="material-icons text-lg position-relative"></i>
-                                        <span class="ms-1"></span><i class="fa fa-user"></i>Create Customer
-                                    </a>            
-                                </div>!-->
-                            <!-- </div>
-                        </div>
-                    </div>   -->
-                
-                    <div class="user-cart">
-                        <div class="card">
-                            <table class="user-cart table align-items-center">
-                                <thead>
-                                    <tr>
-                                        <th style="color:black;">Product Name</th>
-                                        <th style="color:black;">Quantity</th>
-                                        <th style="color:black;">Code</th>
-                                        <th style="color:black;">Tax</th>
-                                        <th style="color:black;">Unit Price</th>
-                                        <th style="color:black;">Remove</th>
-                                        <th style="color:black;">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <hr>
-                    <div id = "finalCartResults"></div>
-                    <div class="row">
-                        <div class="col"></div>
-                       
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <button class = "btn btn-danger" id = "clearCart"> F7 Clear Cart</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <!-- Add your content for the second column here -->
-                            
-                            <div class="avatar avatar-xl position-relative">
-                                <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm">
+                <div class="row g-4 mt-3">
+                    <div class="col-md-8">
+                        <div class="card shadow-sm rounded-4 p-4 mb-4">
+                            <div class="row g-3 align-items-center mb-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-lg border border-2 p-2" placeholder="Search Product By Name" id="searchSelectedProd" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-lg border border-2 p-2" placeholder="Barcode" id="searchSelectedProdByCode" />
+                                </div>
                             </div>
-                            <br>
-                            <hr>
-                            <button type="submit" class="btn btn-secondary btn-block" id="newSale"></i>F4 New Sale</button>
-                            
-                            
+                            <div class="user-cart">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover align-items-center rounded-3 overflow-hidden">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Code</th>
+                                                <th>Tax</th>
+                                                <th>Unit Price</th>
+                                                <th>Remove</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Cart items rendered by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <button class="btn btn-danger" id="clearCart">F7 Clear Cart</button>
+                                <div id="finalCartResults"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm rounded-4 p-4 mb-4">
+                            <div class="avatar avatar-xl position-relative mb-3 mx-auto">
+                                <img src="{{ asset('assets') }}/img/posMachine.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-block w-100 mb-3" id="newSale">F4 New Sale</button>
                             <form id="sellForm" action="/do-transaction" method="POST">
                                 @csrf
-                                <!-- Other form inputs here -->
-                            
-                                <!-- Hidden input fields for table data -->
                                 <input type="hidden" name="table_data" id="tableDataInput">
                                 <input type="hidden" name="vat_total" id="tableDataInput">
-
-                            
-                                <!-- Total, Amount Paid, and Change inputs -->
-                                <input type="text" readonly name="total" id="totalValue" class="form-control border border-2 p-2">
-                                <hr>
-                                <input type="text" name="amountPaid" id="amountPaid" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
-                                <hr>
-                                <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
-                                <div class="form-group">
-                                    <label for="paymentMethod">Select Payment Method</label>
+                                <div class="mb-3">
+                                    <label for="totalValue" class="form-label">Total</label>
+                                    <input type="text" readonly name="total" id="totalValue" class="form-control border border-2 p-2">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="amountPaid" class="form-label">Amount Paid</label>
+                                    <input type="text" name="amountPaid" id="amountPaid" placeholder="Enter Amount Paid" value="" class="form-control border border-2 p-2">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="change" class="form-label">Change</label>
+                                    <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="paymentMethod" class="form-label">Select Payment Method</label>
                                     <select name="payment_method" id="paymentMethod" class="form-control border border-2 p-2" required>
                                         @foreach ($paymentTypes as $type)
                                             <option value="{{ $type->payment_name }}">{{ $type->payment_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <hr>
-                                <!-- Submit button -->
-                                <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>
-                                <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class="fa fa-print"></i> Print Receipt</button>
-                                <button type="button" class="btn btn-danger mb-2" id="clearCalculations"><i class="fa fa-cl"></i> Clear</button>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>
+                                    <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class="fa fa-print"></i> Print Receipt</button>
+                                    <button type="button" class="btn btn-danger mb-2" id="clearCalculations"><i class="fa fa-cl"></i> Clear</button>
+                                </div>
                             </form>
-                           
-                            <div id = "showCustomerMessage" hidden></div>
-                       </div>
-                    <hr>
+                            <div id="showCustomerMessage" hidden></div>
+                        </div>
+                        @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" id="errorAlert" style="color: white;">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <script>
+                            setTimeout(function() {
+                                $("#errorAlert").alert('close');
+                            }, 1500);
+                        </script>
+                        @endif
+                    </div>
                 </div>
-                 @if(session('error'))
-                 <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert" style="color: white;">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <script>
-                    // Automatically dismiss the alert after 5000 milliseconds (5 seconds)
-                    setTimeout(function() {
-                        $("#errorAlert").alert('close');
-                    }, 1500);
-                </script>
-                @endif
             </div>
-        </div>
-        <x-plugins></x-plugins>
+            <x-plugins></x-plugins>
+        </body>
     </div>
-</body>
 </x-layout>
