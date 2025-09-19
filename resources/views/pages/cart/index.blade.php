@@ -563,15 +563,13 @@
         <div class="container-fluid px-2 px-md-4" style="margin-top:66px;">
             <div class="row">
                 <div class="col-md-10">
-                    <div class="row mb-2">
-                       
+                    <div class="row mb-2">  
                     </div>
                     <div class="row mb-2">
-                       
                     </div>
-                    <div class="container-fluid">
+                    <!-- <div class="container-fluid">
                         <div class="card card-body mx-3 mx-md-4 mt-n6">
-                            <div class="row">
+                            <div class="row"> -->
                                 <!--<div class="col-md-8">
                                  <<input type="text" id="search" class="form-control border border-2 p-2" placeholder="Search Customer">
                                     <div id="searchResults"></div>!-->
@@ -587,16 +585,16 @@
                                         <span class="ms-1"></span><i class="fa fa-user"></i>Create Customer
                                     </a>            
                                 </div>!-->
-                            </div>
+                            <!-- </div>
                         </div>
-                    </div>  
+                    </div>   -->
                 
                     <div class="user-cart">
                         <div class="card">
                             <table class="user-cart table align-items-center">
                                 <thead>
                                     <tr>
-                                        <th style="color:black;">Product Name Baba</th>
+                                        <th style="color:black;">Product Name</th>
                                         <th style="color:black;">Quantity</th>
                                         <th style="color:black;">Code</th>
                                         <th style="color:black;">Tax</th>
