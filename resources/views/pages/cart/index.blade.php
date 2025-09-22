@@ -591,7 +591,7 @@
                                 </div>
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>
-                                    <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class="fa fa-print"></i> Print Receipt</button>
+                                    <!-- <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class="fa fa-print"></i> Print Receipt</button> -->
                                     <button type="button" class="btn btn-danger mb-2" id="clearCalculations"><i class="fa fa-cl"></i> Clear</button>
                                 </div>
                             </form>
