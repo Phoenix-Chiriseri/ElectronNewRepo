@@ -12,11 +12,13 @@
 
                 //search the customers
                 $("#searchInput").on("keyup", function () {
-                 var value = $(this).val().toLowerCase();   
-                 console.log(value);     
-                $("#customersTable tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
+                    var value = $(this).val().toLowerCase();   
+                    console.log("Searching for: " + value);     
+                    $("#customersTable tbody tr").filter(function () {
+                        var found = $(this).text().toLowerCase().indexOf(value) > -1;
+                        $(this).toggle(found);
+                        return found;
+                    });
                 });
 
                 $("#exportCustomers").on("click", function () {

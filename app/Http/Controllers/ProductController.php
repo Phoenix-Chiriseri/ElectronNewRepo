@@ -234,36 +234,114 @@ class ProductController extends Controller
 
     public function importProducts(Request $request)
     {
-        // Get the uploaded file
+        // Validate the uploaded file
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt|max:10240', // Max 10MB
+        ]);
+
         $file = $request->file('file');
-        // Parse the CSV file and create products
         $handle = fopen($file->getPathName(), 'r');
-        $firstRow = true; // Flag to skip the first row
+        
+        // Expected CSV headers
+        $expectedHeaders = ['Name', 'Barcode', 'Description', 'Price', 'Selling Price', 'Unit Of Measurement', 'Tax', 'Category ID', 'Price Including Tax'];
+        
+        $firstRow = true;
+        $rowNumber = 0;
+        $errors = [];
+        $successCount = 0;
+
         while (($row = fgetcsv($handle, 1000, ',')) !== false) {
+            $rowNumber++;
+            
             if ($firstRow) {
+                // Validate CSV headers
+                if (count($row) !== count($expectedHeaders)) {
+                    fclose($handle);
+                    return redirect()->back()->with('error', 'CSV must have exactly 9 columns: ' . implode(', ', $expectedHeaders));
+                }
                 $firstRow = false;
-                continue; // Skip the first row
+                continue;
             }
-    
-            //loop through the products and import them into the database
-            $product = new Product();
-            // Assuming the first column is product name, second column is barcode, and so on...
-            $product->name = $row[0];
-            $product->barcode = $row[1];
-            $product->description = $row[2];
-            $product->price = $row[3];
-            $product->selling_price = $row[4];
-            $product->unit_of_measurement = $row[5];
-            $product->tax = $row[6];
-            $product->category_id = $row[7];      
-            // Handling price_inc_tax as boolean
-            $product->price_inc_tax = $row[8];
-            $product->created_at = now();
-            $product->updated_at = now();
-            $product->save();
+
+            // Validate row data
+            if (count($row) !== 9) {
+                $errors[] = "Row $rowNumber: Expected 9 columns, got " . count($row);
+                continue;
+            }
+
+            // Validate required fields
+            if (empty(trim($row[0]))) {
+                $errors[] = "Row $rowNumber: Product name is required";
+                continue;
+            }
+
+            if (empty(trim($row[1]))) {
+                $errors[] = "Row $rowNumber: Barcode is required";
+                continue;
+            }
+
+            // Validate numeric fields
+            if (!is_numeric($row[3]) || $row[3] < 0) {
+                $errors[] = "Row $rowNumber: Price must be a valid positive number";
+                continue;
+            }
+
+            if (!is_numeric($row[4]) || $row[4] < 0) {
+                $errors[] = "Row $rowNumber: Selling price must be a valid positive number";
+                continue;
+            }
+
+            if (!is_numeric($row[6]) || $row[6] < 0) {
+                $errors[] = "Row $rowNumber: Tax must be a valid number";
+                continue;
+            }
+
+            // Validate category_id exists
+            if (!empty($row[7]) && !Cattegory::find($row[7])) {
+                $errors[] = "Row $rowNumber: Category ID {$row[7]} does not exist";
+                continue;
+            }
+
+            // Check if barcode already exists
+            if (Product::where('barcode', $row[1])->exists()) {
+                $errors[] = "Row $rowNumber: Barcode {$row[1]} already exists";
+                continue;
+            }
+
+            try {
+                // Create product if validation passes
+                $product = new Product();
+                $product->name = trim($row[0]);
+                $product->barcode = trim($row[1]);
+                $product->description = trim($row[2]);
+                $product->price = floatval($row[3]);
+                $product->selling_price = floatval($row[4]);
+                $product->unit_of_measurement = trim($row[5]);
+                $product->tax = floatval($row[6]);
+                $product->category_id = !empty($row[7]) ? intval($row[7]) : null;
+                $product->price_inc_tax = trim($row[8]);
+                $product->created_at = now();
+                $product->updated_at = now();
+                $product->save();
+                
+                $successCount++;
+            } catch (\Exception $e) {
+                $errors[] = "Row $rowNumber: Error saving product - " . $e->getMessage();
+            }
         }
+        
         fclose($handle);
-        return redirect()->back()->with('success', 'Products imported successfully!');
+
+        // Return response based on results
+        if (!empty($errors)) {
+            $errorMessage = "Import completed with errors. Successfully imported: $successCount products. Errors: " . implode('; ', array_slice($errors, 0, 10));
+            if (count($errors) > 10) {
+                $errorMessage .= ' ... and ' . (count($errors) - 10) . ' more errors.';
+            }
+            return redirect()->back()->with('error', $errorMessage);
+        }
+
+        return redirect()->back()->with('success', "Products imported successfully! Total imported: $successCount products.");
     }
 
     
