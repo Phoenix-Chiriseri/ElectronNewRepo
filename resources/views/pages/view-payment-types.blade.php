@@ -11,7 +11,7 @@
 
                 $("#searchInput").on("keyup", function () {
                  var value = $(this).val().toLowerCase();        
-                $("#cattegoriesTable tbody tr").filter(function () {
+                $("#paymentTypesTable tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
                 });
