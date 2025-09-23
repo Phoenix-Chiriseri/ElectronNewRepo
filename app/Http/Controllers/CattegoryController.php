@@ -77,6 +77,48 @@ class CattegoryController extends Controller
         return redirect()->back()->with('success', 'Cattegory Successfully Created');  
     }
 
+    /**
+     * Store a newly created category via AJAX request.
+     */
+    public function createCategoryAjax(Request $request)
+    {
+        try {
+            // Validate the request
+            $request->validate([
+                'cattegory_name' => 'required|string|max:255|unique:cattegories,cattegory_name'
+            ]);
+            
+            // Create the category
+            $cattegory = Cattegory::create([
+                'cattegory_name' => $request->cattegory_name,
+            ]);
+            
+            if ($cattegory) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Category created successfully',
+                    'category' => $cattegory
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to create category'
+                ], 500);
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while creating the category'
+            ], 500);
+        }
+    }
+
 
     public function updateCattegory(Request $request, Cattegory $cattegory)
     {

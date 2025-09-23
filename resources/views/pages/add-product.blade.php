@@ -1,5 +1,6 @@
 <script src="{{ asset('assets') }}/css/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
 $(document).ready(function(){
     $("#costPrice, #sellingPrice").on("input", function() {
@@ -12,6 +13,81 @@ $(document).ready(function(){
     } else {
     }
   });
+
+    // Handle category selection
+    $("#categorySelect").on("change", function() {
+        if ($(this).val() === "new") {
+            $("#newCategoryDiv").show();
+            $("#newCategoryName").focus();
+        } else {
+            $("#newCategoryDiv").hide();
+        }
+    });
+
+    // Handle create category button
+    $("#createCategoryBtn").on("click", function() {
+        $("#newCategoryDiv").show();
+        $("#categorySelect").val("new");
+        $("#newCategoryName").focus();
+    });
+
+    // Handle save new category
+    $("#saveCategoryBtn").on("click", function() {
+        const categoryName = $("#newCategoryName").val().trim();
+        if (categoryName === "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please enter a category name',
+                timer: 2000
+            });
+            return;
+        }
+
+        // AJAX request to create new category
+        $.ajax({
+            url: '/create-category-ajax',
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                cattegory_name: categoryName
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Add new category to dropdown
+                    const newOption = `<option value="${response.category.id}" selected>${response.category.cattegory_name}</option>`;
+                    $("#categorySelect option[value='new']").before(newOption);
+                    $("#categorySelect").val(response.category.id);
+                    
+                    // Hide the new category form
+                    $("#newCategoryDiv").hide();
+                    $("#newCategoryName").val("");
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Category created successfully!',
+                        timer: 2000
+                    });
+                }
+            },
+            error: function(xhr) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to create category. Please try again.',
+                    timer: 2000
+                });
+            }
+        });
+    });
+
+    // Handle cancel new category
+    $("#cancelCategoryBtn").on("click", function() {
+        $("#newCategoryDiv").hide();
+        $("#categorySelect").val("");
+        $("#newCategoryName").val("");
+    });
 });
 </script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
@@ -171,11 +247,27 @@ Swal.fire({
         </div>
         <div class="form-group">
             <label for="category_id">Select Category</label>
-            <select name="category_id" class="form-control border border-2 p-2" required>
-                @foreach ($cattegories as $category)
-                    <option value="{{ $category->id }}">{{ $category->cattegory_name }}</option>
-                @endforeach
-            </select>
+            <div class="row">
+                <div class="col-md-8">
+                    <select name="category_id" id="categorySelect" class="form-control border border-2 p-2" required>
+                        <option value="">Select a category</option>
+                        @foreach ($cattegories as $category)
+                            <option value="{{ $category->id }}">{{ $category->cattegory_name }}</option>
+                        @endforeach
+                        <option value="new">+ Create New Category</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-success" id="createCategoryBtn">
+                        <i class="fa fa-plus"></i> New Category
+                    </button>
+                </div>
+            </div>
+            <div id="newCategoryDiv" style="display: none; margin-top: 10px;">
+                <input type="text" id="newCategoryName" class="form-control border border-2 p-2" placeholder="Enter new category name">
+                <button type="button" class="btn btn-primary mt-2" id="saveCategoryBtn">Save Category</button>
+                <button type="button" class="btn btn-secondary mt-2" id="cancelCategoryBtn">Cancel</button>
+            </div>
         </div>
         </div>
         <hr>

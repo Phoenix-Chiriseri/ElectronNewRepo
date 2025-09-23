@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/supplier-update/{supplier}',[SupplierController::class, 'updateSupplier'])->name('supplier.update');
 	Route::put('/customer-update/{customer}',[SupplierController::class, 'updateCustomer'])->name('customer.update');
 	Route::post('/submit-cattegory', [CattegoryController::class, 'store'])->name('submit-cattegory');
+	Route::post('/create-category-ajax', [CattegoryController::class, 'createCategoryAjax'])->name('create-category-ajax');
 	Route::post('/submit-employee', [ShopController::class, 'store'])->name('submit-shop');
 	Route::post('/submit-employee', [RegisterController::class, 'store'])->name('submit-employee');
 	Route::post('/submit-purchaseorder', [PurchaseOrderController::class, 'store'])->name('submit-purchaseorder');
