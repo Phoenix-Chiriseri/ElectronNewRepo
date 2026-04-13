@@ -193,12 +193,16 @@ https://cdn.jsdelivr.net/npm/corejs-typeahead@1.3.4/dist/typeahead.bundle.min.js
                     type: 'GET',
                     url: '/search-product/' + productName,
                     success: function (response) {
-                        // Update the table with the fetched products
-                        console.log(response.products);
-                        updateProductTable(response.products);
+                        if (response.products && response.products.length > 0) {
+                            // Update the table with the fetched products
+                            console.log(response.products);
+                            updateProductTable(response.products);
+                        } else {
+                            showAlert("Product Not Found", "error");
+                        }
                     },
                     error: function (error) {
-                        //showAlert("Product Not Found","error");
+                        showAlert("Product Not Found", "error");
                         console.log("error dude");
                     }
                 });

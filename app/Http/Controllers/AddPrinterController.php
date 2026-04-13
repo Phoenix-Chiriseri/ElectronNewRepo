@@ -56,14 +56,84 @@ class AddPrinterController extends Controller
     }
 
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        // Keep only one active printer for simplicity
+        Printers::truncate();
+        
+        $printer = new Printers();
+        $printer->name = $request->name;
+        $printer->save();
+
+        return redirect()->back()->with('success', 'Printer saved successfully!');
+    }
+
+    public function printReceipt(Request $request)
+    {
+        try {
+            $printerSettings = Printers::first();
+            if (!$printerSettings) {
+                return response()->json(['success' => false, 'message' => 'No printer configured.']);
+            }
+
+            $connector = new WindowsPrintConnector($printerSettings->name);
+            $printer = new Printer($connector);
+            
+            $items = $request->input('items', []);
+            $total = $request->input('total', 0);
+            $amountPaid = $request->input('amountPaid', 0);
+            $change = $request->input('change', 0);
+            
+            // Header
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("Electron Point Of Sale\n");
+            $printer->text("Receipt\n");
+            $printer->text(date('Y-m-d H:i:s') . "\n\n");
+            
+            // Items
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            foreach ($items as $item) {
+                $line = sprintf("%-20s %d x $%.2f\n", substr($item['name'], 0, 20), $item['quantity'], $item['unitPrice']);
+                $printer->text($line);
+            }
+            $printer->text("--------------------------------\n");
+            
+            // Totals
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->text(sprintf("Total: $%.2f\n", $total));
+            $printer->text(sprintf("Paid: $%.2f\n", $amountPaid));
+            $printer->text(sprintf("Change: $%.2f\n", $change));
+            $printer->text("\n");
+            
+            // Footer
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("Thank you for your business!\n");
+            
+            $printer->cut();
+            $printer->close();
+
+            return response()->json(['success' => true, 'message' => 'Print job sent successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
     public function printTest(Request $request)
     {
-   
+    
       try {
-        // Replace 'HS-88AI' with your actual printer name
-        $connector = new WindowsPrintConnector("HS-88AI");
+        $printerSettings = Printers::first();
+        if (!$printerSettings) {
+            return response()->json(['success' => false, 'message' => 'No printer configured.']);
+        }
+
+        $connector = new WindowsPrintConnector($printerSettings->name);
         $printer = new Printer($connector);
-        $printer->text("*** Test Page ***\nHello from Laravel USB Printer!\n");
+        $printer->text("*** Test Page ***\nHello from Laravel Bluetooth Printer!\n");
         $printer->cut();
         $printer->close();
 

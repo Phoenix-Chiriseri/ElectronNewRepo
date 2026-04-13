@@ -1,145 +1,63 @@
-<!-- jQuery and SweetAlert2 -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-    <div class="container mt-5">
-        <h3>Configure Printers</h3>
-        <!-- IP Discovery Section -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>Find Printer IP</h5>
-            </div>
-            <div class="card-body">
-                <button id="scanNetwork" class="btn btn-info">Scan Network for Printers</button>
-                <div id="scanResults" class="mt-3"></div>
-            </div>
-        </div>
-        <!-- Add Printer Form -->
-        <form method="POST" action="{{ route('add-printer') }}" class="row">
-            @csrf
-            <div class="col-md-6 mb-3">
-                <input name="printer_name" class="form-control" placeholder="Printer Name" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <button type="submit" class="btn btn-primary">Save Printer</button>
-            </div>
-        </form>
-        <hr>
-        <!-- Saved Printers List -->
-        <h5>Saved Printers</h5>
-        @foreach($printers as $printer)
-            <div class="card mb-2 p-2 d-flex flex-row justify-content-between align-items-center">
-                <div>
-                    <strong>{{ $printer->name }}</strong> — {{ $printer->ip }}
-                </div>
-                <div>
-                    <button class="btn btn-sm btn-success connect-print" data-ip="{{ $printer->ip }}">
-                        Connect & Print Test
-                    </button>
-                </div>
-            </div>
-        @endforeach
-
-        <!-- Status Display -->
-        <div class="mt-4">
-            <h6>Status:</h6>
-            <div id="printerStatus" class="alert alert-secondary">Not connected</div>
-        </div>
-    </div>
-
-    @push('scripts')
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Network scanner
-            document.getElementById('scanNetwork').addEventListener('click', () => {
-                const results = document.getElementById('scanResults');
-                results.innerHTML = '<div class="alert alert-info">Scanning network...</div>';
-                
-                // Check common printer IPs
-                const commonIPs = ['192.168.1.100', '192.168.1.200', '192.168.0.100', '192.168.0.200'];
-                let foundPrinters = [];
-                
-                commonIPs.forEach(ip => {
-                    fetch(`http://${ip}:8080/status`, { method: 'GET', mode: 'no-cors' })
-                        .then(() => {
-                            foundPrinters.push(ip);
-                            updateScanResults(foundPrinters);
-                        })
-                        .catch(() => {});
-                });
-                
-                setTimeout(() => {
-                    if (foundPrinters.length === 0) {
-                        results.innerHTML = '<div class="alert alert-warning">No printers found. Enter IP manually.</div>';
-                    }
-                }, 3000);
-            });
-            
-            function updateScanResults(ips) {
-                const results = document.getElementById('scanResults');
-                let html = '<div class="alert alert-success">Found printers:</div>';
-                ips.forEach(ip => {
-                    html += `<div class="card mb-2 p-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span><strong>${ip}</strong></span>
-                            <button class="btn btn-sm btn-primary use-ip" data-ip="${ip}">Use This IP</button>
+    <x-navbars.sidebar activePage="configure-printers"></x-navbars.sidebar>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <x-navbars.navs.auth titlePage="Configure Printers"></x-navbars.navs.auth>
+        <!-- End Navbar -->
+        <div class="container-fluid py-4">
+            @if(session('success'))
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: '{{ session('success') }}',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                </script>
+            @endif
+            <div class="row">
+                <div class="col-12">
+                    <div class="card my-4">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="text-white text-capitalize ps-3">Configure Printers</h6>
+                            </div>
                         </div>
-                    </div>`;
-                });
-                results.innerHTML = html;
-                
-                document.querySelectorAll('.use-ip').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelector('input[name="ip"]').value = btn.dataset.ip;
-                    });
-                });
-            }
-            
-            document.querySelectorAll('.connect-print').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const ip = btn.dataset.ip;
-                    const status = document.getElementById('printerStatus');
-                    status.textContent = 'Connecting...';
-                    status.className = 'alert alert-info';
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('save-printer') }}">
+                                @csrf
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="printer_name">Select Default Printer</label>
+                                    <select name="printer_name" id="printer_name" class="form-control border border-2 p-2" required>
+                                        <option value="">-- Select Printer --</option>
+                                        @foreach($systemPrinters as $sp)
+                                            <option value="{{ $sp }}" {{ ($savedPrinter && $savedPrinter->name == $sp) ? 'selected' : '' }}>
+                                                {{ $sp }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Printer</button>
+                            </form>
 
-                    // Test connection with fetch first
-                    fetch(`http://${ip}:8080/status`, {
-                        method: 'GET',
-                        mode: 'cors'
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            status.textContent = 'Connected to ' + ip;
-                            status.className = 'alert alert-success';
-                            
-                            // Send print command
-                            return fetch(`http://${ip}:8080/print`, {
-                                method: 'POST',
-                                headers: {'Content-Type': 'application/json'},
-                                body: JSON.stringify({
-                                    text: '*** Test Page ***\nHello, HS‑88AI via Laravel!\n\n'
-                                })
-                            });
-                        } else {
-                            throw new Error('Printer not responding');
-                        }
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            status.textContent = 'Print job sent successfully!';
-                            status.className = 'alert alert-success';
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        status.textContent = 'Error: ' + (err.message || 'Connection failed');
-                        status.className = 'alert alert-danger';
-                    });
-                });
-            });
-        });
-    </script>
-    @endpush
-
+                            <hr>
+                            <h5 class="mt-4">Currently Saved Printer</h5>
+                            @if($savedPrinter)
+                                <div class="alert alert-success text-white">
+                                    <strong>Active Printer:</strong> {{ $savedPrinter->name }}
+                                </div>
+                            @else
+                                <div class="alert alert-warning text-white">
+                                    No printer configured yet. Transaction receipt printing will look for a default or fallback printer!
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <x-plugins></x-plugins>
 </x-layout>

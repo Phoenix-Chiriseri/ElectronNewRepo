@@ -78,14 +78,55 @@ class SaleZigController extends Controller
         $saleZig->invoice_id = $invoice->id;
         $saleZig->save();
     
-        // Return the view
-        return view('pages.salesInvoice', [
-            'sale' => $sale,
-            'customer' => Customer::find($customerId), // Fetch the customer details
-            'items' => $tableData, // Pass the sold items for the invoice
-            'details' => $companyDetails,
-            'amountPaid' => $amountPaid
-        ]);
+        // Direct print using Mike42/escpos-php
+        try {
+            $printerSettings = \App\Models\Printers::first();
+            if ($printerSettings) {
+                $printerName = $printerSettings->name;
+                
+                // Check if name is a MAC address for direct Bluetooth connection
+                if (preg_match('/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/', $printerName)) {
+                    $connector = new \Mike42\Escpos\PrintConnectors\BluetoothPrintConnector($printerName);
+                } else {
+                    $connector = new \Mike42\Escpos\PrintConnectors\WindowsPrintConnector($printerName);
+                }
+                
+                $printer = new \Mike42\Escpos\Printer($connector);
+                
+                // Header
+                $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_CENTER);
+                $printer->text("Electron Point Of Sale\n");
+                $printer->text("Receipt (ZIG)\n");
+                $printer->text(date('Y-m-d H:i:s') . "\n\n");
+                
+                // Items
+                $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_LEFT);
+                foreach ($tableData as $item) {
+                    $line = sprintf("%-20s %d x %.2f\n", substr($item['name'], 0, 20), $item['quantity'], $item['unitPrice'] ?? ($item['price'] ?? 0));
+                    $printer->text($line);
+                }
+                $printer->text("--------------------------------\n");
+                
+                // Totals
+                $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_RIGHT);
+                $printer->text(sprintf("Total: ZIG %.2f\n", $total));
+                $printer->text(sprintf("Paid: ZIG %.2f\n", $amountPaid));
+                $printer->text(sprintf("Change: ZIG %.2f\n", $change));
+                $printer->text("\n");
+                
+                // Footer
+                $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_CENTER);
+                $printer->text("Thank you for your business!\n");
+                
+                $printer->cut();
+                $printer->close();
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Printer error: ' . $e->getMessage());
+        }
+    
+        // Return the view or redirect
+        return redirect()->back()->with('success', 'Sale Completed.');
     }
 
 

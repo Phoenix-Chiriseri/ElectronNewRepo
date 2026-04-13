@@ -48,7 +48,7 @@ class ProductController extends Controller
     //search by name on the cart
     public function searchByName($productName)
     {
-        $products = Product::where('name', 'like', '%' . $productName . '%')->get();
+        $products = Product::with('stock')->where('name', 'like', '%' . $productName . '%')->get();
         return response()->json(['products' => $products]);
     }
 
@@ -71,7 +71,7 @@ class ProductController extends Controller
     public function searchProducts($productName)
     {
         // Perform the product search based on the $productName
-        $products = Product::where('name', 'like', '%' . $productName . '%')->get();
+        $products = Product::with('stock')->where('name', 'like', '%' . $productName . '%')->get();
         // Return the products as JSON response
         return response()->json(["products" => $products]);
     }
@@ -79,7 +79,7 @@ class ProductController extends Controller
     public function searchByCode($code)
     {
         // Perform the product search based on the $productName
-        $products = Product::where('barcode', 'like', '%' . $code . '%')->get();
+        $products = Product::with('stock')->where('barcode', 'like', '%' . $code . '%')->get();
         // Return the products as JSON response
         return response()->json(["products" => $products]);
     }

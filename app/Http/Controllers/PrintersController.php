@@ -8,62 +8,25 @@ use Illuminate\Http\Request;
 
 class PrintersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-   public function index()
+    public function index()
     {
-    
-    $printers = Printers::all();
-    return view('pages.configure-printers')->with("printers",$printers);
-    
+        // Get installed windows printers using PowerShell
+        $printersOutput = shell_exec('powershell -Command "(Get-CimInstance Win32_Printer).Name"');
+        $systemPrinters = array_filter(array_map('trim', explode("\n", $printersOutput)));
+        $savedPrinter = Printers::first();
+        return view('pages.configure-printers')->with("systemPrinters", $systemPrinters)->with("savedPrinter", $savedPrinter);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Printers $printers)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Printers $printers)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Printers $printers)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Printers $printers)
-    {
-        //
+        $request->validate([
+            'printer_name' => 'required|string|max:255',
+        ]);
+        // Keep only one active printer for simplicity
+        Printers::truncate();
+        $printer = new Printers();
+        $printer->name = $request->printer_name;
+        $printer->save();
+        return redirect()->back()->with('success', 'Printer saved successfully!');
     }
 }

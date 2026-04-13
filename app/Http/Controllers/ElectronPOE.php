@@ -22,7 +22,7 @@ class ElectronPOE extends Controller
     {
         $customers = Customer::orderBy('id', 'DESC')->get();
         $paymentTypes = PaymentTypes::orderBy("id","desc")->get();
-        $products = Product::orderBy('name', 'DESC')->get();
+        $products = Product::with('stock')->orderBy('name', 'DESC')->get();
         //Total of sales today
         $totalSalesPerDay = 0;
         $salesToday = Sales::select('total')->where('created_at', date('Y-m-d'))
@@ -44,7 +44,7 @@ class ElectronPOE extends Controller
         $rate = $currentRate["setRate"];
         //Get the products information
         //Get the products information
-        $products = Product::orderBy('name', 'DESC')->get();
+        $products = Product::with('stock')->orderBy('name', 'DESC')->get();
         //Total of sales today
         $totalSalesPerDay = 0;
         $salesToday = Sales::select('total')->where('created_at', date('Y-m-d'))

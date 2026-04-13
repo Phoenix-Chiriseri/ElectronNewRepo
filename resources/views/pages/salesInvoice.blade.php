@@ -203,13 +203,13 @@
     <div class="receipt-container">
         <div class="receipt">
             <!-- Store Name -->
-            <div class="store-name">{{ $details->name }}</div>
+            <div class="store-name">{{ $details->name ?? 'ELECTRON POS' }}</div>
             
             <!-- Store Information -->
-            <div class="store-info">TIN: {{ $details->tinnumber }}   VAT: {{ $details->vatnumber }}</div>
-            <div class="store-info">Phone: {{ $details->phone_number }}</div>
-            <div class="store-info">Email: {{ $details->email }}</div>
-            <div class="store-info">Payment: {{ $paymentMethod }}</div>
+            <div class="store-info">TIN: {{ $details->tinnumber ?? 'N/A' }}   VAT: {{ $details->vatnumber ?? 'N/A' }}</div>
+            <div class="store-info">Phone: {{ $details->phone_number ?? 'N/A' }}</div>
+            <div class="store-info">Email: {{ $details->email ?? 'N/A' }}</div>
+            <div class="store-info">Payment: {{ collect($paymentMethod)->first() ?? 'Cash' }}</div>
             <div class="store-info">Invoice #: {{ $sale->id }}</div>
             <div class="store-info">Date: {{ date('d/m/y') }}</div>
             
@@ -223,20 +223,17 @@
                 <div class="header-price">Price</div>
                 <div class="header-total">Total</div>
             </div>
-            
             <!-- Dashed separator -->
             <hr class="dashed-line">
-            
             <!-- Items List -->
             @foreach($items as $item)
             <div class="item-row">
                 <div class="item-name">{{ $item['name'] }}</div>
                 <div class="item-qty">{{ $item['quantity'] }}</div>
-                <div class="item-price">{{ number_format($item['unitPrice'], 2) }}</div>
-                <div class="item-total">{{ number_format($item['total'], 2) }}</div>
+                <div class="item-price">{{ number_format($item['unitPrice'] ?? $item['price'] ?? 0, 2) }}</div>
+                <div class="item-total">{{ number_format(($item['total'] ?? ($item['unitPrice'] ?? $item['price'] ?? 0) * $item['quantity']), 2) }}</div>
             </div>
             @endforeach
-            
             <!-- Dashed separator -->
             <hr class="dashed-line">
             

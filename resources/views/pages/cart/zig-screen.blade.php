@@ -170,7 +170,15 @@
                 }
   
                 ////////
+                const availableStock = product.stock ? product.stock.quantity : 0;
                 const existingCartItem = state.cart.find(item => item.id === product.id);
+                const currentCartQuantity = existingCartItem ? existingCartItem.quantity : 0;
+
+                if (currentCartQuantity + 1 > availableStock) {
+                    showAlert(`${product.name} is out of stock (Available: ${availableStock})`, "error");
+                    return;
+                }
+                
                 if (existingCartItem) {
                     // If the product is already in the cart, increase the quantity
                     existingCartItem.quantity += 1;
@@ -184,6 +192,7 @@
                         unitPrice:unitPrice,
                         total:parseFloat(total), // Assuming price is a string, convert it to a number
                         quantity: 1,
+                        availableStock: availableStock,
                     });
                 }
                 // Update the user interface with the product information
@@ -248,7 +257,15 @@
 
                 
                 ////////
+                const availableStock = product.stock ? product.stock.quantity : 0;
                 const existingCartItem = state.cart.find(item => item.id === product.id);
+                const currentCartQuantity = existingCartItem ? existingCartItem.quantity : 0;
+
+                if (currentCartQuantity + 1 > availableStock) {
+                    showAlert(`${product.name} is out of stock (Available: ${availableStock})`, "error");
+                    return;
+                }
+
                 if (existingCartItem) {
                     // If the product is already in the cart, increase the quantity
                     existingCartItem.quantity += 1;
@@ -262,6 +279,7 @@
                         unitPrice:unitPrice,
                         total:parseFloat(total), // Assuming price is a string, convert it to a number
                         quantity: 1,
+                        availableStock: availableStock,
                     });
                 }
                 // Update the user interface with the product information
@@ -658,7 +676,12 @@ $(document).on("input", ".quantity-input", function () {
      function updateCartQuantity(productId, newQuantity) {
         const cartItem = state.cart.find((item) => item.id === productId);
         if (cartItem) {
-            cartItem.quantity = newQuantity;
+            if (newQuantity > cartItem.availableStock) {
+                showAlert(`${cartItem.name} is out of stock (Available: ${cartItem.availableStock})`, "error");
+                cartItem.quantity = cartItem.availableStock;
+            } else {
+                cartItem.quantity = newQuantity;
+            }
         }
         updateCartUI();
     }
@@ -679,6 +702,11 @@ $("#sellForm").on("submit", function (event) {
 
     // Calculate change
     const change = amountPaid - totalValue;
+
+    if (!amountPaid || !totalValue || change === "" || isNaN(change)) {
+        showAlert('Total, Amount Paid, and Change fields cannot be empty', 'error');
+        return;
+    }
 
     // Create a hidden form element
     const sellForm = document.createElement('form');

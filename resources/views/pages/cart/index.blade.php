@@ -119,6 +119,15 @@
         }
 
         function addProductToCart(product) {
+            const availableStock = product.stock ? product.stock.quantity : 0;
+            const existingCartItem = state.cart.find(item => item.id === product.id);
+            const currentCartQuantity = existingCartItem ? existingCartItem.quantity : 0;
+            
+            if (currentCartQuantity + 1 > availableStock) {
+                showAlert(`${product.name} is out of stock (Available: ${availableStock})`, "error");
+                return;
+            }
+
             const taxGroup = product.tax;
             let tax, total, unitPrice;
 
@@ -143,7 +152,6 @@
                 }
             }
 
-            const existingCartItem = state.cart.find(item => item.id === product.id);
             if (existingCartItem) {
                 existingCartItem.quantity += 1;
             } else {
@@ -155,6 +163,7 @@
                     unitPrice: unitPrice,
                     total: parseFloat(total),
                     quantity: 1,
+                    availableStock: availableStock,
                 });
             }
             updateCartUI();
@@ -215,7 +224,12 @@
         function updateCartQuantity(productId, newQuantity) {
             const cartItem = state.cart.find(item => item.id === productId);
             if (cartItem) {
-                cartItem.quantity = newQuantity;
+                if (newQuantity > cartItem.availableStock) {
+                    showAlert(`${cartItem.name} is out of stock (Available: ${cartItem.availableStock})`, "error");
+                    cartItem.quantity = cartItem.availableStock;
+                } else {
+                    cartItem.quantity = newQuantity;
+                }
             }
             updateCartUI();
         }
@@ -374,7 +388,6 @@
                                 <span>${data.paymentMethod}</span>
                             </div>
                         </div>
-                        
                         <div class="footer">
                             <p>Thank you for your business!</p>
                         </div>
@@ -472,6 +485,25 @@
                 searchResultsContainer.empty();
             }
         }
+
+        $("#sellForm").on("submit", function (event) {
+            const totalValue = $("#totalValue").val();
+            const amountPaid = $("#amountPaid").val();
+            const change = $("#change").val();
+
+            if (state.cart.length === 0) {
+                event.preventDefault();
+                showAlert('Cart is empty', 'error');
+                return false;
+            }
+
+            if (!totalValue || !amountPaid || change === "" || isNaN(change)) {
+                event.preventDefault();
+                showAlert('Total, Amount Paid, and Change fields cannot be empty', 'error');
+                return false;
+            }
+        });
+
     });
 </script>
 
@@ -579,14 +611,7 @@
                                     <label for="change" class="form-label">Change</label>
                                     <input type="text" readonly name="change" id="change" placeholder="Change" class="form-control border border-2 p-2">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="paymentMethod" class="form-label">Select Payment Method</label>
-                                    <select name="payment_method" id="paymentMethod" class="form-control border border-2 p-2" required>
-                                        @foreach ($paymentTypes as $type)
-                                            <option value="{{ $type->payment_name }}">{{ $type->payment_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <input type="hidden" name="payment_method" id="paymentMethod" value="Cash">
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-info mb-2" id="sellItems"><i class="fa fa-money"></i> Pay</button>
                                     <!-- <button type="button" class="btn btn-success mb-2" id="printReceipt"><i class="fa fa-print"></i> Print Receipt</button> -->
